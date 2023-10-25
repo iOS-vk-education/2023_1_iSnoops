@@ -64,12 +64,10 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
-				0717C0DE2AE8577200C140C9 /* TabBarController.swift */,
+				0717C1182AE96CAB00C140C9 /* TabBar */,
 				0717C0C22AE84D2000C140C9 /* Auth */,
-				0717C0D62AE854E300C140C9 /* WordsModule */,
-				0717C0D02AE8533D00C140C9 /* Modules */,
+				0717C0D62AE854E300C140C9 /* Words */,
 				0717C0C72AE8527000C140C9 /* UI */,
-				0717C0E02AE85A5800C140C9 /* Network */,
 				0717C0C02AE84D0500C140C9 /* Application */,
 				0717C0C32AE84D2E00C140C9 /* Resources */,
 			);
@@ -129,13 +127,6 @@
 			path = Color;
 			sourceTree = "<group>";
 		};
-		0717C0D02AE8533D00C140C9 /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
 		0717C0D42AE853B100C140C9 /* Button */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,27 +141,31 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
-		0717C0D62AE854E300C140C9 /* WordsModule */ = {
+		0717C0D62AE854E300C140C9 /* Words */ = {
 			isa = PBXGroup;
 			children = (
 				0717C0D82AE8552E00C140C9 /* WordsViewContoller.swift */,
 				0717C0DA2AE8556000C140C9 /* WordsPresentor.swift */,
 				0717C0DC2AE8557300C140C9 /* WordsModel.swift */,
-				0717C0D72AE8551800C140C9 /* SubViews */,
+				0717C1192AE96CEA00C140C9 /* delegates */,
+				0717C11A2AE96D6700C140C9 /* WordsCollectionCategory */,
+				0717C0D72AE8551800C140C9 /* WordsCollectionTopFive */,
+				0717C0E02AE85A5800C140C9 /* Network */,
 			);
-			path = WordsModule;
+			path = Words;
 			sourceTree = "<group>";
 		};
-		0717C0D72AE8551800C140C9 /* SubViews */ = {
+		0717C0D72AE8551800C140C9 /* WordsCollectionTopFive */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = SubViews;
+			path = WordsCollectionTopFive;
 			sourceTree = "<group>";
 		};
 		0717C0E02AE85A5800C140C9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				0717C1172AE91CB000C140C9 /* Data */,
 				0717C0C52AE84D8900C140C9 /* Services */,
 				0717C0E12AE85AA600C140C9 /* Errors */,
 			);
@@ -189,6 +184,35 @@
 			children = (
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		0717C1172AE91CB000C140C9 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		0717C1182AE96CAB00C140C9 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				0717C0DE2AE8577200C140C9 /* TabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		0717C1192AE96CEA00C140C9 /* delegates */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = delegates;
+			sourceTree = "<group>";
+		};
+		0717C11A2AE96D6700C140C9 /* WordsCollectionCategory */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WordsCollectionCategory;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -416,7 +440,6 @@
 				INFOPLIST_FILE = easyLanguage/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -443,7 +466,6 @@
 				INFOPLIST_FILE = easyLanguage/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
