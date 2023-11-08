@@ -12,7 +12,7 @@ enum ImageManagerErrors: Error {
 }
 
 protocol CatalogImageManagerDescription {
-    func loadImage(from url: URL, completion: @escaping (Result<UIImage, Error>) -> Void)
+    func loadImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
 final class CatalogImageManager: CatalogImageManagerDescription {
@@ -22,20 +22,19 @@ final class CatalogImageManager: CatalogImageManagerDescription {
 
     private let networkImageQueue = DispatchQueue(label: "networkImageQueue", attributes: .concurrent)
 
-    func loadImage(from url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        let mainTreadCompletion: ((Result<UIImage, Error>) -> Void) = { result in
+    func loadImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
+        let mainTreadCompletion: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
         }
 
         networkImageQueue.async {
-            guard let imageData = try? Data(contentsOf: url),
-                  let image = UIImage(data: imageData) else {
+            guard let imageData = try? Data(contentsOf: url) else {
                 mainTreadCompletion(.failure(ImageManagerErrors.unexpectedError))
                 return
             }
-            mainTreadCompletion(.success(image))
+            mainTreadCompletion(.success(imageData))
         }
     }
 }

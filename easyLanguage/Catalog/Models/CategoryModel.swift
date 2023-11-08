@@ -9,6 +9,7 @@ import Foundation
 
 struct CategoryModel {
     let categoryId: Int
+//    let title: [String: String]
     let ruTitle: String
     let engTitle: String
     let imageLink: String

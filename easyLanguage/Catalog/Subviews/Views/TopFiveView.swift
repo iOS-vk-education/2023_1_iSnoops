@@ -16,7 +16,6 @@ final class TopFiveView: UIView {
     private lazy var topFiveCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 18
 
         let topFiveCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         topFiveCollectionView.showsHorizontalScrollIndicator = false
@@ -25,6 +24,9 @@ final class TopFiveView: UIView {
         topFiveCollectionView.dataSource = self
         topFiveCollectionView.register(TopFiveCollectionViewCell.self,
                                        forCellWithReuseIdentifier: "topFiveWordsCollectionView")
+        if let flowLayout = topFiveCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.minimumLineSpacing = UIScreen.main.bounds.width / 21.8
+        }
         return topFiveCollectionView
     }()
 
@@ -34,7 +36,7 @@ final class TopFiveView: UIView {
         [topFiveCollectionView, titleLabel, adviceLabel].forEach {
             self.addSubview($0)
         }
-        setup()
+        setVisualAppearance()
     }
 
     required init?(coder: NSCoder) {
@@ -46,30 +48,14 @@ final class TopFiveView: UIView {
 extension TopFiveView {
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: 54).isActive = true
-        titleLabel.sizeToFit()
-
-        topFiveCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        topFiveCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 18).isActive = true
-        topFiveCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        topFiveCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        topFiveCollectionView.heightAnchor.constraint(equalToConstant: self.frame.width / 3).isActive = true
-
-        adviceLabel.translatesAutoresizingMaskIntoConstraints = false
-        adviceLabel.topAnchor.constraint(equalTo: topFiveCollectionView.bottomAnchor, constant: 5).isActive = true
-        adviceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        adviceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        adviceLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        setTitleLabel()
+        setTopFiveCollectionView()
+        setAdviceLabel()
     }
 }
 
 // MARK: - private methods
 private extension TopFiveView {
-
     func loadTopFiveWords() {
         model.loadTopFiveWords { [weak self] result in
             guard let self = self else {
@@ -87,11 +73,37 @@ private extension TopFiveView {
         }
     }
 
-    func setup() {
+    func setVisualAppearance() {
         titleLabel.textColor = .black
-        adviceLabel.textColor = .gray
         titleLabel.text = TopFiveView.Consts.titleText
         adviceLabel.text = TopFiveView.Consts.adviceText
+        adviceLabel.textColor = .gray
+    }
+
+    func setTitleLabel() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        titleLabel.widthAnchor.constraint(equalToConstant: 54).isActive = true
+        titleLabel.sizeToFit()
+    }
+
+    func setTopFiveCollectionView() {
+        topFiveCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        topFiveCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
+                                                   constant: 18).isActive = true
+        topFiveCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        topFiveCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        topFiveCollectionView.heightAnchor.constraint(equalToConstant: self.frame.width / 3).isActive = true
+    }
+
+    func setAdviceLabel() {
+        adviceLabel.translatesAutoresizingMaskIntoConstraints = false
+        adviceLabel.topAnchor.constraint(equalTo: topFiveCollectionView.bottomAnchor,
+                                         constant: 5).isActive = true
+        adviceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        adviceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        adviceLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
     }
 }
 

@@ -32,8 +32,8 @@ final class CatalogModel {
         let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
         wordsNetworkManager.getCategories { result in
             switch result {
-            case .success(let categoryData):
-                let categories = categoryData.map { category in
+            case .success(let category):
+                let categories = category.map { category in
                     CategoryModel(
                         categoryId: category.categoryId,
                         ruTitle: category.ruTitle,

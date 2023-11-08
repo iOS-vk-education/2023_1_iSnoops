@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CategoryData: Codable {
+struct CategoryApiModel: Codable {
     let categoryId: Int
     let ruTitle: String
     let engTitle: String

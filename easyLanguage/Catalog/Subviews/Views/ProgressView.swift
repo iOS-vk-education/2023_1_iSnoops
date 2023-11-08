@@ -11,15 +11,20 @@ final class ProgressView: UIView {
     private let backgroundView: UIView = UIView()
     private let progressView: UIView = UIView()
     private let totalWordsLabel: UILabel = UILabel()
-    private let halfWordsLabel: UILabel = UILabel()
+    private let wordsInProgressLabel: UILabel = UILabel()
     private let adviceLabel: UILabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
-        [backgroundView, progressView, totalWordsLabel, halfWordsLabel, adviceLabel].forEach {
+        [backgroundView, progressView, totalWordsLabel, wordsInProgressLabel, adviceLabel].forEach {
             self.addSubview($0)
         }
+        setVisualAppearance()
+        setBackgroundView()
+        setProgressView()
+        setWordsInProgressLabel()
+        setTotalWordsLabel()
+        setAdviceLabel()
     }
 
     required init?(coder: NSCoder) {
@@ -27,63 +32,76 @@ final class ProgressView: UIView {
     }
 }
 
-// MARK: - life circle
+// MARK: - open methods
 extension ProgressView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    func setupAllWords(count: Int) {
+        totalWordsLabel.text = String(count)
+    }
 
+    func setupWordsInProgress(count: Int) {
+        wordsInProgressLabel.text = String(count)
+    }
+}
+
+// MARK: - private methods
+private extension ProgressView {
+    func setVisualAppearance() {
+        backgroundView.backgroundColor = .SecondaryColors.ProgressView.customGray
+        backgroundView.layer.cornerRadius = ProgressView.Consts.cornerRadius
+        progressView.backgroundColor = .SecondaryColors.ProgressView.customGreen
+        progressView.layer.cornerRadius = ProgressView.Consts.cornerRadius
+        totalWordsLabel.textColor = .black
+        wordsInProgressLabel.textColor = .black
+        adviceLabel.text = ProgressView.Consts.adviceText
+        adviceLabel.textColor = .gray
+    }
+
+    func setBackgroundView() {
         backgroundView.translatesAutoresizingMaskIntoConstraints = false
         backgroundView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         backgroundView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         backgroundView.heightAnchor.constraint(equalToConstant: 10).isActive = true
 
+    }
+
+    func setProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        progressView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
+        progressView.widthAnchor.constraint(equalTo: self.widthAnchor,
+                                            multiplier: 0.5).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+    }
 
-        halfWordsLabel.translatesAutoresizingMaskIntoConstraints = false
-        halfWordsLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 3).isActive = true
-        halfWordsLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 155).isActive = true
-        halfWordsLabel.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        halfWordsLabel.sizeToFit()
+    func setWordsInProgressLabel() {
+        wordsInProgressLabel.translatesAutoresizingMaskIntoConstraints = false
+        wordsInProgressLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor,
+                                                  constant: 3).isActive = true
+        wordsInProgressLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+                                                      constant: 155).isActive = true
+        wordsInProgressLabel.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        wordsInProgressLabel.sizeToFit()
+    }
 
+    func setTotalWordsLabel() {
         totalWordsLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalWordsLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: 3).isActive = true
-        totalWordsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        totalWordsLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor,
+                                             constant: 3).isActive = true
+        totalWordsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+                                                  constant: -10).isActive = true
         totalWordsLabel.widthAnchor.constraint(equalToConstant: 45).isActive = true
         totalWordsLabel.sizeToFit()
+    }
 
+    func setAdviceLabel() {
         adviceLabel.translatesAutoresizingMaskIntoConstraints = false
-        adviceLabel.topAnchor.constraint(equalTo: halfWordsLabel.bottomAnchor, constant: 5).isActive = true
+        adviceLabel.topAnchor.constraint(equalTo: wordsInProgressLabel.bottomAnchor,
+                                         constant: 5).isActive = true
         adviceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         adviceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         adviceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         adviceLabel.sizeToFit()
-    }
-}
-
-// MARK: - open methods
-extension ProgressView {
-    func setupCountOfWords(with count: Int) {
-        halfWordsLabel.text = String(count / 2)
-        totalWordsLabel.text = String(count)
-    }
-}
-
-// MARK: - private methods
-private extension ProgressView {
-    func setup() {
-        backgroundView.backgroundColor = .SecondaryColors.ProgressView.customGray
-        progressView.backgroundColor = .SecondaryColors.ProgressView.customGreen
-        adviceLabel.text = ProgressView.Consts.adviceText
-        halfWordsLabel.textColor = .black
-        totalWordsLabel.textColor = .black
-        adviceLabel.textColor = .gray
-        backgroundView.layer.cornerRadius = ProgressView.Consts.cornerRadius
-        progressView.layer.cornerRadius = ProgressView.Consts.cornerRadius
     }
 }
 

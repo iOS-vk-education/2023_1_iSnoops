@@ -12,11 +12,10 @@ final class CategoriesView: UIView {
     private let model = CatalogModel()
     var categoriesModel: [CategoryModel] = [CategoryModel]()
     private let titleLabel: UILabel = UILabel()
-    private let addImageView: UIImageView = UIImageView()
-    private let sortImageView: UIImageView = UIImageView()
+    private let addNewCategoryLogo: UIImageView = UIImageView()
+    private let sortCategoriesLogo: UIImageView = UIImageView()
     private lazy var categoriesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 19
 
         let categoriesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         categoriesCollectionView.isScrollEnabled = false
@@ -26,51 +25,27 @@ final class CategoriesView: UIView {
         categoriesCollectionView.dataSource = self
         categoriesCollectionView.register(CategoryCollectionViewCell.self,
                                           forCellWithReuseIdentifier: "categoriesCollectionView")
+        if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.minimumLineSpacing = UIScreen.main.bounds.width / 20.5
+        }
         return categoriesCollectionView
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [categoriesCollectionView, titleLabel, addImageView, sortImageView].forEach {
+        setVisualAppearance()
+        [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
             self.addSubview($0)
         }
         loadCategories()
-        setup()
+        setTitleLabel()
+        setAddImageView()
+        setSortImageView()
+        setCategoriesCollectionView()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - life circle
-extension CategoriesView {
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 6).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        titleLabel.sizeToFit()
-
-        addImageView.translatesAutoresizingMaskIntoConstraints = false
-        addImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        addImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18).isActive = true
-        addImageView.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        addImageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
-
-        sortImageView.translatesAutoresizingMaskIntoConstraints = false
-        sortImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        sortImageView.trailingAnchor.constraint(equalTo: addImageView.leadingAnchor, constant: -18).isActive = true
-        sortImageView.widthAnchor.constraint(equalToConstant: 35).isActive = true
-        sortImageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
-
-        categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesCollectionView.topAnchor.constraint(equalTo: addImageView.bottomAnchor, constant: 10).isActive = true
-        categoriesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18).isActive = true
-        categoriesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18).isActive = true
-        categoriesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -18).isActive = true
     }
 }
 
@@ -104,11 +79,50 @@ private extension CategoriesView {
         }
     }
 
-    func setup() {
+    func setVisualAppearance() {
         titleLabel.text = CategoriesView.Consts.titleText
         titleLabel.textColor = .black
-        addImageView.image = CategoriesView.Images.addImage
-        sortImageView.image = CategoriesView.Images.sortImage
+        addNewCategoryLogo.image = CategoriesView.Images.addImage
+        sortCategoriesLogo.image = CategoriesView.Images.sortImage
+    }
+
+    func setTitleLabel() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.topAnchor.constraint(equalTo: topAnchor,
+                                        constant: 6).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18).isActive = true
+        titleLabel.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        titleLabel.sizeToFit()
+    }
+
+    func setAddImageView() {
+        addNewCategoryLogo.translatesAutoresizingMaskIntoConstraints = false
+        addNewCategoryLogo.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        addNewCategoryLogo.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                     constant: -18).isActive = true
+        addNewCategoryLogo.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        addNewCategoryLogo.heightAnchor.constraint(equalToConstant: 35).isActive = true
+    }
+
+    func setSortImageView() {
+        sortCategoriesLogo.translatesAutoresizingMaskIntoConstraints = false
+        sortCategoriesLogo.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        sortCategoriesLogo.trailingAnchor.constraint(equalTo: addNewCategoryLogo.leadingAnchor,
+                                                     constant: -18).isActive = true
+        sortCategoriesLogo.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        sortCategoriesLogo.heightAnchor.constraint(equalToConstant: 35).isActive = true
+    }
+
+    func setCategoriesCollectionView() {
+        categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        categoriesCollectionView.topAnchor.constraint(equalTo: addNewCategoryLogo.bottomAnchor,
+                                                      constant: 10).isActive = true
+        categoriesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                          constant: 18).isActive = true
+        categoriesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                           constant: -18).isActive = true
+        categoriesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                         constant: -18).isActive = true
     }
 }
 

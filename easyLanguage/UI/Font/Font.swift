@@ -9,7 +9,7 @@ import UIKit
 
 enum TextStyle {
     case header
-    case titleBig
+    case titleLarge
     case titleSmall
     case bodyBig
     case bodySmall
@@ -18,7 +18,7 @@ enum TextStyle {
 extension TextStyle {
     var font: UIFont {
         switch self {
-        case .header, .bodyBig, .bodySmall, .titleBig, .titleSmall:
+        case .header, .bodyBig, .bodySmall, .titleLarge, .titleSmall:
             return UIFont.systemFont(ofSize: fontSize, weight: fontWeight)
         }
     }
@@ -27,7 +27,7 @@ extension TextStyle {
         switch self {
         case .header:
             return 40
-        case .titleBig:
+        case .titleLarge:
             return 25
         case .titleSmall:
             return 15
@@ -42,7 +42,7 @@ extension TextStyle {
         switch self {
         case .header:
             return .bold
-        case .titleBig, .titleSmall:
+        case .titleLarge, .titleSmall:
             return .semibold
         case .bodyBig, .bodySmall:
             return .regular

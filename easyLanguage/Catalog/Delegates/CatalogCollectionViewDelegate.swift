@@ -17,8 +17,4 @@ extension CategoriesView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         categoriesModel.count
     }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Номер ячейки: \(indexPath.item)")
-    }
 }
