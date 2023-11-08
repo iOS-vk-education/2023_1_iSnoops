@@ -18,15 +18,15 @@ extension TopFiveView: UICollectionViewDataSource {
         return cell
     }
 }
-
-extension CategoriesView: UICollectionViewDataSource {
+extension CategoriesCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCollectionView",
                                                             for: indexPath) as? CategoryCollectionViewCell else {
             return .init()
         }
-        cell.cellConfigure(with: categoriesModel[indexPath.item])
+        let uimodel: CategoryUIModel = (inputCategories?.item(at: indexPath.item)) ?? CategoryUIModel()
+        cell.cellConfigure(with: uimodel)
         return cell
     }
 }

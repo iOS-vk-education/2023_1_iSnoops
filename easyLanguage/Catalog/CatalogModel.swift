@@ -8,18 +8,18 @@
 import Foundation
 
 final class CatalogModel {
-
-    private let wordsNetworkManager = CatalogNetworkManager.shared
+    private let catalogNetworkManager = CatalogNetworkManager.shared
 
     func loadTopFiveWords(completion: @escaping (Result<[TopFiveWordsModel], Error>) -> Void) {
-        wordsNetworkManager.getTopFiveWords { result in
+        catalogNetworkManager.getTopFiveWords { result in
             switch result {
             case .success(let topFiveData):
-                let topFiveWords = topFiveData.map { words in
-                    TopFiveWordsModel(topFiveWordsId: words.topFiveWordsId,
-                                      ruTitle: words.ruTitle,
-                                      engTitle: words.engTitle,
-                                      level: words.level)
+                let topFiveWords = topFiveData.map { word in
+                    TopFiveWordsModel(
+                        topFiveWordsId: word.topFiveWordsId,
+                        title: word.title,
+                        level: word.level
+                    )
                 }
                 completion(.success(topFiveWords))
             case .failure(let error):
@@ -30,20 +30,19 @@ final class CatalogModel {
 
     func loadCategory(completion: @escaping (Result<[CategoryModel], Error>) -> Void) {
         let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
-        wordsNetworkManager.getCategories { result in
+        catalogNetworkManager.getCategories { result in
             switch result {
-            case .success(let category):
-                let categories = category.map { category in
+            case .success(let categories):
+                let categoryModels = categories.map { category in
                     CategoryModel(
                         categoryId: category.categoryId,
-                        ruTitle: category.ruTitle,
-                        engTitle: category.engTitle,
+                        title: category.title,
                         imageLink: category.imageLink ?? defaultImageLink,
                         studiedWordsCount: category.studiedWordsCount,
                         totalWordsCount: category.totalWordsCount
                     )
                 }
-                completion(.success(categories))
+                completion(.success(categoryModels))
             case .failure(let error):
                 completion(.failure(error))
             }

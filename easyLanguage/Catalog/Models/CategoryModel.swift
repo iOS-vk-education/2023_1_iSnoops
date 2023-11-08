@@ -9,9 +9,7 @@ import Foundation
 
 struct CategoryModel {
     let categoryId: Int
-//    let title: [String: String]
-    let ruTitle: String
-    let engTitle: String
+    let title: [String: String]
     let imageLink: String
     let studiedWordsCount: Int
     let totalWordsCount: Int

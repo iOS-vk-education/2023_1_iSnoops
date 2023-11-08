@@ -9,8 +9,6 @@ import Foundation
 
 struct TopFiveWordsModel {
     let topFiveWordsId: Int
-    //    let title: [String: String]
-    let ruTitle: String
-    let engTitle: String
+    let title: [String: String]
     let level: String
 }

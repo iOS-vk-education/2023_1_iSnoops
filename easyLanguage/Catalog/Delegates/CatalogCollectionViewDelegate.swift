@@ -13,8 +13,8 @@ extension TopFiveView: UICollectionViewDelegate {
     }
 }
 
-extension CategoriesView: UICollectionViewDelegate {
+extension CategoriesCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        categoriesModel.count
+        return inputCategories?.categoriesCount ?? 0
     }
 }

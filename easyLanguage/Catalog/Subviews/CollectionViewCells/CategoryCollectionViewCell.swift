@@ -9,7 +9,6 @@ import UIKit
 
 final class CategoryCollectionViewCell: UICollectionViewCell {
 
-    private let imageManager = CatalogImageManager.shared
     private let backgroundLevelView = UIView()
     private let titleLabel = UILabel()
     private let imageView = UIImageView()
@@ -27,6 +26,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         setImageView()
         setTitleLabel()
         setProgressLabel()
+        setupLabels()
     }
 
     required init?(coder: NSCoder) {
@@ -36,11 +36,10 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 
 // MARK: - open methods
 extension CategoryCollectionViewCell {
-    func cellConfigure(with model: CategoryModel) {
+    func cellConfigure(with model: CategoryUIModel) {
         setupColorsForCategory(with: model.categoryId)
-        setupLabelColors()
         setupProgressAndTitleLabels(with: model)
-        loadImage(with: model.imageLink)
+        imageView.image = model.image
     }
 }
 
@@ -93,29 +92,16 @@ private extension CategoryCollectionViewCell {
         [progressLabel, titleLabel].forEach { $0.textColor = textColor }
     }
 
-    func setupLabelColors() {
+    func setupLabels() {
         [progressLabel, titleLabel].forEach {
             $0.numberOfLines = 0
             $0.textAlignment = .center
         }
     }
 
-    func setupProgressAndTitleLabels(with model: CategoryModel) {
+    func setupProgressAndTitleLabels(with model: CategoryUIModel) {
         progressLabel.text = "\(model.studiedWordsCount)/\(model.totalWordsCount)"
-        titleLabel.text = model.ruTitle
-    }
-
-    func loadImage(with urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        imageManager.loadImage(from: url) { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let data):
-                self.imageView.image = UIImage(data: data)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        titleLabel.text = model.title["ru"]
     }
 
     func setBackgroundLevelView() {

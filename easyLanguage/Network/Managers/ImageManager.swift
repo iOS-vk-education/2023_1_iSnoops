@@ -1,23 +1,23 @@
 //
-//  CatalogImageManager.swift
+//  Managers.swift
 //  easyLanguage
 //
-//  Created by Grigoriy on 04.11.2023.
+//  Created by Grigoriy on 08.11.2023.
 //
 
-import UIKit
+import Foundation
 
 enum ImageManagerErrors: Error {
     case unexpectedError
 }
 
-protocol CatalogImageManagerDescription {
+protocol ImageManagerDescription {
     func loadImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
 
-final class CatalogImageManager: CatalogImageManagerDescription {
+final class ImageManager: ImageManagerDescription {
 
-    static let shared = CatalogImageManager()
+    static let shared = ImageManager()
     private init() {}
 
     private let networkImageQueue = DispatchQueue(label: "networkImageQueue", attributes: .concurrent)

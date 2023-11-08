@@ -50,10 +50,10 @@ extension TopFiveCollectionViewCell {
 // MARK: - open methods
 extension TopFiveCollectionViewCell {
     func cellConfigure(with model: TopFiveWordsModel) {
-        ruTitle = model.ruTitle
-        engTitle = model.engTitle
+        ruTitle = model.title["ru"]
+        engTitle = model.title["en"]
         levelLabel.text = model.level
-        titleLabel.text = model.ruTitle
+        titleLabel.text = model.title["ru"]
         let textColor: UIColor
 
         switch model.topFiveWordsId % 3 {

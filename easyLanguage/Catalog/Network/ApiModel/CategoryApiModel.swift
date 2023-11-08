@@ -9,8 +9,7 @@ import Foundation
 
 struct CategoryApiModel: Codable {
     let categoryId: Int
-    let ruTitle: String
-    let engTitle: String
+    let title: [String: String]
     let imageLink: String?
     let studiedWordsCount: Int
     let totalWordsCount: Int

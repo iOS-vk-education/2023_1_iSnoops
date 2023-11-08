@@ -9,35 +9,21 @@ import UIKit
 
 final class CategoriesView: UIView {
 
-    private let model = CatalogModel()
-    var categoriesModel: [CategoryModel] = [CategoryModel]()
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
-    private lazy var categoriesCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+    weak var inputCategories: InputCategories?
+    private let categoriesCollectionView = CategoriesCollectionView()
 
-        let categoriesCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        categoriesCollectionView.isScrollEnabled = false
-        categoriesCollectionView.showsVerticalScrollIndicator = false
-        categoriesCollectionView.backgroundColor = .PrimaryColors.Background.customBackground
-        categoriesCollectionView.delegate = self
-        categoriesCollectionView.dataSource = self
-        categoriesCollectionView.register(CategoryCollectionViewCell.self,
-                                          forCellWithReuseIdentifier: "categoriesCollectionView")
-        if let flowLayout = categoriesCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = UIScreen.main.bounds.width / 20.5
-        }
-        return categoriesCollectionView
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(inputCategories: InputCategories) {
+        super.init(frame: .zero)
+        self.inputCategories = inputCategories
+        categoriesCollectionView.setupInputCategories(with: inputCategories)
         setVisualAppearance()
+
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
             self.addSubview($0)
         }
-        loadCategories()
         setTitleLabel()
         setAddImageView()
         setSortImageView()
@@ -49,36 +35,8 @@ final class CategoriesView: UIView {
     }
 }
 
-// MARK: - open methods
-extension CategoriesView {
-    func countEvenCells() -> Int {
-        if categoriesModel.count % 2 == 0 {
-            return categoriesModel.count / 2
-        } else {
-            return categoriesModel.count / 2 + 1
-        }
-    }
-}
-
 // MARK: - private methods
 private extension CategoriesView {
-    func loadCategories() {
-        model.loadCategory { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let data):
-                self.categoriesModel = data
-                DispatchQueue.main.async {
-                    self.categoriesCollectionView.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-
     func setVisualAppearance() {
         titleLabel.text = CategoriesView.Consts.titleText
         titleLabel.textColor = .black
@@ -131,7 +89,7 @@ private extension CategoriesView {
         static let titleText: String = "Категории"
     }
     struct Images {
-        static let addImage = UIImage(named: "AddImage")
-        static let sortImage = UIImage(named: "SortImage")
+        static let addImage = UIImage(named: "AddIconImage")
+        static let sortImage = UIImage(named: "SortIconImage")
     }
 }

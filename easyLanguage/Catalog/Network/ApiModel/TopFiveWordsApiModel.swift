@@ -9,7 +9,6 @@ import Foundation
 
 struct TopFiveWordsApiModel: Decodable {
     let topFiveWordsId: Int
-    let ruTitle: String
-    let engTitle: String
+    let title: [String: String]
     let level: String
 }

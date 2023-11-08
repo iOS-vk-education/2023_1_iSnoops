@@ -8,15 +8,18 @@
 import UIKit
 
 class CatalogViewController: CustomViewController {
+    private let imageManager = ImageManager.shared
+    private let model = CatalogModel()
+    private var categoryModel: [CategoryModel] = []
 
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private let topFiveView = TopFiveView()
-    private let categoriesView: CategoriesView = CategoriesView()
+    private lazy var categoriesView: CategoriesView = CategoriesView(inputCategories: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        loadCategories()
         view.addSubview(scrollView)
         setScrollView()
         [progressView, topFiveView, categoriesView].forEach {
@@ -26,11 +29,34 @@ class CatalogViewController: CustomViewController {
         setProgressView()
         setTopFiveView()
         setCategoriesView()
+
     }
 }
 
 // MARK: - private methods
 private extension CatalogViewController {
+
+    func loadCategories() {
+        model.loadCategory { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let data):
+                let categoryModel = data.map { category in
+                    CategoryModel(categoryId: category.categoryId,
+                                    title: category.title,
+                                    imageLink: category.imageLink,
+                                    studiedWordsCount: category.studiedWordsCount,
+                                    totalWordsCount: category.totalWordsCount)
+                }
+                self.categoryModel = categoryModel
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
     func setup() {
         title = "Слова"
     }
@@ -69,7 +95,39 @@ private extension CatalogViewController {
         categoriesView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         let constant: CGFloat = topFiveView.frame.maxY + 18
-        + CGFloat((view.frame.width / 2 - 27 + 19) * CGFloat(categoriesView.countEvenCells()) + 45)
+        + CGFloat((view.frame.width / 2 - 27 + 19) * CGFloat(categoryModel.count / 2) + 45)
         categoriesView.heightAnchor.constraint(equalToConstant: constant).isActive = true
+    }
+}
+
+protocol InputCategories: AnyObject {
+    var categoriesCount: Int { get }
+    func item(at index: Int) -> CategoryUIModel
+}
+
+extension CatalogViewController: InputCategories {
+    var categoriesCount: Int {
+        categoryModel.count
+    }
+
+    func item(at index: Int) -> CategoryUIModel {
+        var image: UIImage?
+        guard let url = URL(string: categoryModel[index].imageLink) else {
+            return  CategoryUIModel()
+        }
+        imageManager.loadImage(from: url) { result in
+            switch result {
+            case .success(let data):
+                image = UIImage(data: data)
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+        return .init(categoryId: categoryModel[index].categoryId,
+                     title: categoryModel[index].title,
+                     image: image,
+                     studiedWordsCount: categoryModel[index].studiedWordsCount,
+                     totalWordsCount: categoryModel[index].totalWordsCount)
     }
 }
