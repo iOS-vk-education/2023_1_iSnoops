@@ -14,7 +14,7 @@
 		0717C0CC2AE852DE00C140C9 /* UIColor + configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0CB2AE852DE00C140C9 /* UIColor + configurations.swift */; };
 		0717C0D32AE8536B00C140C9 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0D22AE8536B00C140C9 /* Color.swift */; };
 		0717C0D92AE8552E00C140C9 /* WordsViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0D82AE8552E00C140C9 /* WordsViewContoller.swift */; };
-		0717C0DB2AE8556000C140C9 /* WordsPresentor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0DA2AE8556000C140C9 /* WordsPresentor.swift */; };
+		0717C0DB2AE8556000C140C9 /* WordsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0DA2AE8556000C140C9 /* WordsPresenter.swift */; };
 		0717C0DD2AE8557300C140C9 /* WordsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0DC2AE8557300C140C9 /* WordsModel.swift */; };
 		0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0DE2AE8577200C140C9 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
@@ -29,7 +29,7 @@
 		0717C0CB2AE852DE00C140C9 /* UIColor + configurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + configurations.swift"; sourceTree = "<group>"; };
 		0717C0D22AE8536B00C140C9 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Color.swift; path = Color/Color.swift; sourceTree = "<group>"; };
 		0717C0D82AE8552E00C140C9 /* WordsViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsViewContoller.swift; sourceTree = "<group>"; };
-		0717C0DA2AE8556000C140C9 /* WordsPresentor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsPresentor.swift; sourceTree = "<group>"; };
+		0717C0DA2AE8556000C140C9 /* WordsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsPresenter.swift; sourceTree = "<group>"; };
 		0717C0DC2AE8557300C140C9 /* WordsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsModel.swift; sourceTree = "<group>"; };
 		0717C0DE2AE8577200C140C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,7 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				0717C0D82AE8552E00C140C9 /* WordsViewContoller.swift */,
-				0717C0DA2AE8556000C140C9 /* WordsPresentor.swift */,
+				0717C0DA2AE8556000C140C9 /* WordsPresenter.swift */,
 				0717C0DC2AE8557300C140C9 /* WordsModel.swift */,
 				0717C1192AE96CEA00C140C9 /* delegates */,
 				0717C11A2AE96D6700C140C9 /* WordsCollectionCategory */,
@@ -285,7 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0717C0DB2AE8556000C140C9 /* WordsPresentor.swift in Sources */,
+				0717C0DB2AE8556000C140C9 /* WordsPresenter.swift in Sources */,
 				0717C0DD2AE8557300C140C9 /* WordsModel.swift in Sources */,
 				0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */,
 				0717C0D92AE8552E00C140C9 /* WordsViewContoller.swift in Sources */,
