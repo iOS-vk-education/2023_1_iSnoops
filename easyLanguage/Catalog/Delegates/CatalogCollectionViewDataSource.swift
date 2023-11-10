@@ -25,8 +25,19 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
                                                             for: indexPath) as? CategoryCollectionViewCell else {
             return .init()
         }
-        let uimodel: CategoryUIModel = (inputCategories?.item(at: indexPath.item)) ?? CategoryUIModel()
-        cell.cellConfigure(with: uimodel)
+//        let uimodel: CategoryUIModel = (inputCategories?.item(at: indexPath.item)) ?? CategoryUIModel()
+//        cell.cellConfigure(with: uimodel)
+        let group = DispatchGroup()
+        group.enter()
+        var uimodel: CategoryUIModel?
+        inputCategories?.item(at: indexPath.item) { categoryUIModel in
+            uimodel = categoryUIModel
+            group.leave()
+        }
+        group.notify(queue: .main) {
+            cell.cellConfigure(with: uimodel ?? CategoryUIModel())
+        }
+        
         return cell
     }
 }
