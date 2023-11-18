@@ -102,7 +102,7 @@ private extension CatalogViewController {
 
 protocol InputCategories: AnyObject {
     var categoriesCount: Int { get }
-    func item(at index: Int) -> CategoryUIModel
+    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
 extension CatalogViewController: InputCategories {
@@ -110,10 +110,14 @@ extension CatalogViewController: InputCategories {
         categoryModel.count
     }
 
-    func item(at index: Int) -> CategoryUIModel {
+    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
+        let group = DispatchGroup()
+
+        group.enter()
         var image: UIImage?
         guard let url = URL(string: categoryModel[index].imageLink) else {
-            return  CategoryUIModel()
+            completion(CategoryUIModel())
+            return
         }
         imageManager.loadImage(from: url) { result in
             switch result {
@@ -122,12 +126,20 @@ extension CatalogViewController: InputCategories {
             case .failure(let error):
                 print(error)
             }
+            group.leave()
         }
 
-        return .init(categoryId: categoryModel[index].categoryId,
-                     title: categoryModel[index].title,
-                     image: image,
-                     studiedWordsCount: categoryModel[index].studiedWordsCount,
-                     totalWordsCount: categoryModel[index].totalWordsCount)
+        group.notify(queue: .main) {
+
+            let categoryUIModel = CategoryUIModel(
+                categoryId: self.categoryModel[index].categoryId,
+                title: self.categoryModel[index].title,
+                image: image,
+                studiedWordsCount: self.categoryModel[index].studiedWordsCount,
+                totalWordsCount: self.categoryModel[index].totalWordsCount
+            )
+
+            completion(categoryUIModel)
+        }
     }
 }

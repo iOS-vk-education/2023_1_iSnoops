@@ -22,11 +22,14 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCollectionView",
-                                                            for: indexPath) as? CategoryCollectionViewCell else {
+                                                            for: indexPath) as? CategoryCollectionViewCell
+        else {
             return .init()
         }
-        let uimodel: CategoryUIModel = (inputCategories?.item(at: indexPath.item)) ?? CategoryUIModel()
-        cell.cellConfigure(with: uimodel)
+
+        inputCategories?.item(at: indexPath.item) { categoryUIModel in
+            cell.cellConfigure(with: categoryUIModel)
+        }
         return cell
     }
 }
