@@ -11,14 +11,14 @@ final class TopFiveView: UIView {
 
     private let titleLabel = UILabel()
     private let adviceLabel = UILabel()
-    weak var inputTopFiveWords: InputTopFiveWords?
+    weak var inputTopFiveWords: InputTopFiveWordsDelegate?
     private let topFiveCollectionView = TopFiveCollectionView()
 
-    init(inputTopFiveWords: InputTopFiveWords) {
+    init(inputTopFiveWords: InputTopFiveWordsDelegate) {
         super.init(frame: .zero)
 
         self.inputTopFiveWords = inputTopFiveWords
-        topFiveCollectionView.setupInputTopFiveWords(with: inputTopFiveWords)
+        topFiveCollectionView.setupInputTopFiveWordsDelegate(with: inputTopFiveWords)
 
         setVisualAppearance()
         [topFiveCollectionView, titleLabel, adviceLabel].forEach {

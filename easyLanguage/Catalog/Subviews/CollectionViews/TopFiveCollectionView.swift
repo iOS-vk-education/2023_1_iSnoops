@@ -8,7 +8,7 @@
 import UIKit
 
 final class TopFiveCollectionView: UICollectionView {
-    weak var inputTopFiveWords: InputTopFiveWords?
+    weak var inputTopFiveWords: InputTopFiveWordsDelegate?
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -22,7 +22,7 @@ final class TopFiveCollectionView: UICollectionView {
         setupCollectionView()
     }
 
-    func setupInputTopFiveWords(with inputTopFiveWords: InputTopFiveWords?) {
+    func setupInputTopFiveWordsDelegate(with inputTopFiveWords: InputTopFiveWordsDelegate?) {
         self.inputTopFiveWords = inputTopFiveWords
     }
 

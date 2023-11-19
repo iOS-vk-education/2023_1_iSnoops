@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol InputCategories: AnyObject {
+protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
-protocol InputTopFiveWords: AnyObject {
+protocol InputTopFiveWordsDelegate: AnyObject {
     var topFiveWordsCount: Int { get }
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
 }
@@ -173,8 +173,8 @@ extension CatalogViewController: ProgressSetup {
 }
 // swiftlint:enable nesting
 
-// MARK: - Protocol InputCategories
-extension CatalogViewController: InputCategories {
+// MARK: - Protocol InputCategoriesDelegate
+extension CatalogViewController: InputCategoriesDelegate {
     var categoriesCount: Int {
         categoryModel.count
     }
@@ -205,8 +205,8 @@ extension CatalogViewController: InputCategories {
     }
 }
 
-// MARK: - Protocol InputTopFiveWords
-extension CatalogViewController: InputTopFiveWords {
+// MARK: - Protocol InputTopFiveWordsDelegate
+extension CatalogViewController: InputTopFiveWordsDelegate {
     var topFiveWordsCount: Int {
         topFiveModel.count
     }

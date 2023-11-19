@@ -12,14 +12,14 @@ final class CategoriesView: UIView {
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
-    weak var inputCategories: InputCategories?
+    weak var inputCategories: InputCategoriesDelegate?
     private let categoriesCollectionView = CategoriesCollectionView()
 
-    init(inputCategories: InputCategories) {
+    init(inputCategories: InputCategoriesDelegate) {
         super.init(frame: .zero)
 
         self.inputCategories = inputCategories
-        categoriesCollectionView.setupInputCategories(with: inputCategories)
+        categoriesCollectionView.setupInputCategoriesDelegate(with: inputCategories)
 
         setVisualAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
