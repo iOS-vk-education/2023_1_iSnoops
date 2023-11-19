@@ -61,8 +61,7 @@ private extension ProgressView {
         backgroundView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         backgroundView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        backgroundView.heightAnchor.constraint(equalToConstant: 10).isActive = true
-
+        backgroundView.heightAnchor.constraint(equalToConstant: UIConstants.BackgroundView.height).isActive = true
     }
 
     func setProgressView() {
@@ -71,33 +70,34 @@ private extension ProgressView {
         progressView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         progressView.widthAnchor.constraint(equalTo: self.widthAnchor,
                                             multiplier: 0.5).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: 10).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressView.height).isActive = true
     }
 
     func setWordsInProgressLabel() {
         wordsInProgressLabel.translatesAutoresizingMaskIntoConstraints = false
         wordsInProgressLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor,
                                                   constant: 3).isActive = true
-        wordsInProgressLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
-                                                      constant: 155).isActive = true
-        wordsInProgressLabel.widthAnchor.constraint(equalToConstant: 45).isActive = true
+        wordsInProgressLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant:
+                                                        UIConstants.WordsInProgressLabel.leading).isActive = true
+        wordsInProgressLabel.widthAnchor.constraint(equalToConstant:
+                                                        UIConstants.WordsInProgressLabel.width).isActive = true
         wordsInProgressLabel.sizeToFit()
     }
 
     func setTotalWordsLabel() {
         totalWordsLabel.translatesAutoresizingMaskIntoConstraints = false
         totalWordsLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor,
-                                             constant: 3).isActive = true
+                                             constant: UIConstants.TotalWordsLabel.top).isActive = true
         totalWordsLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,
-                                                  constant: -10).isActive = true
-        totalWordsLabel.widthAnchor.constraint(equalToConstant: 45).isActive = true
+                                                  constant: -UIConstants.TotalWordsLabel.trailing).isActive = true
+        totalWordsLabel.widthAnchor.constraint(equalToConstant: UIConstants.TotalWordsLabel.width).isActive = true
         totalWordsLabel.sizeToFit()
     }
 
     func setAdviceLabel() {
         adviceLabel.translatesAutoresizingMaskIntoConstraints = false
         adviceLabel.topAnchor.constraint(equalTo: wordsInProgressLabel.bottomAnchor,
-                                         constant: 5).isActive = true
+                                         constant: UIConstants.AdviceLabel.top).isActive = true
         adviceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         adviceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         adviceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
@@ -105,9 +105,37 @@ private extension ProgressView {
     }
 }
 
+// MARK: - Constants
+// swiftlint:disable nesting
 private extension ProgressView {
     struct Consts {
         static let adviceText: String = "Чтобы продолжить учить слова нажмите на прогресс"
         static let cornerRadius: CGFloat = 5
     }
+
+    struct UIConstants {
+        struct BackgroundView {
+            static let height: CGFloat = 10.0
+        }
+
+        struct ProgressView {
+            static let height: CGFloat = 10.0
+        }
+
+        struct WordsInProgressLabel {
+            static let leading: CGFloat = 155.0
+            static let width: CGFloat = 45
+        }
+
+        struct TotalWordsLabel {
+            static let top: CGFloat = 3.0
+            static let trailing: CGFloat = 10.0
+            static let width: CGFloat = 45.0
+        }
+
+        struct AdviceLabel {
+            static let top: CGFloat = 5.0
+        }
+    }
 }
+// swiftlint:enable nesting

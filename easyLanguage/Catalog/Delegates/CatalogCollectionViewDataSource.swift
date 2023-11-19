@@ -28,8 +28,9 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
         }
 
         inputCategories?.item(at: indexPath.item) { categoryUIModel in
-            cell.cellConfigure(with: categoryUIModel)
+            cell.cellConfigure(with: categoryUIModel, at: indexPath)
         }
+
         return cell
     }
 }

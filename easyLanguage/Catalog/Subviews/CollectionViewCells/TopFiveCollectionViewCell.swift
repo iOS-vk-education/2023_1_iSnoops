@@ -102,30 +102,58 @@ private extension TopFiveCollectionViewCell {
     func setBackgroundLevelView() {
         backgroundLevelView.translatesAutoresizingMaskIntoConstraints = false
         backgroundLevelView.topAnchor.constraint(equalTo: self.topAnchor,
-                                                 constant: 10).isActive = true
+                                                 constant: UIConstants.BackgroundLevelView.top).isActive = true
         backgroundLevelView.leftAnchor.constraint(equalTo: self.leftAnchor,
-                                                  constant: 85).isActive = true
-        backgroundLevelView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backgroundLevelView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+                                                  constant: UIConstants.BackgroundLevelView.left).isActive = true
+        backgroundLevelView.heightAnchor.constraint(equalToConstant:
+                                                    UIConstants.BackgroundLevelView.height).isActive = true
+        backgroundLevelView.widthAnchor.constraint(equalToConstant:
+                                                    UIConstants.BackgroundLevelView.width).isActive = true
     }
 
     func setLevelLabel() {
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
         levelLabel.topAnchor.constraint(equalTo: backgroundLevelView.topAnchor,
-                                        constant: 7).isActive = true
+                                        constant: UIConstants.LevelLabel.top).isActive = true
         levelLabel.leftAnchor.constraint(equalTo: backgroundLevelView.leftAnchor,
-                                         constant: 5).isActive = true
-        levelLabel.widthAnchor.constraint(equalToConstant: 20).isActive = true
+                                         constant: UIConstants.LevelLabel.left).isActive = true
+        levelLabel.widthAnchor.constraint(equalToConstant: UIConstants.LevelLabel.width).isActive = true
         levelLabel.sizeToFit()
     }
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: backgroundLevelView.bottomAnchor,
-                                        constant: 14).isActive = true
+                                        constant: UIConstants.TitleLabel.top).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor,
-                                         constant: 8).isActive = true
+                                         constant: UIConstants.TitleLabel.left).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor,
-                                          constant: -8).isActive = true
+                                          constant: -UIConstants.TitleLabel.right).isActive = true
     }
 }
+
+// MARK: - Constants
+private extension TopFiveCollectionViewCell {
+    // swiftlint:disable nesting
+    struct UIConstants {
+        struct BackgroundLevelView {
+            static let top: CGFloat = 10.0
+            static let left: CGFloat = 85.0
+            static let height: CGFloat = 30.0
+            static let width: CGFloat = 30.0
+        }
+
+        struct LevelLabel {
+            static let top: CGFloat = 7.0
+            static let left: CGFloat = 5.0
+            static let width: CGFloat = 20.0
+        }
+
+        struct TitleLabel {
+            static let top: CGFloat = 14.0
+            static let left: CGFloat = 8.0
+            static let right: CGFloat = 8.0
+        }
+    }
+}
+// swiftlint:enable nesting

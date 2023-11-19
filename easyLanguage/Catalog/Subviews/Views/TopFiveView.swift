@@ -84,14 +84,14 @@ private extension TopFiveView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: 54).isActive = true
+        titleLabel.widthAnchor.constraint(equalToConstant: UIConstants.TitleLabel.width).isActive = true
         titleLabel.sizeToFit()
     }
 
     func setTopFiveCollectionView() {
         topFiveCollectionView.translatesAutoresizingMaskIntoConstraints = false
         topFiveCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
-                                                   constant: 18).isActive = true
+                                                   constant: UIConstants.TopFiveCollectionView.top).isActive = true
         topFiveCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         topFiveCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         topFiveCollectionView.heightAnchor.constraint(equalToConstant: self.frame.width / 3).isActive = true
@@ -103,13 +103,30 @@ private extension TopFiveView {
                                          constant: 5).isActive = true
         adviceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         adviceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        adviceLabel.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        adviceLabel.heightAnchor.constraint(equalToConstant: UIConstants.AdviceLabel.height).isActive = true
     }
 }
 
+// MARK: - Constants
+// swiftlint:disable nesting
 private extension TopFiveView {
     struct Consts {
         static let titleText: String = "Tоп 5"
         static let adviceText: String = "Для перевода слова нажмите на карточку"
     }
+
+    struct UIConstants {
+        struct TitleLabel {
+            static let width: CGFloat = 54.0
+        }
+
+        struct TopFiveCollectionView {
+            static let top: CGFloat = 18.0
+        }
+
+        struct AdviceLabel {
+            static let height: CGFloat = 16.0
+        }
+    }
 }
+// swiftlint:enable nesting

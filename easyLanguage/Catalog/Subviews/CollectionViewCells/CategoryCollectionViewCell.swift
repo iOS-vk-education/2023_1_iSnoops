@@ -36,11 +36,17 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 
 // MARK: - open methods
 extension CategoryCollectionViewCell {
-    func cellConfigure(with model: CategoryUIModel) {
-        setupColorsForCategory(with: model.categoryId)
+//    func cellConfigure(with model: CategoryUIModel) {
+//        setupColorsForCategory(with: model.categoryId)
+//        setupProgressAndTitleLabels(with: model)
+//        imageView.image = model.image
+//    }
+    func cellConfigure(with model: CategoryUIModel, at indexPath: IndexPath) {
+        setupColorsForCategory(with: indexPath.item)
         setupProgressAndTitleLabels(with: model)
         imageView.image = model.image
     }
+
 }
 
 // MARK: - private methods
@@ -57,11 +63,11 @@ private extension CategoryCollectionViewCell {
         imageView.clipsToBounds = true
     }
 
-    func setupColorsForCategory(with categoryId: Int) {
+    func setupColorsForCategory(with index: Int) {
         let backgroundColor: UIColor
         let textColor: UIColor
 
-        switch categoryId % 8 {
+        switch index % 8 {
         case 0:
             backgroundColor = .Catalog.Category.Views.customGreen
             textColor = .Catalog.Category.Fonts.customGreen
@@ -107,40 +113,76 @@ private extension CategoryCollectionViewCell {
     func setBackgroundLevelView() {
         backgroundLevelView.translatesAutoresizingMaskIntoConstraints = false
         backgroundLevelView.topAnchor.constraint(equalTo: topAnchor,
-                                                 constant: 15).isActive = true
-        backgroundLevelView.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                      constant: -15).isActive = true
-        backgroundLevelView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        backgroundLevelView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+                                                 constant: UIConstants.BackgroundLevelView.top).isActive = true
+        backgroundLevelView.trailingAnchor.constraint(equalTo: trailingAnchor, constant:
+                                                    -UIConstants.BackgroundLevelView.trailing).isActive = true
+        backgroundLevelView.widthAnchor.constraint(equalToConstant:
+                                                    UIConstants.BackgroundLevelView.width).isActive = true
+        backgroundLevelView.heightAnchor.constraint(equalToConstant:
+                                                    UIConstants.BackgroundLevelView.height).isActive = true
     }
 
     func setImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.topAnchor.constraint(equalTo: backgroundLevelView.topAnchor,
-                                       constant: 5).isActive = true
+                                       constant: UIConstants.ImageView.top).isActive = true
         imageView.leadingAnchor.constraint(equalTo: backgroundLevelView.leadingAnchor,
-                                           constant: 5).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+                                           constant: UIConstants.ImageView.leading).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: UIConstants.ImageView.width).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: UIConstants.ImageView.height).isActive = true
     }
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: topAnchor,
-                                        constant: 83).isActive = true
+                                        constant: UIConstants.TitleLabel.top).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                            constant: 15).isActive = true
+                                            constant: UIConstants.TitleLabel.leading).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                             constant: -15).isActive = true
-        titleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+                                             constant: -UIConstants.TitleLabel.trailing).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: UIConstants.TitleLabel.height).isActive = true
     }
 
     func setProgressLabel() {
         progressLabel.translatesAutoresizingMaskIntoConstraints = false
         progressLabel.topAnchor.constraint(equalTo: topAnchor,
-                                           constant: 20).isActive = true
+                                           constant: UIConstants.ProgressLabel.top).isActive = true
         progressLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                               constant: 15).isActive = true
-        progressLabel.widthAnchor.constraint(equalToConstant: 60).isActive = true
+                                               constant: UIConstants.ProgressLabel.leading).isActive = true
+        progressLabel.widthAnchor.constraint(equalToConstant: UIConstants.ProgressLabel.width).isActive = true
     }
 }
+
+// MARK: - Constants
+private extension CategoryCollectionViewCell {
+    // swiftlint:disable nesting
+    struct UIConstants {
+        struct BackgroundLevelView {
+            static let top: CGFloat = 15.0
+            static let trailing: CGFloat = 15.0
+            static let height: CGFloat = 40.0
+            static let width: CGFloat = 40.0
+        }
+
+        struct ImageView {
+            static let top: CGFloat = 5.0
+            static let leading: CGFloat = 5.0
+            static let width: CGFloat = 30.0
+            static let height: CGFloat = 30.0
+        }
+
+        struct TitleLabel {
+            static let top: CGFloat = 83.0
+            static let leading: CGFloat = 15.0
+            static let trailing: CGFloat = 15.0
+            static let height: CGFloat = 50.0
+        }
+
+        struct ProgressLabel {
+            static let top: CGFloat = 20.0
+            static let leading: CGFloat = 15.0
+            static let width: CGFloat = 60.0
+        }
+    }
+}
+// swiftlint:enable nesting

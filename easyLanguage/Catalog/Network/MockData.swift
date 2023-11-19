@@ -96,6 +96,11 @@ struct MockData {
                          title: ["ru": "Спорт", "en": ""],
                          imageLink: nil,
                          studiedWordsCount: 34,
+                         totalWordsCount: 100),
+        CategoryApiModel(categoryId: 16,
+                         title: ["ru": "Спорт", "en": ""],
+                         imageLink: nil,
+                         studiedWordsCount: 34,
                          totalWordsCount: 100)
     ]
 }
