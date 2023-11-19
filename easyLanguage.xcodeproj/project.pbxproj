@@ -282,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				07F1BE962AF8299000F50845 /* Views */,
+				07EF04B62AFAAB9D0095DECB /* CollectionViews */,
 				07F1BE9D2AF829AB00F50845 /* CollectionViewCells */,
 			);
 			path = Subviews;
@@ -293,7 +294,6 @@
 				07F1BE972AF8299900F50845 /* ProgressView.swift */,
 				07F1BE992AF829A000F50845 /* TopFiveView.swift */,
 				07F1BE9B2AF829A600F50845 /* CategoriesView.swift */,
-				07EF04B62AFAAB9D0095DECB /* CollectionViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";

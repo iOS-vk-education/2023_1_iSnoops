@@ -36,11 +36,6 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 
 // MARK: - open methods
 extension CategoryCollectionViewCell {
-//    func cellConfigure(with model: CategoryUIModel) {
-//        setupColorsForCategory(with: model.categoryId)
-//        setupProgressAndTitleLabels(with: model)
-//        imageView.image = model.image
-//    }
     func cellConfigure(with model: CategoryUIModel, at indexPath: IndexPath) {
         setupColorsForCategory(with: indexPath.item)
         setupProgressAndTitleLabels(with: model)
@@ -69,29 +64,29 @@ private extension CategoryCollectionViewCell {
 
         switch index % 8 {
         case 0:
-            backgroundColor = .Catalog.Category.Views.customGreen
-            textColor = .Catalog.Category.Fonts.customGreen
+            backgroundColor = .Catalog.Green.categoryBackground
+            textColor = .Catalog.Green.categoryText
         case 1:
-            backgroundColor = .Catalog.Category.Views.customPurple
-            textColor = .Catalog.Category.Fonts.customPurple
+            backgroundColor = .Catalog.Purple.categoryBackground
+            textColor = .Catalog.Purple.categoryText
         case 2:
-            backgroundColor = .Catalog.Category.Views.customLightYellow
-            textColor = .Catalog.Category.Fonts.customLightYellow
+            backgroundColor = .Catalog.LightYellow.categoryBackground
+            textColor = .Catalog.LightYellow.categoryText
         case 3:
-            backgroundColor = .Catalog.Category.Views.customYellow
-            textColor = .Catalog.Category.Fonts.customYellow
+            backgroundColor = .Catalog.Yellow.categoryBackground
+            textColor = .Catalog.Yellow.categoryText
         case 4:
-            backgroundColor = .Catalog.Category.Views.customRed
-            textColor = .Catalog.Category.Fonts.customRed
+            backgroundColor = .Catalog.Red.categoryBackground
+            textColor = .Catalog.Blue.categoryText
         case 5:
-            backgroundColor = .Catalog.Category.Views.customBlue
-            textColor = .Catalog.Category.Fonts.customBlue
+            backgroundColor = .Catalog.Blue.categoryBackground
+            textColor = .Catalog.Blue.categoryText
         case 6:
-            backgroundColor = .Catalog.Category.Views.customCyan
-            textColor = .Catalog.Category.Fonts.customCyan
+            backgroundColor = .Catalog.Cyan.categoryBackground
+            textColor = .Catalog.Cyan.categoryText
         default:
-            backgroundColor = .Catalog.Category.Views.customPink
-            textColor = .Catalog.Category.Fonts.customPink
+            backgroundColor = .Catalog.Pink.categoryBackground
+            textColor = .Catalog.Pink.categoryText
         }
 
         self.backgroundColor = backgroundColor

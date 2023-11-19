@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension TopFiveView: UICollectionViewDelegateFlowLayout {
+extension TopFiveCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {

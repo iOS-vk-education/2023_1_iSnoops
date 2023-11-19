@@ -13,8 +13,8 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
     private let levelLabel = UILabel()
     private let titleLabel = UILabel()
     private var isFlipped = false
-    private var ruTitle: String?
-    private var engTitle: String?
+    private var nativeTitle: String?
+    private var foreignTitle: String?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,35 +41,20 @@ extension TopFiveCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         isFlipped = false
-        engTitle = nil
-        ruTitle = nil
+        foreignTitle = nil
+        nativeTitle = nil
         titleLabel.text = nil
     }
 }
 
 // MARK: - open methods
 extension TopFiveCollectionViewCell {
-    func cellConfigure(with model: TopFiveWordsModel) {
-        ruTitle = model.title["ru"]
-        engTitle = model.title["en"]
+    func cellConfigure(with model: TopFiveWordsModel, at indexPath: IndexPath) {
+        nativeTitle = model.title["ru"]
+        foreignTitle = model.title["en"]
         levelLabel.text = model.level
         titleLabel.text = model.title["ru"]
-        let textColor: UIColor
-
-        switch model.topFiveWordsId % 3 {
-        case 0:
-            backgroundColor = .Catalog.TopFive.Views.customPink
-            textColor = .Catalog.TopFive.Fonts.customPink
-        case 1:
-            backgroundColor = .Catalog.TopFive.Views.customYellow
-            textColor = .Catalog.TopFive.Fonts.customYellow
-        default:
-            backgroundColor = .Catalog.TopFive.Views.customBlue
-            textColor = .Catalog.TopFive.Fonts.customBlue
-        }
-        [levelLabel, titleLabel].forEach {
-            $0.textColor = textColor
-        }
+        setupColorsForWord(with: indexPath.item)
     }
 }
 
@@ -82,12 +67,31 @@ private extension TopFiveCollectionViewCell {
 
         UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: {
             if self.isFlipped {
-                self.titleLabel.text = self.ruTitle
+                self.titleLabel.text = self.nativeTitle
             } else {
-                self.titleLabel.text = self.engTitle
+                self.titleLabel.text = self.foreignTitle
             }
         })
         isFlipped = !isFlipped
+    }
+
+    func setupColorsForWord(with index: Int) {
+        let textColor: UIColor
+
+        switch index % 3 {
+        case 0:
+            backgroundColor = .Catalog.Pink.topFiveBackground
+            textColor = .Catalog.Pink.topFiveBackText
+        case 1:
+            backgroundColor = .Catalog.Yellow.topFiveBackground
+            textColor =  .Catalog.Yellow.topFiveBackText
+        default:
+            backgroundColor = .Catalog.Blue.topFiveBackground
+            textColor =  .Catalog.Blue.topFiveBackText
+        }
+        [levelLabel, titleLabel].forEach {
+            $0.textColor = textColor
+        }
     }
 
     func setVisualAppearance() {
@@ -103,8 +107,8 @@ private extension TopFiveCollectionViewCell {
         backgroundLevelView.translatesAutoresizingMaskIntoConstraints = false
         backgroundLevelView.topAnchor.constraint(equalTo: self.topAnchor,
                                                  constant: UIConstants.BackgroundLevelView.top).isActive = true
-        backgroundLevelView.leftAnchor.constraint(equalTo: self.leftAnchor,
-                                                  constant: UIConstants.BackgroundLevelView.left).isActive = true
+        backgroundLevelView.rightAnchor.constraint(equalTo: self.rightAnchor,
+                                                  constant: -UIConstants.BackgroundLevelView.right).isActive = true
         backgroundLevelView.heightAnchor.constraint(equalToConstant:
                                                     UIConstants.BackgroundLevelView.height).isActive = true
         backgroundLevelView.widthAnchor.constraint(equalToConstant:
@@ -138,7 +142,8 @@ private extension TopFiveCollectionViewCell {
     struct UIConstants {
         struct BackgroundLevelView {
             static let top: CGFloat = 10.0
-            static let left: CGFloat = 85.0
+            static let right: CGFloat = 10.0
+//            static let left: CGFloat = 85.0
             static let height: CGFloat = 30.0
             static let width: CGFloat = 30.0
         }

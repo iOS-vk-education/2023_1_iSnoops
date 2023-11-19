@@ -17,10 +17,11 @@ final class CategoriesView: UIView {
 
     init(inputCategories: InputCategories) {
         super.init(frame: .zero)
+
         self.inputCategories = inputCategories
         categoriesCollectionView.setupInputCategories(with: inputCategories)
-        setVisualAppearance()
 
+        setVisualAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
             self.addSubview($0)
         }
@@ -40,8 +41,8 @@ private extension CategoriesView {
     func setVisualAppearance() {
         titleLabel.text = CategoriesView.Consts.titleText
         titleLabel.textColor = .black
-        addNewCategoryLogo.image = CategoriesView.Images.addImage
-        sortCategoriesLogo.image = CategoriesView.Images.sortImage
+        addNewCategoryLogo.image = CategoriesView.Icons.addImage
+        sortCategoriesLogo.image = CategoriesView.Icons.sortImage
     }
 
     func setTitleLabel() {
@@ -93,7 +94,7 @@ private extension CategoriesView {
         static let titleText: String = "Категории"
     }
 
-    struct Images {
+    struct Icons {
         static let addImage = UIImage(named: "AddIconImage")
         static let sortImage = UIImage(named: "SortIconImage")
     }

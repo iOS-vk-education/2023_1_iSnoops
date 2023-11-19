@@ -9,34 +9,21 @@ import UIKit
 
 final class TopFiveView: UIView {
 
-    var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
-    private let model = CatalogModel()
     private let titleLabel = UILabel()
     private let adviceLabel = UILabel()
-    private lazy var topFiveCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+    weak var inputTopFiveWords: InputTopFiveWords?
+    private let topFiveCollectionView = TopFiveCollectionView()
 
-        let topFiveCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        topFiveCollectionView.showsHorizontalScrollIndicator = false
-        topFiveCollectionView.backgroundColor = .PrimaryColors.Background.customBackground
-        topFiveCollectionView.delegate = self
-        topFiveCollectionView.dataSource = self
-        topFiveCollectionView.register(TopFiveCollectionViewCell.self,
-                                       forCellWithReuseIdentifier: "topFiveWordsCollectionView")
-        if let flowLayout = topFiveCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = UIScreen.main.bounds.width / 21.8
-        }
-        return topFiveCollectionView
-    }()
+    init(inputTopFiveWords: InputTopFiveWords) {
+        super.init(frame: .zero)
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        loadTopFiveWords()
+        self.inputTopFiveWords = inputTopFiveWords
+        topFiveCollectionView.setupInputTopFiveWords(with: inputTopFiveWords)
+
+        setVisualAppearance()
         [topFiveCollectionView, titleLabel, adviceLabel].forEach {
             self.addSubview($0)
         }
-        setVisualAppearance()
     }
 
     required init?(coder: NSCoder) {
@@ -56,23 +43,6 @@ extension TopFiveView {
 
 // MARK: - private methods
 private extension TopFiveView {
-    func loadTopFiveWords() {
-        model.loadTopFiveWords { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let data):
-                self.topFiveModel = data
-                DispatchQueue.main.async {
-                    self.topFiveCollectionView.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-
     func setVisualAppearance() {
         titleLabel.textColor = .black
         titleLabel.text = TopFiveView.Consts.titleText
@@ -111,7 +81,7 @@ private extension TopFiveView {
 // swiftlint:disable nesting
 private extension TopFiveView {
     struct Consts {
-        static let titleText: String = "Tоп 5"
+        static let titleText: String = "5 слов дня"
         static let adviceText: String = "Для перевода слова нажмите на карточку"
     }
 

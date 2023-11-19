@@ -29,7 +29,8 @@ final class CategoriesCollectionView: UICollectionView {
     private func setupCollectionView() {
         isScrollEnabled = false
         showsVerticalScrollIndicator = false
-        backgroundColor = .PrimaryColors.Background.customBackground
+        backgroundColor = .PrimaryColors.Background.background
+
         delegate = self
         dataSource = self
 

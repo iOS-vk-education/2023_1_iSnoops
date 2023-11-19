@@ -46,9 +46,9 @@ extension ProgressView {
 // MARK: - private methods
 private extension ProgressView {
     func setVisualAppearance() {
-        backgroundView.backgroundColor = .SecondaryColors.ProgressView.customGray
+        backgroundView.backgroundColor = .SecondaryColors.ProgressView.gray
         backgroundView.layer.cornerRadius = ProgressView.Consts.cornerRadius
-        progressView.backgroundColor = .SecondaryColors.ProgressView.customGreen
+        progressView.backgroundColor = .SecondaryColors.ProgressView.green
         progressView.layer.cornerRadius = ProgressView.Consts.cornerRadius
         totalWordsLabel.textColor = .black
         wordsInProgressLabel.textColor = .black

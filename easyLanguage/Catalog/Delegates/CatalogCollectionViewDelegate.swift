@@ -7,9 +7,9 @@
 
 import UIKit
 
-extension TopFiveView: UICollectionViewDelegate {
+extension TopFiveCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        topFiveModel.count
+        return inputTopFiveWords?.topFiveWordsCount ?? 0
     }
 }
 

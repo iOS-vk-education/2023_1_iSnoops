@@ -11,6 +11,6 @@ class CustomViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .PrimaryColors.Background.customBackground
+        view.backgroundColor = .PrimaryColors.Background.background
     }
 }

@@ -12,19 +12,31 @@ protocol InputCategories: AnyObject {
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
+protocol InputTopFiveWords: AnyObject {
+    var topFiveWordsCount: Int { get }
+    func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
+}
+
+protocol ProgressSetup {
+    func setupAllLeanedWords()
+    func setupWordsInProgress()
+}
+
 class CatalogViewController: CustomViewController {
     private let imageManager = ImageManager.shared
     private let model = CatalogModel()
     private var categoryModel: [CategoryModel] = []
+    private var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
 
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
-    private let topFiveView = TopFiveView()
+    private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
     private lazy var categoriesView: CategoriesView = CategoriesView(inputCategories: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCategories()
+        loadTopFiveWords()
         view.addSubview(scrollView)
         setScrollView()
         [progressView, topFiveView, categoriesView].forEach {
@@ -41,7 +53,6 @@ class CatalogViewController: CustomViewController {
 
 // MARK: - private methods
 private extension CatalogViewController {
-
     func loadCategories() {
         model.loadCategory { [weak self] result in
             guard let self = self else {
@@ -57,6 +68,20 @@ private extension CatalogViewController {
                                     totalWordsCount: category.totalWordsCount)
                 }
                 self.categoryModel = categoryModel
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func loadTopFiveWords() {
+        model.loadTopFiveWords { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let data):
+                self.topFiveModel = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -105,21 +130,12 @@ private extension CatalogViewController {
         let isEvenCount = categoryModel.count % 2 == 0
         let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
         let cellHeight = CGFloat(view.frame.width / 2 - 9 - 18 + UIScreen.main.bounds.width / 20.5)
-        let categoriesMargin = CGFloat(35 + 10) // 35 - высота картинки (add) + её отсутуп до коллекции
+        let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
         let marginHeight = cellHeight * cellCount + categoriesMargin
         categoriesView.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
 
     }
-
-    func setupAllLeanedWords() {
-        progressView.setupAllWords(count: 120) // должна с бека сумма всех слов приходить
-    }
-
-    func setupWordsInProgress() {
-        progressView.setupWordsInProgress(count: 60)
-    }
 }
-
 // MARK: - UIConstants
 // swiftlint:disable nesting
 private extension CatalogViewController {
@@ -144,8 +160,20 @@ private extension CatalogViewController {
         }
     }
 }
+
+// MARK: - Protocol ProgressSetup
+extension CatalogViewController: ProgressSetup {
+    func setupAllLeanedWords() {
+        progressView.setupAllWords(count: 120) // должна с бека сумма всех слов приходить
+    }
+
+    func setupWordsInProgress() {
+        progressView.setupWordsInProgress(count: 60)
+    }
+}
 // swiftlint:enable nesting
 
+// MARK: - Protocol InputCategories
 extension CatalogViewController: InputCategories {
     var categoriesCount: Int {
         categoryModel.count
@@ -182,5 +210,21 @@ extension CatalogViewController: InputCategories {
 
             completion(categoryUIModel)
         }
+    }
+}
+
+// MARK: - Protocol InputTopFiveWords
+extension CatalogViewController: InputTopFiveWords {
+    var topFiveWordsCount: Int {
+        topFiveModel.count
+    }
+
+    func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void) {
+        let topFiveWordsModel = TopFiveWordsModel(
+            topFiveWordsId: self.topFiveModel[index].topFiveWordsId,
+            title: self.topFiveModel[index].title,
+            level: self.topFiveModel[index].level
+        )
+        completion(topFiveWordsModel)
     }
 }
