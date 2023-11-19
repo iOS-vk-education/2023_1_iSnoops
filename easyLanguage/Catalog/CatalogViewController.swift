@@ -180,35 +180,27 @@ extension CatalogViewController: InputCategories {
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        let group = DispatchGroup()
-
-        group.enter()
-        var image: UIImage?
         guard let url = URL(string: categoryModel[index].imageLink) else {
             completion(CategoryUIModel())
             return
         }
 
-        imageManager.loadImage(from: url) { result in
+        imageManager.loadImage(from: url) { [weak self] result in
             switch result {
             case .success(let data):
-                image = UIImage(data: data)
+                guard let self = self else { return }
+                completion(
+                    CategoryUIModel(
+                        categoryId: self.categoryModel[index].categoryId,
+                        title: self.categoryModel[index].title,
+                        image: UIImage(data: data),
+                        studiedWordsCount: self.categoryModel[index].studiedWordsCount,
+                        totalWordsCount: self.categoryModel[index].totalWordsCount
+                    )
+                )
             case .failure(let error):
                 print(error)
             }
-            group.leave()
-        }
-
-        group.notify(queue: .main) {
-            let categoryUIModel = CategoryUIModel(
-                categoryId: self.categoryModel[index].categoryId,
-                title: self.categoryModel[index].title,
-                image: image,
-                studiedWordsCount: self.categoryModel[index].studiedWordsCount,
-                totalWordsCount: self.categoryModel[index].totalWordsCount
-            )
-
-            completion(categoryUIModel)
         }
     }
 }
