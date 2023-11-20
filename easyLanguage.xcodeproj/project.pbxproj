@@ -15,6 +15,10 @@
 		0717C0B82AE84CA900C140C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0717C0B62AE84CA900C140C9 /* LaunchScreen.storyboard */; };
 		0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0DE2AE8577200C140C9 /* TabBarController.swift */; };
 		075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */; };
+		07C6FF5E2B0A405D005BA3BF /* CategoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C6FF5D2B0A405D005BA3BF /* CategoryDetailViewController.swift */; };
+		07C6FF8B2B0B656C005BA3BF /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C6FF8A2B0B656C005BA3BF /* BottomSheetViewController.swift */; };
+		07C6FF8D2B0B6576005BA3BF /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C6FF8C2B0B6576005BA3BF /* ImagePicker.swift */; };
+		07C6FF8F2B0B6581005BA3BF /* AddCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C6FF8E2B0B6581005BA3BF /* AddCategoryView.swift */; };
 		07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */; };
 		07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* MockData.swift */; };
 		07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C12AFBB9AC0095DECB /* ImageManager.swift */; };
@@ -50,6 +54,10 @@
 		0717C0B92AE84CA900C140C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0717C0DE2AE8577200C140C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
+		07C6FF5D2B0A405D005BA3BF /* CategoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewController.swift; sourceTree = "<group>"; };
+		07C6FF8A2B0B656C005BA3BF /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
+		07C6FF8C2B0B6576005BA3BF /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		07C6FF8E2B0B6581005BA3BF /* AddCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryView.swift; sourceTree = "<group>"; };
 		07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionView.swift; sourceTree = "<group>"; };
 		07EF04BA2AFAAF970095DECB /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		07EF04C12AFBB9AC0095DECB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
@@ -115,6 +123,8 @@
 				0717C1182AE96CAB00C140C9 /* TabBar */,
 				0717C0C22AE84D2000C140C9 /* Auth */,
 				07F1BE792AF827BB00F50845 /* Catalog */,
+				07C6FF892B0B6555005BA3BF /* BottomSheetViewController */,
+				07C6FF5C2B0A4052005BA3BF /* CategoryDetail */,
 				07EF04C02AFBB9920095DECB /* Network */,
 				0717C0C72AE8527000C140C9 /* UI */,
 				0717C0C02AE84D0500C140C9 /* Application */,
@@ -191,6 +201,32 @@
 				0717C0DE2AE8577200C140C9 /* TabBarController.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		07C6FF5C2B0A4052005BA3BF /* CategoryDetail */ = {
+			isa = PBXGroup;
+			children = (
+				07C6FF5D2B0A405D005BA3BF /* CategoryDetailViewController.swift */,
+			);
+			path = CategoryDetail;
+			sourceTree = "<group>";
+		};
+		07C6FF882B0B6543005BA3BF /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				07C6FF8C2B0B6576005BA3BF /* ImagePicker.swift */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		07C6FF892B0B6555005BA3BF /* BottomSheetViewController */ = {
+			isa = PBXGroup;
+			children = (
+				07C6FF8A2B0B656C005BA3BF /* BottomSheetViewController.swift */,
+				07C6FF8E2B0B6581005BA3BF /* AddCategoryView.swift */,
+				07C6FF882B0B6543005BA3BF /* ImagePicker */,
+			);
+			path = BottomSheetViewController;
 			sourceTree = "<group>";
 		};
 		07EF04B62AFAAB9D0095DECB /* CollectionViews */ = {
@@ -424,14 +460,18 @@
 				07F1BE8D2AF8292600F50845 /* CatalogNetworkManager.swift in Sources */,
 				07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */,
 				07EF04C52AFBBF880095DECB /* CategoryUIModel.swift in Sources */,
+				07C6FF8B2B0B656C005BA3BF /* BottomSheetViewController.swift in Sources */,
+				07C6FF5E2B0A405D005BA3BF /* CategoryDetailViewController.swift in Sources */,
 				0717C0AC2AE84CA700C140C9 /* AppDelegate.swift in Sources */,
 				07F1BE9F2AF829C200F50845 /* TopFiveCollectionViewCell.swift in Sources */,
 				0717C0AE2AE84CA700C140C9 /* SceneDelegate.swift in Sources */,
+				07C6FF8F2B0B6581005BA3BF /* AddCategoryView.swift in Sources */,
 				07F1BE7B2AF828AA00F50845 /* CatalogViewController.swift in Sources */,
 				07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */,
 				07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */,
 				07F1BE802AF828C200F50845 /* CategoryModel.swift in Sources */,
 				07EF04C92AFBE9C20095DECB /* Color + configurations.swift in Sources */,
+				07C6FF8D2B0B6576005BA3BF /* ImagePicker.swift in Sources */,
 				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
 				075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */,
 				0710CB442AF3A7B400F5478E /* Color + init.swift in Sources */,

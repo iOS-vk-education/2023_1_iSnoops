@@ -77,7 +77,7 @@ private extension CategoryCollectionViewCell {
             textColor = .Catalog.Yellow.categoryText
         case 4:
             backgroundColor = .Catalog.Red.categoryBackground
-            textColor = .Catalog.Blue.categoryText
+            textColor = .Catalog.Red.categoryText
         case 5:
             backgroundColor = .Catalog.Blue.categoryBackground
             textColor = .Catalog.Blue.categoryText

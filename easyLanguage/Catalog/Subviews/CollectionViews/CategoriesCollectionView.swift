@@ -9,6 +9,7 @@ import UIKit
 
 final class CategoriesCollectionView: UICollectionView {
     weak var inputCategories: InputCategoriesDelegate?
+    weak var navigationController: UINavigationController?
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -24,6 +25,10 @@ final class CategoriesCollectionView: UICollectionView {
 
     func setupInputCategoriesDelegate(with inputCategories: InputCategoriesDelegate?) {
         self.inputCategories = inputCategories
+    }
+
+    func setupNavigationController(_ navigationController: UINavigationController) {
+        self.navigationController = navigationController
     }
 
     private func setupCollectionView() {

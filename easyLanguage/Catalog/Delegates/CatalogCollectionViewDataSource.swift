@@ -38,4 +38,10 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
 
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let categoryDetailVC = CategoryDetailViewController()
+        categoryDetailVC.selectedItem = indexPath.item
+        navigationController?.pushViewController(categoryDetailVC, animated: true)
+    }
 }

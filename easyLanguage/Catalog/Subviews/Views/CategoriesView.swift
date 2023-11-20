@@ -8,19 +8,20 @@
 import UIKit
 
 final class CategoriesView: UIView {
-
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
     weak var inputCategories: InputCategoriesDelegate?
     private let categoriesCollectionView = CategoriesCollectionView()
+    weak var delegate: CategoriesViewDelegate?
 
-    init(inputCategories: InputCategoriesDelegate) {
+    init(inputCategories: InputCategoriesDelegate, delegate: CategoriesViewDelegate) {
         super.init(frame: .zero)
 
         self.inputCategories = inputCategories
-        categoriesCollectionView.setupInputCategoriesDelegate(with: inputCategories)
+        self.delegate = delegate
 
+        categoriesCollectionView.setupInputCategoriesDelegate(with: inputCategories)
         setVisualAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
             self.addSubview($0)
@@ -29,6 +30,8 @@ final class CategoriesView: UIView {
         setAddImageView()
         setSortImageView()
         setCategoriesCollectionView()
+        setupAddNewCategoryLogoTapGesture()
+        setupSortCategoriesLogoTapGesture()
     }
 
     required init?(coder: NSCoder) {
@@ -36,8 +39,42 @@ final class CategoriesView: UIView {
     }
 }
 
+// MARK: - methods
+extension CategoriesView {
+    func setupNavigationController(_ navigationController: UINavigationController) {
+        self.categoriesCollectionView.setupNavigationController(navigationController)
+    }
+}
+
 // MARK: - private methods
 private extension CategoriesView {
+    @objc
+    func didTapAddNewCategoryLogo() {
+        let presentedController = BottomSheetViewController()
+        if let sheet = presentedController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersScrollingExpandsWhenScrolledToEdge = false
+        }
+        delegate?.presentViewController(presentedController)
+    }
+
+    @objc
+    func didTapSortCategoriesLogo() {
+        print(#function)
+    }
+
+    func setupAddNewCategoryLogoTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddNewCategoryLogo))
+        addNewCategoryLogo.isUserInteractionEnabled = true
+        addNewCategoryLogo.addGestureRecognizer(tapGesture)
+    }
+
+    func setupSortCategoriesLogoTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSortCategoriesLogo))
+        sortCategoriesLogo.isUserInteractionEnabled = true
+        sortCategoriesLogo.addGestureRecognizer(tapGesture)
+    }
+
     func setVisualAppearance() {
         titleLabel.text = CategoriesView.Consts.titleText
         titleLabel.textColor = .black

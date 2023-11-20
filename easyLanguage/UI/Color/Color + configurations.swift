@@ -12,6 +12,9 @@ extension UIColor {
         struct Background {
             static let background: UIColor = Color(lightMode: UIColor(hex: "F6F6F6") ?? .white).currentColor
         }
+        struct Button {
+            static let blue: UIColor = Color(lightMode: UIColor(hex: "3478F6") ?? .white).currentColor
+        }
     }
 
     struct SecondaryColors {

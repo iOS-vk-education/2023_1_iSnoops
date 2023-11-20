@@ -22,6 +22,10 @@ protocol ProgressSetup {
     func setupWordsInProgress()
 }
 
+protocol CategoriesViewDelegate: AnyObject {
+    func presentViewController(_ viewController: UIViewController)
+}
+
 class CatalogViewController: CustomViewController {
     private let imageManager = ImageManager.shared
     private let model = CatalogModel()
@@ -31,7 +35,12 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesView: CategoriesView = CategoriesView(inputCategories: self)
+
+    private lazy var categoriesView: CategoriesView = {
+        let view = CategoriesView(inputCategories: self, delegate: self)
+        view.setupNavigationController(navigationController ?? UINavigationController())
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -218,5 +227,11 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
             level: self.topFiveModel[index].level
         )
         completion(topFiveWordsModel)
+    }
+}
+// MARK: - Protocol CategoriesViewDelegate
+extension CatalogViewController: CategoriesViewDelegate {
+    func presentViewController(_ viewController: UIViewController) {
+        present(viewController, animated: true)
     }
 }
