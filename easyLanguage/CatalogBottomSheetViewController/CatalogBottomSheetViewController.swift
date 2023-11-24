@@ -8,6 +8,7 @@
 import UIKit
 
 class CatalogBottomSheetViewController: CustomViewController {
+    private let visualBar = UIView()
     private let addCategoryView = AddCategoryView()
     private let textField: UITextField = UITextField()
     private let addCategoryButton: UIButton = UIButton()
@@ -29,7 +30,7 @@ class CatalogBottomSheetViewController: CustomViewController {
 extension CatalogBottomSheetViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        [addCategoryView, addCategoryButton, textField].forEach {
+        [visualBar, addCategoryView, addCategoryButton, textField].forEach {
             view.addSubview($0)
         }
 
@@ -37,6 +38,7 @@ extension CatalogBottomSheetViewController {
         setTextField()
         setAddCategoryButton()
         setAddCategoryView()
+        setVisualBar()
 
         addCategoryView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddCategoryView))
@@ -72,7 +74,20 @@ private extension CatalogBottomSheetViewController {
         addCategoryView.setImage(with: image)
     }
 
+    func setVisualBar() {
+        visualBar.translatesAutoresizingMaskIntoConstraints = false
+        visualBar.topAnchor.constraint(equalTo: view.topAnchor,
+                                       constant: UIConstants.VisualBar.top).isActive = true
+        visualBar.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                       constant: view.frame.width / 2 - 31).isActive = true
+        visualBar.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                       constant: -view.frame.width / 2 + 31).isActive = true
+        visualBar.heightAnchor.constraint(equalToConstant: UIConstants.VisualBar.height).isActive = true
+    }
+
     func setVisualAppearance() {
+        visualBar.layer.cornerRadius = 4
+        visualBar.backgroundColor = .gray
         addCategoryButton.setTitle(Consts.AddCategoryButton.title, for: .normal)
         addCategoryButton.backgroundColor = .PrimaryColors.Button.blue
         addCategoryButton.layer.cornerRadius = 16
@@ -128,6 +143,11 @@ private extension CatalogBottomSheetViewController {
     }
 
     struct UIConstants {
+        struct VisualBar {
+            static let top: CGFloat = 10.0
+            static let height: CGFloat = 8.0
+        }
+
         struct TextField {
             static let horizontally: CGFloat = 37.0 // FIXME: - поменять
             static let height: CGFloat = 60.0  // FIXME: - поменять
