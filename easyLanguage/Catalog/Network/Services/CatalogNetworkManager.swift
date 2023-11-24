@@ -9,6 +9,8 @@ import Foundation
 
 protocol CatalogNetworkManagerProtocol {
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
+    func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void)
+    func postCategory(with newCategory: CategoryApiModel, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
@@ -22,5 +24,10 @@ final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
 
     func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void) {
         completion(.success(MockData.categoryModel))
+    }
+
+    func postCategory(with newCategory: CategoryApiModel, completion: @escaping (Result<Void, Error>) -> Void) {
+        MockData.categoryModel.append(newCategory)
+        completion(.success(()))
     }
 }

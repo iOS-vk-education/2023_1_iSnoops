@@ -7,17 +7,32 @@
 
 import UIKit
 
-class BottomSheetViewController: CustomViewController {
+class CatalogBottomSheetViewController: CustomViewController {
     private let addCategoryView = AddCategoryView()
     private let textField: UITextField = UITextField()
     private let addCategoryButton: UIButton = UIButton()
     private let imagePicker = ImagePicker()
+    var selectedImage: UIImage?
+    weak var delegate: BottomSheetDelegate?
 
+    init(delegate: BottomSheetDelegate) {
+        super.init(nibName: nil, bundle: nil)
+        self.delegate = delegate
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Life Circle
+extension CatalogBottomSheetViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         [addCategoryView, addCategoryButton, textField].forEach {
             view.addSubview($0)
         }
+
         setVisualAppearance()
         setTextField()
         setAddCategoryButton()
@@ -30,7 +45,7 @@ class BottomSheetViewController: CustomViewController {
     }
 }
 
-private extension BottomSheetViewController {
+private extension CatalogBottomSheetViewController {
     @objc
     func didTapAddCategoryButton() {
         guard let enteredText = textField.text, !enteredText.isEmpty else {
@@ -39,7 +54,10 @@ private extension BottomSheetViewController {
             // пробрасывать ошибку, если возможно
             return
         }
-        print("Entered text: \(enteredText)")
+        delegate?.createCategory(with: CategoryUIModel(title: ["ru": enteredText],
+                                                       image: selectedImage,
+                                                       studiedWordsCount: 0,
+                                                       totalWordsCount: 0))
     }
 
     @objc
@@ -50,6 +68,7 @@ private extension BottomSheetViewController {
     }
 
     func didSelectImage(_ image: UIImage) {
+        selectedImage = image
         addCategoryView.setImage(with: image)
     }
 
@@ -76,9 +95,9 @@ private extension BottomSheetViewController {
     func setTextField() {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:
-                                        UIConstants.TextField.leading).isActive = true
+                                        UIConstants.TextField.horizontally).isActive = true
         textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:
-                                       -UIConstants.TextField.trailing).isActive = true
+                                       -UIConstants.TextField.horizontally).isActive = true
         textField.topAnchor.constraint(equalTo: addCategoryView.bottomAnchor, constant:
                                         view.frame.width / 10).isActive = true
         textField.heightAnchor.constraint(equalToConstant:
@@ -98,7 +117,7 @@ private extension BottomSheetViewController {
     }
 }
 // swiftlint:disable nesting
-private extension BottomSheetViewController {
+private extension CatalogBottomSheetViewController {
     struct Consts {
         struct TextField {
             static let text: String = "Название категории"
@@ -110,9 +129,8 @@ private extension BottomSheetViewController {
 
     struct UIConstants {
         struct TextField {
-            static let leading: CGFloat = 37.0
-            static let trailing: CGFloat = 37.0
-            static let height: CGFloat = 60.0
+            static let horizontally: CGFloat = 37.0 // FIXME: - поменять
+            static let height: CGFloat = 60.0  // FIXME: - поменять
         }
 
         struct AddCategoryButton {

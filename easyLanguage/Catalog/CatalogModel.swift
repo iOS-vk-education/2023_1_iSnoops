@@ -39,12 +39,32 @@ final class CatalogModel {
                         title: category.title,
                         imageLink: category.imageLink ?? defaultImageLink,
                         studiedWordsCount: category.studiedWordsCount,
-                        totalWordsCount: category.totalWordsCount
+                        totalWordsCount: category.totalWordsCount,
+                        createdDate: category.createdDate
                     )
                 }
                 completion(.success(categoryModels))
             case .failure(let error):
                 completion(.failure(error))
+            }
+        }
+    }
+
+    func createCategory(with newCategory: CategoryModel) {
+        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
+        let categoryApiModel = CategoryApiModel(categoryId: newCategory.categoryId,
+                                                title: newCategory.title,
+                                                imageLink: defaultImageLink,
+                                                studiedWordsCount: newCategory.studiedWordsCount,
+                                                totalWordsCount: newCategory.totalWordsCount,
+                                                createdDate: Date(),
+                                                words: nil)
+        CatalogNetworkManager.shared.postCategory(with: categoryApiModel) { result in
+            switch result {
+            case .success:
+                print("Новая категория успешно добавлена!")
+            case .failure(let error):
+                print("Ошибка при добавлении новой категории: \(error.localizedDescription)")
             }
         }
     }

@@ -24,6 +24,9 @@ protocol ProgressSetup {
 
 protocol CategoriesViewDelegate: AnyObject {
     func presentViewController(_ viewController: UIViewController)
+    func sortCategoryByName()
+    func sortByDateCreation()
+    func createCategory(with newCategory: CategoryUIModel)
 }
 
 class CatalogViewController: CustomViewController {
@@ -31,16 +34,15 @@ class CatalogViewController: CustomViewController {
     private let model = CatalogModel()
     private var categoryModel: [CategoryModel] = []
     private var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
-
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-
-    private lazy var categoriesView: CategoriesView = {
-        let view = CategoriesView(inputCategories: self, delegate: self)
-        view.setupNavigationController(navigationController ?? UINavigationController())
-        return view
-    }()
+    // FIXME: - возможно не надо self 2 раза передавать
+    private lazy var categoriesView = CategoriesView(
+                                                inputCategories: self,
+                                                delegate: self,
+                                                navigationController: navigationController ?? UINavigationController())
+    private var categoriesViewHeightConstraint: NSLayoutConstraint?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +76,8 @@ private extension CatalogViewController {
                                     title: category.title,
                                     imageLink: category.imageLink,
                                     studiedWordsCount: category.studiedWordsCount,
-                                    totalWordsCount: category.totalWordsCount)
+                                    totalWordsCount: category.totalWordsCount,
+                                    createdDate: category.createdDate)
                 }
                 self.categoryModel = categoryModel
             case .failure(let error):
@@ -110,18 +113,18 @@ private extension CatalogViewController {
         progressView.topAnchor.constraint(equalTo: scrollView.topAnchor,
                                           constant: UIConstants.ProgressView.top).isActive = true
         progressView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                           constant: UIConstants.ProgressView.left).isActive = true
+                                          constant: UIConstants.ProgressView.left).isActive = true
         progressView.rightAnchor.constraint(equalTo: scrollView.rightAnchor,
-                                            constant: -UIConstants.ProgressView.right).isActive = true
+                                          constant: -UIConstants.ProgressView.right).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
-                                            constant: -UIConstants.ProgressView.width).isActive = true
+                                          constant: -UIConstants.ProgressView.width).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressView.height).isActive = true
     }
 
     func setTopFiveView() {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
         topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
-                                         constant: UIConstants.TopFiveView.top).isActive = true
+                                          constant: UIConstants.TopFiveView.top).isActive = true
         topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
                                           constant: UIConstants.TopFiveView.left).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
@@ -131,18 +134,21 @@ private extension CatalogViewController {
     func setCategoriesView() {
         categoriesView.translatesAutoresizingMaskIntoConstraints = false
         categoriesView.topAnchor.constraint(equalTo: topFiveView.bottomAnchor,
-                                            constant: UIConstants.CategoriesView.top).isActive = true
+                                          constant: UIConstants.CategoriesView.top).isActive = true
         categoriesView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
+        categoriesViewHeightConstraint = categoriesView.heightAnchor
+                                          .constraint(equalToConstant: calculateCategoriesViewHeight())
+        categoriesViewHeightConstraint?.isActive = true
         categoriesView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+    }
 
+    func calculateCategoriesViewHeight() -> CGFloat {
         let isEvenCount = categoryModel.count % 2 == 0
         let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
         let cellHeight = CGFloat(view.frame.width / 2 - 9 - 18 + UIScreen.main.bounds.width / 20.5)
         let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
-        let marginHeight = cellHeight * cellCount + categoriesMargin
-        categoriesView.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
-
+        return cellHeight * cellCount + categoriesMargin
     }
 }
 // MARK: - UIConstants
@@ -169,6 +175,7 @@ private extension CatalogViewController {
         }
     }
 }
+// swiftlint:enable nesting
 
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
@@ -180,7 +187,6 @@ extension CatalogViewController: ProgressSetup {
         progressView.setupWordsInProgress(count: 60)
     }
 }
-// swiftlint:enable nesting
 
 // MARK: - Protocol InputCategoriesDelegate
 extension CatalogViewController: InputCategoriesDelegate {
@@ -189,7 +195,8 @@ extension CatalogViewController: InputCategoriesDelegate {
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        guard let url = URL(string: categoryModel[index].imageLink) else {
+        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
+        guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
             completion(CategoryUIModel())
             return
         }
@@ -200,7 +207,6 @@ extension CatalogViewController: InputCategoriesDelegate {
                 guard let self = self else { return }
                 completion(
                     CategoryUIModel(
-                        categoryId: self.categoryModel[index].categoryId,
                         title: self.categoryModel[index].title,
                         image: UIImage(data: data),
                         studiedWordsCount: self.categoryModel[index].studiedWordsCount,
@@ -229,9 +235,43 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
         completion(topFiveWordsModel)
     }
 }
+
 // MARK: - Protocol CategoriesViewDelegate
 extension CatalogViewController: CategoriesViewDelegate {
     func presentViewController(_ viewController: UIViewController) {
         present(viewController, animated: true)
+    }
+
+    func sortCategoryByName() {
+        categoryModel.sort {
+            $0.title["ru"]! < $1.title["ru"]!
+        }
+        categoriesView.reloadData()
+    }
+
+    func sortByDateCreation() {
+        categoryModel.sort {
+            $0.createdDate > $1.createdDate
+        }
+        categoriesView.reloadData()
+    }
+
+    func createCategory(with newCategory: CategoryUIModel) {
+        // FIXME: - надо вытащить categoryId
+        let newCategoryModel = CategoryModel(categoryId: 10,
+                                          title: newCategory.title,
+                                          imageLink: nil,
+                                          studiedWordsCount: newCategory.studiedWordsCount,
+                                          totalWordsCount: newCategory.totalWordsCount,
+                                          createdDate: Date())
+        model.createCategory(with: newCategoryModel)
+        categoryModel.append(newCategoryModel)
+        // FIXME: - возможно тут надо не reloadData всей коллекции а отедельной ячейки
+        categoriesView.reloadData()
+        updateCategoriesViewHeight()
+    }
+
+    private func updateCategoriesViewHeight() {
+        categoriesViewHeightConstraint?.constant = calculateCategoriesViewHeight()
     }
 }

@@ -13,4 +13,6 @@ struct CategoryApiModel: Codable {
     let imageLink: String?
     let studiedWordsCount: Int
     let totalWordsCount: Int
+    let createdDate: Date
+    let words: [WordApiModel]?
 }

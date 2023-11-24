@@ -23,6 +23,7 @@ extension TopFiveCollectionView: UICollectionViewDataSource {
         return cell
     }
 }
+
 extension CategoriesCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -31,7 +32,6 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
         else {
             return .init()
         }
-
         inputCategories?.item(at: indexPath.item) { categoryUIModel in
             cell.cellConfigure(with: categoryUIModel, at: indexPath)
         }

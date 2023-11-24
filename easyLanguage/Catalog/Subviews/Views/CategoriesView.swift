@@ -7,19 +7,27 @@
 
 import UIKit
 
+protocol BottomSheetDelegate: AnyObject {
+    func createCategory(with newCategory: CategoryUIModel)
+}
+
 final class CategoriesView: UIView {
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
     weak var inputCategories: InputCategoriesDelegate?
-    private let categoriesCollectionView = CategoriesCollectionView()
+    let categoriesCollectionView = CategoriesCollectionView()
     weak var delegate: CategoriesViewDelegate?
 
-    init(inputCategories: InputCategoriesDelegate, delegate: CategoriesViewDelegate) {
+    init(inputCategories: InputCategoriesDelegate,
+         delegate: CategoriesViewDelegate,
+         navigationController: UINavigationController) {
+
         super.init(frame: .zero)
 
         self.inputCategories = inputCategories
         self.delegate = delegate
+        self.categoriesCollectionView.setupNavigationController(navigationController)
 
         categoriesCollectionView.setupInputCategoriesDelegate(with: inputCategories)
         setVisualAppearance()
@@ -39,10 +47,10 @@ final class CategoriesView: UIView {
     }
 }
 
-// MARK: - methods
+// MARK: - open methods
 extension CategoriesView {
-    func setupNavigationController(_ navigationController: UINavigationController) {
-        self.categoriesCollectionView.setupNavigationController(navigationController)
+    func reloadData() {
+        categoriesCollectionView.reloadData()
     }
 }
 
@@ -50,7 +58,7 @@ extension CategoriesView {
 private extension CategoriesView {
     @objc
     func didTapAddNewCategoryLogo() {
-        let presentedController = BottomSheetViewController()
+        let presentedController = CatalogBottomSheetViewController(delegate: self)
         if let sheet = presentedController.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
@@ -60,7 +68,25 @@ private extension CategoriesView {
 
     @objc
     func didTapSortCategoriesLogo() {
-        print(#function)
+        let alertController = UIAlertController(title: "Сортировка категорий",
+                                                message: "Выберити в каком порядке отобразить категории",
+                                                preferredStyle: .alert)
+
+        let recentlyAddedAction = UIAlertAction(title: "Недавно добавленные", style: .default) { [weak self] _ in
+            self?.delegate?.sortByDateCreation()
+        }
+
+        let byNameAction = UIAlertAction(title: "Названию", style: .default) { [weak self] _ in
+            self?.delegate?.sortCategoryByName()
+        }
+
+        let cancelAction = UIAlertAction(title: "Вернуться", style: .cancel, handler: nil)
+        cancelAction.setValue(UIColor.systemRed, forKey: "titleTextColor")
+
+        alertController.addAction(recentlyAddedAction)
+        alertController.addAction(byNameAction)
+        alertController.addAction(cancelAction)
+        delegate?.presentViewController(alertController)
     }
 
     func setupAddNewCategoryLogoTapGesture() {
@@ -164,3 +190,10 @@ private extension CategoriesView {
     }
 }
 // swiftlint:enable nesting
+
+// MARK: - Protocol BottomSheetDelegate
+extension CategoriesView: BottomSheetDelegate {
+    func createCategory(with newCategory: CategoryUIModel) {
+        delegate?.createCategory(with: newCategory)
+    }
+}
