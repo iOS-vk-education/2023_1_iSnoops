@@ -24,10 +24,7 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
         setVisualAppearance()
         setTitleLabel()
         setLikeImageView()
-        titleLabel.text = "текст"
-        nativeTitle = "текст"
-        foreignTitle = "text"
-        likeImageView.image = UIImage(named: "Heart") ?? UIImage(systemName: "heart")
+
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
         self.addGestureRecognizer(tapGestureRecognizer)
         likeImageView.isUserInteractionEnabled = true
@@ -52,8 +49,16 @@ extension CategoryDetailCollectionViewCell {
 }
 // MARK: - methods
 extension CategoryDetailCollectionViewCell {
-    func setCategoryID(with id: Int) {
+    func cellConfigure(with id: Int, wordModel: WordModel) {
         switchBackgroundColor(with: id)
+        titleLabel.text = wordModel.words["ru"]
+        nativeTitle = wordModel.words["ru"]
+        foreignTitle = wordModel.words["en"]
+        if wordModel.isLearned == true {
+            likeImageView.image = UIImage(named: "Heart.fill") ?? UIImage(systemName: "heart.fill")
+        } else {
+            likeImageView.image = UIImage(named: "Heart") ?? UIImage(systemName: "heart")
+        }
     }
 }
 

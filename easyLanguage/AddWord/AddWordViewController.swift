@@ -1,5 +1,5 @@
 //
-//  CategoryDetailBottomSheetViewController.swift
+//  AddWordViewController.swift
 //  easyLanguage
 //
 //  Created by Grigoriy on 22.11.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CategoryDetailBottomSheetViewController: CustomViewController {
+class AddWordViewController: CustomViewController {
     private let visualBar = UIView()
     private let nativeLabel = UILabel()
     private let nativeField: UITextField = UITextField()
@@ -18,7 +18,7 @@ class CategoryDetailBottomSheetViewController: CustomViewController {
 }
 
 // MARK: - Life Circle
-extension CategoryDetailBottomSheetViewController {
+extension AddWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         [visualBar, nativeLabel, foreignLabel, nativeField, foreignField, addWordButton, dividingStripView].forEach {
@@ -37,7 +37,7 @@ extension CategoryDetailBottomSheetViewController {
 }
 
 // MARK: - private methods
-private extension CategoryDetailBottomSheetViewController {
+private extension AddWordViewController {
     func setVisualAppearance() {
         visualBar.layer.cornerRadius = 4
         visualBar.backgroundColor = .gray
@@ -142,7 +142,7 @@ private extension CategoryDetailBottomSheetViewController {
 
 // MARK: - Consts
 // swiftlint:disable nesting
-private extension CategoryDetailBottomSheetViewController {
+private extension AddWordViewController {
     struct Consts {
         struct NativeLabel {
             static let text: String = "Русский"

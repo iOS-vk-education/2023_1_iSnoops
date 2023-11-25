@@ -9,6 +9,7 @@ import Foundation
 
 final class CatalogModel {
     private let catalogNetworkManager = CatalogNetworkManager.shared
+    private let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
 
     func loadTopFiveWords(completion: @escaping (Result<[TopFiveWordsModel], Error>) -> Void) {
         catalogNetworkManager.getTopFiveWords { result in
@@ -29,18 +30,17 @@ final class CatalogModel {
     }
 
     func loadCategory(completion: @escaping (Result<[CategoryModel], Error>) -> Void) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
         catalogNetworkManager.getCategories { result in
             switch result {
             case .success(let categories):
                 let categoryModels = categories.map { category in
                     CategoryModel(
-                        categoryId: category.categoryId,
                         title: category.title,
-                        imageLink: category.imageLink ?? defaultImageLink,
+                        imageLink: category.imageLink,
                         studiedWordsCount: category.studiedWordsCount,
                         totalWordsCount: category.totalWordsCount,
-                        createdDate: category.createdDate
+                        createdDate: category.createdDate,
+                        linkedWordsId: category.linkedWordsId
                     )
                 }
                 completion(.success(categoryModels))
@@ -50,21 +50,41 @@ final class CatalogModel {
         }
     }
 
-    func createCategory(with newCategory: CategoryModel) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
-        let categoryApiModel = CategoryApiModel(categoryId: newCategory.categoryId,
-                                                title: newCategory.title,
-                                                imageLink: defaultImageLink,
-                                                studiedWordsCount: newCategory.studiedWordsCount,
-                                                totalWordsCount: newCategory.totalWordsCount,
-                                                createdDate: Date(),
-                                                words: nil)
-        CatalogNetworkManager.shared.postCategory(with: categoryApiModel) { result in
+    func loadCategoryModelLastId(completion: @escaping (Result<Int, Error>) -> Void) {
+        catalogNetworkManager.getCategoryModelLastId { result in
             switch result {
-            case .success:
-                print("Новая категория успешно добавлена!")
+            case .success(let categoryModelLastId):
+                completion(.success(categoryModelLastId))
             case .failure(let error):
-                print("Ошибка при добавлении новой категории: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func createCategory(with newCategory: CategoryModel) {
+        loadCategoryModelLastId { result in
+            switch result {
+            case .success(let lastCategoryId):
+                let newCategoryId = lastCategoryId + 1
+                let categoryApiModel = CategoryApiModel(
+                    categoryId: newCategoryId,
+                    title: newCategory.title,
+                    imageLink: self.defaultImageLink,
+                    studiedWordsCount: newCategory.studiedWordsCount,
+                    totalWordsCount: newCategory.totalWordsCount,
+                    createdDate: Date(),
+                    linkedWordsId: newCategory.linkedWordsId
+                )
+                CatalogNetworkManager.shared.postCategory(with: categoryApiModel) { result in
+                    switch result {
+                    case .success:
+                        print("Новая категория успешно добавлена!")
+                    case .failure(let error):
+                        print("Ошибка при добавлении новой категории: \(error.localizedDescription)")
+                    }
+                }
+            case .failure(let error):
+                print("Ошибка при загрузке последнего ID категории: \(error.localizedDescription)")
             }
         }
     }

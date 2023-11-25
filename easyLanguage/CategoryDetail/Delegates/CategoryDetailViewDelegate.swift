@@ -9,6 +9,6 @@ import UIKit
 
 extension CategoryDetailCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        inputWords?.wordsCount ?? 0
     }
 }

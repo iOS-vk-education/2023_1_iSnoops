@@ -10,6 +10,7 @@ import UIKit
 protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
+    func getLinkedWordsId(at index: Int) -> String
 }
 
 protocol InputTopFiveWordsDelegate: AnyObject {
@@ -72,12 +73,12 @@ private extension CatalogViewController {
             switch result {
             case .success(let data):
                 let categoryModel = data.map { category in
-                    CategoryModel(categoryId: category.categoryId,
-                                    title: category.title,
-                                    imageLink: category.imageLink,
-                                    studiedWordsCount: category.studiedWordsCount,
-                                    totalWordsCount: category.totalWordsCount,
-                                    createdDate: category.createdDate)
+                    CategoryModel(title: category.title,
+                                  imageLink: category.imageLink,
+                                  studiedWordsCount: category.studiedWordsCount,
+                                  totalWordsCount: category.totalWordsCount,
+                                  createdDate: category.createdDate,
+                                  linkedWordsId: category.linkedWordsId)
                 }
                 self.categoryModel = categoryModel
             case .failure(let error):
@@ -190,6 +191,10 @@ extension CatalogViewController: ProgressSetup {
 
 // MARK: - Protocol InputCategoriesDelegate
 extension CatalogViewController: InputCategoriesDelegate {
+    func getLinkedWordsId(at index: Int) -> String {
+        categoryModel[index].linkedWordsId
+    }
+
     var categoriesCount: Int {
         categoryModel.count
     }
@@ -210,7 +215,9 @@ extension CatalogViewController: InputCategoriesDelegate {
                         title: self.categoryModel[index].title,
                         image: UIImage(data: data),
                         studiedWordsCount: self.categoryModel[index].studiedWordsCount,
-                        totalWordsCount: self.categoryModel[index].totalWordsCount
+                        totalWordsCount: self.categoryModel[index].totalWordsCount,
+                        createdDate: self.categoryModel[index].createdDate,
+                        linkedWordsId: self.categoryModel[index].linkedWordsId
                     )
                 )
             case .failure(let error):
@@ -258,12 +265,12 @@ extension CatalogViewController: CategoriesViewDelegate {
 
     func createCategory(with newCategory: CategoryUIModel) {
         // FIXME: - надо вытащить categoryId
-        let newCategoryModel = CategoryModel(categoryId: 10,
-                                          title: newCategory.title,
-                                          imageLink: nil,
-                                          studiedWordsCount: newCategory.studiedWordsCount,
-                                          totalWordsCount: newCategory.totalWordsCount,
-                                          createdDate: Date())
+        let newCategoryModel = CategoryModel(title: newCategory.title,
+                                             imageLink: nil,
+                                             studiedWordsCount: newCategory.studiedWordsCount,
+                                             totalWordsCount: newCategory.totalWordsCount,
+                                             createdDate: newCategory.createdDate,
+                                             linkedWordsId: newCategory.linkedWordsId)
         model.createCategory(with: newCategoryModel)
         categoryModel.append(newCategoryModel)
         // FIXME: - возможно тут надо не reloadData всей коллекции а отедельной ячейки

@@ -8,11 +8,17 @@
 import UIKit
 
 final class CategoryDetailCollectionView: UICollectionView {
+    weak var inputWords: InputWordsDelegate?
+
     init() {
         let layout = UICollectionViewFlowLayout()
         super.init(frame: .zero, collectionViewLayout: layout)
         backgroundColor = .PrimaryColors.Background.background
         setupCollectionView()
+    }
+
+    func setupInputWordsDelegate(with inputWords: InputWordsDelegate?) {
+        self.inputWords = inputWords
     }
 
     required init?(coder: NSCoder) {

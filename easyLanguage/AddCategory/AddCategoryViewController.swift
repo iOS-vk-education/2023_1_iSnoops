@@ -1,5 +1,5 @@
 //
-//  BottomSheetViewController.swift
+//  AddCategoryViewController.swift
 //  CustomBottomSheet
 //
 //  Created by Grigoriy on 19.11.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CatalogBottomSheetViewController: CustomViewController {
+class AddCategoryViewController: CustomViewController {
     private let visualBar = UIView()
     private let addCategoryView = AddCategoryView()
     private let textField: UITextField = UITextField()
@@ -27,7 +27,7 @@ class CatalogBottomSheetViewController: CustomViewController {
 }
 
 // MARK: - Life Circle
-extension CatalogBottomSheetViewController {
+extension AddCategoryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         [visualBar, addCategoryView, addCategoryButton, textField].forEach {
@@ -47,7 +47,7 @@ extension CatalogBottomSheetViewController {
     }
 }
 
-private extension CatalogBottomSheetViewController {
+private extension AddCategoryViewController {
     @objc
     func didTapAddCategoryButton() {
         guard let enteredText = textField.text, !enteredText.isEmpty else {
@@ -59,7 +59,9 @@ private extension CatalogBottomSheetViewController {
         delegate?.createCategory(with: CategoryUIModel(title: ["ru": enteredText],
                                                        image: selectedImage,
                                                        studiedWordsCount: 0,
-                                                       totalWordsCount: 0))
+                                                       totalWordsCount: 0,
+                                                       createdDate: Date(),
+                                                       linkedWordsId: UUID().uuidString))
     }
 
     @objc
@@ -132,7 +134,7 @@ private extension CatalogBottomSheetViewController {
     }
 }
 // swiftlint:disable nesting
-private extension CatalogBottomSheetViewController {
+private extension AddCategoryViewController {
     struct Consts {
         struct TextField {
             static let text: String = "Название категории"

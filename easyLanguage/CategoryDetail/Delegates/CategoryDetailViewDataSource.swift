@@ -15,8 +15,11 @@ extension CategoryDetailCollectionView: UICollectionViewDataSource {
         else {
             return .init()
         }
-
-        cell.setCategoryID(with: 0)
+        let selectedCategory = inputWords?.selectedCategory ?? 0
+        inputWords?.item(at: indexPath.item, completion: { wordModel in
+            cell.cellConfigure(with: selectedCategory,
+                               wordModel: wordModel)
+        })
 
         return cell
     }

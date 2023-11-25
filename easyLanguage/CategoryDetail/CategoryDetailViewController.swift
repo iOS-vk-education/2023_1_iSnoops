@@ -7,29 +7,57 @@
 
 import UIKit
 
+protocol InputWordsDelegate: AnyObject {
+    var wordsCount: Int { get }
+    var selectedCategory: Int { get }
+    func item(at index: Int, completion: @escaping (WordModel) -> Void)
+}
+
 final class CategoryDetailViewController: CustomViewController {
-    var selectedItem: Int?
+    var selectedItem: Int = 0
+    var categoryDetailTitle = ""
+    var linkedWordsId: String = ""
     private let categoryDetailCollectionView = CategoryDetailCollectionView()
+    private let model = CategoryDetailModel()
+    private var wordsModel: [WordModel] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(categoryDetailCollectionView)
         setCategoryDetailCollectionView()
-        title = "title"
+        title = categoryDetailTitle
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                 style: .done,
                                                 target: self,
                                                 action: #selector(addButtonTapped))
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        loadWords()
+        categoryDetailCollectionView.setupInputWordsDelegate(with: self)
     }
 }
 
 // MARK: - private methods
 private extension CategoryDetailViewController {
+    func loadWords() {
+        model.loadWords(with: linkedWordsId) { [weak self] result in
+            guard let self = self else {
+                print("[DEBUG]: \(#function) guard self error")
+                return
+            }
+
+            switch result {
+            case .success(let data):
+                self.wordsModel = data
+            case .failure(let error):
+                print("[DEBUG]: \(#function), \(error.localizedDescription)")
+            }
+        }
+    }
+
     @objc
     func addButtonTapped() {
-        let presentedController = CategoryDetailBottomSheetViewController()
+        let presentedController = AddWordViewController()
         if let sheet = presentedController.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
@@ -58,3 +86,22 @@ private extension CategoryDetailViewController {
     }
 }
 // swiftlint:enable nesting
+
+// MARK: - Protocol InputWordsDelegate
+extension CategoryDetailViewController: InputWordsDelegate {
+    var selectedCategory: Int {
+        selectedItem
+    }
+    
+    var wordsCount: Int {
+        wordsModel.count
+    }
+
+    func item(at index: Int, completion: @escaping (WordModel) -> Void) {
+        let wordModel = WordModel(linkedWordsId: self.wordsModel[index].linkedWordsId,
+                                  words: self.wordsModel[index].words,
+                                  isLearned: self.wordsModel[index].isLearned,
+                                  createdDate: self.wordsModel[index].createdDate)
+        completion(wordModel)
+    }
+}

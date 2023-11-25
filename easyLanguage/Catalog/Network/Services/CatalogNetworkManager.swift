@@ -11,12 +11,17 @@ protocol CatalogNetworkManagerProtocol {
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
     func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void)
     func postCategory(with newCategory: CategoryApiModel, completion: @escaping (Result<Void, Error>) -> Void)
+    func getCategoryModelLastId(completion: @escaping (Result<Int, Error>) -> Void)
 }
 
 final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
 
     static let shared = CatalogNetworkManager()
     private init() {}
+
+    func getCategoryModelLastId(completion: @escaping (Result<Int, Error>) -> Void) {
+        completion(.success(MockData.categoryModelLastId))
+    }
 
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void) {
         completion(.success(MockData.topFiveWords))

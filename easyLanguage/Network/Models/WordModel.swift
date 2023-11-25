@@ -1,14 +1,13 @@
 //
-//  WordApiModel.swift
+//  WordModel.swift
 //  easyLanguage
 //
-//  Created by Grigoriy on 22.11.2023.
+//  Created by Grigoriy on 25.11.2023.
 //
 
 import Foundation
 
-struct WordApiModel: Codable {
-    let wordId: Int // PK
+struct WordModel {
     let linkedWordsId: String // Связующий идентификатор для связи с категорией
     let words: [String: String]
     let isLearned: Bool

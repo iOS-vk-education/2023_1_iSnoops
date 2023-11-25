@@ -58,7 +58,7 @@ extension CategoriesView {
 private extension CategoriesView {
     @objc
     func didTapAddNewCategoryLogo() {
-        let presentedController = CatalogBottomSheetViewController(delegate: self)
+        let presentedController = AddCategoryViewController(delegate: self)
         if let sheet = presentedController.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
