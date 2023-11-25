@@ -18,7 +18,7 @@ protocol InputTopFiveWordsDelegate: AnyObject {
 }
 
 protocol ProgressSetup {
-    func setupAllLeanedWords()
+    func setupAllLearnedWords()
     func setupWordsInProgress()
 }
 
@@ -46,7 +46,7 @@ class CatalogViewController: CustomViewController {
         setProgressView()
         setTopFiveView()
         setCategoriesView()
-        setupAllLeanedWords()
+        setupAllLearnedWords()
         setupWordsInProgress()
     }
 }
@@ -99,24 +99,24 @@ private extension CatalogViewController {
     func setProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.topAnchor.constraint(equalTo: scrollView.topAnchor,
-                                          constant: UIConstants.ProgressView.top).isActive = true
+                                          constant: UIConstants.ProgressView.padding).isActive = true
         progressView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                           constant: UIConstants.ProgressView.left).isActive = true
+                                           constant: UIConstants.ProgressView.padding).isActive = true
         progressView.rightAnchor.constraint(equalTo: scrollView.rightAnchor,
-                                            constant: -UIConstants.ProgressView.right).isActive = true
+                                            constant: -UIConstants.ProgressView.padding).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
-                                            constant: -UIConstants.ProgressView.width).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressView.height).isActive = true
+                                            constant: -UIConstants.ProgressView.padding * 2).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: view.frame.height / 17).isActive = true
     }
 
     func setTopFiveView() {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
         topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
-                                         constant: UIConstants.TopFiveView.top).isActive = true
+                                         constant: UIConstants.TopFiveView.margin).isActive = true
         topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                          constant: UIConstants.TopFiveView.left).isActive = true
+                                          constant: UIConstants.TopFiveView.margin).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
-        topFiveView.heightAnchor.constraint(equalToConstant: UIConstants.TopFiveView.height).isActive = true
+        topFiveView.heightAnchor.constraint(equalToConstant: view.frame.height / 4.5).isActive = true
     }
 
     func setCategoriesView() {
@@ -141,18 +141,11 @@ private extension CatalogViewController {
 private extension CatalogViewController {
     struct UIConstants {
         struct ProgressView {
-            static let top: CGFloat = 18.0
-            static let bottom: CGFloat = 18.0
-            static let left: CGFloat = 18.0
-            static let right: CGFloat = 18.0
-            static let width: CGFloat = 36.0
-            static let height: CGFloat = 50.0
+            static let padding: CGFloat = 18.0
         }
 
         struct TopFiveView {
-            static let top: CGFloat = 18.0
-            static let left: CGFloat = 18.0
-            static let height: CGFloat = 189.0
+            static let margin: CGFloat = 18.0
         }
 
         struct CategoriesView {
@@ -163,7 +156,7 @@ private extension CatalogViewController {
 
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
-    func setupAllLeanedWords() {
+    func setupAllLearnedWords() {
         progressView.setupAllWords(count: 120) // должна с бека сумма всех слов приходить
     }
 

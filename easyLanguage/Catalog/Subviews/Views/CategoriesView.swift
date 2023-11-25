@@ -82,9 +82,9 @@ private extension CategoriesView {
         categoriesCollectionView.topAnchor.constraint(equalTo: addNewCategoryLogo.bottomAnchor, constant:
                                                         UIConstants.CategoriesCollectionView.top).isActive = true
         categoriesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant:
-                                               UIConstants.CategoriesCollectionView.leading).isActive = true
+                                               UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant:
-                                               -UIConstants.CategoriesCollectionView.trailing).isActive = true
+                                               -UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 }
@@ -121,8 +121,7 @@ private extension CategoriesView {
 
         struct CategoriesCollectionView {
             static let top: CGFloat = 10.0
-            static let leading: CGFloat = 18.0
-            static let trailing: CGFloat = 18.0
+            static let horizontally: CGFloat = 18.0
         }
     }
 }
