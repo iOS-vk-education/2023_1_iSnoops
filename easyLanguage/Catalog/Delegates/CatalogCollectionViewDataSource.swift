@@ -40,10 +40,10 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let categoryDetailVC = CategoryDetailViewController()
-        categoryDetailVC.selectedItem = indexPath.item
-//        categoryDetailVC.categoryDetailTitle =
-        categoryDetailVC.linkedWordsId = inputCategories?.getLinkedWordsId(at: indexPath.item) ?? ""
-        navigationController?.pushViewController(categoryDetailVC, animated: true)
+        let categoryDetailViewController = CategoryDetailViewController()
+        categoryDetailViewController.selectedItem = indexPath.item
+        categoryDetailViewController.categoryDetailTitle = inputCategories?.getTitle(at: indexPath.item) ?? ""
+        categoryDetailViewController.linkedWordsId = inputCategories?.getLinkedWordsId(at: indexPath.item) ?? ""
+        navigationController?.pushViewController(categoryDetailViewController, animated: true)
     }
 }

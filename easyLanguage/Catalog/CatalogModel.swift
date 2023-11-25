@@ -50,14 +50,9 @@ final class CatalogModel {
         }
     }
 
-    func loadCategoryModelLastId(completion: @escaping (Result<Int, Error>) -> Void) {
+    private func loadCategoryModelLastId(completion: @escaping (Result<Int, Error>) -> Void) {
         catalogNetworkManager.getCategoryModelLastId { result in
-            switch result {
-            case .success(let categoryModelLastId):
-                completion(.success(categoryModelLastId))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(result)
         }
     }
 
@@ -69,13 +64,14 @@ final class CatalogModel {
                 let categoryApiModel = CategoryApiModel(
                     categoryId: newCategoryId,
                     title: newCategory.title,
-                    imageLink: self.defaultImageLink,
+                    imageLink: self.defaultImageLink, //FIXME: weak self
                     studiedWordsCount: newCategory.studiedWordsCount,
                     totalWordsCount: newCategory.totalWordsCount,
                     createdDate: Date(),
                     linkedWordsId: newCategory.linkedWordsId
                 )
-                CatalogNetworkManager.shared.postCategory(with: categoryApiModel) { result in
+                //FIXME: weak self
+                self.catalogNetworkManager.postCategory(with: categoryApiModel) { result in
                     switch result {
                     case .success:
                         print("Новая категория успешно добавлена!")

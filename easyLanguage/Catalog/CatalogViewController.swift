@@ -11,6 +11,7 @@ protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
     func getLinkedWordsId(at index: Int) -> String
+    func getTitle(at index: Int) -> String
 }
 
 protocol InputTopFiveWordsDelegate: AnyObject {
@@ -191,6 +192,10 @@ extension CatalogViewController: ProgressSetup {
 
 // MARK: - Protocol InputCategoriesDelegate
 extension CatalogViewController: InputCategoriesDelegate {
+    func getTitle(at index: Int) -> String {
+        categoryModel[index].title["ru"] ?? "title"
+    }
+
     func getLinkedWordsId(at index: Int) -> String {
         categoryModel[index].linkedWordsId
     }
@@ -264,7 +269,6 @@ extension CatalogViewController: CategoriesViewDelegate {
     }
 
     func createCategory(with newCategory: CategoryUIModel) {
-        // FIXME: - надо вытащить categoryId
         let newCategoryModel = CategoryModel(title: newCategory.title,
                                              imageLink: nil,
                                              studiedWordsCount: newCategory.studiedWordsCount,

@@ -92,7 +92,7 @@ extension CategoryDetailViewController: InputWordsDelegate {
     var selectedCategory: Int {
         selectedItem
     }
-    
+
     var wordsCount: Int {
         wordsModel.count
     }

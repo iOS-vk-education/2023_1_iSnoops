@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0710CB262AF2B3B400F5478E /* CustomViewController.swift */; };
-		0710CB442AF3A7B400F5478E /* Color + init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0710CB432AF3A7B400F5478E /* Color + init.swift */; };
+		0710CB442AF3A7B400F5478E /* Color + extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0710CB432AF3A7B400F5478E /* Color + extensions.swift */; };
 		0717C0AC2AE84CA700C140C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0AB2AE84CA700C140C9 /* AppDelegate.swift */; };
 		0717C0AE2AE84CA700C140C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0AD2AE84CA700C140C9 /* SceneDelegate.swift */; };
 		0717C0B52AE84CA900C140C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0717C0B42AE84CA900C140C9 /* Assets.xcassets */; };
@@ -55,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		0710CB262AF2B3B400F5478E /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
-		0710CB432AF3A7B400F5478E /* Color + init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + init.swift"; sourceTree = "<group>"; };
+		0710CB432AF3A7B400F5478E /* Color + extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + extensions.swift"; sourceTree = "<group>"; };
 		0717C0A82AE84CA700C140C9 /* easyLanguage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = easyLanguage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0717C0AB2AE84CA700C140C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0717C0AD2AE84CA700C140C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -196,7 +196,7 @@
 		0717C0C82AE8527500C140C9 /* Color */ = {
 			isa = PBXGroup;
 			children = (
-				0710CB432AF3A7B400F5478E /* Color + init.swift */,
+				0710CB432AF3A7B400F5478E /* Color + extensions.swift */,
 				07EF04C82AFBE9C20095DECB /* Color + configurations.swift */,
 				07EF04CA2AFBEC3F0095DECB /* ColorModeManager.swift */,
 			);
@@ -536,7 +536,7 @@
 				07C6FF8D2B0B6576005BA3BF /* ImagePicker.swift in Sources */,
 				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
 				075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */,
-				0710CB442AF3A7B400F5478E /* Color + init.swift in Sources */,
+				0710CB442AF3A7B400F5478E /* Color + extensions.swift in Sources */,
 				07F1BEA42AF82BB500F50845 /* Font.swift in Sources */,
 				07F1BE982AF8299900F50845 /* ProgressView.swift in Sources */,
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,

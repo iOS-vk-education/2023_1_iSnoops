@@ -14,6 +14,7 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
     private var nativeTitle: String?
     private var foreignTitle: String?
     private var isFlipped = false
+    private var isliked: Bool = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -47,6 +48,7 @@ extension CategoryDetailCollectionViewCell {
         titleLabel.text = nil
     }
 }
+
 // MARK: - methods
 extension CategoryDetailCollectionViewCell {
     func cellConfigure(with id: Int, wordModel: WordModel) {
@@ -54,16 +56,27 @@ extension CategoryDetailCollectionViewCell {
         titleLabel.text = wordModel.words["ru"]
         nativeTitle = wordModel.words["ru"]
         foreignTitle = wordModel.words["en"]
-        if wordModel.isLearned == true {
-            likeImageView.image = UIImage(named: "Heart.fill") ?? UIImage(systemName: "heart.fill")
-        } else {
-            likeImageView.image = UIImage(named: "Heart") ?? UIImage(systemName: "heart")
-        }
+        isliked = wordModel.isLearned
+        updateLike(with: wordModel.isLearned)
     }
 }
 
 // MARK: - private methods
 private extension CategoryDetailCollectionViewCell {
+    @objc
+    private func didTabLikeImageView() {
+        isliked.toggle()
+        updateLike(with: isliked)
+    }
+
+    func updateLike(with isLearned: Bool) {
+        if isLearned == true {
+            likeImageView.image = UIImage(named: "Heart.fill") ?? UIImage(systemName: "heart.fill")
+        } else {
+            likeImageView.image = UIImage(named: "Heart") ?? UIImage(systemName: "heart")
+        }
+    }
+
     func switchBackgroundColor(with selectedItem: Int) {
         let textColor: UIColor
         let backgroundColor: UIColor
@@ -97,11 +110,6 @@ private extension CategoryDetailCollectionViewCell {
         let modifiedBackgroundColor = UIColor.generateRandomSimilarColor(from: backgroundColor)
         self.backgroundColor = modifiedBackgroundColor
    }
-
-    @objc
-    func didTabLikeImageView() {
-        likeImageView.image = UIImage(named: "Heart.fill") ?? UIImage(systemName: "heart.fill")!
-    }
 
     @objc
     func didTabTopFiveView() {

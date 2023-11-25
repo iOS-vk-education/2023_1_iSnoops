@@ -166,21 +166,8 @@ private extension AddWordViewController {
             static let top: CGFloat = 10.0
             static let height: CGFloat = 8.0
         }
-
-        struct TextField {
-            static let leading: CGFloat = 37.0
-            static let trailing: CGFloat = 37.0
-            static let height: CGFloat = 60.0
-        }
-
         struct DividingStripView {
             static let height: CGFloat = 1.0
-        }
-
-        struct AddCategoryButton {
-            static let leading: CGFloat = 37.0
-            static let trailing: CGFloat = 37.0
-            static let height: CGFloat = 60.0
         }
     }
 }
