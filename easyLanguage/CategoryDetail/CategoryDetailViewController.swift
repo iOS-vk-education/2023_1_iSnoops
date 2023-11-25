@@ -13,10 +13,14 @@ protocol InputWordsDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (WordModel) -> Void)
 }
 
+protocol AddNewWordDelegate: AnyObject {
+    func createWord(with newWord: WordModel)
+}
+
 final class CategoryDetailViewController: CustomViewController {
     var selectedItem: Int = 0
     var categoryDetailTitle = ""
-    var linkedWordsId: String = ""
+    var linkedWordsId = ""
     private let categoryDetailCollectionView = CategoryDetailCollectionView()
     private let model = CategoryDetailModel()
     private var wordsModel: [WordModel] = []
@@ -57,7 +61,8 @@ private extension CategoryDetailViewController {
 
     @objc
     func addButtonTapped() {
-        let presentedController = AddWordViewController()
+        let presentedController = AddWordViewController(delegate: self)
+        presentedController.setLinkedWordsId(with: linkedWordsId)
         if let sheet = presentedController.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
@@ -103,5 +108,14 @@ extension CategoryDetailViewController: InputWordsDelegate {
                                   isLearned: self.wordsModel[index].isLearned,
                                   createdDate: self.wordsModel[index].createdDate)
         completion(wordModel)
+    }
+}
+
+// MARK: - Protocol AddNewWordDelegate
+extension CategoryDetailViewController: AddNewWordDelegate {
+    func createWord(with newWord: WordModel) {
+        model.createWord(with: newWord, categoryId: selectedItem)
+        wordsModel.append(newWord)
+        categoryDetailCollectionView.categoryDetailCollectionViewReloadData()
     }
 }

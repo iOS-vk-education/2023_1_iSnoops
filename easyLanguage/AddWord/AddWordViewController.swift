@@ -15,6 +15,17 @@ class AddWordViewController: CustomViewController {
     private let foreignLabel = UILabel()
     private let foreignField: UITextField = UITextField()
     private let addWordButton: UIButton = UIButton()
+    weak var delegate: AddNewWordDelegate?
+    private var linkedWordsId: String = ""
+
+    init(delegate: AddNewWordDelegate) {
+        super.init(nibName: nil, bundle: nil)
+        self.delegate = delegate
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Life Circle
@@ -33,11 +44,41 @@ extension AddWordViewController {
         setForeignLabel()
         setForeignField()
         setAddWordButton()
+        addWordButton.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
+    }
+}
+
+// MARK: - methods
+extension AddWordViewController {
+    func setLinkedWordsId(with linkedWordsId: String) {
+        self.linkedWordsId = linkedWordsId
     }
 }
 
 // MARK: - private methods
 private extension AddWordViewController {
+    @objc
+    func didTabButton() {
+        guard let nativeText = nativeField.text, !nativeText.isEmpty else {
+            print("TextField is empty")
+            // сделать проверку на существующую категорию
+            // пробрасывать ошибку, если возможно
+            return
+        }
+
+        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
+            print("TextField is empty")
+            // сделать проверку на существующую категорию
+            // пробрасывать ошибку, если возможно
+            return
+        }
+
+        delegate?.createWord(with: WordModel(linkedWordsId: linkedWordsId,
+                                             words: ["ru": nativeText, "en": foreignText],
+                                             isLearned: false,
+                                             createdDate: Date()))
+    }
+
     func setVisualAppearance() {
         visualBar.layer.cornerRadius = 4
         visualBar.backgroundColor = .gray

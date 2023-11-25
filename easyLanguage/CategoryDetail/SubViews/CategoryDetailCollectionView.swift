@@ -16,6 +16,10 @@ final class CategoryDetailCollectionView: UICollectionView {
         backgroundColor = .PrimaryColors.Background.background
         setupCollectionView()
     }
+    
+    func categoryDetailCollectionViewReloadData() {
+        self.reloadData()
+    }
 
     func setupInputWordsDelegate(with inputWords: InputWordsDelegate?) {
         self.inputWords = inputWords
