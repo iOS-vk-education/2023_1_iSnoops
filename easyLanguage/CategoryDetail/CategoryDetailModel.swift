@@ -15,7 +15,8 @@ final class CategoryDetailModel {
             switch result {
             case .success(let wordsApiModel):
                 let wordsModel = wordsApiModel.map { word in
-                    WordModel(linkedWordsId: word.linkedWordsId,
+                    WordModel(wordId: word.wordId,
+                              linkedWordsId: word.linkedWordsId,
                               words: word.words,
                               isLearned: word.isLearned,
                               createdDate: word.createdDate)
@@ -27,32 +28,48 @@ final class CategoryDetailModel {
         }
     }
 
-    private func loadWordModelLastId(with categoryId: Int, completion: @escaping (Result<Int, Error>) -> Void) {
-        categoryDetailNetworkManager.getWordLastId(with: categoryId) { result in
+    private func loadWordModelLastId(completion: @escaping (Result<Int, Error>) -> Void) {
+        categoryDetailNetworkManager.getWordLastId { result in
             completion(result)
         }
     }
 
-    func createWord(with newWord: WordModel, categoryId: Int) {
-        loadWordModelLastId(with: categoryId) { result in
+    func createWord(with newWord: WordModel, completion: @escaping (Result<WordModel, Error>) -> Void) {
+        loadWordModelLastId { [weak self] result in
             switch result {
-            case .success(let lastWordId): //FIXME: weak self
+            case .success(let lastWordId):
                 let newLastWordId = lastWordId + 1
                 let wordApiModel =  WordApiModel(wordId: newLastWordId,
                                                  linkedWordsId: newWord.linkedWordsId,
                                                  words: newWord.words,
                                                  isLearned: newWord.isLearned,
                                                  createdDate: newWord.createdDate)
-                self.categoryDetailNetworkManager.postWord(with: wordApiModel) { result in
+                self?.categoryDetailNetworkManager.postWord(with: wordApiModel) { result in
                     switch result {
                     case .success:
                         print("Новое слово успешно добавлено!")
+                        completion(.success(WordModel(wordId: newLastWordId,
+                                                      linkedWordsId: newWord.linkedWordsId,
+                                                      words: newWord.words,
+                                                      isLearned: newWord.isLearned,
+                                                      createdDate: newWord.createdDate)))
                     case .failure(let error):
                         print("Ошибка при добавлении нового слова: \(error.localizedDescription)")
                     }
                 }
             case .failure(let error):
                 print("Ошибка при загрузке последнего ID слова: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func reloadLike(with wordId: Int, completion: @escaping (Result<Bool, Error>) -> Void) {
+        categoryDetailNetworkManager.putIsLearned(with: wordId) { result in
+            switch result {
+            case .success(let didLoadisLearned):
+                completion(.success(didLoadisLearned))
+            case .failure(let error):
+                print("Ошибка изменения состояния лайка: \(error.localizedDescription)")
             }
         }
     }

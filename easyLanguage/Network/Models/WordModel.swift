@@ -8,6 +8,7 @@
 import Foundation
 
 struct WordModel {
+    let wordId: Int?
     let linkedWordsId: String // Связующий идентификатор для связи с категорией
     let words: [String: String]
     let isLearned: Bool

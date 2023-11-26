@@ -57,21 +57,21 @@ final class CatalogModel {
     }
 
     func createCategory(with newCategory: CategoryModel) {
-        loadCategoryModelLastId { result in
+        loadCategoryModelLastId {  [weak self] result in
             switch result {
             case .success(let lastCategoryId):
                 let newCategoryId = lastCategoryId + 1
                 let categoryApiModel = CategoryApiModel(
                     categoryId: newCategoryId,
                     title: newCategory.title,
-                    imageLink: self.defaultImageLink, //FIXME: weak self
+                    imageLink: self?.defaultImageLink,
                     studiedWordsCount: newCategory.studiedWordsCount,
                     totalWordsCount: newCategory.totalWordsCount,
                     createdDate: Date(),
                     linkedWordsId: newCategory.linkedWordsId
                 )
-                //FIXME: weak self
-                self.catalogNetworkManager.postCategory(with: categoryApiModel) { result in
+
+                self?.catalogNetworkManager.postCategory(with: categoryApiModel) { result in
                     switch result {
                     case .success:
                         print("Новая категория успешно добавлена!")

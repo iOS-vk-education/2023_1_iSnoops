@@ -73,7 +73,8 @@ private extension AddWordViewController {
             return
         }
 
-        delegate?.createWord(with: WordModel(linkedWordsId: linkedWordsId,
+        delegate?.createWord(with: WordModel(wordId: nil,
+                                             linkedWordsId: linkedWordsId,
                                              words: ["ru": nativeText, "en": foreignText],
                                              isLearned: false,
                                              createdDate: Date()))

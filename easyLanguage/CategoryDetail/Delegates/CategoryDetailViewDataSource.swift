@@ -15,7 +15,9 @@ extension CategoryDetailCollectionView: UICollectionViewDataSource {
         else {
             return .init()
         }
+
         let selectedCategory = inputWords?.selectedCategory ?? 0
+        cell.setChangeLikeStatеDelegate(with: self.changeLikeStatеDelegate!) //FIXME: убрать force unwrap
         inputWords?.item(at: indexPath.item, completion: { wordModel in
             cell.cellConfigure(with: selectedCategory,
                                wordModel: wordModel)

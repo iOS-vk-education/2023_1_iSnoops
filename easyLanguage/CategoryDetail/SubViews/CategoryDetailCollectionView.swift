@@ -9,6 +9,7 @@ import UIKit
 
 final class CategoryDetailCollectionView: UICollectionView {
     weak var inputWords: InputWordsDelegate?
+    weak var changeLikeStatеDelegate: ChangeLikeStatеDelegate?
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -16,13 +17,17 @@ final class CategoryDetailCollectionView: UICollectionView {
         backgroundColor = .PrimaryColors.Background.background
         setupCollectionView()
     }
-    
+
     func categoryDetailCollectionViewReloadData() {
         self.reloadData()
     }
 
     func setupInputWordsDelegate(with inputWords: InputWordsDelegate?) {
         self.inputWords = inputWords
+    }
+
+    func setupChangeLikeStatеDelegate(with changeLikeStatеDelegate: ChangeLikeStatеDelegate?) {
+        self.changeLikeStatеDelegate = changeLikeStatеDelegate
     }
 
     required init?(coder: NSCoder) {

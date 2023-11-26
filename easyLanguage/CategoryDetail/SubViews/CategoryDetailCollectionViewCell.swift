@@ -14,7 +14,8 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
     private var nativeTitle: String?
     private var foreignTitle: String?
     private var isFlipped = false
-    private var isliked: Bool = false
+    private var wordModel: WordModel?
+    weak var delegate: ChangeLikeStatеDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,28 +53,35 @@ extension CategoryDetailCollectionViewCell {
 // MARK: - methods
 extension CategoryDetailCollectionViewCell {
     func cellConfigure(with id: Int, wordModel: WordModel) {
+        self.wordModel = wordModel
         switchBackgroundColor(with: id)
         titleLabel.text = wordModel.words["ru"]
         nativeTitle = wordModel.words["ru"]
         foreignTitle = wordModel.words["en"]
-        isliked = wordModel.isLearned
         updateLike(with: wordModel.isLearned)
+    }
+
+    func setChangeLikeStatеDelegate(with delegate: ChangeLikeStatеDelegate) {
+        self.delegate = delegate
     }
 }
 
 // MARK: - private methods
 private extension CategoryDetailCollectionViewCell {
     @objc
-    private func didTabLikeImageView() {
-        isliked.toggle()
-        updateLike(with: isliked)
+    func didTabLikeImageView() {
+        guard let wordModel = wordModel else {
+            return
+        }
+        delegate?.changeIsLiked(with: wordModel.wordId ?? 0)
+        updateLike(with: !wordModel.isLearned)
     }
 
     func updateLike(with isLearned: Bool) {
         if isLearned == true {
-            likeImageView.image = UIImage(named: "Heart.fill") ?? UIImage(systemName: "heart.fill")
+            likeImageView.image = UIImage(named: "Heart.fill")
         } else {
-            likeImageView.image = UIImage(named: "Heart") ?? UIImage(systemName: "heart")
+            likeImageView.image = UIImage(named: "Heart")
         }
     }
 

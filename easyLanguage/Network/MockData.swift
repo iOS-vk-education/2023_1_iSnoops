@@ -86,13 +86,9 @@ struct MockData {
         WordApiModel(wordId: 25, linkedWordsId: categoryModel[4].linkedWordsId, words: ["ru": "Дом", "en": "Home"],  isLearned: true, createdDate: Date())
         ]
 
-    static let categoryModelLastId: Int = categoryModel.last?.categoryId ?? 0
-    static func wordModelLastId(with categoryModelId: Int) -> Int? {
-        guard let lastCategory = categoryModel.last(where: { $0.categoryId == categoryModelId }) else {
-            return nil
-        }
-
-        return wordModel.last(where: { $0.linkedWordsId == lastCategory.linkedWordsId })?.wordId
+    static let categoryModelLastId: Int = categoryModel.last?.categoryId ?? 0 //FIXME: categoryModelLastId
+    static var wordModelLastId: Int {
+        return wordModel.map { $0.wordId }.max() ?? 0
     }
 }
 // swiftlint:enable all

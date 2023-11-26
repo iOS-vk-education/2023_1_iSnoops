@@ -17,8 +17,12 @@ protocol AddNewWordDelegate: AnyObject {
     func createWord(with newWord: WordModel)
 }
 
+protocol ChangeLikeStatеDelegate: AnyObject {
+    func changeIsLiked(with wordId: Int)
+}
+
 final class CategoryDetailViewController: CustomViewController {
-    var selectedItem: Int = 0
+    var selectedItem: Int = 0 // FIXME: создать open func для установки значений а их сделать private
     var categoryDetailTitle = ""
     var linkedWordsId = ""
     private let categoryDetailCollectionView = CategoryDetailCollectionView()
@@ -38,6 +42,7 @@ final class CategoryDetailViewController: CustomViewController {
         navigationItem.rightBarButtonItem = rightBarButtonItem
         loadWords()
         categoryDetailCollectionView.setupInputWordsDelegate(with: self)
+        categoryDetailCollectionView.setupChangeLikeStatеDelegate(with: self)
     }
 }
 
@@ -103,7 +108,8 @@ extension CategoryDetailViewController: InputWordsDelegate {
     }
 
     func item(at index: Int, completion: @escaping (WordModel) -> Void) {
-        let wordModel = WordModel(linkedWordsId: self.wordsModel[index].linkedWordsId,
+        let wordModel = WordModel(wordId: self.wordsModel[index].wordId,
+                                  linkedWordsId: self.wordsModel[index].linkedWordsId,
                                   words: self.wordsModel[index].words,
                                   isLearned: self.wordsModel[index].isLearned,
                                   createdDate: self.wordsModel[index].createdDate)
@@ -114,8 +120,52 @@ extension CategoryDetailViewController: InputWordsDelegate {
 // MARK: - Protocol AddNewWordDelegate
 extension CategoryDetailViewController: AddNewWordDelegate {
     func createWord(with newWord: WordModel) {
-        model.createWord(with: newWord, categoryId: selectedItem)
-        wordsModel.append(newWord)
-        categoryDetailCollectionView.categoryDetailCollectionViewReloadData()
+        model.createWord(with: newWord) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let newDataWithId):
+                self.wordsModel.append(newDataWithId)
+                self.categoryDetailCollectionView.categoryDetailCollectionViewReloadData()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+}
+
+extension CategoryDetailViewController: ChangeLikeStatеDelegate {
+    func changeIsLiked(with wordId: Int) {
+        model.reloadLike(with: wordId) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let isLearned):
+                guard let index = self.wordsModel.firstIndex(where: { $0.wordId == wordId }) else {
+                    return
+                }
+                let newWordModel = WordModel(wordId: self.wordsModel[index].wordId,
+                                             linkedWordsId: self.wordsModel[index].linkedWordsId,
+                                             words: self.wordsModel[index].words,
+                                             isLearned: isLearned,
+                                             createdDate: self.wordsModel[index].createdDate)
+                self.wordsModel.remove(at: index)
+                self.wordsModel.insert(newWordModel, at: index)
+
+                self.categoryDetailCollectionView.performBatchUpdates {
+                    guard let cell = self.categoryDetailCollectionView.cellForItem(
+                        at: IndexPath(item: index, section: 0)) as? CategoryDetailCollectionViewCell
+                    else {
+                        return
+                    }
+                    let selectedCategory = self.categoryDetailCollectionView.inputWords?.selectedCategory ?? 0
+                    cell.cellConfigure(with: selectedCategory, wordModel: newWordModel)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }

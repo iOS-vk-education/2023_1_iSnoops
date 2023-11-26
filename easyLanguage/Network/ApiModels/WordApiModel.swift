@@ -11,6 +11,6 @@ struct WordApiModel: Codable {
     let wordId: Int // PK
     let linkedWordsId: String // Связующий идентификатор для связи с категорией
     let words: [String: String]
-    let isLearned: Bool
+    var isLearned: Bool
     let createdDate: Date
 }
