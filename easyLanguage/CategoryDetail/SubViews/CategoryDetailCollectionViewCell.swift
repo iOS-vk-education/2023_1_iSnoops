@@ -16,6 +16,7 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
     private var isFlipped = false
     private var wordModel: WordModel?
     weak var delegate: ChangeLikeStatеDelegate?
+    private var cellBackgroundColor: UIColor?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,7 +56,9 @@ extension CategoryDetailCollectionViewCell {
 extension CategoryDetailCollectionViewCell {
     func cellConfigure(with id: Int, wordModel: WordModel) {
         self.wordModel = wordModel
-        switchBackgroundColor(with: id)
+        if cellBackgroundColor == nil {
+            switchBackgroundColor(with: id)
+        }
         nativeTitle = wordModel.words["ru"]
         foreignTitle = wordModel.words["en"]
         updateLike(with: wordModel.isLearned)
@@ -87,41 +90,18 @@ private extension CategoryDetailCollectionViewCell {
     }
 
     func updateLike(with isLearned: Bool) {
-        likeImageView.image = UIImage(named: isLearned ? "Heart.fill" : "Heart")
+        likeImageView.image = UIImage(named: isLearned ? Constants.heartFilled : Constants.heartEmpty)
     }
 
     func switchBackgroundColor(with selectedItem: Int) {
-        let textColor: UIColor
-        let backgroundColor: UIColor
-        switch (selectedItem) % 8 {
-        case 0:
-            backgroundColor = .Catalog.Green.categoryBackground
-            textColor = .Catalog.Green.categoryText
-        case 1:
-            backgroundColor = .Catalog.Purple.categoryBackground
-            textColor = .Catalog.Purple.categoryText
-        case 2:
-            backgroundColor = .Catalog.LightYellow.categoryBackground
-            textColor = .Catalog.LightYellow.categoryText
-        case 3:
-            backgroundColor = .Catalog.Yellow.categoryBackground
-            textColor = .Catalog.Yellow.categoryText
-        case 4:
-            backgroundColor = .Catalog.Red.categoryBackground
-            textColor = .Catalog.Red.categoryText
-        case 5:
-            backgroundColor = .Catalog.Blue.categoryBackground
-            textColor = .Catalog.Blue.categoryText
-        case 6:
-            backgroundColor = .Catalog.Cyan.categoryBackground
-            textColor = .Catalog.Cyan.categoryText
-        default:
-            backgroundColor = .Catalog.Pink.categoryBackground
-            textColor = .Catalog.Pink.categoryText
-        }
+        let index = selectedItem % Constants.backgroundColors.count
+        let textColor = Constants.textColors[index]
+        let backgroundColor = Constants.backgroundColors[index]
+
         titleLabel.textColor = textColor
         let modifiedBackgroundColor = UIColor.generateRandomSimilarColor(from: backgroundColor)
         self.backgroundColor = modifiedBackgroundColor
+        cellBackgroundColor = modifiedBackgroundColor
    }
 
     @objc
@@ -169,6 +149,28 @@ private extension CategoryDetailCollectionViewCell {
 // MARK: - Constants
 // swiftlint:disable nesting
 private extension CategoryDetailCollectionViewCell {
+    struct Constants {
+        static let heartEmpty = "Heart"
+        static let heartFilled = "Heart.fill"
+        static let backgroundColors: [UIColor] = [.Catalog.Green.categoryBackground,
+                                         .Catalog.Purple.categoryBackground,
+                                         .Catalog.LightYellow.categoryBackground,
+                                         .Catalog.Yellow.categoryBackground,
+                                         .Catalog.Red.categoryBackground,
+                                         .Catalog.Blue.categoryBackground,
+                                         .Catalog.Cyan.categoryBackground,
+                                         .Catalog.Pink.categoryBackground]
+
+        static let textColors: [UIColor] = [.Catalog.Green.categoryText,
+                                             .Catalog.Purple.categoryText,
+                                             .Catalog.LightYellow.categoryText,
+                                             .Catalog.Yellow.categoryText,
+                                             .Catalog.Red.categoryText,
+                                             .Catalog.Blue.categoryText,
+                                             .Catalog.Cyan.categoryText,
+                                             .Catalog.Pink.categoryText]
+    }
+
     struct UIConstants {
         struct TitleLabel {
             static let padding: CGFloat = 10.0
