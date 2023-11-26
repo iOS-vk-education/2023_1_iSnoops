@@ -44,6 +44,7 @@ extension AddWordViewController {
         setForeignLabel()
         setForeignField()
         setAddWordButton()
+        setDismissKeyboard()
         addWordButton.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
     }
 }
@@ -78,6 +79,19 @@ private extension AddWordViewController {
                                              words: ["ru": nativeText, "en": foreignText],
                                              isLearned: false,
                                              createdDate: Date()))
+
+        nativeField.text = nil
+        foreignField.text = nil
+        self.dismiss(animated: true)
+    }
+
+    func setDismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     func setVisualAppearance() {
@@ -101,6 +115,8 @@ private extension AddWordViewController {
         addWordButton.setTitle(Consts.AddWordButton.title, for: .normal)
         addWordButton.backgroundColor = .PrimaryColors.Button.blue
         addWordButton.layer.cornerRadius = 16
+
+        foreignField.keyboardType = .asciiCapable
     }
 
     func setVisualBar() {

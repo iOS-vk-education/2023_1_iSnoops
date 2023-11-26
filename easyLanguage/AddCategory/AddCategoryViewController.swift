@@ -39,7 +39,7 @@ extension AddCategoryViewController {
         setAddCategoryButton()
         setAddCategoryView()
         setVisualBar()
-
+        setDismissKeyboard()
         addCategoryView.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddCategoryView))
         addCategoryView.addGestureRecognizer(tapGesture)
@@ -56,12 +56,15 @@ private extension AddCategoryViewController {
             // пробрасывать ошибку, если возможно
             return
         }
+
         delegate?.createCategory(with: CategoryUIModel(title: ["ru": enteredText],
                                                        image: selectedImage,
                                                        studiedWordsCount: 0,
                                                        totalWordsCount: 0,
                                                        createdDate: Date(),
                                                        linkedWordsId: UUID().uuidString))
+        textField.text = nil
+        self.dismiss(animated: true)
     }
 
     @objc
@@ -69,6 +72,15 @@ private extension AddCategoryViewController {
         imagePicker.showImagePicker(with: self) { image in
             self.didSelectImage(image)
         }
+    }
+
+    func setDismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     func didSelectImage(_ image: UIImage) {
