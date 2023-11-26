@@ -29,6 +29,7 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
         self.addGestureRecognizer(tapGestureRecognizer)
+
         likeImageView.isUserInteractionEnabled = true
         let likeTapGestureRecognizer =  UITapGestureRecognizer(target: self, action: #selector(didTabLikeImageView))
         likeImageView.addGestureRecognizer(likeTapGestureRecognizer)
@@ -55,10 +56,10 @@ extension CategoryDetailCollectionViewCell {
     func cellConfigure(with id: Int, wordModel: WordModel) {
         self.wordModel = wordModel
         switchBackgroundColor(with: id)
-        titleLabel.text = wordModel.words["ru"]
         nativeTitle = wordModel.words["ru"]
         foreignTitle = wordModel.words["en"]
         updateLike(with: wordModel.isLearned)
+        updateTitleLabel()
     }
 
     func setChangeLikeStatеDelegate(with delegate: ChangeLikeStatеDelegate) {
@@ -68,6 +69,14 @@ extension CategoryDetailCollectionViewCell {
 
 // MARK: - private methods
 private extension CategoryDetailCollectionViewCell {
+    func updateTitleLabel() {
+        if isFlipped {
+            titleLabel.text = nativeTitle
+        } else {
+            titleLabel.text = foreignTitle
+        }
+    }
+
     @objc
     func didTabLikeImageView() {
         guard let wordModel = wordModel else {
@@ -78,11 +87,7 @@ private extension CategoryDetailCollectionViewCell {
     }
 
     func updateLike(with isLearned: Bool) {
-        if isLearned == true {
-            likeImageView.image = UIImage(named: "Heart.fill")
-        } else {
-            likeImageView.image = UIImage(named: "Heart")
-        }
+        likeImageView.image = UIImage(named: isLearned ? "Heart.fill" : "Heart")
     }
 
     func switchBackgroundColor(with selectedItem: Int) {
@@ -122,15 +127,10 @@ private extension CategoryDetailCollectionViewCell {
     @objc
     func didTabTopFiveView() {
         let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
-
-        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: {
-            if self.isFlipped {
-                self.titleLabel.text = self.nativeTitle
-            } else {
-                self.titleLabel.text = self.foreignTitle
-            }
-        })
         isFlipped = !isFlipped
+        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in
+            self?.updateTitleLabel()
+        })
     }
 
     func setVisualAppearance() {
