@@ -16,7 +16,7 @@ final class CategoriesView: UIView {
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
     weak var inputCategories: InputCategoriesDelegate?
-    let categoriesCollectionView = CategoriesCollectionView()
+    let categoriesCollectionView = CategoriesCollectionView() //FIXME: сделать private
     weak var delegate: CategoriesViewDelegate?
 
     init(inputCategories: InputCategoriesDelegate,

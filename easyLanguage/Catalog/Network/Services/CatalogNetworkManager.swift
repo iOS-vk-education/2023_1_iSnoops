@@ -18,6 +18,21 @@ final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
 
     static let shared = CatalogNetworkManager()
     private init() {}
+    //    let studiedWordsCount: Int
+    //    let totalWordsCount: Int
+    func getTotalWordsCount(with linkedWordsId: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        let totalWordsCount = MockData.wordModel.filter {
+            $0.linkedWordsId == linkedWordsId
+        }.count
+        completion(.success(totalWordsCount))
+    }
+
+    func getStudiedWordsCount(with linkedWordsId: String, completion: @escaping (Result<Int, Error>) -> Void) {
+        let studiedWordsCount = MockData.wordModel.filter {
+            $0.linkedWordsId == linkedWordsId && $0.isLearned == true
+        }.count
+        completion(.success(studiedWordsCount))
+    }
 
     func getCategoryModelLastId(completion: @escaping (Result<Int, Error>) -> Void) {
         completion(.success(MockData.categoryModelLastId))

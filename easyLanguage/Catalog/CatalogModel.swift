@@ -29,16 +29,51 @@ final class CatalogModel {
         }
     }
 
-    func loadCategory(completion: @escaping (Result<[CategoryModel], Error>) -> Void) {
+    private func loadTotalWordsCount(with linkedWordsId: String, completion: @escaping (Int) -> Void) {
+        catalogNetworkManager.getTotalWordsCount(with: linkedWordsId) { result in
+            switch result {
+            case .success(let loadTotalWordsCount):
+                completion(loadTotalWordsCount)
+            case .failure(let error):
+                print(error)
+                completion(0)
+            }
+        }
+     }
+
+    private func loadStudiedWordsCount(with linkedWordsId: String, completion: @escaping (Int) -> Void) {
+        catalogNetworkManager.getStudiedWordsCount(with: linkedWordsId) { result in
+            switch result {
+            case .success(let loadTotalWordsCount):
+                completion(loadTotalWordsCount)
+            case .failure(let error):
+                print(error)
+                completion(0)
+            }
+        }
+     }
+
+    func loadCategories(completion: @escaping (Result<[CategoryModel], Error>) -> Void) {
         catalogNetworkManager.getCategories { result in
             switch result {
             case .success(let categories):
-                let categoryModels = categories.map { category in
-                    CategoryModel(
+                var totalCount = 0
+                var studiedCount = 0
+                //FIXME: добавить dispatchgroup который будет ждать результат выполнения
+                let categoryModels = categories.map { [weak self] category in
+                    self?.loadTotalWordsCount(with: category.linkedWordsId, completion: { totalWordsCount in
+                        totalCount = totalWordsCount
+                    })
+
+                    self?.loadStudiedWordsCount(with: category.linkedWordsId, completion: { studiedWordsCount in
+                        studiedCount = studiedWordsCount
+                    })
+
+                    return CategoryModel(
                         title: category.title,
                         imageLink: category.imageLink,
-                        studiedWordsCount: category.studiedWordsCount,
-                        totalWordsCount: category.totalWordsCount,
+                        studiedWordsCount: studiedCount,
+                        totalWordsCount: totalCount,
                         createdDate: category.createdDate,
                         linkedWordsId: category.linkedWordsId
                     )
@@ -65,8 +100,8 @@ final class CatalogModel {
                     categoryId: newCategoryId,
                     title: newCategory.title,
                     imageLink: self?.defaultImageLink,
-                    studiedWordsCount: newCategory.studiedWordsCount,
-                    totalWordsCount: newCategory.totalWordsCount,
+//                    studiedWordsCount: newCategory.studiedWordsCount,
+//                    totalWordsCount: newCategory.totalWordsCount,
                     createdDate: Date(),
                     linkedWordsId: newCategory.linkedWordsId
                 )

@@ -18,7 +18,7 @@ class AddWordViewController: CustomViewController {
     weak var delegate: AddNewWordDelegate?
     private var linkedWordsId: String = ""
 
-    init(delegate: AddNewWordDelegate) {
+    init(delegate: AddNewWordDelegate?) {
         super.init(nibName: nil, bundle: nil)
         self.delegate = delegate
     }
@@ -79,7 +79,7 @@ private extension AddWordViewController {
                                              words: ["ru": nativeText, "en": foreignText],
                                              isLearned: false,
                                              createdDate: Date()))
-
+        CatalogViewController().updateTotalCountWords(with: linkedWordsId)
         nativeField.text = nil
         foreignField.text = nil
         self.dismiss(animated: true)

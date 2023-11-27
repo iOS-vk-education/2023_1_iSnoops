@@ -31,6 +31,11 @@ protocol CategoriesViewDelegate: AnyObject {
     func createCategory(with newCategory: CategoryUIModel)
 }
 
+protocol UpdateCountWords {
+    func updateTotalCountWords(with linkedWordsId: String)
+    func updateLearnedCountWords(with linkedWordsId: String)
+}
+
 class CatalogViewController: CustomViewController {
     private let imageManager = ImageManager.shared
     private let model = CatalogModel()
@@ -67,7 +72,7 @@ class CatalogViewController: CustomViewController {
 // MARK: - private methods
 private extension CatalogViewController {
     func loadCategories() {
-        model.loadCategory { [weak self] result in
+        model.loadCategories { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -254,7 +259,7 @@ extension CatalogViewController: CategoriesViewDelegate {
         present(viewController, animated: true)
     }
 
-    func updateCollectionView() {
+    private func updateCollectionView() {
         let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
         // performBatchUpdates - для атомарного обновления ( одна неделимая единица)пкш
         categoriesView.categoriesCollectionView.performBatchUpdates({
@@ -287,11 +292,12 @@ extension CatalogViewController: CategoriesViewDelegate {
         updateCollectionView()
     }
 
-
     func createCategory(with newCategory: CategoryUIModel) {
         let newItemIndex = categoriesView.categoriesCollectionView.inputCategories?.categoriesCount ?? 0
+        let imageLink = newCategory.image?.pngData()?.base64EncodedString() //FIXME: не работает тк нужно сохранить сначала в бд, чтобы там создалась imageLink, которую из Data() можно преобразовать
+        // тут нужно будет дергать метод, который закидвает это в БД
         let newCategoryModel = CategoryModel(title: newCategory.title,
-                                             imageLink: nil,
+                                             imageLink: imageLink,
                                              studiedWordsCount: newCategory.studiedWordsCount,
                                              totalWordsCount: newCategory.totalWordsCount,
                                              createdDate: newCategory.createdDate,
@@ -307,5 +313,27 @@ extension CatalogViewController: CategoriesViewDelegate {
 
     private func updateCategoriesViewHeight() {
         categoriesViewHeightConstraint?.constant = calculateCategoriesViewHeight()
+    }
+}
+
+// MARK: - Protocol UpdateCountWords
+extension CatalogViewController: UpdateCountWords {
+    func updateTotalCountWords(with linkedWordsId: String) {
+        print(linkedWordsId)
+        print(categoryModel)
+        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
+            print("Updated totalWordsCount: \(categoryModel[index].totalWordsCount)")
+            let indexPath = IndexPath(item: index, section: 0)
+//            categoriesView.categoriesCollectionView.reloadData()
+            categoriesView.categoriesCollectionView.reloadItems(at: [indexPath])
+            print("categoriesView.categoriesCollectionView")
+        }
+        print("updateTotalCountWords")
+    }
+
+    func updateLearnedCountWords(with linkedWordsId: String) {
+//        let studiedWordsCount = categoryModel.filter {
+//            $0.linkedWordsId == linkedWordsId && $0.isLearned == true
+//        }.count
     }
 }

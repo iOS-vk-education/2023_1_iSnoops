@@ -14,7 +14,7 @@ class AddCategoryViewController: CustomViewController {
     private let addCategoryButton: UIButton = UIButton()
     private let imagePicker = ImagePicker()
     var selectedImage: UIImage?
-    weak var delegate: AddNewCategoryDelegate? //FIXME: name исправить
+    weak var delegate: AddNewCategoryDelegate?
 
     init(delegate: AddNewCategoryDelegate) {
         super.init(nibName: nil, bundle: nil)
