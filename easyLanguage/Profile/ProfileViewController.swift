@@ -15,9 +15,13 @@ import UIKit
 final class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate{
     
     private let line = UIView()
+    private let firstNameBackgroundView = UIView()
+    private let lastNameBackgroundView = UIView()
     private let imageView = UIImageView()
     private let firstNameTextField = UITextField()
     private let lastNameTextField = UITextField()
+    private let firstNameLabel = UILabel()
+    private var lastNameLabel = UILabel()
     private let labelUnderTextField = UILabel()
     private let labelTheme = UILabel()
     private let progressView = ProgressView()
@@ -37,6 +41,26 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
         
         view.addSubview(scrollView)
         setScrollView()
+        
+        [firstNameBackgroundView, lastNameBackgroundView].forEach {
+            scrollView.addSubview($0)
+        }
+        
+        [firstNameBackgroundView, lastNameBackgroundView].forEach {
+            $0.layer.cornerRadius = 10
+            $0.layer.borderColor = UIColor.tertiarySystemFill.cgColor
+            $0.layer.borderWidth = 1
+        }
+        
+        firstNameLabel.text = "Арсений"
+        lastNameLabel.text = "Чистяков"
+        
+        firstNameBackgroundView.addSubview(firstNameLabel)
+        lastNameBackgroundView.addSubview(lastNameLabel)
+
+        
+        scrollView.addSubview(firstNameLabel)
+        scrollView.addSubview(firstNameLabel)
         
         line.backgroundColor = .tertiarySystemFill
         view.addSubview(line)
@@ -65,16 +89,19 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         imageView.addGestureRecognizer(tapGesture)
         
-        firstNameTextField.placeholder = "Введите имя"
-        firstNameTextField.borderStyle = .roundedRect
-        firstNameTextField.delegate = self
-        scrollView.addSubview(firstNameTextField)
+        // MOCKMOCKMOCK
         
-        lastNameTextField.placeholder = "Введите фамилию"
-        lastNameTextField.borderStyle = .roundedRect
-        lastNameTextField.delegate = self
-//        lastNameTextField.layer.borderColor = UIColor.systemPink.cgColor
-        scrollView.addSubview(lastNameTextField)
+//        firstNameTextField.placeholder = "Введите имя"
+//        firstNameTextField.borderStyle = .roundedRect
+//        firstNameTextField.delegate = self
+//        scrollView.addSubview(firstNameTextField)
+//        
+//        lastNameTextField.placeholder = "Введите фамилию"
+//        lastNameTextField.borderStyle = .roundedRect
+//        lastNameTextField.delegate = self
+////        lastNameTextField.layer.borderColor = UIColor.systemPink.cgColor
+//        scrollView.addSubview(lastNameTextField)
+        
         
         labelTheme.text = "Тема оформления"
         labelTheme.textAlignment = .center
@@ -110,19 +137,48 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
                                  height: 130)
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         
-        firstNameTextField.frame = CGRect(x: 20,
-                            y: Int(imageView.frame.maxY) + 30,
-                            width: Int(scrollView.bounds.width) - 40,
-                            height: 35)
+        firstNameBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        firstNameBackgroundView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 30).isActive = true
+        firstNameBackgroundView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
+        firstNameBackgroundView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40).isActive = true
+        firstNameBackgroundView.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        lastNameTextField.frame = 
-        CGRect(x: 20, y: Int(firstNameTextField.bounds.maxY + imageView.frame.maxY) + 35,
-               width: Int(scrollView.bounds.width) - 40, height: 35)
+        firstNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        firstNameLabel.topAnchor.constraint(equalTo: firstNameBackgroundView.topAnchor).isActive = true
+        firstNameLabel.leftAnchor.constraint(equalTo: firstNameBackgroundView.leftAnchor, constant: 5).isActive = true
+        firstNameLabel.widthAnchor.constraint(equalTo: firstNameBackgroundView.widthAnchor).isActive = true
+        firstNameLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        labelUnderTextField.frame = CGRect(x: 25, y: Int(lastNameTextField.frame.maxY) + 3, width: Int(scrollView.bounds.width) - 40, height: 30)
+        lastNameBackgroundView.translatesAutoresizingMaskIntoConstraints = false
+        lastNameBackgroundView.topAnchor.constraint(equalTo: firstNameBackgroundView.bottomAnchor, constant: 5).isActive = true
+        lastNameBackgroundView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
+        lastNameBackgroundView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40).isActive = true
+        lastNameBackgroundView.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
+        lastNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        lastNameLabel.topAnchor.constraint(equalTo: lastNameBackgroundView.topAnchor).isActive = true
+        lastNameLabel.leftAnchor.constraint(equalTo: lastNameBackgroundView.leftAnchor, constant: 5).isActive = true
+        lastNameLabel.widthAnchor.constraint(equalTo: lastNameBackgroundView.widthAnchor).isActive = true
+        lastNameLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
+        
+//        lastNameLabel.frame =
+//        CGRect(x: 20, y: Int(firstNameLabel.bounds.maxY + imageView.frame.maxY) + 35,
+//               width: Int(scrollView.bounds.width) - 40, height: 35)
+        
+        labelUnderTextField.translatesAutoresizingMaskIntoConstraints = false
+        labelUnderTextField.topAnchor.constraint(equalTo: lastNameBackgroundView.bottomAnchor, constant: 3).isActive = true
+        labelUnderTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 25).isActive = true
+        labelUnderTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40).isActive = true
+        labelUnderTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        
+//        labelUnderTextField.frame = CGRect(x: 25, y: Int(lastNameBackgroundView.frame.maxY) + 3, width: Int(scrollView.bounds.width) - 40, height: 30)
+        
+        labelTheme.translatesAutoresizingMaskIntoConstraints = false
         
         labelTheme.frame = CGRect(x: 0, y: progressView.frame.maxY + 25, width: scrollView.bounds.width, height: 30)
-        print(labelTheme.frame.maxY)
+        
+        
         setProgressView()
         arrangeViews()
     }
@@ -174,7 +230,7 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
                                           constant: 65).isActive = true
         progressView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
                                            constant: 20).isActive = true
-        progressView.rightAnchor.constraint(equalTo: view.rightAnchor,
+        progressView.rightAnchor.constraint(equalTo: scrollView.rightAnchor,
                                             constant: -20).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
                                             constant: -40).isActive = true
