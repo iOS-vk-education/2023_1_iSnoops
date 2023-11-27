@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol BottomSheetDelegate: AnyObject {
+protocol AddNewCategoryDelegate: AnyObject {
     func createCategory(with newCategory: CategoryUIModel)
 }
 
@@ -44,13 +44,6 @@ final class CategoriesView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - open methods
-extension CategoriesView {
-    func reloadData() {
-        categoriesCollectionView.reloadData()
     }
 }
 
@@ -192,7 +185,7 @@ private extension CategoriesView {
 // swiftlint:enable nesting
 
 // MARK: - Protocol BottomSheetDelegate
-extension CategoriesView: BottomSheetDelegate {
+extension CategoriesView: AddNewCategoryDelegate {
     func createCategory(with newCategory: CategoryUIModel) {
         delegate?.createCategory(with: newCategory)
     }

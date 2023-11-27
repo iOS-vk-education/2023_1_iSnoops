@@ -14,9 +14,9 @@ class AddCategoryViewController: CustomViewController {
     private let addCategoryButton: UIButton = UIButton()
     private let imagePicker = ImagePicker()
     var selectedImage: UIImage?
-    weak var delegate: BottomSheetDelegate? //FIXME: name исправить
+    weak var delegate: AddNewCategoryDelegate? //FIXME: name исправить
 
-    init(delegate: BottomSheetDelegate) {
+    init(delegate: AddNewCategoryDelegate) {
         super.init(nibName: nil, bundle: nil)
         self.delegate = delegate
     }
@@ -69,8 +69,8 @@ private extension AddCategoryViewController {
 
     @objc
     func didTapAddCategoryView() {
-        imagePicker.showImagePicker(with: self) { image in
-            self.didSelectImage(image)
+        imagePicker.showImagePicker(with: self) { [weak self] image in
+            self?.didSelectImage(image)
         }
     }
 

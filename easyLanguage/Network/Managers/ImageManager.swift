@@ -20,7 +20,9 @@ final class ImageManager: ImageManagerDescription {
     static let shared = ImageManager()
     private init() {}
 
-    private let networkImageQueue = DispatchQueue(label: "networkImageQueue", attributes: .concurrent)
+    private let networkImageQueue = DispatchQueue(label: "networkImageQueue",
+                                                  qos: .userInteractive,
+                                                  attributes: .concurrent)
 
     func loadImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let mainTreadCompletion: (Result<Data, Error>) -> Void = { result in

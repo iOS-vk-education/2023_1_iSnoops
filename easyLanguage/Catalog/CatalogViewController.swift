@@ -254,21 +254,42 @@ extension CatalogViewController: CategoriesViewDelegate {
         present(viewController, animated: true)
     }
 
+    func updateCollectionView() {
+        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
+        // performBatchUpdates - для атомарного обновления ( одна неделимая единица)пкш
+        categoriesView.categoriesCollectionView.performBatchUpdates({
+            for newIndex in indexPathsToUpdate {
+                // Обновление данных в ячейках
+                if let cell = categoriesView.categoriesCollectionView.cellForItem(at: newIndex)
+                    as? CategoryCollectionViewCell {
+                    categoriesView.categoriesCollectionView.inputCategories?
+                        .item(at: newIndex.item) { categoryUIModel in
+                        cell.cellConfigure(with: categoryUIModel, at: newIndex.item)
+                    }
+                }
+            }
+        })
+    }
+
     func sortCategoryByName() {
         categoryModel.sort {
             $0.title["ru"]! < $1.title["ru"]!
         }
-        categoriesView.reloadData()
+
+        updateCollectionView()
     }
 
     func sortByDateCreation() {
         categoryModel.sort {
             $0.createdDate > $1.createdDate
         }
-        categoriesView.reloadData()
+
+        updateCollectionView()
     }
 
+
     func createCategory(with newCategory: CategoryUIModel) {
+        let newItemIndex = categoriesView.categoriesCollectionView.inputCategories?.categoriesCount ?? 0
         let newCategoryModel = CategoryModel(title: newCategory.title,
                                              imageLink: nil,
                                              studiedWordsCount: newCategory.studiedWordsCount,
@@ -277,8 +298,10 @@ extension CatalogViewController: CategoriesViewDelegate {
                                              linkedWordsId: newCategory.linkedWordsId)
         model.createCategory(with: newCategoryModel)
         categoryModel.append(newCategoryModel)
-        // FIXME: - возможно тут надо не reloadData всей коллекции а отедельной ячейки
-        categoriesView.reloadData()
+
+        let indexPath = IndexPath(item: newItemIndex, section: 0)
+        categoriesView.categoriesCollectionView.insertItems(at: [indexPath])
+
         updateCategoriesViewHeight()
     }
 

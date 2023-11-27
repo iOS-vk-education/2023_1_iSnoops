@@ -74,9 +74,9 @@ extension CategoryDetailCollectionViewCell {
 private extension CategoryDetailCollectionViewCell {
     func updateTitleLabel() {
         if isFlipped {
-            titleLabel.text = nativeTitle
-        } else {
             titleLabel.text = foreignTitle
+        } else {
+            titleLabel.text = nativeTitle
         }
     }
 
@@ -150,8 +150,8 @@ private extension CategoryDetailCollectionViewCell {
 // swiftlint:disable nesting
 private extension CategoryDetailCollectionViewCell {
     struct Constants {
-        static let heartEmpty = "Heart"
-        static let heartFilled = "Heart.fill"
+        static let heartEmpty = "Star"
+        static let heartFilled = "Star.fill"
         static let backgroundColors: [UIColor] = [.Catalog.Green.categoryBackground,
                                          .Catalog.Purple.categoryBackground,
                                          .Catalog.LightYellow.categoryBackground,

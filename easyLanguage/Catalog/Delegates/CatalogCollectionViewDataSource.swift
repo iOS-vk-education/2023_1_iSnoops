@@ -33,7 +33,7 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
             return .init()
         }
         inputCategories?.item(at: indexPath.item) { categoryUIModel in
-            cell.cellConfigure(with: categoryUIModel, at: indexPath)
+            cell.cellConfigure(with: categoryUIModel, at: indexPath.item)
         }
 
         return cell
