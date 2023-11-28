@@ -32,7 +32,6 @@ final class CategoryDetailViewController: CustomViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("CategoryDetailViewController", updateCountWordsDelegate)
         view.addSubview(categoryDetailCollectionView)
         setCategoryDetailCollectionView()
         title = categoryDetailTitle
@@ -166,8 +165,12 @@ extension CategoryDetailViewController: ChangeLikeStatеDelegate {
                     cell.cellConfigure(with: selectedCategory, wordModel: newWordModel)
                 }
 
-                isLearned ? self.updateCountWordsDelegate?.updateLearnedCountWordsAdd(with: newWordModel.linkedWordsId)
-                : self.updateCountWordsDelegate?.updateLearnedCountWordsSubtract(with: newWordModel.linkedWordsId)
+                if isLearned {
+                    self.updateCountWordsDelegate?.updateLearnedCountWordsAdd(with: newWordModel.linkedWordsId)
+                } else {
+                    self.updateCountWordsDelegate?.updateLearnedCountWordsSubtract(with: newWordModel.linkedWordsId)
+                }
+
             case .failure(let error):
                 print(error)
             }
