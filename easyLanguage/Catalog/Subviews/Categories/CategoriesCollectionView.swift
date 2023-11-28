@@ -9,6 +9,7 @@ import UIKit
 
 final class CategoriesCollectionView: UICollectionView {
     weak var inputCategories: InputCategoriesDelegate?
+    weak var updateCountWordsDelegate: UpdateCountWordsDelegate?
     weak var navigationController: UINavigationController?
 
     init() {
@@ -21,6 +22,10 @@ final class CategoriesCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupCollectionView()
+    }
+
+    func setupUpdateCountWordsDelegate(with updateCountWordsDelegate: UpdateCountWordsDelegate?) {
+        self.updateCountWordsDelegate = updateCountWordsDelegate
     }
 
     func setupInputCategoriesDelegate(with inputCategories: InputCategoriesDelegate?) {

@@ -22,6 +22,7 @@ protocol ChangeLikeStatеDelegate: AnyObject {
 }
 
 final class CategoryDetailViewController: CustomViewController {
+    weak var updateCountWordsDelegate: UpdateCountWordsDelegate?
     var selectedItem: Int = 0 // FIXME: создать open func для установки значений а их сделать private
     var categoryDetailTitle = ""
     var linkedWordsId = ""
@@ -31,7 +32,7 @@ final class CategoryDetailViewController: CustomViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("CategoryDetailViewController", updateCountWordsDelegate)
         view.addSubview(categoryDetailCollectionView)
         setCategoryDetailCollectionView()
         title = categoryDetailTitle
@@ -128,6 +129,7 @@ extension CategoryDetailViewController: AddNewWordDelegate {
             case .success(let newDataWithId):
                 self.wordsModel.append(newDataWithId)
                 self.categoryDetailCollectionView.categoryDetailCollectionViewReloadData()
+                self.updateCountWordsDelegate?.updateTotalCountWords(with: newDataWithId.linkedWordsId)
             case .failure(let error):
                 print(error)
             }
@@ -163,6 +165,9 @@ extension CategoryDetailViewController: ChangeLikeStatеDelegate {
                     let selectedCategory = self.categoryDetailCollectionView.inputWords?.selectedCategory ?? 0
                     cell.cellConfigure(with: selectedCategory, wordModel: newWordModel)
                 }
+
+                isLearned ? self.updateCountWordsDelegate?.updateLearnedCountWordsAdd(with: newWordModel.linkedWordsId)
+                : self.updateCountWordsDelegate?.updateLearnedCountWordsSubtract(with: newWordModel.linkedWordsId)
             case .failure(let error):
                 print(error)
             }

@@ -79,7 +79,7 @@ private extension AddWordViewController {
                                              words: ["ru": nativeText, "en": foreignText],
                                              isLearned: false,
                                              createdDate: Date()))
-        CatalogViewController().updateTotalCountWords(with: linkedWordsId)
+//        CatalogViewController().updateTotalCountWords(with: linkedWordsId)
         nativeField.text = nil
         foreignField.text = nil
         self.dismiss(animated: true)

@@ -42,6 +42,7 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let categoryDetailViewController = CategoryDetailViewController()
         categoryDetailViewController.selectedItem = indexPath.item
+        categoryDetailViewController.updateCountWordsDelegate = self.updateCountWordsDelegate
         categoryDetailViewController.categoryDetailTitle = inputCategories?.getTitle(at: indexPath.item) ?? ""
         categoryDetailViewController.linkedWordsId = inputCategories?.getLinkedWordsId(at: indexPath.item) ?? ""
         navigationController?.pushViewController(categoryDetailViewController, animated: true)

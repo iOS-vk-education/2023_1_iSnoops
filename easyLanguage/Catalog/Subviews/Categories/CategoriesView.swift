@@ -18,18 +18,22 @@ final class CategoriesView: UIView {
     weak var inputCategories: InputCategoriesDelegate?
     let categoriesCollectionView = CategoriesCollectionView() //FIXME: сделать private
     weak var delegate: CategoriesViewDelegate?
+    weak var updateCountWordsDelegate: UpdateCountWordsDelegate?
 
     init(inputCategories: InputCategoriesDelegate,
          delegate: CategoriesViewDelegate,
+         updateCountWordsDelegate: UpdateCountWordsDelegate?,
          navigationController: UINavigationController) {
 
         super.init(frame: .zero)
 
         self.inputCategories = inputCategories
         self.delegate = delegate
+        self.updateCountWordsDelegate = updateCountWordsDelegate
         self.categoriesCollectionView.setupNavigationController(navigationController)
 
         categoriesCollectionView.setupInputCategoriesDelegate(with: inputCategories)
+        categoriesCollectionView.setupUpdateCountWordsDelegate(with: updateCountWordsDelegate)
         setVisualAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
             self.addSubview($0)

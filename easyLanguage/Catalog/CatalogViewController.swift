@@ -31,9 +31,10 @@ protocol CategoriesViewDelegate: AnyObject {
     func createCategory(with newCategory: CategoryUIModel)
 }
 
-protocol UpdateCountWords {
+protocol UpdateCountWordsDelegate: AnyObject {
     func updateTotalCountWords(with linkedWordsId: String)
-    func updateLearnedCountWords(with linkedWordsId: String)
+    func updateLearnedCountWordsAdd(with linkedWordsId: String)
+    func updateLearnedCountWordsSubtract(with linkedWordsId: String)
 }
 
 final class CatalogViewController: CustomViewController {
@@ -48,6 +49,7 @@ final class CatalogViewController: CustomViewController {
     private lazy var categoriesView = CategoriesView(
                                                 inputCategories: self,
                                                 delegate: self,
+                                                updateCountWordsDelegate: self,
                                                 navigationController: navigationController ?? UINavigationController())
     private var categoriesViewHeightConstraint: NSLayoutConstraint?
 
@@ -317,23 +319,28 @@ extension CatalogViewController: CategoriesViewDelegate {
 }
 
 // MARK: - Protocol UpdateCountWords
-extension CatalogViewController: UpdateCountWords {
+extension CatalogViewController: UpdateCountWordsDelegate {
     func updateTotalCountWords(with linkedWordsId: String) {
-        print(linkedWordsId)
-        print(categoryModel)
         if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
-            print("Updated totalWordsCount: \(categoryModel[index].totalWordsCount)")
+            categoryModel[index].totalWordsCount += 1
             let indexPath = IndexPath(item: index, section: 0)
-//            categoriesView.categoriesCollectionView.reloadData()
             categoriesView.categoriesCollectionView.reloadItems(at: [indexPath])
-            print("categoriesView.categoriesCollectionView")
         }
-        print("updateTotalCountWords")
     }
 
-    func updateLearnedCountWords(with linkedWordsId: String) {
-//        let studiedWordsCount = categoryModel.filter {
-//            $0.linkedWordsId == linkedWordsId && $0.isLearned == true
-//        }.count
+    func updateLearnedCountWordsAdd(with linkedWordsId: String) {
+        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
+            categoryModel[index].studiedWordsCount += 1
+            let indexPath = IndexPath(item: index, section: 0)
+            categoriesView.categoriesCollectionView.reloadItems(at: [indexPath])
+        }
+    }
+
+    func updateLearnedCountWordsSubtract(with linkedWordsId: String) {
+        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
+            categoryModel[index].studiedWordsCount -= 1
+            let indexPath = IndexPath(item: index, section: 0)
+            categoriesView.categoriesCollectionView.reloadItems(at: [indexPath])
+        }
     }
 }
