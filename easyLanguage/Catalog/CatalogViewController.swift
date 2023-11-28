@@ -36,7 +36,7 @@ protocol UpdateCountWords {
     func updateLearnedCountWords(with linkedWordsId: String)
 }
 
-class CatalogViewController: CustomViewController {
+final class CatalogViewController: CustomViewController {
     private let imageManager = ImageManager.shared
     private let model = CatalogModel()
     private var categoryModel: [CategoryModel] = []
