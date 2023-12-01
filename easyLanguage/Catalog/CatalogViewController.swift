@@ -45,7 +45,6 @@ final class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    // FIXME: - возможно не надо self 2 раза передавать
     private lazy var categoriesView = CategoriesView(
                                                 inputCategories: self,
                                                 delegate: self,
@@ -261,29 +260,12 @@ extension CatalogViewController: CategoriesViewDelegate {
         present(viewController, animated: true)
     }
 
-    private func updateCollectionView() {
-        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
-        // performBatchUpdates - для атомарного обновления ( одна неделимая единица)пкш
-        categoriesView.categoriesCollectionView.performBatchUpdates({
-            for newIndex in indexPathsToUpdate {
-                // Обновление данных в ячейках
-                if let cell = categoriesView.categoriesCollectionView.cellForItem(at: newIndex)
-                    as? CategoryCollectionViewCell {
-                    categoriesView.categoriesCollectionView.inputCategories?
-                        .item(at: newIndex.item) { categoryUIModel in
-                        cell.cellConfigure(with: categoryUIModel, at: newIndex.item)
-                    }
-                }
-            }
-        })
-    }
-
     func sortCategoryByName() {
         categoryModel.sort {
             $0.title["ru"]! < $1.title["ru"]!
         }
 
-        updateCollectionView()
+        categoriesView.updateCollectionView(with: categoryModel)
     }
 
     func sortByDateCreation() {
@@ -291,11 +273,10 @@ extension CatalogViewController: CategoriesViewDelegate {
             $0.createdDate > $1.createdDate
         }
 
-        updateCollectionView()
+        categoriesView.updateCollectionView(with: categoryModel)
     }
 
     func createCategory(with newCategory: CategoryUIModel) {
-        let newItemIndex = categoriesView.categoriesCollectionView.inputCategories?.categoriesCount ?? 0
         let imageLink = newCategory.image?.pngData()?.base64EncodedString() //FIXME: не работает тк нужно сохранить сначала в бд, чтобы там создалась imageLink, которую из Data() можно преобразовать
         // тут нужно будет дергать метод, который закидвает это в БД
         let newCategoryModel = CategoryModel(title: newCategory.title,
@@ -304,12 +285,12 @@ extension CatalogViewController: CategoriesViewDelegate {
                                              totalWordsCount: newCategory.totalWordsCount,
                                              createdDate: newCategory.createdDate,
                                              linkedWordsId: newCategory.linkedWordsId)
+        let newItemIndex = categoriesView.categoriesCount()
         model.createCategory(with: newCategoryModel)
         categoryModel.append(newCategoryModel)
 
         let indexPath = IndexPath(item: newItemIndex, section: 0)
-        categoriesView.categoriesCollectionView.insertItems(at: [indexPath])
-
+        categoriesView.insertItems(at: indexPath)
         updateCategoriesViewHeight()
     }
 
@@ -324,7 +305,7 @@ extension CatalogViewController: UpdateCountWordsDelegate {
         if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
             categoryModel[index].totalWordsCount += 1
             let indexPath = IndexPath(item: index, section: 0)
-            categoriesView.categoriesCollectionView.reloadItems(at: [indexPath])
+            categoriesView.reloadItems(at: indexPath)
         }
     }
 
@@ -332,7 +313,7 @@ extension CatalogViewController: UpdateCountWordsDelegate {
         if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
             categoryModel[index].studiedWordsCount += 1
             let indexPath = IndexPath(item: index, section: 0)
-            categoriesView.categoriesCollectionView.reloadItems(at: [indexPath])
+            categoriesView.reloadItems(at: indexPath)
         }
     }
 
@@ -340,7 +321,7 @@ extension CatalogViewController: UpdateCountWordsDelegate {
         if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
             categoryModel[index].studiedWordsCount -= 1
             let indexPath = IndexPath(item: index, section: 0)
-            categoriesView.categoriesCollectionView.reloadItems(at: [indexPath])
+            categoriesView.reloadItems(at: indexPath)
         }
     }
 }

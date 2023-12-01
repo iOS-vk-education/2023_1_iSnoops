@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIColor {
+    /// init, использующий hex цвета
     convenience init?(hex: String) {
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
@@ -22,7 +23,8 @@ extension UIColor {
 
         self.init(red: red, green: green, blue: blue, alpha: 1.0)
     }
-
+    /// генерирует случайный цвет, подобный заданному базовому цвету, 
+    /// с некоторыми случайными вариациями в тоне и прозрачности
     static func generateRandomSimilarColor(from baseColor: UIColor,
                                            withToneVariation toneVariation: CGFloat = 0.15,
                                            alphaVariation: CGFloat = 0.15) -> UIColor {

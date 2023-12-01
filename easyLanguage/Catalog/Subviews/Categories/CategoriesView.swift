@@ -16,7 +16,7 @@ final class CategoriesView: UIView {
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
     weak var inputCategories: InputCategoriesDelegate?
-    let categoriesCollectionView = CategoriesCollectionView() //FIXME: сделать private
+    private let categoriesCollectionView = CategoriesCollectionView()
     weak var delegate: CategoriesViewDelegate?
     weak var updateCountWordsDelegate: UpdateCountWordsDelegate?
 
@@ -51,6 +51,37 @@ final class CategoriesView: UIView {
     }
 }
 
+// MARK: - open methods
+extension CategoriesView {
+    func reloadItems(at indexPath: IndexPath) {
+        categoriesCollectionView.reloadItems(at: [indexPath])
+    }
+
+    func insertItems(at indexPath: IndexPath) {
+        categoriesCollectionView.insertItems(at: [indexPath])
+    }
+
+    func categoriesCount() -> Int {
+        categoriesCollectionView.inputCategories?.categoriesCount ?? 0
+    }
+
+    func updateCollectionView(with categoryModel: [CategoryModel]) {
+        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
+        // performBatchUpdates - для атомарного обновления (одна неделимая единица)
+        categoriesCollectionView.performBatchUpdates({
+            for newIndex in indexPathsToUpdate {
+                // Обновление данных в ячейках
+                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
+                    categoriesCollectionView.inputCategories?
+                        .item(at: newIndex.item) { categoryUIModel in
+                        cell.cellConfigure(with: categoryUIModel, at: newIndex.item)
+                    }
+                }
+            }
+        })
+    }
+}
+
 // MARK: - private methods
 private extension CategoriesView {
     @objc
@@ -66,8 +97,8 @@ private extension CategoriesView {
     @objc
     func didTapSortCategoriesLogo() {
         let alertController = UIAlertController(title: "Сортировка категорий",
-                                                message: "Выберити в каком порядке отобразить категории",
-                                                preferredStyle: .alert)
+                                                message: "Выберите в каком порядке отобразить категории",
+                                                preferredStyle: .actionSheet)
 
         let recentlyAddedAction = UIAlertAction(title: "Недавно добавленные", style: .default) { [weak self] _ in
             self?.delegate?.sortByDateCreation()
@@ -78,7 +109,6 @@ private extension CategoriesView {
         }
 
         let cancelAction = UIAlertAction(title: "Вернуться", style: .cancel, handler: nil)
-        cancelAction.setValue(UIColor.systemRed, forKey: "titleTextColor")
 
         alertController.addAction(recentlyAddedAction)
         alertController.addAction(byNameAction)

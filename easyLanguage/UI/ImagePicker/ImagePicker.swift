@@ -7,6 +7,18 @@
 
 import UIKit
 
+/// класс для работы откртия галереи и выбора фото
+/// пример использования:
+///    private let imagePicker = ImagePicker()
+///
+///    imagePicker.showImagePicker(with: self) { [weak self] image in
+///       self?.didSelectImage(image)
+///    }
+///
+///    // Метод, который будет вызван после выбора изображения
+///     private func didSelectImage(_ image: UIImage) {
+///     }
+
 final class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     var completion: ((UIImage) -> Void)?
 

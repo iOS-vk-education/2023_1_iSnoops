@@ -23,9 +23,9 @@ protocol ChangeLikeStatеDelegate: AnyObject {
 
 final class CategoryDetailViewController: CustomViewController {
     weak var updateCountWordsDelegate: UpdateCountWordsDelegate?
-    var selectedItem: Int = 0 // FIXME: создать open func для установки значений а их сделать private
-    var categoryDetailTitle = ""
-    var linkedWordsId = ""
+    private var selectedItem: Int = 0
+    private var categoryDetailTitle = ""
+    private var linkedWordsId = ""
     private let categoryDetailCollectionView = CategoryDetailCollectionView()
     private let model = CategoryDetailModel()
     private var wordsModel: [WordModel] = []
@@ -46,6 +46,18 @@ final class CategoryDetailViewController: CustomViewController {
     }
 }
 
+// MARK: open methods
+extension CategoryDetailViewController {
+    func configureCategoryDetailViewController(with selectedItem: Int,
+                                               categoryDetailTitle: String,
+                                               linkedWordsId: String,
+                                               updateCountWordsDelegate: UpdateCountWordsDelegate?) {
+        self.selectedItem = selectedItem
+        self.categoryDetailTitle = categoryDetailTitle
+        self.linkedWordsId = linkedWordsId
+        self.updateCountWordsDelegate = updateCountWordsDelegate
+    }
+}
 // MARK: - private methods
 private extension CategoryDetailViewController {
     func loadWords() {
