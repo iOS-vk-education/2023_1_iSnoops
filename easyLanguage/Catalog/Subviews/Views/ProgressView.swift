@@ -61,26 +61,24 @@ private extension ProgressView {
         backgroundView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         backgroundView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         backgroundView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
-        backgroundView.heightAnchor.constraint(equalToConstant: UIConstants.BackgroundView.height).isActive = true
+        backgroundView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressLineView.height).isActive = true
     }
 
     func setProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        progressView.widthAnchor.constraint(equalTo: self.widthAnchor,
-                                            multiplier: 0.5).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressView.height).isActive = true
+        progressView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressLineView.height).isActive = true
     }
 
     func setWordsInProgressLabel() {
         wordsInProgressLabel.translatesAutoresizingMaskIntoConstraints = false
         wordsInProgressLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor,
-                                                  constant: 3).isActive = true
-        wordsInProgressLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant:
-                                                        UIConstants.WordsInProgressLabel.leading).isActive = true
+                                                  constant: UIConstants.WordsInProgressLabel.top).isActive = true
+        wordsInProgressLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         wordsInProgressLabel.widthAnchor.constraint(equalToConstant:
-                                                        UIConstants.WordsInProgressLabel.width).isActive = true
+                                                   UIConstants.WordsInProgressLabel.width).isActive = true
         wordsInProgressLabel.sizeToFit()
     }
 
@@ -98,7 +96,6 @@ private extension ProgressView {
         adviceLabel.translatesAutoresizingMaskIntoConstraints = false
         adviceLabel.topAnchor.constraint(equalTo: wordsInProgressLabel.bottomAnchor,
                                          constant: UIConstants.AdviceLabel.top).isActive = true
-        adviceLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         adviceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         adviceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         adviceLabel.sizeToFit()
@@ -114,22 +111,18 @@ private extension ProgressView {
     }
 
     struct UIConstants {
-        struct BackgroundView {
-            static let height: CGFloat = 10.0
-        }
-
-        struct ProgressView {
+        struct ProgressLineView {
             static let height: CGFloat = 10.0
         }
 
         struct WordsInProgressLabel {
-            static let leading: CGFloat = 155.0
-            static let width: CGFloat = 45
+            static let top: CGFloat = 3.0
+            static let width: CGFloat = 45.0
         }
 
         struct TotalWordsLabel {
             static let top: CGFloat = 3.0
-            static let trailing: CGFloat = 10.0
+            static let trailing: CGFloat = 5.0
             static let width: CGFloat = 45.0
         }
 

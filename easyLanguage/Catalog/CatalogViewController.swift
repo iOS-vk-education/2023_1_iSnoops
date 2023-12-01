@@ -106,15 +106,15 @@ private extension CatalogViewController {
                                             constant: -UIConstants.ProgressView.padding).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
                                             constant: -UIConstants.ProgressView.padding * 2).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: view.frame.height / 17).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: view.frame.height / 12).isActive = true
     }
 
     func setTopFiveView() {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
         topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
-                                         constant: UIConstants.TopFiveView.margin).isActive = true
+                                         constant: UIConstants.TopFiveView.top).isActive = true
         topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                          constant: UIConstants.TopFiveView.margin).isActive = true
+                                          constant: UIConstants.TopFiveView.left).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         topFiveView.heightAnchor.constraint(equalToConstant: view.frame.height / 4.5).isActive = true
     }
@@ -129,11 +129,10 @@ private extension CatalogViewController {
 
         let isEvenCount = categoryModel.count % 2 == 0
         let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
-        let cellHeight = CGFloat(view.frame.width / 2 - 9 - 18 + UIScreen.main.bounds.width / 20.5)
+        let cellHeight = CGFloat(view.frame.width / 2 - 9) // -18 ( + 18 (minimumLineSpacing)
         let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
         let marginHeight = cellHeight * cellCount + categoriesMargin
         categoriesView.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
-
     }
 }
 // MARK: - UIConstants
@@ -145,11 +144,12 @@ private extension CatalogViewController {
         }
 
         struct TopFiveView {
-            static let margin: CGFloat = 18.0
+            static let top: CGFloat = 12.0
+            static let left: CGFloat = 18.0
         }
 
         struct CategoriesView {
-            static let top: CGFloat = 18.0
+            static let top: CGFloat = 12.0
         }
     }
 }

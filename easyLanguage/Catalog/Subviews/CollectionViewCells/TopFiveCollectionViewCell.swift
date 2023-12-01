@@ -19,13 +19,10 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setVisualAppearance()
-        backgroundLevelView.addSubview(levelLabel)
         [backgroundLevelView, titleLabel].forEach {
-            addSubview($0)
+            contentView.addSubview($0)
         }
-        setBackgroundLevelView()
-        setLevelLabel()
-        setTitleLabel()
+        backgroundLevelView.addSubview(levelLabel)
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
         self.addGestureRecognizer(tapGestureRecognizer)
@@ -33,6 +30,13 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setBackgroundLevelView()
+        setLevelLabel()
+        setTitleLabel()
     }
 }
 
@@ -76,19 +80,10 @@ private extension TopFiveCollectionViewCell {
     }
 
     func setupColorsForWord(with index: Int) {
-        let textColor: UIColor
+        let index = index % Constants.backgroundColors.count
+        let textColor = Constants.textColors[index]
+        backgroundColor = Constants.backgroundColors[index]
 
-        switch index % 3 {
-        case 0:
-            backgroundColor = .Catalog.Pink.topFiveBackground
-            textColor = .Catalog.Pink.topFiveBackText
-        case 1:
-            backgroundColor = .Catalog.Yellow.topFiveBackground
-            textColor =  .Catalog.Yellow.topFiveBackText
-        default:
-            backgroundColor = .Catalog.Blue.topFiveBackground
-            textColor =  .Catalog.Blue.topFiveBackText
-        }
         [levelLabel, titleLabel].forEach {
             $0.textColor = textColor
         }
@@ -104,7 +99,6 @@ private extension TopFiveCollectionViewCell {
     }
 
     func setBackgroundLevelView() {
-        print("frame", frame)
         backgroundLevelView.translatesAutoresizingMaskIntoConstraints = false
         backgroundLevelView.topAnchor.constraint(equalTo: self.topAnchor,
                                                  constant: UIConstants.BackgroundLevelView.margin).isActive = true
@@ -118,18 +112,17 @@ private extension TopFiveCollectionViewCell {
 
     func setLevelLabel() {
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.topAnchor.constraint(equalTo: backgroundLevelView.topAnchor,
-                                        constant: UIConstants.LevelLabel.top).isActive = true
-        levelLabel.leftAnchor.constraint(equalTo: backgroundLevelView.leftAnchor,
-                                         constant: UIConstants.LevelLabel.left).isActive = true
-        levelLabel.widthAnchor.constraint(equalToConstant: frame.width / 6.25).isActive = true
+        levelLabel.centerYAnchor.constraint(equalTo: backgroundLevelView.centerYAnchor).isActive = true
+        levelLabel.leftAnchor.constraint(equalTo: backgroundLevelView.leftAnchor).isActive = true
+        levelLabel.rightAnchor.constraint(equalTo: backgroundLevelView.rightAnchor).isActive = true
         levelLabel.sizeToFit()
     }
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: backgroundLevelView.bottomAnchor,
-                                        constant: UIConstants.TitleLabel.top).isActive = true
+//        titleLabel.topAnchor.constraint(equalTo: backgroundLevelView.bottomAnchor,
+//                                        constant: UIConstants.TitleLabel.top).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor,
                                          constant: UIConstants.TitleLabel.horizontally).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor,
@@ -140,18 +133,22 @@ private extension TopFiveCollectionViewCell {
 // MARK: - Constants
 private extension TopFiveCollectionViewCell {
     // swiftlint:disable nesting
+    struct Constants {
+        static let backgroundColors: [UIColor] = [.Catalog.Pink.topFiveBackground,
+                                                  .Catalog.Yellow.topFiveBackground,
+                                                  .Catalog.Blue.topFiveBackground]
+
+        static let textColors: [UIColor] = [.Catalog.Pink.topFiveBackText,
+                                            .Catalog.Yellow.topFiveBackText,
+                                            .Catalog.Blue.topFiveBackText]
+    }
+
     struct UIConstants {
         struct BackgroundLevelView {
             static let margin: CGFloat = 10.0
         }
 
-        struct LevelLabel {
-            static let top: CGFloat = 7.0
-            static let left: CGFloat = 5.0
-        }
-
         struct TitleLabel {
-            static let top: CGFloat = 14.0
             static let horizontally: CGFloat = 8.0
         }
     }

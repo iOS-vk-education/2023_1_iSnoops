@@ -52,8 +52,8 @@ private extension TopFiveView {
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         titleLabel.widthAnchor.constraint(equalToConstant: UIConstants.TitleLabel.width).isActive = true
         titleLabel.sizeToFit()
     }
@@ -62,17 +62,22 @@ private extension TopFiveView {
         topFiveCollectionView.translatesAutoresizingMaskIntoConstraints = false
         topFiveCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
                                                    constant: UIConstants.TopFiveCollectionView.top).isActive = true
-        topFiveCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        topFiveCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        topFiveCollectionView.heightAnchor.constraint(equalToConstant: self.frame.width / 3).isActive = true
+        topFiveCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        topFiveCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+
+        let height = CGFloat(UIConstants.AdviceLabel.top
+                             + UIConstants.AdviceLabel.height
+                             + titleLabel.frame.height
+                             + UIConstants.TopFiveCollectionView.top)
+        topFiveCollectionView.heightAnchor.constraint(equalToConstant: frame.height - height).isActive = true
     }
 
     func setAdviceLabel() {
         adviceLabel.translatesAutoresizingMaskIntoConstraints = false
         adviceLabel.topAnchor.constraint(equalTo: topFiveCollectionView.bottomAnchor,
-                                         constant: 5).isActive = true
-        adviceLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        adviceLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+                                         constant: UIConstants.AdviceLabel.top).isActive = true
+        adviceLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        adviceLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         adviceLabel.heightAnchor.constraint(equalToConstant: UIConstants.AdviceLabel.height).isActive = true
     }
 }
@@ -95,6 +100,7 @@ private extension TopFiveView {
         }
 
         struct AdviceLabel {
+            static let top: CGFloat = 5.0
             static let height: CGFloat = 16.0
         }
     }

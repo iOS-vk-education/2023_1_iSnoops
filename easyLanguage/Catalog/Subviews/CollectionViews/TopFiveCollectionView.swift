@@ -39,7 +39,7 @@ final class TopFiveCollectionView: UICollectionView {
 
         register(TopFiveCollectionViewCell.self, forCellWithReuseIdentifier: "topFiveWordsCollectionView")
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = UIScreen.main.bounds.width / 21.8
+            flowLayout.minimumLineSpacing = 18
         }
     }
 }
