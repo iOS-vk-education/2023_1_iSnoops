@@ -1,5 +1,5 @@
 //
-//  Color + init.swift
+//  Color + extensions.swift
 //  easyLanguage
 //
 //  Created by Grigoriy on 02.11.2023.
