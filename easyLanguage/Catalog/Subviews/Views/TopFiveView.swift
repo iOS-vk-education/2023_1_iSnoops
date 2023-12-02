@@ -22,7 +22,7 @@ final class TopFiveView: UIView {
 
         setVisualAppearance()
         [topFiveCollectionView, titleLabel, adviceLabel].forEach {
-            self.addSubview($0)
+            addSubview($0)
         }
     }
 

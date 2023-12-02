@@ -23,7 +23,7 @@ final class CategoriesView: UIView {
 
         setVisualAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
-            self.addSubview($0)
+            addSubview($0)
         }
 
     }

@@ -96,9 +96,9 @@ private extension TopFiveCollectionViewCell {
 
     func setBackgroundLevelView() {
         backgroundLevelView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundLevelView.topAnchor.constraint(equalTo: self.topAnchor,
+        backgroundLevelView.topAnchor.constraint(equalTo: topAnchor,
                                                  constant: UIConstants.BackgroundLevelView.margin).isActive = true
-        backgroundLevelView.rightAnchor.constraint(equalTo: self.rightAnchor,
+        backgroundLevelView.rightAnchor.constraint(equalTo: rightAnchor,
                                                  constant: -UIConstants.BackgroundLevelView.margin).isActive = true
         backgroundLevelView.heightAnchor.constraint(equalToConstant:
                                                  frame.width / 4).isActive = true
@@ -117,9 +117,9 @@ private extension TopFiveCollectionViewCell {
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor,
+        titleLabel.leftAnchor.constraint(equalTo: leftAnchor,
                                          constant: UIConstants.TitleLabel.horizontally).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor,
+        titleLabel.rightAnchor.constraint(equalTo: rightAnchor,
                                           constant: -UIConstants.TitleLabel.horizontally).isActive = true
     }
 }
