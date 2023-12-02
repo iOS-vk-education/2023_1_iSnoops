@@ -41,7 +41,6 @@ extension CategoryCollectionViewCell {
         setupProgressAndTitleLabels(with: model)
         imageView.image = model.image
     }
-
 }
 
 // MARK: - private methods

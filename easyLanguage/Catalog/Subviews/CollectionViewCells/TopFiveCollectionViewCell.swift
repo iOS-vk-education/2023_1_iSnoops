@@ -23,6 +23,9 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
             contentView.addSubview($0)
         }
         backgroundLevelView.addSubview(levelLabel)
+        setBackgroundLevelView()
+        setLevelLabel()
+        setTitleLabel()
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
         self.addGestureRecognizer(tapGestureRecognizer)
@@ -30,13 +33,6 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setBackgroundLevelView()
-        setLevelLabel()
-        setTitleLabel()
     }
 }
 
@@ -120,8 +116,6 @@ private extension TopFiveCollectionViewCell {
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-//        titleLabel.topAnchor.constraint(equalTo: backgroundLevelView.bottomAnchor,
-//                                        constant: UIConstants.TitleLabel.top).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor,
                                          constant: UIConstants.TitleLabel.horizontally).isActive = true
