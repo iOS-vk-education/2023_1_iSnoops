@@ -38,11 +38,15 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
         super.viewDidLoad()
         view.backgroundColor = .white
         title = "Профиль"
+        line.backgroundColor = .tertiarySystemFill
         
+        [scrollView, line].forEach{
+            view.addSubview($0)
+        }
         view.addSubview(scrollView)
         setScrollView()
         
-        [firstNameBackgroundView, lastNameBackgroundView].forEach {
+        [firstNameBackgroundView, lastNameBackgroundView, firstNameLabel, lastNameLabel, progressView, labelUnderTextField, lightThemeButton, automaticThemeButton, darkThemeButton, lightThemeLabel, automaticThemeLabel, darkThemeLabel].forEach {
             scrollView.addSubview($0)
         }
         
@@ -57,15 +61,7 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
         
         firstNameBackgroundView.addSubview(firstNameLabel)
         lastNameBackgroundView.addSubview(lastNameLabel)
-
         
-        scrollView.addSubview(firstNameLabel)
-        scrollView.addSubview(firstNameLabel)
-        
-        line.backgroundColor = .tertiarySystemFill
-        view.addSubview(line)
-        
-        scrollView.addSubview(progressView)
         progressView.setupWordsInProgress(count: 60)
         progressView.setupAllWords(count: 120)
 //        setupAllLeanedWords()
@@ -112,7 +108,6 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
         labelUnderTextField.font = UIFont.systemFont(ofSize: 12)
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
-        scrollView.addSubview(labelUnderTextField)
         
         configureCircularButton(lightThemeButton, withImageNamed: "lightThemeCheckbox", color: .blue, isActive: true)
         configureCircularButton(darkThemeButton, withImageNamed: "darkThemeCheckbox", color: .blue, isActive: false)
@@ -126,15 +121,21 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        line.frame = CGRect(x: 0,
-                            y: view.safeAreaInsets.top + 5,
-                            width: scrollView.bounds.width,
-                            height: 2)
-        imageView.frame = CGRect(x: (scrollView.bounds.width - 130) / 2,
-                                 y: scrollView.bounds.minY + 25,
-                                 // y: line.frame.maxY + 20,
-                                 width: 130,
-                                 height: 130)
+        
+        // ДЛЯ САШИ. Нужно ли делать for each{ $0.translatesAuthorizing.. = false } или так норм?
+        
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 5).isActive = true
+        line.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
+        line.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
+        line.heightAnchor.constraint(equalToConstant: 2).isActive = true
+
+        let imageSize: CGFloat = 130
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 25).isActive = true
+        imageView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: imageSize).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: imageSize).isActive = true
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         
         firstNameBackgroundView.translatesAutoresizingMaskIntoConstraints = false
@@ -161,26 +162,61 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
         lastNameLabel.widthAnchor.constraint(equalTo: lastNameBackgroundView.widthAnchor).isActive = true
         lastNameLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        
-//        lastNameLabel.frame =
-//        CGRect(x: 20, y: Int(firstNameLabel.bounds.maxY + imageView.frame.maxY) + 35,
-//               width: Int(scrollView.bounds.width) - 40, height: 35)
-        
         labelUnderTextField.translatesAutoresizingMaskIntoConstraints = false
         labelUnderTextField.topAnchor.constraint(equalTo: lastNameBackgroundView.bottomAnchor, constant: 3).isActive = true
         labelUnderTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 25).isActive = true
         labelUnderTextField.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40).isActive = true
         labelUnderTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-//        labelUnderTextField.frame = CGRect(x: 25, y: Int(lastNameBackgroundView.frame.maxY) + 3, width: Int(scrollView.bounds.width) - 40, height: 30)
-        
         labelTheme.translatesAutoresizingMaskIntoConstraints = false
+        labelTheme.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 25).isActive = true
+        labelTheme.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 20).isActive = true
+        labelTheme.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -40).isActive = true
+        labelTheme.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        labelTheme.frame = CGRect(x: 0, y: progressView.frame.maxY + 25, width: scrollView.bounds.width, height: 30)
+        let buttonSize: CGFloat = 35
+        let buttonSpacing: CGFloat = (scrollView.bounds.width - 3 * buttonSize) / 4
         
+        lightThemeButton.translatesAutoresizingMaskIntoConstraints = false
+        lightThemeButton.topAnchor.constraint(equalTo: labelTheme.bottomAnchor, constant: 20).isActive = true
+        lightThemeButton.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: buttonSpacing).isActive = true
+        lightThemeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        lightThemeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        
+        automaticThemeButton.translatesAutoresizingMaskIntoConstraints = false
+        automaticThemeButton.topAnchor.constraint(equalTo: lightThemeButton.topAnchor).isActive = true
+        automaticThemeButton.leftAnchor.constraint(equalTo: lightThemeButton.rightAnchor, constant: buttonSpacing).isActive = true
+        automaticThemeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        automaticThemeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        
+        darkThemeButton.translatesAutoresizingMaskIntoConstraints = false
+        darkThemeButton.topAnchor.constraint(equalTo: lightThemeButton.topAnchor).isActive = true
+        darkThemeButton.leftAnchor.constraint(equalTo: automaticThemeButton.rightAnchor, constant: buttonSpacing).isActive = true
+        darkThemeButton.widthAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        darkThemeButton.heightAnchor.constraint(equalToConstant: buttonSize).isActive = true
+        
+        [lightThemeButton, automaticThemeButton, darkThemeButton].forEach{
+            $0.layer.cornerRadius = buttonSize / 2
+        }
+
+        lightThemeLabel.translatesAutoresizingMaskIntoConstraints = false
+        lightThemeLabel.topAnchor.constraint(equalTo: lightThemeButton.bottomAnchor, constant: 5).isActive = true
+        lightThemeLabel.centerXAnchor.constraint(equalTo: lightThemeButton.centerXAnchor).isActive = true
+        lightThemeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        darkThemeLabel.translatesAutoresizingMaskIntoConstraints = false
+        darkThemeLabel.topAnchor.constraint(equalTo: lightThemeButton.bottomAnchor, constant: 5).isActive = true
+        darkThemeLabel.centerXAnchor.constraint(equalTo: darkThemeButton.centerXAnchor).isActive = true
+        darkThemeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        automaticThemeLabel.translatesAutoresizingMaskIntoConstraints = false
+        automaticThemeLabel.topAnchor.constraint(equalTo: automaticThemeButton.bottomAnchor, constant: 5).isActive = true
+        automaticThemeLabel.centerXAnchor.constraint(equalTo: automaticThemeButton.centerXAnchor).isActive = true
+        automaticThemeLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+
+        // не успел все разнести по функциям (
         
         setProgressView()
-        arrangeViews()
     }
     @objc func imageTapped() {
         let imagePickerController = UIImagePickerController()
@@ -253,37 +289,6 @@ final class ProfileViewController: UIViewController, UIImagePickerControllerDele
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 14)
         label.sizeToFit()
-    }
-
-    private func arrangeViews() {
-    let buttonSpacing: CGFloat = 74
-    let buttonSize: CGSize = CGSize(width: 30, height: 30)
-        
-        
-    lightThemeButton.frame = CGRect(origin: CGPoint(x: buttonSpacing, y: labelTheme.frame.maxY + 20), size: buttonSize)
-    automaticThemeButton.frame = CGRect(origin: CGPoint(x: lightThemeButton.frame.maxX + buttonSpacing, y: lightThemeButton.frame.minY), size: buttonSize)
-    darkThemeButton.frame = CGRect(origin: CGPoint(x: automaticThemeButton.frame.maxX + buttonSpacing, y: lightThemeButton.frame.minY), size: buttonSize)
-        
-    lightThemeButton.layer.cornerRadius = buttonSize.width / 2
-    darkThemeButton.layer.cornerRadius = buttonSize.width / 2
-    automaticThemeButton.layer.cornerRadius = buttonSize.width / 2
-
-    lightThemeLabel.frame = CGRect(x: lightThemeButton.frame.minX, y: lightThemeButton.frame.maxY + 5, width: lightThemeLabel.bounds.width, height: 20)
-    darkThemeLabel.frame = CGRect(x: darkThemeButton.frame.minX, y: darkThemeButton.frame.maxY + 5, width: darkThemeLabel.bounds.width, height: 20)
-    automaticThemeLabel.frame = CGRect(x: automaticThemeButton.frame.minX, y: automaticThemeButton.frame.maxY + 5, width: automaticThemeLabel.bounds.width, height: 20)
-        
-    lightThemeLabel.center.x = lightThemeButton.center.x
-    darkThemeLabel.center.x = darkThemeButton.center.x
-    automaticThemeLabel.center.x = automaticThemeButton.center.x
-        
-    scrollView.addSubview(lightThemeLabel)
-    scrollView.addSubview(darkThemeLabel)
-    scrollView.addSubview(automaticThemeLabel)
-    
-    scrollView.addSubview(lightThemeButton)
-    scrollView.addSubview(darkThemeButton)
-    scrollView.addSubview(automaticThemeButton)
-
     }
     @objc private func themeButtonTapped(_ sender: UIButton) {
             // Обработка выбора темы
