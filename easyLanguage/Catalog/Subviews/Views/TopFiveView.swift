@@ -8,7 +8,6 @@
 import UIKit
 
 final class TopFiveView: UIView {
-
     private let titleLabel = UILabel()
     private let adviceLabel = UILabel()
     weak var inputTopFiveWords: InputTopFiveWordsDelegate?

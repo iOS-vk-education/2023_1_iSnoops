@@ -8,7 +8,6 @@
 import UIKit
 
 final class CategoriesView: UIView {
-
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
