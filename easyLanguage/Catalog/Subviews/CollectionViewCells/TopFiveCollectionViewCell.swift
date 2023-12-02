@@ -18,6 +18,7 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         setVisualAppearance()
         [backgroundLevelView, titleLabel].forEach {
             contentView.addSubview($0)

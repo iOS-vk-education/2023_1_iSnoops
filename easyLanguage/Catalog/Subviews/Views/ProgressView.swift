@@ -16,6 +16,7 @@ final class ProgressView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
         [backgroundView, progressView, totalWordsLabel, wordsInProgressLabel, adviceLabel].forEach {
             addSubview($0)
         }

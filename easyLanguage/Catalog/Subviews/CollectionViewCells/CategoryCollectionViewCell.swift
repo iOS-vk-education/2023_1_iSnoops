@@ -16,8 +16,8 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setVisualAppearance()
 
+        setVisualAppearance()
         backgroundLevelView.addSubview(imageView)
         [backgroundLevelView, titleLabel, progressLabel].forEach {
             contentView.addSubview($0)
