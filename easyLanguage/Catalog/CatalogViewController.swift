@@ -184,11 +184,11 @@ extension CatalogViewController: InputCategoriesDelegate {
                 guard let self = self else { return }
                 completion(
                     CategoryUIModel(
-                        categoryId: self.categoryModel[index].categoryId,
-                        title: self.categoryModel[index].title,
+                        categoryId: categoryModel[index].categoryId,
+                        title: categoryModel[index].title,
                         image: UIImage(data: data),
-                        studiedWordsCount: self.categoryModel[index].studiedWordsCount,
-                        totalWordsCount: self.categoryModel[index].totalWordsCount
+                        studiedWordsCount: categoryModel[index].studiedWordsCount,
+                        totalWordsCount: categoryModel[index].totalWordsCount
                     )
                 )
             case .failure(let error):
@@ -206,9 +206,9 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void) {
         let topFiveWordsModel = TopFiveWordsModel(
-            topFiveWordsId: self.topFiveModel[index].topFiveWordsId,
-            title: self.topFiveModel[index].title,
-            level: self.topFiveModel[index].level
+            topFiveWordsId: topFiveModel[index].topFiveWordsId,
+            title: topFiveModel[index].title,
+            level: topFiveModel[index].level
         )
         completion(topFiveWordsModel)
     }

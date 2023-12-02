@@ -30,7 +30,7 @@ final class TopFiveCollectionView: UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
 
-        self.collectionViewLayout = layout
+        collectionViewLayout = layout
         showsHorizontalScrollIndicator = false
         backgroundColor = .PrimaryColors.Background.background
 

@@ -46,7 +46,7 @@ extension CategoryCollectionViewCell {
 // MARK: - private methods
 private extension CategoryCollectionViewCell {
     func setVisualAppearance() {
-        self.layer.cornerRadius = Constants.cornerRadius
+        layer.cornerRadius = Constants.cornerRadius
         [progressLabel, titleLabel].forEach {
             $0.numberOfLines = 0
             $0.textAlignment = .center
@@ -58,11 +58,11 @@ private extension CategoryCollectionViewCell {
     }
 
     func setupColorsForCategory(with index: Int) {
-        let index = index % Constants.backgroundColors.count
-        let textColor = Constants.textColors[index]
-        backgroundColor = Constants.backgroundColors[index]
+        let index = index % Constants.colors.count
+        let colors = Constants.colors[index]
 
-        [progressLabel, titleLabel].forEach { $0.textColor = textColor }
+        backgroundColor = colors.backgroundColor
+        [progressLabel, titleLabel].forEach { $0.textColor = colors.textColor }
     }
 
     func setupLabels() {
@@ -122,23 +122,16 @@ private extension CategoryCollectionViewCell {
     // swiftlint:disable nesting
     struct Constants {
         static let cornerRadius: CGFloat = 15
-        static let backgroundColors: [UIColor] = [.Catalog.Green.categoryBackground,
-                                                  .Catalog.Purple.categoryBackground,
-                                                  .Catalog.LightYellow.categoryBackground,
-                                                  .Catalog.Yellow.categoryBackground,
-                                                  .Catalog.Red.categoryBackground,
-                                                  .Catalog.Blue.categoryBackground,
-                                                  .Catalog.Cyan.categoryBackground,
-                                                  .Catalog.Pink.categoryBackground]
-
-        static let textColors: [UIColor] = [.Catalog.Green.categoryText,
-                                            .Catalog.Purple.categoryText,
-                                            .Catalog.LightYellow.categoryText,
-                                            .Catalog.Yellow.categoryText,
-                                            .Catalog.Red.categoryText,
-                                            .Catalog.Blue.categoryText,
-                                            .Catalog.Cyan.categoryText,
-                                            .Catalog.Pink.categoryText]
+        static let colors: [(backgroundColor: UIColor, textColor: UIColor)] = [
+            (.Catalog.Green.categoryBackground, .Catalog.Green.categoryText),
+            (.Catalog.Purple.categoryBackground, .Catalog.Purple.categoryText),
+            (.Catalog.LightYellow.categoryBackground, .Catalog.LightYellow.categoryText),
+            (.Catalog.Yellow.categoryBackground, .Catalog.Yellow.categoryText),
+            (.Catalog.Red.categoryBackground, .Catalog.Red.categoryText),
+            (.Catalog.Blue.categoryBackground, .Catalog.Blue.categoryText),
+            (.Catalog.Cyan.categoryBackground, .Catalog.Cyan.categoryText),
+            (.Catalog.Pink.categoryBackground, .Catalog.Pink.categoryText)
+        ]
     }
 
     struct UIConstants {

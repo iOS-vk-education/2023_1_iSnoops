@@ -28,7 +28,7 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
         setTitleLabel()
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
-        self.addGestureRecognizer(tapGestureRecognizer)
+        addGestureRecognizer(tapGestureRecognizer)
     }
 
     required init?(coder: NSCoder) {
@@ -65,28 +65,30 @@ private extension TopFiveCollectionViewCell {
     func didTabTopFiveView() {
         let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
 
-        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: {
-            if self.isFlipped {
-                self.titleLabel.text = self.nativeTitle
-            } else {
-                self.titleLabel.text = self.foreignTitle
+        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in
+            if let isFlipped = self?.isFlipped {
+                if isFlipped {
+                    self?.titleLabel.text = self?.nativeTitle
+                } else {
+                    self?.titleLabel.text = self?.foreignTitle
+                }
             }
         })
         isFlipped = !isFlipped
     }
 
     func setupColorsForWord(with index: Int) {
-        let index = index % Constants.backgroundColors.count
-        let textColor = Constants.textColors[index]
-        backgroundColor = Constants.backgroundColors[index]
+        let index = index % Constants.colors.count
+        let colors = Constants.colors[index]
 
+        backgroundColor = colors.backgroundColor
         [levelLabel, titleLabel].forEach {
-            $0.textColor = textColor
+            $0.textColor = colors.textColor
         }
     }
 
     func setVisualAppearance() {
-        self.layer.cornerRadius = 12
+        layer.cornerRadius = 12
         [levelLabel, titleLabel].forEach {
             $0.textAlignment = .center
         }
@@ -128,13 +130,11 @@ private extension TopFiveCollectionViewCell {
 private extension TopFiveCollectionViewCell {
     // swiftlint:disable nesting
     struct Constants {
-        static let backgroundColors: [UIColor] = [.Catalog.Pink.topFiveBackground,
-                                                  .Catalog.Yellow.topFiveBackground,
-                                                  .Catalog.Blue.topFiveBackground]
-
-        static let textColors: [UIColor] = [.Catalog.Pink.topFiveBackText,
-                                            .Catalog.Yellow.topFiveBackText,
-                                            .Catalog.Blue.topFiveBackText]
+        static let colors: [(backgroundColor: UIColor, textColor: UIColor)] = [
+            (.Catalog.Pink.topFiveBackground, .Catalog.Pink.topFiveBackText),
+            (.Catalog.Yellow.topFiveBackground, .Catalog.Yellow.topFiveBackText),
+            (.Catalog.Blue.topFiveBackground, .Catalog.Blue.topFiveBackText)
+        ]
     }
 
     struct UIConstants {
