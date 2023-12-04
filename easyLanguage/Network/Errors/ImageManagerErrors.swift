@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+enum ImageManagerErrors: Error {
+    case unexpectedError
+}

@@ -8,22 +8,25 @@
 import UIKit
 
 final class CategoryUIModel {
-    let categoryId: Int
     let title: [String: String]
     let image: UIImage?
     let studiedWordsCount: Int
     let totalWordsCount: Int
+    let createdDate: Date
+    let linkedWordsId: String // Связующий идентификатор для слов в категории
 
-    init(categoryId: Int = 0,
-         title: [String: String] = [:],
+    init(title: [String: String] = [:],
          image: UIImage? = nil,
          studiedWordsCount: Int = 0,
-         totalWordsCount: Int = 0) {
+         totalWordsCount: Int = 0,
+         createdDate: Date = Date(),
+         linkedWordsId: String = "") {
 
-        self.categoryId = categoryId
         self.title = title
         self.image = image
         self.studiedWordsCount = studiedWordsCount
         self.totalWordsCount = totalWordsCount
+        self.createdDate = createdDate
+        self.linkedWordsId = linkedWordsId
     }
 }

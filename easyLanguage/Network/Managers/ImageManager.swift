@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum ImageManagerErrors: Error {
-    case unexpectedError
-}
-
 protocol ImageManagerDescription {
     func loadImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
