@@ -9,7 +9,7 @@ import Foundation
 
 struct CategoryApiModel: Codable {
     let categoryId: Int // PK
-    let title: [String: String]
+    let title: String
     let imageLink: String?
     let createdDate: Date
     let linkedWordsId: String // Связующий идентификатор для слов в категории

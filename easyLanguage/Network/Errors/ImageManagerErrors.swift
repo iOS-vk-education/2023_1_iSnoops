@@ -8,5 +8,7 @@
 import Foundation
 
 enum ImageManagerErrors: Error {
-    case unexpectedError
+    case unexpected
+    case failedImageData
+    case wrongLink
 }

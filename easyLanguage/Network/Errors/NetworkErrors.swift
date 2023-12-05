@@ -8,8 +8,7 @@
 import Foundation
 
 enum NetworkError: Error {
-    case unexpectedError
-    case idError
-    case urlError
+    case unexpected
+    case unexpectedURL
     case emptyData
 }
