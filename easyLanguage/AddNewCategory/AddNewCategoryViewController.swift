@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddCategoryViewController: BottomSheetViewController {
+class AddCategoryViewController: CustomViewController {
     private let addCategoryImageView: UIImageView = UIImageView()
     private let addCategoryLabel: UILabel = UILabel()
     private let newCategoryTextField: UITextField = UITextField()
@@ -109,9 +109,8 @@ private extension AddCategoryViewController {
     }
 
     func setAddCategoryImageView() {
-        print(view.frame)
         addCategoryImageView.translatesAutoresizingMaskIntoConstraints = false
-        addCategoryImageView.topAnchor.constraint(equalTo: visualBar.bottomAnchor,
+        addCategoryImageView.topAnchor.constraint(equalTo: view.topAnchor,
                                                   constant: UIConstants.AddCategoryImageView.top).isActive = true
         addCategoryImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         addCategoryImageView.heightAnchor.constraint(equalToConstant: view.frame.width / 4).isActive = true
