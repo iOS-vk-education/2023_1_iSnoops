@@ -10,9 +10,10 @@ import UIKit
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        generateTabBar()
+
+        generate()
     }
-    private func generateTabBar() {
+    private func generate() {
         let viewControllers = [
             generateVC(viewController: UINavigationController(rootViewController: CatalogViewController()),
                        title: Consts.CatalogViewController.tabBarTitle,
