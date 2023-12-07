@@ -8,7 +8,6 @@
 import Foundation
 
 struct CategoryApiModel: Codable {
-    let categoryId: Int // PK
     let title: String
     let imageLink: String?
     let createdDate: Date

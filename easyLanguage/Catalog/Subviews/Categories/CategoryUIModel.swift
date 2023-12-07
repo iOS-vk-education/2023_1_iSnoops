@@ -12,18 +12,15 @@ final class CategoryUIModel {
     let image: UIImage?
     let studiedWordsCount: Int
     let totalWordsCount: Int
-    let linkedWordsId: String // Связующий идентификатор для слов в категории
 
     init(title: [String: String] = [:],
          image: UIImage? = nil,
          studiedWordsCount: Int = 0,
-         totalWordsCount: Int = 0,
-         linkedWordsId: String = "") {
+         totalWordsCount: Int = 0) {
 
         self.title = title
         self.image = image
         self.studiedWordsCount = studiedWordsCount
         self.totalWordsCount = totalWordsCount
-        self.linkedWordsId = linkedWordsId
     }
 }

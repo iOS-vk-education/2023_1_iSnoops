@@ -8,9 +8,7 @@
 import Foundation
 
 struct WordModel {
-    let wordId: Int?
-    let linkedWordsId: String // Связующий идентификатор для связи с категорией
-    let words: [String: String]
+    let linkedCategoryId: String // Связующий идентификатор для связи с категорией
+    let translations: [String: String]
     let isLearned: Bool
-    let createdDate: Date
 }

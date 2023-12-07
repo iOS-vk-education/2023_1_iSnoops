@@ -27,7 +27,7 @@ final class ImageManager: ImageManagerDescription {
 
         networkImageQueue.async {
             guard let imageData = try? Data(contentsOf: url) else {
-                mainTreadCompletion(.failure(ImageManagerErrors.unexpectedError))
+                mainTreadCompletion(.failure(ImageManagerErrors.unexpected))
                 return
             }
             mainTreadCompletion(.success(imageData))

@@ -8,9 +8,7 @@
 import Foundation
 
 struct WordApiModel: Codable {
-    let wordId: Int // PK
-    let linkedWordsId: String // Связующий идентификатор для связи с категорией
-    let words: [String: String]
+    let linkedCategoryId: String // Связующий идентификатор для связи с категорией
+    let translations: [String: String]
     var isLearned: Bool
-    let createdDate: Date
 }
