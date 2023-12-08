@@ -18,6 +18,7 @@
 		072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92542B1CF5BB006CA4C1 /* WordApiModel.swift */; };
 		072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */; };
 		072B925C2B1CF952006CA4C1 /* TopFiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B925B2B1CF951006CA4C1 /* TopFiveService.swift */; };
+		0744554B2B234A4F00FA5469 /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0744554A2B234A4F00FA5469 /* LoadingIndicatorView.swift */; };
 		075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */; };
 		07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */; };
 		07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */; };
@@ -59,6 +60,7 @@
 		072B92542B1CF5BB006CA4C1 /* WordApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordApiModel.swift; path = easyLanguage/Network/ApiModels/WordApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryApiModel.swift; path = easyLanguage/Network/ApiModels/CategoryApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B925B2B1CF951006CA4C1 /* TopFiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveService.swift; sourceTree = "<group>"; };
+		0744554A2B234A4F00FA5469 /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
 		07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
 		07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManagerErrors.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				0710CB262AF2B3B400F5478E /* CustomViewController.swift */,
+				0744554A2B234A4F00FA5469 /* LoadingIndicatorView.swift */,
 			);
 			path = CustomViewController;
 			sourceTree = "<group>";
@@ -460,6 +463,7 @@
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
 				07F1BE892AF828F100F50845 /* CatalogCollectionViewDelegateFlowLayout.swift in Sources */,
 				07EF04CB2AFBEC3F0095DECB /* ColorModeManager.swift in Sources */,
+				0744554B2B234A4F00FA5469 /* LoadingIndicatorView.swift in Sources */,
 				07F1BE9A2AF829A000F50845 /* TopFiveView.swift in Sources */,
 				07F1BE9C2AF829A600F50845 /* CategoriesView.swift in Sources */,
 				07F1BE8D2AF8292600F50845 /* CategoryService.swift in Sources */,
