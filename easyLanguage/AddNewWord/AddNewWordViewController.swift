@@ -8,9 +8,10 @@
 
 import UIKit
 
-protocol AddNewWordViewControllerKeyboardDismissing {
+protocol KeyboardDismissable {
     func setDismissKeyboard()
 }
+
 protocol AddNewWordViewControllerTaps {
     func didTabAddWordButton()
 }
@@ -21,14 +22,15 @@ class AddNewWordViewController: CustomViewController {
     private let dividingStripView = UIView()
     private let foreignLabel = UILabel()
     private let foreignField: UITextField = UITextField()
-    private let addWordButton: UIButton = UIButton()
+    private let addButton: UIButton = UIButton()
 }
 
 // MARK: - Life Circle
 extension AddNewWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        [nativeLabel, foreignLabel, nativeField, foreignField, addWordButton, dividingStripView].forEach {
+
+        [nativeLabel, foreignLabel, nativeField, foreignField, addButton, dividingStripView].forEach {
             view.addSubview($0)
         }
         setVisualAppearance()
@@ -38,9 +40,8 @@ extension AddNewWordViewController {
         setDividingStripView()
         setForeignLabel()
         setForeignField()
-        setAddWordButton()
+        setAddButton()
         setDismissKeyboard()
-        addWordButton.addTarget(self, action: #selector(didTabAddWordButton), for: .touchUpInside)
     }
 }
 
@@ -50,32 +51,33 @@ private extension AddNewWordViewController {
         setNativeAppearance()
         setDividingStripViewAppearance()
         setForeignAppearanceAppearance()
-        setAddWordButtonAppearance()
+        setAddButtonAppearance()
     }
 
     func setNativeAppearance() {
-        nativeLabel.text = Consts.NativeLabel.text
-        nativeField.placeholder = Consts.NativeField.placeholderText
+        nativeLabel.text = TextConstants.NativeLabel.text
+        nativeField.placeholder = TextConstants.NativeField.placeholderText
         nativeField.tintColor = .gray
         nativeField.borderStyle = .roundedRect
     }
 
     func setDividingStripViewAppearance() {
-        dividingStripView.backgroundColor = .black // FIXME: - исправить после мержа с веткой ui_new
+        dividingStripView.backgroundColor = .black // FIXME: - исправить после мержа
     }
 
     func setForeignAppearanceAppearance() {
-        foreignLabel.text = Consts.ForeignLabel.text
-        foreignField.placeholder = Consts.ForeignField.placeholderText
-        foreignField.tintColor = .gray // FIXME: - исправить после мержа с веткой ui_new
+        foreignLabel.text = TextConstants.ForeignLabel.text
+        foreignField.placeholder = TextConstants.ForeignField.placeholderText
+        foreignField.tintColor = .gray // FIXME: - исправить после мержа
         foreignField.borderStyle = .roundedRect
         foreignField.keyboardType = .asciiCapable
     }
 
-    func setAddWordButtonAppearance() {
-        addWordButton.setTitle(Consts.AddWordButton.title, for: .normal)
-        addWordButton.backgroundColor = .blue // FIXME: - исправить после мержа с веткой ui_new
-        addWordButton.layer.cornerRadius = Consts.AddWordButton.cornerRadius
+    func setAddButtonAppearance() {
+        addButton.setTitle(TextConstants.AddButton.title, for: .normal)
+        addButton.backgroundColor = .blue // FIXME: - исправить после мержа
+        addButton.layer.cornerRadius = Consts.AddButton.cornerRadius
+        addButton.addTarget(self, action: #selector(didTabAddWordButton), for: .touchUpInside)
     }
 
     func setNativeLabel() {
@@ -133,19 +135,20 @@ private extension AddNewWordViewController {
         foreignField.heightAnchor.constraint(equalToConstant: view.frame.height / 15).isActive = true
     }
 
-    func setAddWordButton() {
-        addWordButton.translatesAutoresizingMaskIntoConstraints = false
-        addWordButton.topAnchor.constraint(equalTo: foreignField.bottomAnchor,
-                                           constant: UIConstants.AddWordButton.top).isActive = true
-        addWordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+    func setAddButton() {
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.topAnchor.constraint(equalTo: foreignField.bottomAnchor,
+                                           constant: UIConstants.AddButton.top).isActive = true
+        addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                            constant: view.frame.width / 10).isActive = true
-        addWordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+        addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                            constant: -view.frame.width / 10).isActive = true
-        addWordButton.heightAnchor.constraint(equalToConstant: view.frame.height / 15).isActive = true
+        addButton.heightAnchor.constraint(equalToConstant: view.frame.height / 15).isActive = true
     }
 }
 
-extension AddNewWordViewController: AddNewWordViewControllerKeyboardDismissing {
+// MARK: - KeyboardDismissable
+extension AddNewWordViewController: KeyboardDismissable {
     func setDismissKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
@@ -157,48 +160,62 @@ extension AddNewWordViewController: AddNewWordViewControllerKeyboardDismissing {
     }
 }
 
+// MARK: - AddNewWordViewControllerTaps
 extension AddNewWordViewController: AddNewWordViewControllerTaps {
     @objc
     func didTabAddWordButton() {
         guard let nativeText = nativeField.text, !nativeText.isEmpty else {
-            
-            // сделать проверку на существующую категорию
-            // пробрасывать ошибку, если возможно (через CustomViewController)
+            showAlert(message: "Необходимо ввести слово на русском")
+            return
+        }
+        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
+            showAlert(message: "Необходимо ввести перевод слова")
             return
         }
 
-        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
-            print("foreignText is empty")
-            // сделать проверку на существующую категорию
-            // пробрасывать ошибку, если возможно (через CustomViewController)
-            return
-        }
         // работа с моделькой
         nativeField.text = nil
         foreignField.text = nil
         self.dismiss(animated: true)
+    }
+
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
 // MARK: - Consts
 // swiftlint:disable nesting
 private extension AddNewWordViewController {
-    struct Consts {
+    struct TextConstants {
         struct NativeLabel {
             static let text: String = "Русский"
         }
+
         struct ForeignLabel {
             static let text: String = "English"
         }
+
         struct NativeField {
             static let placeholderText: String = "Введите слово на русском"
         }
+
         struct ForeignField {
             static let placeholderText: String = "Enter a word in english"
         }
-        struct AddWordButton {
-            static let cornerRadius: CGFloat  = 16
+
+        struct AddButton {
             static let title: String = "Добавить слово"
+        }
+    }
+
+    struct Consts {
+        struct AddButton {
+            static let cornerRadius: CGFloat  = 16
         }
     }
 
@@ -210,7 +227,7 @@ private extension AddNewWordViewController {
             static let top: CGFloat = 30.0
         }
 
-        struct AddWordButton {
+        struct AddButton {
             static let top: CGFloat = 15.0
         }
     }
