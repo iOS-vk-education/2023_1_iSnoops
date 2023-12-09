@@ -8,7 +8,14 @@
 
 import UIKit
 
-class AddWordViewController: CustomViewController {
+protocol AddNewWordViewControllerKeyboardDismissing {
+    func setDismissKeyboard()
+}
+protocol AddNewWordViewControllerTaps {
+    func didTabAddWordButton()
+}
+
+class AddNewWordViewController: CustomViewController {
     private let nativeLabel = UILabel()
     private let nativeField: UITextField = UITextField()
     private let dividingStripView = UIView()
@@ -18,7 +25,7 @@ class AddWordViewController: CustomViewController {
 }
 
 // MARK: - Life Circle
-extension AddWordViewController {
+extension AddNewWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         [nativeLabel, foreignLabel, nativeField, foreignField, addWordButton, dividingStripView].forEach {
@@ -33,43 +40,12 @@ extension AddWordViewController {
         setForeignField()
         setAddWordButton()
         setDismissKeyboard()
-        addWordButton.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
+        addWordButton.addTarget(self, action: #selector(didTabAddWordButton), for: .touchUpInside)
     }
 }
 
 // MARK: - private methods
-private extension AddWordViewController {
-    @objc
-    func didTabButton() {
-        guard let nativeText = nativeField.text, !nativeText.isEmpty else {
-            print("nativeText is empty")
-            // сделать проверку на существующую категорию
-            // пробрасывать ошибку, если возможно (через CustomViewController)
-            return
-        }
-
-        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
-            print("foreignText is empty")
-            // сделать проверку на существующую категорию
-            // пробрасывать ошибку, если возможно (через CustomViewController)
-            return
-        }
-        // работа с моделькой
-        nativeField.text = nil
-        foreignField.text = nil
-        self.dismiss(animated: true)
-    }
-
-    func setDismissKeyboard() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-    }
-
-    @objc
-    func dismissKeyboard() {
-        view.endEditing(true)
-    }
-
+private extension AddNewWordViewController {
     func setVisualAppearance() {
         nativeLabel.text = Consts.NativeLabel.text
 
@@ -159,9 +135,44 @@ private extension AddWordViewController {
     }
 }
 
+extension AddNewWordViewController: AddNewWordViewControllerKeyboardDismissing {
+    func setDismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc
+    private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+extension AddNewWordViewController: AddNewWordViewControllerTaps {
+    @objc
+    func didTabAddWordButton() {
+        guard let nativeText = nativeField.text, !nativeText.isEmpty else {
+            print("nativeText is empty")
+            // сделать проверку на существующую категорию
+            // пробрасывать ошибку, если возможно (через CustomViewController)
+            return
+        }
+
+        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
+            print("foreignText is empty")
+            // сделать проверку на существующую категорию
+            // пробрасывать ошибку, если возможно (через CustomViewController)
+            return
+        }
+        // работа с моделькой
+        nativeField.text = nil
+        foreignField.text = nil
+        self.dismiss(animated: true)
+    }
+}
+
 // MARK: - Consts
 // swiftlint:disable nesting
-private extension AddWordViewController {
+private extension AddNewWordViewController {
     struct Consts {
         struct NativeLabel {
             static let text: String = "Русский"
