@@ -8,127 +8,101 @@
 
 import UIKit
 
-class AddCategoryViewController: CustomViewController {
-    private let addCategoryImageView: UIImageView = UIImageView()
-    private let addCategoryLabel: UILabel = UILabel()
+protocol AddNewCategoryKeyboardDismissing {
+    func setDismissKeyboard()
+}
+
+protocol AddNewCategoryTaps {
+    func didTapAddCategoryButton()
+    func didTapAddImage()
+}
+
+final class AddNewCategoryViewController: CustomViewController {
+    private let addImage: UIImageView = UIImageView()
+    private let addTitle: UILabel = UILabel()
     private let newCategoryTextField: UITextField = UITextField()
     private let addCategoryButton: UIButton = UIButton()
-//    private let imagePicker = ImagePicker()
     private var selectedImage: UIImage?
-//    weak var delegate: AddNewCategoryDelegate?
-//
-//    init(delegate: AddNewCategoryDelegate) {
-//        super.init(nibName: nil, bundle: nil)
-//        self.delegate = delegate
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
 }
 
 // MARK: - Life Circle
-extension AddCategoryViewController {
+extension AddNewCategoryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        [addCategoryImageView, addCategoryLabel, newCategoryTextField, addCategoryButton].forEach {
+        [addImage, addTitle, newCategoryTextField, addCategoryButton].forEach {
             view.addSubview($0)
         }
 
         setVisualAppearance()
 
-        setAddCategoryImageView()
-        setAddCategoryLabel()
+        setAddImage()
+        setAddTitle()
         setNewCategorytextField()
         setAddCategoryButton()
         setDismissKeyboard()
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddCategoryView))
-        addCategoryImageView.addGestureRecognizer(tapGesture)
-        addCategoryButton.addTarget(self, action: #selector(didTapAddCategoryButton), for: .touchUpInside)
     }
 }
 
 // MARK: - private methods
-private extension AddCategoryViewController {
-    @objc
-    func didTapAddCategoryButton() {
-        guard let enteredText = newCategoryTextField.text, !enteredText.isEmpty else {
-            print("TextField is empty")
-            // сделать проверку на существующую категорию
-            // пробрасывать ошибку, если возможно
-            return
-        }
-//
-//        delegate?.createCategory(with: CategoryUIModel(title: ["ru": enteredText],
-//                                                       image: selectedImage,
-//                                                       studiedWordsCount: 0,
-//                                                       totalWordsCount: 0,
-//                                                       createdDate: Date(),
-//                                                       linkedWordsId: UUID().uuidString))
-        newCategoryTextField.text = nil
-        dismiss(animated: true)
-    }
-
-    @objc
-    func didTapAddCategoryView() {
-//        imagePicker.showImagePicker(with: self) { [weak self] image in
-//            self?.didSelectImage(image)
-//        }
-    }
-
-    func didSelectImage(_ image: UIImage) {
-        selectedImage = image
-//        addCategoryView.setImage(with: image)
-    }
-
-    func setDismissKeyboard() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-    }
-
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-
+private extension AddNewCategoryViewController {
     func setVisualAppearance() {
-        addCategoryButton.setTitle(Consts.AddCategoryButton.title, for: .normal)
-        addCategoryButton.backgroundColor = .red  // FIXME: занести нужный цвет
-        addCategoryButton.layer.cornerRadius = Consts.AddCategoryButton.cornerRadius
+        configureAddCategoryButton()
+        configureNewCategoryTextField()
+        configureAddImageView()
+        configureAddTitleLabel()
+    }
 
-        newCategoryTextField.placeholder = Consts.NewCategoryTextField.text
+    func configureAddCategoryButton() {
+        addCategoryButton.setTitle(TextConstants.AddCategoryButton.title, for: .normal)
+        addCategoryButton.backgroundColor = .red  // FIXME: занести нужный цвет
+        addCategoryButton.layer.cornerRadius = Constants.AddCategoryButton.cornerRadius
+        addCategoryButton.addTarget(self,
+                                    action: #selector(didTapAddCategoryButton),
+                                    for: .touchUpInside)
+    }
+
+    func configureNewCategoryTextField() {
+        newCategoryTextField.placeholder = TextConstants.NewCategoryTextField.text
         newCategoryTextField.tintColor = .gray
         newCategoryTextField.borderStyle = .roundedRect
-
-        addCategoryImageView.contentMode = .scaleAspectFill
-        addCategoryImageView.clipsToBounds = true
-        addCategoryImageView.image = Consts.AddCategoryImageView.image
-
-        addCategoryLabel.text = Consts.AddCategoryLabel.text
-        addCategoryLabel.textAlignment = .center
     }
 
-    func setAddCategoryImageView() {
-        addCategoryImageView.translatesAutoresizingMaskIntoConstraints = false
-        addCategoryImageView.topAnchor.constraint(equalTo: view.topAnchor,
+    func configureAddImageView() {
+        addImage.contentMode = .scaleAspectFill
+        addImage.clipsToBounds = true
+        addImage.isUserInteractionEnabled = true
+        addImage.image = ImageConstants.AddCategoryImageView.image
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddImage))
+        addImage.addGestureRecognizer(tapGesture)
+
+    }
+
+    func configureAddTitleLabel() {
+        addTitle.text = TextConstants.AddCategoryLabel.text
+        addTitle.textAlignment = .center
+    }
+
+    func setAddImage() {
+        addImage.translatesAutoresizingMaskIntoConstraints = false
+        addImage.topAnchor.constraint(equalTo: view.topAnchor,
                                                   constant: UIConstants.AddCategoryImageView.top).isActive = true
-        addCategoryImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        addCategoryImageView.heightAnchor.constraint(equalToConstant: view.frame.width / 4).isActive = true
-        addCategoryImageView.widthAnchor.constraint(equalToConstant: view.frame.width / 4).isActive = true
+        addImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        addImage.heightAnchor.constraint(equalToConstant: view.frame.width / 4).isActive = true
+        addImage.widthAnchor.constraint(equalToConstant: view.frame.width / 4).isActive = true
     }
 
-    func setAddCategoryLabel() {
-        addCategoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        addCategoryLabel.topAnchor.constraint(equalTo: addCategoryImageView.bottomAnchor,
+    func setAddTitle() {
+        addTitle.translatesAutoresizingMaskIntoConstraints = false
+        addTitle.topAnchor.constraint(equalTo: addImage.bottomAnchor,
                                               constant: UIConstants.AddCategoryLabel.top).isActive = true
-        addCategoryLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        addCategoryLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 2).isActive = true
-        addCategoryLabel.sizeToFit()
+        addTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        addTitle.widthAnchor.constraint(equalToConstant: view.frame.width / 2).isActive = true
+        addTitle.sizeToFit()
     }
 
     func setNewCategorytextField() {
         newCategoryTextField.translatesAutoresizingMaskIntoConstraints = false
-        newCategoryTextField.topAnchor.constraint(equalTo: addCategoryLabel.bottomAnchor,
+        newCategoryTextField.topAnchor.constraint(equalTo: addTitle.bottomAnchor,
                                                   constant: UIConstants.NewCategoryTextField.top).isActive = true
         newCategoryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                                   constant: view.frame.width / 10).isActive = true
@@ -150,14 +124,50 @@ private extension AddCategoryViewController {
                                                view.frame.height / 15).isActive = true
     }
 }
+
+// MARK: - AddCategoryKeyboardDismissing
+extension AddNewCategoryViewController: AddNewCategoryKeyboardDismissing {
+    func setDismissKeyboard() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
+
+// MARK: - AddCategoryTaps
+extension AddNewCategoryViewController: AddNewCategoryTaps {
+    @objc
+    func didTapAddCategoryButton() {
+        guard let enteredText = newCategoryTextField.text, !enteredText.isEmpty else {
+            print("TextField is empty")
+            // сделать проверку на существующую категорию
+            // пробрасывать ошибку, если возможно
+            return
+        }
+        newCategoryTextField.text = nil
+        dismiss(animated: true)
+    }
+
+    @objc
+    func didTapAddImage() {
+        // отвечает за работу с ImagePicker
+    }
+}
+
 // MARK: - Consts
 // swiftlint:disable nesting
-private extension AddCategoryViewController {
-    struct Consts {
+private extension AddNewCategoryViewController {
+    struct ImageConstants {
         struct AddCategoryImageView {
             static let image: UIImage = UIImage(named: "plus-signIconImage")!
         }
+    }
 
+    struct TextConstants {
         struct AddCategoryLabel {
             static let text: String = "добавить фото"
         }
@@ -168,6 +178,11 @@ private extension AddCategoryViewController {
 
         struct AddCategoryButton {
             static let title: String = "Добавить категорию"
+        }
+    }
+
+    struct Constants {
+        struct AddCategoryButton {
             static let cornerRadius: CGFloat = 16
         }
     }
