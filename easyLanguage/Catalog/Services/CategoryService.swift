@@ -7,18 +7,14 @@
 
 import Foundation
 
-protocol CatalogNetworkManagerProtocol {
-    func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
+protocol CategoryNetworkManagerProtocol {
+    func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void)
 }
 
-final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
+final class CategoryNetworkManager: CategoryNetworkManagerProtocol {
 
-    static let shared = CatalogNetworkManager()
+    static let shared = CategoryNetworkManager()
     private init() {}
-
-    func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void) {
-        completion(.success(MockData.topFiveWords))
-    }
 
     func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void) {
         completion(.success(MockData.categoryModel))
