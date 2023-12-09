@@ -7,10 +7,6 @@
 
 import Foundation
 
-enum ImageManagerErrors: Error {
-    case unexpectedError
-}
-
 protocol ImageManagerDescription {
     func loadImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void)
 }
@@ -31,7 +27,7 @@ final class ImageManager: ImageManagerDescription {
 
         networkImageQueue.async {
             guard let imageData = try? Data(contentsOf: url) else {
-                mainTreadCompletion(.failure(ImageManagerErrors.unexpectedError))
+                mainTreadCompletion(.failure(ImageManagerErrors.unexpected))
                 return
             }
             mainTreadCompletion(.success(imageData))
