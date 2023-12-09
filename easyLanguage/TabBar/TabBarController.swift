@@ -10,7 +10,14 @@ import UIKit
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewControllers = [catalogVC]
+    }
 
-        view.backgroundColor = .red
+    private var catalogVC: UIViewController {
+        let catalogViewController = UINavigationController(rootViewController: CatalogViewController())
+        let title = "Слова"
+        let image = UIImage(systemName: "character.book.closed.fill")
+        catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, selectedImage: nil)
+        return catalogViewController
     }
 }
