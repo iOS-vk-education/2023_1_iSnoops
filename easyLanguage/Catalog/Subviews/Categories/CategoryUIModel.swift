@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class CategoryUIModel {
-    let title: [String: String]
+struct CategoryUIModel {
+    let title: String
     let image: UIImage?
     let studiedWordsCount: Int
     let totalWordsCount: Int
 
-    init(title: [String: String] = [:],
+    init(title: String = "",
          image: UIImage? = nil,
          studiedWordsCount: Int = 0,
          totalWordsCount: Int = 0) {

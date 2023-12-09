@@ -8,7 +8,7 @@
 import Foundation
 
 struct WordApiModel: Codable {
-    let linkedCategoryId: String // Связующий идентификатор для связи с категорией
+    let categoryId: String // Связующий идентификатор для связи с категорией
     let translations: [String: String]
     var isLearned: Bool
 }
