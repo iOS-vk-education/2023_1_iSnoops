@@ -74,7 +74,7 @@ private extension CategoryCollectionViewCell {
 
     func setupProgressAndTitleLabels(with model: CategoryUIModel) {
         progressLabel.text = "\(model.studiedWordsCount)/\(model.totalWordsCount)"
-        titleLabel.text = model.title["ru"]
+        titleLabel.text = model.title
     }
 
     func setBackgroundLevelView() {
