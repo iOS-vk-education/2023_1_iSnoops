@@ -24,7 +24,7 @@
 		07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */; };
 		07C4F7762B1CF50A0073BED0 /* TopFiveWordsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7732B1CF50A0073BED0 /* TopFiveWordsModel.swift */; };
 		07C4F7772B1CF50A0073BED0 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */; };
-		07C4F7782B1CF50A0073BED0 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7752B1CF50A0073BED0 /* WordModel.swift */; };
+		07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */; };
 		07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */; };
 		07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* MockData.swift */; };
 		07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C12AFBB9AC0095DECB /* ImageManager.swift */; };
@@ -65,7 +65,7 @@
 		07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		07C4F7732B1CF50A0073BED0 /* TopFiveWordsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopFiveWordsModel.swift; path = easyLanguage/Network/Models/TopFiveWordsModel.swift; sourceTree = SOURCE_ROOT; };
 		07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryModel.swift; path = easyLanguage/Network/Models/CategoryModel.swift; sourceTree = SOURCE_ROOT; };
-		07C4F7752B1CF50A0073BED0 /* WordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordModel.swift; path = easyLanguage/Network/Models/WordModel.swift; sourceTree = SOURCE_ROOT; };
+		07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordUIModel.swift; path = easyLanguage/Network/UIModels/WordUIModel.swift; sourceTree = SOURCE_ROOT; };
 		07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionView.swift; sourceTree = "<group>"; };
 		07EF04BA2AFAAF970095DECB /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		07EF04C12AFBB9AC0095DECB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
@@ -231,6 +231,15 @@
 			path = CategoryDetail;
 			sourceTree = "<group>";
 		};
+		074455632B24FB9000FA5469 /* UIModels */ = {
+			isa = PBXGroup;
+			children = (
+				07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */,
+				07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */,
+			);
+			path = UIModels;
+			sourceTree = "<group>";
+		};
 		07C4F7592B1BC9940073BED0 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,7 +255,6 @@
 				07F1BE9B2AF829A600F50845 /* CategoriesView.swift */,
 				07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */,
 				07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */,
-				07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -272,6 +280,7 @@
 		07EF04C02AFBB9920095DECB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				074455632B24FB9000FA5469 /* UIModels */,
 				07EF04BA2AFAAF970095DECB /* MockData.swift */,
 				07C4F7592B1BC9940073BED0 /* Errors */,
 				07F1BE7E2AF828B700F50845 /* Models */,
@@ -306,7 +315,6 @@
 			children = (
 				07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */,
 				07C4F7732B1CF50A0073BED0 /* TopFiveWordsModel.swift */,
-				07C4F7752B1CF50A0073BED0 /* WordModel.swift */,
 			);
 			name = Models;
 			path = ../Catalog/Models;
@@ -472,7 +480,7 @@
 				07F1BE7B2AF828AA00F50845 /* CatalogViewController.swift in Sources */,
 				07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */,
 				07C4F7772B1CF50A0073BED0 /* CategoryModel.swift in Sources */,
-				07C4F7782B1CF50A0073BED0 /* WordModel.swift in Sources */,
+				07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */,
 				07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */,
 				07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */,
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
