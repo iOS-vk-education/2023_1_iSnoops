@@ -10,38 +10,14 @@ import UIKit
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        generate()
+        viewControllers = [catalogVC]
     }
 
-    private func generate() {
+    private var catalogVC: UIViewController {
         let catalogViewController = UINavigationController(rootViewController: CatalogViewController())
-
-        catalogViewController.tabBarItem = UITabBarItem(title: Consts.CatalogViewController.tabBarTitle,
-                                                        image: Consts.CatalogViewController.tabBarImage,
-                                                        selectedImage: nil)
-
-        setViewControllers([catalogViewController], animated: true)
+        let title = "Слова"
+        let image = UIImage(systemName: "character.book.closed.fill")
+        catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, selectedImage: nil)
+        return catalogViewController
     }
 }
-
-// swiftlint:disable nesting
-private extension TabBarController {
-    struct Consts {
-        struct CatalogViewController {
-            static let tabBarImage: UIImage? = UIImage(systemName: "character.book.closed.fill")
-            static let tabBarTitle = "Слова"
-        }
-
-        struct LearningViewController {
-            static let tabBarImage: UIImage? = UIImage(systemName: "airplane.departure")
-            static let tabBarTitle = "Изучение"
-        }
-
-        struct ProfileViewController {
-            static let tabBarImage: UIImage? = UIImage(systemName: "person.fill")
-            static let tabBarTitle = "Профиль"
-        }
-    }
-}
-// swiftlint:enable nesting
