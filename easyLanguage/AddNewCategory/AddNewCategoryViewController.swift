@@ -17,7 +17,7 @@ protocol AddNewCategoryTaps {
     func didTapAddImage()
 }
 
-final class AddNewCategoryViewController: CustomViewController {
+final class AddNewCategoryViewController: UIViewController, UISheetPresentationControllerDelegate {
     private let addImage: UIImageView = UIImageView()
     private let addTitle: UILabel = UILabel()
     private let newCategoryTextField: UITextField = UITextField()
@@ -29,6 +29,8 @@ final class AddNewCategoryViewController: CustomViewController {
 extension AddNewCategoryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        view.backgroundColor = .PrimaryColors.Background.background
         [addImage, addTitle, newCategoryTextField, addCategoryButton].forEach {
             view.addSubview($0)
         }
