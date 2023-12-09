@@ -11,8 +11,8 @@ import Shuffle
 
 final class LearningViewController: UIViewController {
     
-    private var nowCount: Int = 0
-    private var dontNowCount: Int = 0
+    private var knowCount: Int = 0
+    private var dontKnowCount: Int = 0
     
     private var isRevert = false
     
@@ -186,12 +186,12 @@ extension LearningViewController: SwipeCardStackDelegate {
         
         switch direction {
         case .left:
-            nowCount += 1
-            nowLabel.text = "Знаю: \(nowCount)"
+            knowCount += 1
+            nowLabel.text = "Знаю: \(knowCount)"
             isRevert = false
         case .right:
-            dontNowCount += 1
-            dontNowLabel.text = "Не знаю: \(dontNowCount)"
+            dontKnowCount += 1
+            dontNowLabel.text = "Не знаю: \(dontKnowCount)"
             isRevert = false
         case .up:
             break
