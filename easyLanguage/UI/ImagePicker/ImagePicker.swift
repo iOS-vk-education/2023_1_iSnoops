@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// класс для работы откртия галереи и выбора фото
+/// класс для работы открытия галереи и выбора фото
 
 final class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     var completion: ((UIImage) -> Void)?
@@ -21,10 +21,13 @@ final class ImagePicker: NSObject, UINavigationControllerDelegate, UIImagePicker
 
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        if let image = info[.originalImage] as? UIImage {
-            self.completion?(image)
-            picker.dismiss(animated: true)
+        guard let image = info[.originalImage] as? UIImage else {
+            print("[ERROR]: Unable to retrieve the image from info dictionary")
+            return
         }
+
+        self.completion?(image)
+        imagePickerControllerDidCancel(picker)
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
