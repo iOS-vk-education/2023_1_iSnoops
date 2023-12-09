@@ -47,28 +47,38 @@ extension AddNewWordViewController {
 // MARK: - private methods
 private extension AddNewWordViewController {
     func setVisualAppearance() {
+        setNativeAppearance()
+        setDividingStripViewAppearance()
+        setForeignAppearanceAppearance()
+        setAddWordButtonAppearance()
+    }
+
+    func setNativeAppearance() {
         nativeLabel.text = Consts.NativeLabel.text
-
         nativeField.placeholder = Consts.NativeField.placeholderText
+        nativeField.tintColor = .gray
+        nativeField.borderStyle = .roundedRect
+    }
 
+    func setDividingStripViewAppearance() {
         dividingStripView.backgroundColor = .black // FIXME: - исправить после мержа с веткой ui_new
+    }
 
+    func setForeignAppearanceAppearance() {
         foreignLabel.text = Consts.ForeignLabel.text
         foreignField.placeholder = Consts.ForeignField.placeholderText
-        [nativeField, foreignField].forEach {
-            $0.tintColor = .gray // FIXME: - исправить после мержа с веткой ui_new
-            $0.borderStyle = .roundedRect
-        }
-
-        addWordButton.setTitle(Consts.AddWordButton.title, for: .normal)
-        addWordButton.backgroundColor = .blue // FIXME: - исправить после мержа с веткой ui_new
-        addWordButton.layer.cornerRadius = Consts.AddWordButton.cornerRadius
-
+        foreignField.tintColor = .gray // FIXME: - исправить после мержа с веткой ui_new
+        foreignField.borderStyle = .roundedRect
         foreignField.keyboardType = .asciiCapable
     }
 
+    func setAddWordButtonAppearance() {
+        addWordButton.setTitle(Consts.AddWordButton.title, for: .normal)
+        addWordButton.backgroundColor = .blue // FIXME: - исправить после мержа с веткой ui_new
+        addWordButton.layer.cornerRadius = Consts.AddWordButton.cornerRadius
+    }
+
     func setNativeLabel() {
-        print(view.frame)
         nativeLabel.translatesAutoresizingMaskIntoConstraints = false
         nativeLabel.topAnchor.constraint(equalTo: view.topAnchor,
                                          constant: UIConstants.top).isActive = true
@@ -151,7 +161,7 @@ extension AddNewWordViewController: AddNewWordViewControllerTaps {
     @objc
     func didTabAddWordButton() {
         guard let nativeText = nativeField.text, !nativeText.isEmpty else {
-            print("nativeText is empty")
+            
             // сделать проверку на существующую категорию
             // пробрасывать ошибку, если возможно (через CustomViewController)
             return
