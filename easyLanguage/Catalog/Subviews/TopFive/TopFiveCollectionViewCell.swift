@@ -51,10 +51,10 @@ extension TopFiveCollectionViewCell {
 // MARK: - open methods
 extension TopFiveCollectionViewCell {
     func cellConfigure(with model: TopFiveWordsModel, at indexPath: IndexPath) {
-        nativeTitle = model.title["ru"]
-        foreignTitle = model.title["en"]
+        nativeTitle = model.translations["ru"]
+        foreignTitle = model.translations["en"]
         levelLabel.text = model.level
-        titleLabel.text = model.title["ru"]
+        titleLabel.text = model.translations["ru"]
         setupColorsForWord(with: indexPath.item)
     }
 }
