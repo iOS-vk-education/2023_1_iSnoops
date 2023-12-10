@@ -17,7 +17,7 @@ final class TabBarController: UITabBarController {
         let catalogViewController = UINavigationController(rootViewController: CatalogViewController())
         let title = "Слова"
         let image = UIImage(systemName: "character.book.closed.fill")
-        catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, selectedImage: nil)
+        catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
         return catalogViewController
     }
 }
