@@ -16,7 +16,7 @@ protocol AddNewWordViewControllerTaps {
     func didTabAddWordButton()
 }
 
-class AddNewWordViewController: CustomViewController {
+class AddNewWordViewController: UIViewController, UISheetPresentationControllerDelegate {
     private let nativeLabel = UILabel()
     private let nativeField: UITextField = UITextField()
     private let dividingStripView = UIView()
@@ -33,6 +33,8 @@ extension AddNewWordViewController {
         [nativeLabel, foreignLabel, nativeField, foreignField, addButton, dividingStripView].forEach {
             view.addSubview($0)
         }
+
+        view.backgroundColor = .PrimaryColors.Background.background
         setVisualAppearance()
 
         setNativeLabel()
