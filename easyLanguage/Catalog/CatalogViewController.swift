@@ -26,6 +26,7 @@ protocol CategoriesViewDelegate: AnyObject {
     func presentViewController(_ viewController: UIViewController)
     func sortCategoryByName()
     func sortByDateCreation()
+    func endRefreshing()
 }
 
 class CatalogViewController: CustomViewController {
@@ -34,6 +35,7 @@ class CatalogViewController: CustomViewController {
     private var categoryModel: [CategoryModel] = []
     private var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
 
+    private let refreshControl = UIRefreshControl()
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
@@ -41,14 +43,20 @@ class CatalogViewController: CustomViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = "Слова"
+
         loadCategories()
         loadTopFiveWords()
+
         view.addSubview(scrollView)
         setScrollView()
         [progressView, topFiveView, categoriesView].forEach {
             scrollView.addSubview($0)
         }
-        title = "Слова"
+
+        setVisualAppearance()
+
         setProgressView()
         setTopFiveView()
         setCategoriesView()
@@ -93,6 +101,16 @@ private extension CatalogViewController {
                 print(error.localizedDescription)
             }
         }
+    }
+
+    func setVisualAppearance() {
+        scrollView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(didPullRefreshControll), for: .valueChanged)
+    }
+
+    @objc
+    func didPullRefreshControll() {
+        categoriesView.updateCollectionView(with: categoryModel)
     }
 
     func setScrollView() {
@@ -240,5 +258,9 @@ extension CatalogViewController: CategoriesViewDelegate {
             $0.createdDate > $1.createdDate
         }
         categoriesView.updateCollectionView(with: categoryModel)
+    }
+
+    func endRefreshing() {
+        refreshControl.endRefreshing()
     }
 }
