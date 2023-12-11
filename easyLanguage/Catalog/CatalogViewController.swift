@@ -158,11 +158,11 @@ private extension CatalogViewController {
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
     func setupAllLearnedWords() {
-        progressView.setupAllWords(count: 120) // должна с бека сумма всех слов приходить
+        progressView.setupAllWords(count: 141) // должна с бека сумма всех слов приходить
     }
 
     func setupWordsInProgress() {
-        progressView.setupWordsInProgress(count: 60)
+        progressView.setupWordsInProgress(count: 40)
     }
 }
 // swiftlint:enable nesting
