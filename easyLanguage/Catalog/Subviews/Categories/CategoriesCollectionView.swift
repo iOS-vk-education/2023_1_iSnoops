@@ -36,7 +36,7 @@ final class CategoriesCollectionView: UICollectionView {
 
         register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoriesCollectionView")
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = UIScreen.main.bounds.width / 20.5
+            flowLayout.minimumLineSpacing = 18
         }
     }
 }

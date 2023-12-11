@@ -30,7 +30,7 @@ final class TopFiveCollectionView: UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
 
-        self.collectionViewLayout = layout
+        collectionViewLayout = layout
         showsHorizontalScrollIndicator = false
         backgroundColor = .PrimaryColors.Background.background
 
@@ -39,7 +39,7 @@ final class TopFiveCollectionView: UICollectionView {
 
         register(TopFiveCollectionViewCell.self, forCellWithReuseIdentifier: "topFiveWordsCollectionView")
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.minimumLineSpacing = UIScreen.main.bounds.width / 21.8
+            flowLayout.minimumLineSpacing = 18
         }
     }
 }

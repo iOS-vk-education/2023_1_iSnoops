@@ -8,7 +8,7 @@
 import UIKit
 
 final class ProfileViewController: CustomViewController {
-    // MARK: - init views
+    // MARK: - Init views
     private let scrollView = UIScrollView()
 
     private let labelUnderTextField = UILabel()
@@ -37,7 +37,7 @@ final class ProfileViewController: CustomViewController {
     }
 }
 
-// MARK: - private methods
+// MARK: - Private methods
 private extension ProfileViewController {
     func setAppearance() {
         progressView.setupWordsInProgress(count: 60)
@@ -49,7 +49,7 @@ private extension ProfileViewController {
         labelUnderTextField.lineBreakMode = .byWordWrapping
     }
 
-    // MARK: - layouts
+    // MARK: - Layouts
     func setScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -99,7 +99,7 @@ private extension ProfileViewController {
     }
 }
 
-// MARK: - structures
+// MARK: - Constants
 private extension ProfileViewController {
     struct LabelUnderTextField {
         static let text: String = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля"

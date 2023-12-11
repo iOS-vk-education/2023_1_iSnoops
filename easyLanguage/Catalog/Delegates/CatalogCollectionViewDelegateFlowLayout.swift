@@ -11,8 +11,8 @@ extension TopFiveCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.frame.width / 3,
-                      height: self.frame.width / 3)
+        return CGSize(width: frame.height,
+                      height: frame.height)
     }
 }
 
@@ -20,7 +20,7 @@ extension CategoriesCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.frame.width / 2 - 9,
-                      height: self.frame.width / 2 - 9)
+        return CGSize(width: frame.width / 2 - 9, // 18 - minimumLineSpacing
+                      height: frame.width / 2 - 9)
     }
 }

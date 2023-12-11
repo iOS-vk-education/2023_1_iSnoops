@@ -15,11 +15,8 @@ final class CatalogModel {
             switch result {
             case .success(let topFiveData):
                 let topFiveWords = topFiveData.map { word in
-                    TopFiveWordsModel(
-                        topFiveWordsId: word.topFiveWordsId,
-                        title: word.title,
-                        level: word.level
-                    )
+                    TopFiveWordsModel(translations: word.translations,
+                                      level: word.level)
                 }
                 completion(.success(topFiveWords))
             case .failure(let error):
@@ -34,13 +31,12 @@ final class CatalogModel {
             switch result {
             case .success(let categories):
                 let categoryModels = categories.map { category in
-                    CategoryModel(
-                        categoryId: category.categoryId,
-                        title: category.title,
-                        imageLink: category.imageLink ?? defaultImageLink,
-                        studiedWordsCount: category.studiedWordsCount,
-                        totalWordsCount: category.totalWordsCount
-                    )
+                    CategoryModel(title: category.title,
+                                  imageLink: category.imageLink,
+                                  studiedWordsCount: 0, //FIXME: - нужен запрос
+                                  totalWordsCount: 0, //FIXME: - нужен запрос
+                                  createdDate: category.createdDate,
+                                  linkedWordsId: category.linkedWordsId)
                 }
                 completion(.success(categoryModels))
             case .failure(let error):

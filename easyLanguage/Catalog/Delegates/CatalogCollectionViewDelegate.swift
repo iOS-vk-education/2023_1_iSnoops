@@ -9,12 +9,12 @@ import UIKit
 
 extension TopFiveCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inputTopFiveWords?.topFiveWordsCount ?? 0
+        inputTopFiveWords?.topFiveWordsCount ?? 0
     }
 }
 
 extension CategoriesCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return inputCategories?.categoriesCount ?? 0
+        inputCategories?.categoriesCount ?? 0
     }
 }

@@ -7,6 +7,8 @@
 
 import UIKit
 
+/// UIViewController в котором прописаны
+/// backgroundColor с учетом темы приложения, вью для ошибок, вью(индикатор) загрузки
 class CustomViewController: UIViewController {
 
     override func viewDidLoad() {

@@ -8,7 +8,7 @@
 import UIKit
 
 class ChoosingThemeView: UIView {
-    // MARK: - init labels & buttons
+    // MARK: - Init labels & buttons
     private let themeLabel = UILabel()
     private let lightThemeButton = UIButton()
     private let darkThemeButton = UIButton()
@@ -31,11 +31,18 @@ class ChoosingThemeView: UIView {
     }
 
     override func layoutSubviews() {
-        setAll()
+        super.layoutSubviews()
+        setThemeLabel()
+        setLightThemeButton()
+        setAutomaticThemeButton()
+        setDarkThemeButton()
+        setLightThemeLabel()
+        setAutomaticThemeLabel()
+        setDarkThemeLabel()
     }
 }
 
-// MARK: - open methods
+// MARK: - Open methods
 extension ChoosingThemeView {
     func getSize() -> CGFloat {
         return ThemeLabel.marginTop + ThemeLabel.height + Button.marginTop
@@ -43,7 +50,7 @@ extension ChoosingThemeView {
     }
 }
 
-// MARK: - private methods
+// MARK: - Private methods
 private extension ChoosingThemeView {
     func setVisualAppearance() {
         themeLabel.text = ThemeLabel.text
@@ -57,16 +64,6 @@ private extension ChoosingThemeView {
         [lightThemeButton, automaticThemeButton, darkThemeButton].forEach {
             $0.layer.cornerRadius = Button.size / 2
         }
-    }
-
-    func setAll() {
-        setThemeLabel()
-        setLightThemeButton()
-        setAutomaticThemeButton()
-        setDarkThemeButton()
-        setLightThemeLabel()
-        setAutomaticThemeLabel()
-        setDarkThemeLabel()
     }
 
     func configureCircularButton(_ button: UIButton, color: UIColor, isActive: Bool) {
@@ -114,7 +111,7 @@ private extension ChoosingThemeView {
         return (self.bounds.width - 3 * Button.size) / 4
     }
 
-    // MARK: - layout
+    // MARK: - Layout
     func setThemeLabel() {
         themeLabel.translatesAutoresizingMaskIntoConstraints = false
         themeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: ThemeLabel.marginTop).isActive = true
@@ -175,7 +172,7 @@ private extension ChoosingThemeView {
     }
 }
 
-// MARK: - structures
+// MARK: - Constants
 private extension ChoosingThemeView {
     struct ThemeLabel {
         static let text: String = "Тема оформления"

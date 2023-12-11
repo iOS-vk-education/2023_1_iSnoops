@@ -1,5 +1,5 @@
 //
-//  CatalogNetworkManager.swift
+//  CategoryService.swift
 //  easyLanguage
 //
 //  Created by Grigoriy on 26.10.2023.

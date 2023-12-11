@@ -7,17 +7,11 @@
 
 import UIKit
 
-protocol UserInformationViewDelegate: AnyObject {
-    func presentImagePicker()
-}
-
 final class UserInformationView: UIView {
-    // MARK: - init image, first & last name textfield
+    // MARK: - Init image, first & last name textfield
     private let imageView = UIImageView()
     private let firstNameTextField = UITextField()
     private let lastNameTextField = UITextField()
-
-    weak var delegate: UserInformationViewDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,36 +22,15 @@ final class UserInformationView: UIView {
         setImageView()
         setFirstNameTextField()
         setLastNameTextField()
-        setupImageViewTapGesture()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    private func setupImageViewTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        imageView.addGestureRecognizer(tapGesture)
-        imageView.isUserInteractionEnabled = true
-    }
-
-    @objc private func imageTapped() {
-        delegate?.presentImagePicker()
-    }
 }
-// MARK: - open methods
-extension UserInformationView: UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo
-                               info: [UIImagePickerController.InfoKey: Any]) {
-        if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            imageView.image = selectedImage
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
+// MARK: - Open methods
+extension UserInformationView {
+    // Первые две функции пока не работают
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField == firstNameTextField {
             if let firstName = textField.text {
@@ -80,7 +53,7 @@ extension UserInformationView: UIImagePickerControllerDelegate, UINavigationCont
     }
 }
 
-// MARK: - private methods
+// MARK: - Private methods
 private extension UserInformationView {
     func setVisualAppearance() {
         setUpImage(imageView)
@@ -105,7 +78,7 @@ private extension UserInformationView {
         textField.layer.cornerRadius = 15
     }
 
-    // MARK: - layouts
+    // MARK: - Layouts
     func setImageView() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: Image.marginTop).isActive = true
@@ -137,26 +110,7 @@ private extension UserInformationView {
     }
 }
 
-class UserInformationProfileController: UIViewController,
-                                        UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    private lazy var userInformationView = UserInformationView()
-
-    override func viewDidLoad() {
-        userInformationView.delegate = self
-    }
-}
-
-// MARK: - UserInformationViewDelegate
-extension UserInformationProfileController: UserInformationViewDelegate {
-    func presentImagePicker() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.sourceType = .photoLibrary
-        present(imagePickerController, animated: true, completion: nil)
-    }
-}
-
-// MARK: - structures
+// MARK: - Contsants
 private extension UserInformationView {
     struct Image {
         static let imageSize: CGFloat = 130

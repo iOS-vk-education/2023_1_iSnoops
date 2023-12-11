@@ -8,7 +8,6 @@
 import UIKit
 
 final class CategoriesView: UIView {
-
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
@@ -23,16 +22,21 @@ final class CategoriesView: UIView {
 
         setVisualAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
-            self.addSubview($0)
+            addSubview($0)
         }
-        setTitleLabel()
-        setAddImageView()
-        setSortImageView()
-        setCategoriesCollectionView()
+
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setTitleLabel()
+        setAddImageView()
+        setSortImageView()
+        setCategoriesCollectionView()
     }
 }
 
@@ -47,8 +51,7 @@ private extension CategoriesView {
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: topAnchor,
-                                        constant: UIConstants.TitleLabel.top).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
                                             constant: UIConstants.TitleLabel.leading).isActive = true
         titleLabel.widthAnchor.constraint(equalToConstant: UIConstants.TitleLabel.width).isActive = true
@@ -61,9 +64,9 @@ private extension CategoriesView {
         addNewCategoryLogo.trailingAnchor.constraint(equalTo: trailingAnchor, constant:
                                                     -UIConstants.AddNewCategoryLogo.trailing).isActive = true
         addNewCategoryLogo.widthAnchor.constraint(equalToConstant:
-                                                    UIConstants.AddNewCategoryLogo.width).isActive = true
+                                                    UIConstants.AddNewCategoryLogo.size).isActive = true
         addNewCategoryLogo.heightAnchor.constraint(equalToConstant:
-                                                    UIConstants.AddNewCategoryLogo.height).isActive = true
+                                                    UIConstants.AddNewCategoryLogo.size).isActive = true
     }
 
     func setSortImageView() {
@@ -72,19 +75,19 @@ private extension CategoriesView {
         sortCategoriesLogo.trailingAnchor.constraint(equalTo: addNewCategoryLogo.leadingAnchor, constant:
                                                     -UIConstants.SortCategoriesLogo.trailing).isActive = true
         sortCategoriesLogo.widthAnchor.constraint(equalToConstant:
-                                                    UIConstants.SortCategoriesLogo.width).isActive = true
+                                                    UIConstants.SortCategoriesLogo.size).isActive = true
         sortCategoriesLogo.heightAnchor.constraint(equalToConstant:
-                                                    UIConstants.SortCategoriesLogo.height).isActive = true
+                                                    UIConstants.SortCategoriesLogo.size).isActive = true
     }
 
     func setCategoriesCollectionView() {
         categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
         categoriesCollectionView.topAnchor.constraint(equalTo: addNewCategoryLogo.bottomAnchor, constant:
-                                                        UIConstants.CategoriesCollectionView.top).isActive = true
+                                               UIConstants.CategoriesCollectionView.top).isActive = true
         categoriesCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant:
-                                               UIConstants.CategoriesCollectionView.leading).isActive = true
+                                               UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant:
-                                               -UIConstants.CategoriesCollectionView.trailing).isActive = true
+                                               -UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 }
@@ -102,27 +105,23 @@ private extension CategoriesView {
     // swiftlint:disable nesting
     struct UIConstants {
         struct TitleLabel {
-            static let top: CGFloat = 6.0
             static let leading: CGFloat = 18.0
             static let width: CGFloat = 120.0
         }
 
         struct AddNewCategoryLogo {
             static let trailing: CGFloat = 18.0
-            static let width: CGFloat = 35.0
-            static let height: CGFloat = 35.0
+            static let size: CGFloat = 35.0
         }
 
         struct SortCategoriesLogo {
             static let trailing: CGFloat = 18.0
-            static let width: CGFloat = 35.0
-            static let height: CGFloat = 35.0
+            static let size: CGFloat = 35.0
         }
 
         struct CategoriesCollectionView {
             static let top: CGFloat = 10.0
-            static let leading: CGFloat = 18.0
-            static let trailing: CGFloat = 18.0
+            static let horizontally: CGFloat = 18.0
         }
     }
 }
