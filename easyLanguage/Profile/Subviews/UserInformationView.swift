@@ -114,7 +114,7 @@ private extension UserInformationView {
 private extension UserInformationView {
     struct Image {
         static let imageSize: CGFloat = 130
-        static let marginTop: CGFloat = 10
+        static let marginTop: CGFloat = 20
     }
 
     struct TextFields {

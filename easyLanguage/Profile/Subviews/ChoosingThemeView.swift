@@ -176,7 +176,7 @@ private extension ChoosingThemeView {
 private extension ChoosingThemeView {
     struct ThemeLabel {
         static let text: String = "Тема оформления"
-        static let marginTop: CGFloat = 30
+        static let marginTop: CGFloat = 35
         static let marginLeft: CGFloat = 20
         static let marginRight: CGFloat = -40
         static let height: CGFloat = 30

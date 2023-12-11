@@ -10,7 +10,7 @@ import UIKit
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [catalogVC]
+        viewControllers = [catalogVC, profileVC]
     }
 
     private var catalogVC: UIViewController {
@@ -19,5 +19,13 @@ final class TabBarController: UITabBarController {
         let image = UIImage(systemName: "character.book.closed.fill")
         catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
         return catalogViewController
+    }
+
+    private var profileVC: UIViewController {
+        let profileViewController = UINavigationController(rootViewController: ProfileViewController())
+        let title = "Профиль"
+        let image = UIImage(systemName: "person.fill")
+        profileViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
+        return profileViewController
     }
 }
