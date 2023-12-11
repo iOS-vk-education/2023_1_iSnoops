@@ -6,6 +6,10 @@
 //
 
 import UIKit
+protocol CategoriesViewTaps {
+    func didTapSortCategoriesLogo()
+    func didTapAddNewCategoryLogo()
+}
 
 final class CategoriesView: UIView {
     private let titleLabel: UILabel = UILabel()
@@ -13,11 +17,13 @@ final class CategoriesView: UIView {
     private let sortCategoriesLogo: UIImageView = UIImageView()
     weak var inputCategories: InputCategoriesDelegate?
     private let categoriesCollectionView = CategoriesCollectionView()
+    weak var delegate: CategoriesViewDelegate?
 
-    init(inputCategories: InputCategoriesDelegate) {
+    init(inputCategories: InputCategoriesDelegate, delegate: CategoriesViewDelegate?) {
         super.init(frame: .zero)
 
         self.inputCategories = inputCategories
+        self.delegate = delegate
         categoriesCollectionView.setupInputCategoriesDelegate(with: inputCategories)
 
         setVisualAppearance()
@@ -33,6 +39,7 @@ final class CategoriesView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+
         setTitleLabel()
         setAddImageView()
         setSortImageView()
@@ -40,13 +47,49 @@ final class CategoriesView: UIView {
     }
 }
 
+extension CategoriesView {
+    func updateCollectionView(with categoryModel: [CategoryModel]) {
+        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
+        // performBatchUpdates - для атомарного обновления (одна неделимая единица)
+        categoriesCollectionView.performBatchUpdates {
+            for newIndex in indexPathsToUpdate {
+                // Обновление данных в ячейках
+                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
+                    categoriesCollectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
+                        cell.cellConfigure(with: categoryUIModel, at: newIndex)
+                    }
+                }
+            }
+        }
+    }
+}
+
 // MARK: - private methods
 private extension CategoriesView {
     func setVisualAppearance() {
+        configureTitleLabel()
+        configureAddNewCategoryLogo()
+        configureSortCategoriesLogo()
+    }
+
+    func configureTitleLabel() {
         titleLabel.text = CategoriesView.Consts.titleText
         titleLabel.textColor = .black
+    }
+
+    func configureAddNewCategoryLogo() {
         addNewCategoryLogo.image = CategoriesView.Icons.addImage
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAddNewCategoryLogo))
+        sortCategoriesLogo.isUserInteractionEnabled = true
+        sortCategoriesLogo.addGestureRecognizer(tapGesture)
+    }
+
+    func configureSortCategoriesLogo() {
         sortCategoriesLogo.image = CategoriesView.Icons.sortImage
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSortCategoriesLogo))
+        sortCategoriesLogo.isUserInteractionEnabled = true
+        sortCategoriesLogo.addGestureRecognizer(tapGesture)
     }
 
     func setTitleLabel() {
@@ -91,6 +134,36 @@ private extension CategoriesView {
         categoriesCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 }
+
+extension CategoriesView: CategoriesViewTaps {
+    @objc
+    func didTapSortCategoriesLogo() {
+        let alertController = UIAlertController(title: "Сортировка категорий",
+                                                message: "Выберите в каком порядке отобразить категории",
+                                                preferredStyle: .actionSheet)
+
+        let recentlyAddedAction = UIAlertAction(title: "Недавно добавленные", style: .default) { [weak self] _ in
+            self?.delegate?.sortByDateCreation()
+        }
+
+        let byNameAction = UIAlertAction(title: "Названию", style: .default) { [weak self] _ in
+            self?.delegate?.sortCategoryByName()
+        }
+
+        let cancelAction = UIAlertAction(title: "Вернуться", style: .cancel, handler: nil)
+
+        alertController.addAction(recentlyAddedAction)
+        alertController.addAction(byNameAction)
+        alertController.addAction(cancelAction)
+        delegate?.presentViewController(alertController)
+    }
+
+    @objc
+    func didTapAddNewCategoryLogo() {
+        //открытие AddNewWordVC
+    }
+}
+
 // MARK: - Constants
 private extension CategoriesView {
     struct Consts {

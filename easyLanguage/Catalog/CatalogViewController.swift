@@ -22,6 +22,12 @@ protocol ProgressSetup {
     func setupWordsInProgress()
 }
 
+protocol CategoriesViewDelegate: AnyObject {
+    func presentViewController(_ viewController: UIViewController)
+    func sortCategoryByName()
+    func sortByDateCreation()
+}
+
 class CatalogViewController: CustomViewController {
     private let imageManager = ImageManager.shared
     private let model = CatalogModel()
@@ -31,7 +37,7 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesView: CategoriesView = CategoriesView(inputCategories: self)
+    private lazy var categoriesView: CategoriesView = CategoriesView(inputCategories: self, delegate: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,12 +136,13 @@ private extension CatalogViewController {
 
         let isEvenCount = categoryModel.count % 2 == 0
         let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
-        let cellHeight = CGFloat(view.frame.width / 2 - 9) // -18 ( + 18 (minimumLineSpacing)
+        let cellHeight = CGFloat(view.frame.width / 2 - 9)
         let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
         let marginHeight = cellHeight * cellCount + categoriesMargin
         categoriesView.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
     }
 }
+
 // MARK: - UIConstants
 // swiftlint:disable nesting
 private extension CatalogViewController {
@@ -211,5 +218,27 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
             level: topFiveModel[index].level
         )
         completion(topFiveWordsModel)
+    }
+}
+
+// MARK: - Protocol CategoriesViewDelegate
+extension CatalogViewController: CategoriesViewDelegate {
+    func presentViewController(_ viewController: UIViewController) {
+        present(viewController, animated: true)
+    }
+
+    func sortCategoryByName() {
+        categoryModel.sort {
+            $0.title < $1.title
+        }
+
+        categoriesView.updateCollectionView(with: categoryModel)
+    }
+
+    func sortByDateCreation() {
+        categoryModel.sort {
+            $0.createdDate > $1.createdDate
+        }
+        categoriesView.updateCollectionView(with: categoryModel)
     }
 }
