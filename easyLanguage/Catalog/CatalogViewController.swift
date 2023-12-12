@@ -60,8 +60,7 @@ private extension CatalogViewController {
             }
             switch result {
             case .success(let data):
-                let categoryModel = data
-                self.categoryModel = categoryModel
+                self.categoryModel = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
