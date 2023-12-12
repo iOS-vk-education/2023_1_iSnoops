@@ -233,11 +233,11 @@
 			path = CategoryDetail;
 			sourceTree = "<group>";
 		};
-		074455602B24CC6500FA5469 /* UIModels */ = {
+		074455632B24FB9000FA5469 /* UIModels */ = {
 			isa = PBXGroup;
 			children = (
-				07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */,
 				07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */,
+				07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */,
 			);
 			path = UIModels;
 			sourceTree = "<group>";
@@ -282,7 +282,7 @@
 		07EF04C02AFBB9920095DECB /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				074455602B24CC6500FA5469 /* UIModels */,
+				074455632B24FB9000FA5469 /* UIModels */,
 				07EF04BA2AFAAF970095DECB /* MockData.swift */,
 				07C4F7592B1BC9940073BED0 /* Errors */,
 				07F1BE7E2AF828B700F50845 /* Models */,

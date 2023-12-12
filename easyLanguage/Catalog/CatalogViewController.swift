@@ -60,15 +60,7 @@ private extension CatalogViewController {
             }
             switch result {
             case .success(let data):
-                let categoryModel = data.map { category in
-                    CategoryModel(title: category.title,
-                                  imageLink: category.imageLink,
-                                  studiedWordsCount: category.studiedWordsCount,
-                                  totalWordsCount: category.totalWordsCount,
-                                  createdDate: category.createdDate,
-                                  linkedWordsId: category.linkedWordsId)
-                }
-                self.categoryModel = categoryModel
+                self.categoryModel = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
