@@ -24,24 +24,4 @@ final class CatalogModel {
             }
         }
     }
-
-    func loadCategory(completion: @escaping (Result<[CategoryModel], Error>) -> Void) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
-        catalogNetworkManager.getCategories { result in
-            switch result {
-            case .success(let categories):
-                let categoryModels = categories.map { category in
-                    CategoryModel(title: category.title,
-                                  imageLink: category.imageLink,
-                                  studiedWordsCount: 0, //FIXME: - нужен запрос
-                                  totalWordsCount: 0, //FIXME: - нужен запрос
-                                  createdDate: category.createdDate,
-                                  linkedWordsId: category.linkedWordsId)
-                }
-                completion(.success(categoryModels))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
 }

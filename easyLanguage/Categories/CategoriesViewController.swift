@@ -7,7 +7,15 @@
 
 import UIKit
 
+protocol InputCategoriesDelegate: AnyObject {
+    var categoriesCount: Int { get }
+    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
+}
+
 final class CategoriesViewController: UIViewController {
+    private let imageManager = ImageManager.shared
+    private let model = CategoriesModel()
+    private var categoryModel: [CategoryModel] = []
 
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
@@ -16,6 +24,8 @@ final class CategoriesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        loadCategories()
 
         setVisualAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
@@ -27,11 +37,35 @@ final class CategoriesViewController: UIViewController {
         setAddImageView()
         setSortImageView()
         setCategoriesCollectionView()
+        categoriesCollectionView.setupInputCategoriesDelegate(with: self)
+    }
+}
+extension CategoriesViewController {
+    func calculateCategoriesCollectionViewHeight() -> CGFloat {
+        let isEvenCount = categoryModel.count % 2 == 0
+        let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
+        let cellHeight = CGFloat(view.frame.width / 2 - 9) // -18 ( + 18 (minimumLineSpacing)
+        let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
+        return cellHeight * cellCount + categoriesMargin
     }
 }
 
 // MARK: - private methods
 private extension CategoriesViewController {
+    func loadCategories() {
+        model.loadCategory { [weak self] result in
+            guard let self = self else {
+                return
+            }
+            switch result {
+            case .success(let data):
+                self.categoryModel = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
     func setVisualAppearance() {
         titleLabel.text = CategoriesViewController.Consts.titleText
         titleLabel.textColor = .black
@@ -44,30 +78,28 @@ private extension CategoriesViewController {
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                             constant: UIConstants.TitleLabel.leading).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: UIConstants.TitleLabel.width).isActive = true
-        titleLabel.sizeToFit()
     }
 
     func setAddImageView() {
         addNewCategoryLogo.translatesAutoresizingMaskIntoConstraints = false
         addNewCategoryLogo.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         addNewCategoryLogo.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:
-                                                    -UIConstants.AddNewCategoryLogo.trailing).isActive = true
+                                                    -UIConstants.CategoriesLogo.trailing).isActive = true
         addNewCategoryLogo.widthAnchor.constraint(equalToConstant:
-                                                    UIConstants.AddNewCategoryLogo.size).isActive = true
+                                                    UIConstants.CategoriesLogo.size).isActive = true
         addNewCategoryLogo.heightAnchor.constraint(equalToConstant:
-                                                    UIConstants.AddNewCategoryLogo.size).isActive = true
+                                                    UIConstants.CategoriesLogo.size).isActive = true
     }
 
     func setSortImageView() {
         sortCategoriesLogo.translatesAutoresizingMaskIntoConstraints = false
         sortCategoriesLogo.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         sortCategoriesLogo.trailingAnchor.constraint(equalTo: addNewCategoryLogo.leadingAnchor, constant:
-                                                    -UIConstants.SortCategoriesLogo.trailing).isActive = true
+                                                    -UIConstants.CategoriesLogo.trailing).isActive = true
         sortCategoriesLogo.widthAnchor.constraint(equalToConstant:
-                                                    UIConstants.SortCategoriesLogo.size).isActive = true
+                                                    UIConstants.CategoriesLogo.size).isActive = true
         sortCategoriesLogo.heightAnchor.constraint(equalToConstant:
-                                                    UIConstants.SortCategoriesLogo.size).isActive = true
+                                                    UIConstants.CategoriesLogo.size).isActive = true
     }
 
     func setCategoriesCollectionView() {
@@ -79,6 +111,38 @@ private extension CategoriesViewController {
         categoriesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:
                                                -UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+}
+
+// MARK: - Protocol InputCategoriesDelegate
+extension CategoriesViewController: InputCategoriesDelegate {
+    var categoriesCount: Int {
+        categoryModel.count
+    }
+
+    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
+        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
+        guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
+            completion(CategoryUIModel())
+            return
+        }
+
+        imageManager.loadImage(from: url) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let self = self else { return }
+                completion(
+                    CategoryUIModel(
+                        title: categoryModel[index].title,
+                        image: UIImage(data: data),
+                        studiedWordsCount: categoryModel[index].studiedWordsCount,
+                        totalWordsCount: categoryModel[index].totalWordsCount
+                    )
+                )
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
 
@@ -97,15 +161,9 @@ private extension CategoriesViewController {
     struct UIConstants {
         struct TitleLabel {
             static let leading: CGFloat = 18.0
-            static let width: CGFloat = 120.0
         }
 
-        struct AddNewCategoryLogo {
-            static let trailing: CGFloat = 18.0
-            static let size: CGFloat = 35.0
-        }
-
-        struct SortCategoriesLogo {
+        struct CategoriesLogo {
             static let trailing: CGFloat = 18.0
             static let size: CGFloat = 35.0
         }

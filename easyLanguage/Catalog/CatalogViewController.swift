@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol InputCategoriesDelegate: AnyObject {
-    var categoriesCount: Int { get }
-    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
-}
-
 protocol InputTopFiveWordsDelegate: AnyObject {
     var topFiveWordsCount: Int { get }
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
@@ -23,9 +18,7 @@ protocol ProgressSetup {
 }
 
 class CatalogViewController: CustomViewController {
-    private let imageManager = ImageManager.shared
     private let model = CatalogModel()
-    private var categoryModel: [CategoryModel] = []
     private var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
 
     private let scrollView = UIScrollView()
@@ -38,7 +31,6 @@ class CatalogViewController: CustomViewController {
 
         title = "Слова"
 
-        loadCategories()
         loadTopFiveWords()
 
         view.addSubview(scrollView)
@@ -59,20 +51,6 @@ class CatalogViewController: CustomViewController {
 
 // MARK: - private methods
 private extension CatalogViewController {
-    func loadCategories() {
-        model.loadCategory { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let data):
-                self.categoryModel = data
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-
     func loadTopFiveWords() {
         model.loadTopFiveWords { [weak self] result in
             guard let self = self else {
@@ -125,13 +103,8 @@ private extension CatalogViewController {
         categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-
-        let isEvenCount = categoryModel.count % 2 == 0
-        let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
-        let cellHeight = CGFloat(view.frame.width / 2 - 9) // -18 ( + 18 (minimumLineSpacing)
-        let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
-        let marginHeight = cellHeight * cellCount + categoriesMargin
-        categoriesViewController.view.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
+        categoriesViewController.view.heightAnchor.constraint(equalToConstant:
+                                 categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
     }
 }
 // MARK: - UIConstants
@@ -152,6 +125,7 @@ private extension CatalogViewController {
         }
     }
 }
+// swiftlint:enable nesting
 
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
@@ -161,39 +135,6 @@ extension CatalogViewController: ProgressSetup {
 
     func setupWordsInProgress() {
         progressView.setupWordsInProgress(count: 60)
-    }
-}
-// swiftlint:enable nesting
-
-// MARK: - Protocol InputCategoriesDelegate
-extension CatalogViewController: InputCategoriesDelegate {
-    var categoriesCount: Int {
-        categoryModel.count
-    }
-
-    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
-        guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
-            completion(CategoryUIModel())
-            return
-        }
-
-        imageManager.loadImage(from: url) { [weak self] result in
-            switch result {
-            case .success(let data):
-                guard let self = self else { return }
-                completion(
-                    CategoryUIModel(
-                        title: categoryModel[index].title,
-                        image: UIImage(data: data),
-                        studiedWordsCount: categoryModel[index].studiedWordsCount,
-                        totalWordsCount: categoryModel[index].totalWordsCount
-                    )
-                )
-            case .failure(let error):
-                print(error)
-            }
-        }
     }
 }
 
