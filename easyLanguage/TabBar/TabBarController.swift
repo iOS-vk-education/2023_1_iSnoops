@@ -10,14 +10,19 @@ import UIKit
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [catalogVC]
+<<<<<<< Updated upstream
+=======
+        viewControllers = [catalogVC, learningVC]
     }
+>>>>>>> Stashed changes
 
-    private var catalogVC: UIViewController {
-        let catalogViewController = UINavigationController(rootViewController: CatalogViewController())
-        let title = "Слова"
+        view.backgroundColor = .red
+    }
+    private var learningVC: UIViewController {
+        let learningViewController = UINavigationController(rootViewController: LearningViewController())
+        let title = "Обучение"
         let image = UIImage(systemName: "character.book.closed.fill")
-        catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
-        return catalogViewController
+        learningViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 1)
+        return learningViewController
     }
 }
