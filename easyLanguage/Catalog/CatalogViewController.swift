@@ -31,18 +31,24 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesView: CategoriesView = CategoriesView(inputCategories: self)
+    private lazy var categoriesViewController = CategoriesViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = "Слова"
+
         loadCategories()
         loadTopFiveWords()
+
         view.addSubview(scrollView)
         setScrollView()
-        [progressView, topFiveView, categoriesView].forEach {
+
+        [categoriesViewController.view, progressView, topFiveView].forEach {
             scrollView.addSubview($0)
         }
-        title = "Слова"
+        addChild(categoriesViewController)
+
         setProgressView()
         setTopFiveView()
         setCategoriesView()
@@ -113,19 +119,19 @@ private extension CatalogViewController {
     }
 
     func setCategoriesView() {
-        categoriesView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesView.topAnchor.constraint(equalTo: topFiveView.bottomAnchor,
+        categoriesViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        categoriesViewController.view.topAnchor.constraint(equalTo: topFiveView.bottomAnchor,
                                             constant: UIConstants.CategoriesView.top).isActive = true
-        categoriesView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
-        categoriesView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
-        categoriesView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
+        categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
+        categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
 
         let isEvenCount = categoryModel.count % 2 == 0
         let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
         let cellHeight = CGFloat(view.frame.width / 2 - 9) // -18 ( + 18 (minimumLineSpacing)
         let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
         let marginHeight = cellHeight * cellCount + categoriesMargin
-        categoriesView.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
+        categoriesViewController.view.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
     }
 }
 // MARK: - UIConstants

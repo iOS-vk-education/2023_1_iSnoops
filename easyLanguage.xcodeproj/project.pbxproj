@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708114C2B29B6D000623B74 /* CategoriesViewController.swift */; };
 		0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0710CB262AF2B3B400F5478E /* CustomViewController.swift */; };
 		0710CB442AF3A7B400F5478E /* Color + extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0710CB432AF3A7B400F5478E /* Color + extensions.swift */; };
 		0717C0AC2AE84CA700C140C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0AB2AE84CA700C140C9 /* AppDelegate.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0708114C2B29B6D000623B74 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		0710CB262AF2B3B400F5478E /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		0710CB432AF3A7B400F5478E /* Color + extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + extensions.swift"; sourceTree = "<group>"; };
 		0717C0A82AE84CA700C140C9 /* easyLanguage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = easyLanguage.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +99,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0708114B2B29B6B100623B74 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				0708114C2B29B6D000623B74 /* CategoriesViewController.swift */,
+				07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */,
+				07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		0710CB282AF2B3B800F5478E /* CustomViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +138,7 @@
 			children = (
 				0717C1182AE96CAB00C140C9 /* TabBar */,
 				0717C0C22AE84D2000C140C9 /* Auth */,
+				0708114B2B29B6B100623B74 /* Categories */,
 				07F1BE792AF827BB00F50845 /* Catalog */,
 				072B92592B1CF8CF006CA4C1 /* AddNewCategory */,
 				072B925F2B1CF9EC006CA4C1 /* CategoryDetail */,
@@ -253,8 +266,6 @@
 			isa = PBXGroup;
 			children = (
 				07F1BE9B2AF829A600F50845 /* CategoriesView.swift */,
-				07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */,
-				07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -482,6 +493,7 @@
 				07C4F7772B1CF50A0073BED0 /* CategoryModel.swift in Sources */,
 				07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */,
 				07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */,
+				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,
 				07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */,
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
 				072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */,
