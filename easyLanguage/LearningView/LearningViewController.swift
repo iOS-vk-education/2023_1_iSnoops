@@ -10,7 +10,6 @@ import UIKit
 import Shuffle
 
 final class LearningViewController: UIViewController {
-<<<<<<< Updated upstream
     
     private var knowCount: Int = 0
     private var dontKnowCount: Int = 0
@@ -51,113 +50,128 @@ final class LearningViewController: UIViewController {
        return stackView
     }()
     
-=======
->>>>>>> Stashed changes
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.textAlignment = .center
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Нажми на карточку, чтобы посмотреть перевод слова"
+        label.text = LearningViewConsts.firstDescription
         return label
     }()
-    private var isRevert = false
-    private lazy var cardStack: SwipeCardStack = {
-        let stack = SwipeCardStack()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.dataSource = self
-        stack.delegate = self
-        return stack
-    }()
-    private var correctCount: Int = 0
-    private var incorrectCount: Int = 0
-    private lazy var progressInfo: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillEqually
-        let correctLabel = UILabel()
-        correctLabel.sizeToFit()
-        correctLabel.text = "Знаю:"
-        correctLabel.translatesAutoresizingMaskIntoConstraints = false
-        let incorrectLabel = UILabel()
-        incorrectLabel.sizeToFit()
-        incorrectLabel.text = "Не знаю:"
-        incorrectLabel.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(correctLabel)
-        stackView.addArrangedSubview(incorrectLabel)
-        return stackView
-    }()
+     
+   private let cardWords: [LearningWordsModel] = [
+         LearningWordsModel(word: "Desk",
+                            translation: "Стол"),
+         LearningWordsModel(word: "Phone",
+                            translation: "Телефон"),
+         LearningWordsModel(word: "Fast",
+                            translation: "Быстро"),
+         LearningWordsModel(word: "House",
+                            translation: "Дом"),
+         LearningWordsModel(word: "Mouse",
+                            translation: "Мышь"),
+         LearningWordsModel(word: "Dog",
+                            translation: "Собака"),
+         LearningWordsModel(word: "Cat",
+                            translation: "Кошка"),
+         LearningWordsModel(word: "Car",
+                            translation: "Машина"),
+         LearningWordsModel(word: "Road",
+                            translation: "Дорога"),
+         LearningWordsModel(word: "City",
+                            translation: "Город"),
+         LearningWordsModel(word: "Bed",
+                            translation: "Кровать"),
+         LearningWordsModel(word: "Shirt",
+                            translation: "Рубашка")
+     ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(cardStack)
         setupViews()
-        setupDescriptionLabelConstraints()
-        setupCardStackConstraints()
-        setupProgressInfoConstraints()
+        setupConstraints()
+        cardStack.dataSource = self
+        cardStack.delegate = self
     }
+    
     private func setupViews() {
-        title = "Тренировка слов"
+        navigationController?.title = "Тренировка слов"
         view.addSubview(descriptionLabel)
         view.addSubview(cardStack)
-        view.addSubview(progressInfo)
+        view.addSubview(resultsStackView)
         view.backgroundColor = .white
     }
-    private func setupDescriptionLabelConstraints() {
-        descriptionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25).isActive = true
+    
+    private func setupConstraints() {
         descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        descriptionLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        descriptionLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 1).isActive = true
-    }
-    private func setupCardStackConstraints() {
+        descriptionLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
+        descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50).isActive = true
+        
         cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cardStack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        cardStack.heightAnchor.constraint(equalToConstant: view.frame.height / 1.7).isActive = true
-        cardStack.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2).isActive = true
-    }
-    private func setupProgressInfoConstraints() {
-        progressInfo.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20).isActive = true
-        progressInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cardStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50).isActive = true
+        cardStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50).isActive = true
+        cardStack.topAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: 50).isActive = true
+        cardStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200).isActive = true
+        
+        resultsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        resultsStackView.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20).isActive = true
     }
 }
+
 extension LearningViewController: SwipeCardStackDataSource {
     func cardStack(_ cardStack: Shuffle.SwipeCardStack, cardForIndexAt index: Int) -> Shuffle.SwipeCard {
-        setupCard(text: MockData.wordModel[index])
+        return setupCard(fromWord: cardWords[index])
     }
+    
     func numberOfCards(in cardStack: Shuffle.SwipeCardStack) -> Int {
-        MockData.wordModel.count
+        return cardWords.count
     }
-    private func setupCard(text: WordApiModel) -> SwipeCard {
-        let card = SwipeCard()
-        card.swipeDirections = [.left, .right]
-        card.content = labelForCard(text: text.translations["ru"] ?? "")
-        card.backgroundColor = UIColor.Catalog.LightYellow.categoryBackground
-        card.layer.cornerRadius = 30
-        card.setOverlays([.left: overlay(color: .green), .right: overlay(color: .red)])
-        return card
-    }
+    
     private func labelForCard(text: String) -> UILabel {
         let label = UILabel()
         label.sizeToFit()
         label.textAlignment = .center
-        label.backgroundColor = .clear
-        label.text = text
+        label.backgroundColor = UIColor.Catalog.LightYellow.categoryBackground
+        label.text =  text
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 30
         return label
     }
-    private func rotateView(card: SwipeCard,
-                            model: WordApiModel) {
+    private func setupCard(fromWord text: LearningWordsModel) -> SwipeCard {
+        let card = SwipeCard()
+        card.swipeDirections = [.left, .right]
+        card.content = labelForCard(text: text.word)
+        
+        let leftOverlay = UIView()
+        leftOverlay.layer.masksToBounds = true
+        leftOverlay.backgroundColor = .green
+        leftOverlay.layer.cornerRadius = 30
+        
+        let rightOverlay = UIView()
+        rightOverlay.backgroundColor = .red
+        leftOverlay.backgroundColor = .green
+        rightOverlay.layer.cornerRadius = 30
+        
+        card.setOverlays([.left: leftOverlay, .right: rightOverlay])
+        return card
+    }
+    
+    private func rotateView(card: SwipeCard, 
+                            model: LearningWordsModel) {
         UIView.transition(with: card, duration: 0.5,
-                          options: UIView.AnimationOptions.transitionFlipFromLeft) {
+                          options: UIView.AnimationOptions.transitionFlipFromLeft,
+                          animations: {
             if self.isRevert {
-                card.content = self.labelForCard(text: model.translations["ru"] ?? "")
+                card.content = self.labelForCard(text: model.word)
                 self.isRevert.toggle()
             } else {
-                card.content = self.labelForCard(text: model.translations["en"] ?? "")
+                card.content = self.labelForCard(text: model.translation)
                 self.isRevert.toggle()
             }
-<<<<<<< Updated upstream
         }, completion: nil)
     }
 }
@@ -183,40 +197,14 @@ extension LearningViewController: SwipeCardStackDelegate {
             break
         case .down: 
             break
-=======
->>>>>>> Stashed changes
         }
     }
-    private func overlay(color: UIColor) -> UIView {
-        let overlay = UIView()
-        overlay.layer.masksToBounds = true
-        overlay.layer.cornerRadius = 30
-        overlay.backgroundColor = color
-        return overlay
-    }
-}
-extension LearningViewController: SwipeCardStackDelegate {
-    func cardStack(_ cardStack: SwipeCardStack, didSelectCardAt index: Int) {
-        rotateView(card: cardStack.card(forIndexAt: index) ?? SwipeCard(),
-                   model: MockData.wordModel[index])
-    }
-    func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
-        guard let labels = progressInfo.arrangedSubviews as? [UILabel] else { return }
-        switch direction {
-        case .left:
-            MockData.wordModel[index].isLearned = true // Предположил это
-            correctCount += 1
-            labels[0].text = "Знаю: \(correctCount)"
-            isRevert = false
-        case .right:
-            incorrectCount += 1
-            labels[1].text = "Не знаю: \(incorrectCount)"
-            isRevert = false
-        default:
-            break
-        }
+    func cardStack(_ cardStack: SwipeCardStack, didUndoCardAt index: Int, from direction: SwipeDirection) {
+        
     }
     func didSwipeAllCards(_ cardStack: SwipeCardStack) {
         cardStack.reloadData()
     }
 }
+
+
