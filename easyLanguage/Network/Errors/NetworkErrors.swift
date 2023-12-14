@@ -2,7 +2,13 @@
 //  NetworkErrors.swift
 //  easyLanguage
 //
-//  Created by Grigoriy on 02.12.2023.
+//  Created by Grigoriy on 25.11.2023.
 //
 
 import Foundation
+
+enum NetworkError: Error {
+    case unexpected
+    case unexpectedURL
+    case emptyData
+}

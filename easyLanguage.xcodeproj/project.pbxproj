@@ -19,13 +19,14 @@
 		072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */; };
 		072B925C2B1CF952006CA4C1 /* TopFiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B925B2B1CF951006CA4C1 /* TopFiveService.swift */; };
 		072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */; };
+		074F9DA12B2A199D00132465 /* ProfileApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074F9DA02B2A199D00132465 /* ProfileApiModel.swift */; };
 		075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */; };
 		07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */; };
 		07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */; };
 		07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */; };
 		07C4F7762B1CF50A0073BED0 /* TopFiveWordsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7732B1CF50A0073BED0 /* TopFiveWordsModel.swift */; };
 		07C4F7772B1CF50A0073BED0 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */; };
-		07C4F7782B1CF50A0073BED0 /* WordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7752B1CF50A0073BED0 /* WordModel.swift */; };
+		07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */; };
 		07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */; };
 		07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* MockData.swift */; };
 		07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C12AFBB9AC0095DECB /* ImageManager.swift */; };
@@ -44,6 +45,8 @@
 		07F1BE9F2AF829C200F50845 /* TopFiveCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */; };
 		07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */; };
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
+		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
+		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,13 +64,14 @@
 		072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryApiModel.swift; path = easyLanguage/Network/ApiModels/CategoryApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B925B2B1CF951006CA4C1 /* TopFiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveService.swift; sourceTree = "<group>"; };
 		072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryViewController.swift; sourceTree = "<group>"; };
+		074F9DA02B2A199D00132465 /* ProfileApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileApiModel.swift; path = easyLanguage/Network/ApiModels/ProfileApiModel.swift; sourceTree = SOURCE_ROOT; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
 		07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
 		07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManagerErrors.swift; sourceTree = "<group>"; };
 		07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		07C4F7732B1CF50A0073BED0 /* TopFiveWordsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopFiveWordsModel.swift; path = easyLanguage/Network/Models/TopFiveWordsModel.swift; sourceTree = SOURCE_ROOT; };
 		07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryModel.swift; path = easyLanguage/Network/Models/CategoryModel.swift; sourceTree = SOURCE_ROOT; };
-		07C4F7752B1CF50A0073BED0 /* WordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordModel.swift; path = easyLanguage/Network/Models/WordModel.swift; sourceTree = SOURCE_ROOT; };
+		07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordUIModel.swift; path = easyLanguage/Network/UIModels/WordUIModel.swift; sourceTree = SOURCE_ROOT; };
 		07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionView.swift; sourceTree = "<group>"; };
 		07EF04BA2AFAAF970095DECB /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		07EF04C12AFBB9AC0095DECB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
@@ -86,6 +90,7 @@
 		07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				179FEC152B231AD000772FC8 /* Shuffle in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +132,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				179FEC162B231AE200772FC8 /* LearningView */,
 				0717C1182AE96CAB00C140C9 /* TabBar */,
 				0717C0C22AE84D2000C140C9 /* Auth */,
 				07F1BE792AF827BB00F50845 /* Catalog */,
@@ -234,6 +241,15 @@
 			path = CategoryDetail;
 			sourceTree = "<group>";
 		};
+		074455632B24FB9000FA5469 /* UIModels */ = {
+			isa = PBXGroup;
+			children = (
+				07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */,
+				07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */,
+			);
+			path = UIModels;
+			sourceTree = "<group>";
+		};
 		07C4F7592B1BC9940073BED0 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,7 +265,6 @@
 				07F1BE9B2AF829A600F50845 /* CategoriesView.swift */,
 				07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */,
 				07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */,
-				07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -275,6 +290,7 @@
 		07EF04C02AFBB9920095DECB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				074455632B24FB9000FA5469 /* UIModels */,
 				07EF04BA2AFAAF970095DECB /* MockData.swift */,
 				07C4F7592B1BC9940073BED0 /* Errors */,
 				07F1BE7E2AF828B700F50845 /* Models */,
@@ -309,7 +325,6 @@
 			children = (
 				07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */,
 				07C4F7732B1CF50A0073BED0 /* TopFiveWordsModel.swift */,
-				07C4F7752B1CF50A0073BED0 /* WordModel.swift */,
 			);
 			name = Models;
 			path = ../Catalog/Models;
@@ -337,6 +352,7 @@
 		07F1BE902AF8294400F50845 /* ApiModels */ = {
 			isa = PBXGroup;
 			children = (
+				074F9DA02B2A199D00132465 /* ProfileApiModel.swift */,
 				072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */,
 				072B92532B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift */,
 				072B92542B1CF5BB006CA4C1 /* WordApiModel.swift */,
@@ -362,6 +378,14 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		179FEC162B231AE200772FC8 /* LearningView */ = {
+			isa = PBXGroup;
+			children = (
+				179FEC182B231AE200772FC8 /* LearningViewController.swift */,
+			);
+			path = LearningView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -380,6 +404,7 @@
 			);
 			name = easyLanguage;
 			packageProductDependencies = (
+				179FEC142B231AD000772FC8 /* Shuffle */,
 			);
 			productName = easyLanguage;
 			productReference = 0717C0A82AE84CA700C140C9 /* easyLanguage.app */;
@@ -410,6 +435,7 @@
 			);
 			mainGroup = 0717C09F2AE84CA700C140C9;
 			packageReferences = (
+				179FEC132B231AD000772FC8 /* XCRemoteSwiftPackageReference "Shuffle" */,
 			);
 			productRefGroup = 0717C0A92AE84CA700C140C9 /* Products */;
 			projectDirPath = "";
@@ -449,7 +475,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif /opt/homebrew/bin/swiftlint --version > /dev/null; then\n  /opt/homebrew/bin/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -476,7 +502,7 @@
 				07F1BE7B2AF828AA00F50845 /* CatalogViewController.swift in Sources */,
 				07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */,
 				07C4F7772B1CF50A0073BED0 /* CategoryModel.swift in Sources */,
-				07C4F7782B1CF50A0073BED0 /* WordModel.swift in Sources */,
+				07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */,
 				07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */,
 				07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */,
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
@@ -489,6 +515,8 @@
 				0710CB442AF3A7B400F5478E /* Color + extensions.swift in Sources */,
 				07F1BEA42AF82BB500F50845 /* Font.swift in Sources */,
 				07F1BE982AF8299900F50845 /* ProgressView.swift in Sources */,
+				179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */,
+				074F9DA12B2A199D00132465 /* ProfileApiModel.swift in Sources */,
 				07C4F7762B1CF50A0073BED0 /* TopFiveWordsModel.swift in Sources */,
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
@@ -713,6 +741,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		179FEC132B231AD000772FC8 /* XCRemoteSwiftPackageReference "Shuffle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mac-gallagher/Shuffle.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		179FEC142B231AD000772FC8 /* Shuffle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 179FEC132B231AD000772FC8 /* XCRemoteSwiftPackageReference "Shuffle" */;
+			productName = Shuffle;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0717C0A02AE84CA700C140C9 /* Project object */;
 }

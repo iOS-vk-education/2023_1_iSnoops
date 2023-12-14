@@ -60,14 +60,7 @@ private extension CatalogViewController {
             }
             switch result {
             case .success(let data):
-                let categoryModel = data.map { category in
-                    CategoryModel(categoryId: category.categoryId,
-                                    title: category.title,
-                                    imageLink: category.imageLink,
-                                    studiedWordsCount: category.studiedWordsCount,
-                                    totalWordsCount: category.totalWordsCount)
-                }
-                self.categoryModel = categoryModel
+                self.categoryModel = data
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -173,7 +166,8 @@ extension CatalogViewController: InputCategoriesDelegate {
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        guard let url = URL(string: categoryModel[index].imageLink) else {
+        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
+        guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
             completion(CategoryUIModel())
             return
         }
@@ -184,7 +178,6 @@ extension CatalogViewController: InputCategoriesDelegate {
                 guard let self = self else { return }
                 completion(
                     CategoryUIModel(
-                        categoryId: categoryModel[index].categoryId,
                         title: categoryModel[index].title,
                         image: UIImage(data: data),
                         studiedWordsCount: categoryModel[index].studiedWordsCount,
@@ -206,8 +199,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void) {
         let topFiveWordsModel = TopFiveWordsModel(
-            topFiveWordsId: topFiveModel[index].topFiveWordsId,
-            title: topFiveModel[index].title,
+            translations: topFiveModel[index].translations,
             level: topFiveModel[index].level
         )
         completion(topFiveWordsModel)

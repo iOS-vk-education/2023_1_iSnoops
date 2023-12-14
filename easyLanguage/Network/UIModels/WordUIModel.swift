@@ -1,14 +1,14 @@
 //
-//  WordApiModel.swift
+//  WordUIModel.swift
 //  easyLanguage
 //
-//  Created by Grigoriy on 22.11.2023.
+//  Created by Grigoriy on 25.11.2023.
 //
 
 import Foundation
 
-struct WordApiModel: Codable {
+struct WordUIModel {
     let categoryId: String // Связующий идентификатор для связи с категорией
     let translations: [String: String]
-    var isLearned: Bool
+    let isLearned: Bool
 }
