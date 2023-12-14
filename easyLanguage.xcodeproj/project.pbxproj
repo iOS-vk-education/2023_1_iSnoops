@@ -841,5 +841,6 @@
 			productName = Shuffle;
 		};
 /* End XCSwiftPackageProductDependency section */
+	};
 	rootObject = 0717C0A02AE84CA700C140C9 /* Project object */;
 }
