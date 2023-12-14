@@ -15,12 +15,3 @@ extension TopFiveCollectionView: UICollectionViewDelegateFlowLayout {
                       height: frame.height)
     }
 }
-
-extension CategoriesCollectionView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: frame.width / 2 - 9, // 18 - minimumLineSpacing
-                      height: frame.width / 2 - 9)
-    }
-}
