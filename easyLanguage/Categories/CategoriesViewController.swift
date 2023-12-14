@@ -67,10 +67,10 @@ private extension CategoriesViewController {
     }
 
     func setVisualAppearance() {
-        titleLabel.text = CategoriesViewController.Consts.titleText
+        titleLabel.text = "Категории"
         titleLabel.textColor = .black
-        addNewCategoryLogo.image = CategoriesViewController.Icons.addImage
-        sortCategoriesLogo.image = CategoriesViewController.Icons.sortImage
+        addNewCategoryLogo.image = UIImage(named: "AddIconImage")
+        sortCategoriesLogo.image = UIImage(named: "SortIconImage")
     }
 
     func setTitleLabel() {
@@ -148,15 +148,6 @@ extension CategoriesViewController: InputCategoriesDelegate {
 
 // MARK: - Constants
 private extension CategoriesViewController {
-    struct Consts {
-        static let titleText: String = "Категории"
-    }
-
-    struct Icons {
-        static let addImage = UIImage(named: "AddIconImage")
-        static let sortImage = UIImage(named: "SortIconImage")
-    }
-
     // swiftlint:disable nesting
     struct UIConstants {
         struct TitleLabel {

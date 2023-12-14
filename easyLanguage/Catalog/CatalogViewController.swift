@@ -105,6 +105,7 @@ private extension CatalogViewController {
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         categoriesViewController.view.heightAnchor.constraint(equalToConstant:
                                  categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
+        categoriesViewController.didMove(toParent: self)
     }
 }
 // MARK: - UIConstants
