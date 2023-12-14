@@ -15,6 +15,7 @@ protocol InputTopFiveWordsDelegate: AnyObject {
 protocol ProgressSetup {
     func setupAllLearnedWords()
     func setupWordsInProgress()
+    func setProgress()
 }
 
 class CatalogViewController: CustomViewController {
@@ -46,6 +47,7 @@ class CatalogViewController: CustomViewController {
         setCategoriesView()
         setupAllLearnedWords()
         setupWordsInProgress()
+        setProgress()
     }
 }
 
@@ -131,11 +133,15 @@ private extension CatalogViewController {
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
     func setupAllLearnedWords() {
-        progressView.setupAllWords(count: 120) // должна с бека сумма всех слов приходить
+        progressView.setupAllLearnedWords(count: 141) // должна с бека сумма всех слов приходить
     }
 
     func setupWordsInProgress() {
-        progressView.setupWordsInProgress(count: 60)
+        progressView.setupWordsInProgress(count: 5)
+    }
+
+    func setProgress() {
+        progressView.setProgress()
     }
 }
 
