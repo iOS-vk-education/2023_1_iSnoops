@@ -8,24 +8,23 @@
 import UIKit
 
 final class ProgressView: UIView {
-    private let backgroundView: UIView = UIView()
-    private let progressView: UIView = UIView()
-    private let totalWordsLabel: UILabel = UILabel()
-    private let wordsInProgressLabel: UILabel = UILabel()
+    private let progressView: UIProgressView = UIProgressView()
     private let adviceLabel: UILabel = UILabel()
+    private let percentageLabel: UILabel = UILabel()
+    private var totalWords: Int?
+    private var learnedWords: Int?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        [backgroundView, progressView, totalWordsLabel, wordsInProgressLabel, adviceLabel].forEach {
+        [progressView, adviceLabel, percentageLabel].forEach {
             addSubview($0)
         }
+
         setVisualAppearance()
-        setBackgroundView()
         setProgressView()
-        setWordsInProgressLabel()
-        setTotalWordsLabel()
         setAdviceLabel()
+        setPercentageLabel()
     }
 
     required init?(coder: NSCoder) {
@@ -33,73 +32,98 @@ final class ProgressView: UIView {
     }
 }
 
-// MARK: - open methods
+// MARK: - Open methods
 extension ProgressView {
-    func setupAllWords(count: Int) {
-        totalWordsLabel.text = String(count)
+    func setupAllLearnedWords(count: Int) {
+        totalWords = count
     }
 
     func setupWordsInProgress(count: Int) {
-        wordsInProgressLabel.text = String(count)
+        learnedWords = count
+    }
+
+    func setProgress() {
+        guard let allLearnedWords = totalWords,
+              let wordsInProgress = learnedWords
+        else {
+            return
+        }
+
+        guard allLearnedWords > 0 else {
+            progressView.progress = 0.0
+            return
+        }
+
+        progressView.progress = Float(wordsInProgress) / Float(allLearnedWords)
+        setPercentageLabelValue()
     }
 }
 
-// MARK: - private methods
+// MARK: - Private methods
 private extension ProgressView {
     func setVisualAppearance() {
-        backgroundView.backgroundColor = .SecondaryColors.ProgressView.gray
-        backgroundView.layer.cornerRadius = ProgressView.Consts.cornerRadius
-        progressView.backgroundColor = .SecondaryColors.ProgressView.green
+        setProgressAppearance()
+        setAdviceLabelAppearance()
+        setPercentageLabelAppearance()
+    }
+
+    func setProgressAppearance() {
+        progressView.trackTintColor = .SecondaryColors.ProgressView.gray
+        progressView.tintColor = .SecondaryColors.ProgressView.green
         progressView.layer.cornerRadius = ProgressView.Consts.cornerRadius
-        totalWordsLabel.textColor = .black
-        wordsInProgressLabel.textColor = .black
-        adviceLabel.text = ProgressView.Consts.adviceText
+        progressView.clipsToBounds = true
+
+        if let sublayers = progressView.layer.sublayers, sublayers.count > 1 {
+            sublayers[1].cornerRadius = ProgressView.Consts.cornerRadius
+        }
+
+        if progressView.subviews.count > 1 {
+            progressView.subviews[1].clipsToBounds = true
+        }
+    }
+
+    func setAdviceLabelAppearance() {
+        adviceLabel.text = "Чтобы продолжить учить слова нажмите на прогресс"
         adviceLabel.textColor = .gray
     }
 
-    func setBackgroundView() {
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        backgroundView.widthAnchor.constraint(equalTo: widthAnchor).isActive = true
-        backgroundView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressLineView.height).isActive = true
+    func setPercentageLabelAppearance() {
+        percentageLabel.textAlignment = .center
+        percentageLabel.textColor = .black
     }
 
     func setProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        progressView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5).isActive = true
+        progressView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressLineView.height).isActive = true
-    }
-
-    func setWordsInProgressLabel() {
-        wordsInProgressLabel.translatesAutoresizingMaskIntoConstraints = false
-        wordsInProgressLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor,
-                                                  constant: UIConstants.WordsInProgressLabel.top).isActive = true
-        wordsInProgressLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        wordsInProgressLabel.widthAnchor.constraint(equalToConstant:
-                                                   UIConstants.WordsInProgressLabel.width).isActive = true
-        wordsInProgressLabel.sizeToFit()
-    }
-
-    func setTotalWordsLabel() {
-        totalWordsLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalWordsLabel.topAnchor.constraint(equalTo: backgroundView.bottomAnchor,
-                                             constant: UIConstants.TotalWordsLabel.top).isActive = true
-        totalWordsLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                                  constant: -UIConstants.TotalWordsLabel.trailing).isActive = true
-        totalWordsLabel.widthAnchor.constraint(equalToConstant: UIConstants.TotalWordsLabel.width).isActive = true
-        totalWordsLabel.sizeToFit()
     }
 
     func setAdviceLabel() {
         adviceLabel.translatesAutoresizingMaskIntoConstraints = false
-        adviceLabel.topAnchor.constraint(equalTo: wordsInProgressLabel.bottomAnchor,
+        adviceLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor,
                                          constant: UIConstants.AdviceLabel.top).isActive = true
         adviceLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         adviceLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         adviceLabel.sizeToFit()
+    }
+
+    func setPercentageLabel() {
+        percentageLabel.translatesAutoresizingMaskIntoConstraints = false
+        percentageLabel.centerXAnchor.constraint(equalTo: progressView.centerXAnchor).isActive = true
+        percentageLabel.centerYAnchor.constraint(equalTo: progressView.centerYAnchor).isActive = true
+    }
+
+    func setPercentageLabelValue() {
+        guard let wordsInProgress = learnedWords,
+              let allLearnedWords = totalWords
+        else {
+            return
+        }
+
+        let percentage = Int((Float(wordsInProgress) / Float(allLearnedWords)) * 100)
+        percentageLabel.text = "\(percentage)%"
     }
 }
 
@@ -107,24 +131,12 @@ private extension ProgressView {
 // swiftlint:disable nesting
 private extension ProgressView {
     struct Consts {
-        static let adviceText: String = "Чтобы продолжить учить слова нажмите на прогресс"
-        static let cornerRadius: CGFloat = 5
+        static let cornerRadius: CGFloat = 6
     }
 
     struct UIConstants {
         struct ProgressLineView {
-            static let height: CGFloat = 10.0
-        }
-
-        struct WordsInProgressLabel {
-            static let top: CGFloat = 3.0
-            static let width: CGFloat = 45.0
-        }
-
-        struct TotalWordsLabel {
-            static let top: CGFloat = 3.0
-            static let trailing: CGFloat = 5.0
-            static let width: CGFloat = 45.0
+            static let height: CGFloat = 12.0
         }
 
         struct AdviceLabel {
