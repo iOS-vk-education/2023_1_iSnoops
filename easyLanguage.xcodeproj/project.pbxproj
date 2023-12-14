@@ -835,12 +835,12 @@
 			package = 074F9DA62B2AF3C400132465 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAppCheck;
 		};
+	};
 		179FEC142B231AD000772FC8 /* Shuffle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 179FEC132B231AD000772FC8 /* XCRemoteSwiftPackageReference "Shuffle" */;
 			productName = Shuffle;
 		};
 /* End XCSwiftPackageProductDependency section */
-	};
 	rootObject = 0717C0A02AE84CA700C140C9 /* Project object */;
 }
