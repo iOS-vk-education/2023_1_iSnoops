@@ -4,8 +4,6 @@
 //
 //  Created by Grigoriy on 24.10.2023.
 //
-
-
 import UIKit
 
 final class TabBarController: UITabBarController {
@@ -21,8 +19,7 @@ final class TabBarController: UITabBarController {
         catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
         return catalogViewController
     }
-    
-    
+
     private var learningVC: UIViewController {
         let learningViewController = UINavigationController(rootViewController: LearningViewController())
         let title = "Тренировка слов"
