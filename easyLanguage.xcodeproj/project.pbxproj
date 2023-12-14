@@ -796,7 +796,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 10.19.1; // Замените на конкретную версию, если это необходимо
+				minimumVersion = 10.19.1;
 			};
 		};
 		179FEC132B231AD000772FC8 /* XCRemoteSwiftPackageReference "Shuffle" */ = {
@@ -834,6 +834,7 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 074F9DA62B2AF3C400132465 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAppCheck;
+		};
 		179FEC142B231AD000772FC8 /* Shuffle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 179FEC132B231AD000772FC8 /* XCRemoteSwiftPackageReference "Shuffle" */;
