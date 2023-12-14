@@ -12,6 +12,11 @@ protocol InputCategoriesDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
+protocol CategoriesViewControllerTaps {
+    func didTapAddNewCategoryLogo()
+    func didTapSortCategoriesLogo()
+}
+
 final class CategoriesViewController: UIViewController {
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
@@ -67,10 +72,26 @@ private extension CategoriesViewController {
     }
 
     func setVisualAppearance() {
+        configureTitleLabel()
+        configureSortCategoriesLogo()
+        configureAddNewCategoryLogo()
+    }
+
+    func configureTitleLabel() {
         titleLabel.text = "Категории"
         titleLabel.textColor = .black
-        addNewCategoryLogo.image = UIImage(named: "AddIconImage")
+    }
+
+    func configureSortCategoriesLogo() {
         sortCategoriesLogo.image = UIImage(named: "SortIconImage")
+    }
+
+    func configureAddNewCategoryLogo() {
+        addNewCategoryLogo.image = UIImage(named: "AddIconImage")
+        addNewCategoryLogo.isUserInteractionEnabled = true
+        let addNewCategoryLogoTapRecognizer = UITapGestureRecognizer(target: self,
+                                                                     action: #selector(didTapAddNewCategoryLogo))
+        addNewCategoryLogo.addGestureRecognizer(addNewCategoryLogoTapRecognizer)
     }
 
     func setTitleLabel() {
@@ -166,3 +187,23 @@ private extension CategoriesViewController {
     }
 }
 // swiftlint:enable nesting
+
+extension CategoriesViewController: CategoriesViewControllerTaps {
+    @objc
+    func didTapAddNewCategoryLogo() {
+        let addNewCategoryViewController = AddNewCategoryViewController()
+        addNewCategoryViewController.modalPresentationStyle = .pageSheet
+
+        if let sheet = addNewCategoryViewController.sheetPresentationController {
+            sheet.preferredCornerRadius = 25
+            sheet.prefersGrabberVisible = true
+            sheet.detents = [.medium()]
+        }
+        present(addNewCategoryViewController, animated: true, completion: nil)
+    }
+
+    @objc
+    func didTapSortCategoriesLogo() {
+        //FIXME: - обработка нажатия на сортировку
+    }
+}

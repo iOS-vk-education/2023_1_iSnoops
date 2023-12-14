@@ -56,7 +56,7 @@ private extension AddNewCategoryViewController {
 
     func configureAddCategoryButton() {
         addCategoryButton.setTitle(TextConstants.AddCategoryButton.title, for: .normal)
-        addCategoryButton.backgroundColor = .red  // FIXME: занести нужный цвет
+        addCategoryButton.backgroundColor = .PrimaryColors.Button.blue
         addCategoryButton.layer.cornerRadius = Constants.AddCategoryButton.cornerRadius
         addCategoryButton.addTarget(self,
                                     action: #selector(didTapAddCategoryButton),
