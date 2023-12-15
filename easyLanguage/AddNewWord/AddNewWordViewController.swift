@@ -64,20 +64,20 @@ private extension AddNewWordViewController {
     }
 
     func setDividingStripViewAppearance() {
-        dividingStripView.backgroundColor = .black // FIXME: - исправить после мержа
+        dividingStripView.backgroundColor = .black
     }
 
     func setForeignAppearanceAppearance() {
         foreignLabel.text = TextConstants.ForeignLabel.text
         foreignField.placeholder = TextConstants.ForeignField.placeholderText
-        foreignField.tintColor = .gray // FIXME: - исправить после мержа
+        foreignField.tintColor = .gray
         foreignField.borderStyle = .roundedRect
         foreignField.keyboardType = .asciiCapable
     }
 
     func setAddButtonAppearance() {
         addButton.setTitle(TextConstants.AddButton.title, for: .normal)
-        addButton.backgroundColor = .blue // FIXME: - исправить после мержа
+        addButton.backgroundColor = .PrimaryColors.Button.blue
         addButton.layer.cornerRadius = Consts.AddButton.cornerRadius
         addButton.addTarget(self, action: #selector(didTabAddWordButton), for: .touchUpInside)
     }
