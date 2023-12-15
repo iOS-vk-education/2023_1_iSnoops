@@ -25,11 +25,7 @@ final class ProfileViewController: CustomViewController {
         [userInformationView, progressView, labelUnderTextField, choosingThemeView].forEach {
             scrollView.addSubview($0)
         }
-        setAppearance()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+        setTipAppearance()
         setUserInformationView()
         setLabelUnderTextField()
         setChoosingTheme()
@@ -39,14 +35,17 @@ final class ProfileViewController: CustomViewController {
 
 // MARK: - Private methods
 private extension ProfileViewController {
-    func setAppearance() {
-        progressView.setupWordsInProgress(count: 60)
-        progressView.setupAllWords(count: 120)
+    func setTipAppearance() {
+        setWordsInProgressLabel()
         labelUnderTextField.text = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля"
         labelUnderTextField.textColor = UIColor.gray
         labelUnderTextField.font = UIFont.systemFont(ofSize: 12)
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
+    }
+    func setWordsInProgressLabel() {
+        progressView.setupWordsInProgress(count: 60)
+        progressView.setupAllWords(count: 120)
     }
 
     // MARK: - Layouts
@@ -85,7 +84,7 @@ private extension ProfileViewController {
         progressView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
                                            constant: Progress.marginLeft).isActive = true
         progressView.rightAnchor.constraint(equalTo: scrollView.rightAnchor,
-                                            constant: Progress.marginRight).isActive = true
+                                            constant: -Progress.marginLeft).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: Progress.height).isActive = true
     }
 
@@ -102,7 +101,6 @@ private extension ProfileViewController {
 // MARK: - Constants
 private extension ProfileViewController {
     struct LabelUnderTextField {
-        static let text: String = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля"
         static let height: CGFloat = 30
         static let marginTop: CGFloat = 3
         static let marginLeft: CGFloat = 25
@@ -110,11 +108,8 @@ private extension ProfileViewController {
     }
 
     struct Progress {
-        static let wordsInProgress: CGFloat = 60
-        static let allWords: CGFloat = 60
         static let height: CGFloat = 60
         static let marginTop: CGFloat = 35
         static let marginLeft: CGFloat = 20
-        static let marginRight: CGFloat = -20
     }
 }

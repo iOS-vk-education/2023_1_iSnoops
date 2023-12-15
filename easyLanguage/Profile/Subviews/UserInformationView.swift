@@ -76,6 +76,7 @@ private extension UserInformationView {
     func setUpTextField(_ textField: UITextField) {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 15
+        textField.isUserInteractionEnabled = false
     }
 
     // MARK: - Layouts
