@@ -130,6 +130,7 @@
 			children = (
 				0708114C2B29B6D000623B74 /* CategoriesViewController.swift */,
 				0708114E2B29EF4900623B74 /* CategoriesModel.swift */,
+				07F1BE8C2AF8292600F50845 /* CategoryService.swift */,
 				070811512B29F19B00623B74 /* Delegates */,
 				070811502B29EF5900623B74 /* Subviews */,
 			);
@@ -384,7 +385,6 @@
 		07F1BE8A2AF828F900F50845 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				07F1BE8C2AF8292600F50845 /* CategoryService.swift */,
 				072B925B2B1CF951006CA4C1 /* TopFiveService.swift */,
 				074455612B24EFD200FA5469 /* WordsService.swift */,
 			);
@@ -523,7 +523,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif /opt/homebrew/bin/swiftlint --version > /dev/null; then\n    /opt/homebrew/bin/swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

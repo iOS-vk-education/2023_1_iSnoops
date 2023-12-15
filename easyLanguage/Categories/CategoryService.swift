@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol CategoryNetworkManagerProtocol {
+protocol CategoryServiceProtocol {
     func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void)
 }
 
-final class CategoryNetworkManager: CategoryNetworkManagerProtocol {
+final class CategoryService: CategoryServiceProtocol {
 
-    static let shared = CategoryNetworkManager()
+    static let shared: CategoryServiceProtocol = CategoryService()
     private init() {}
 
     func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void) {

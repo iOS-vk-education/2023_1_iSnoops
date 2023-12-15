@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol TopFiveNetworkManagerProtocol {
+protocol TopFiveServiceProtocol {
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
 }
 
-final class TopFiveNetworkManager: TopFiveNetworkManagerProtocol {
+final class TopFiveService: TopFiveServiceProtocol {
 
-    static let shared = TopFiveNetworkManager()
+    static let shared: TopFiveServiceProtocol = TopFiveService()
     private init() {}
 
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void) {

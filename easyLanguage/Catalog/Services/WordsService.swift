@@ -7,27 +7,22 @@
 
 import Foundation
 
-protocol WordsNetworkManagerProtocol {
-    func getTotalWordsCount(with linkedWordsId: String, completion: @escaping (Result<Int, Error>) -> Void)
-    func getStudiedWordsCount(with linkedWordsId: String, completion: @escaping (Result<Int, Error>) -> Void)
+protocol WordsServiceProtocol {
+    func getWordsCounts(with categoryId: String,
+                        completion: @escaping (Result<(total: Int, studied: Int), Error>) -> Void)
 }
 
-final class WordsNetworkManager: WordsNetworkManagerProtocol {
+final class WordsService: WordsServiceProtocol {
 
-    static let shared = WordsNetworkManager()
+    static let shared: WordsServiceProtocol = WordsService()
     private init() {}
 
-    func getTotalWordsCount(with categoryId: String, completion: @escaping (Result<Int, Error>) -> Void) {
-        let totalWordsCount = MockData.wordModel.filter {
-            $0.categoryId == categoryId
-        }.count
-        completion(.success(totalWordsCount))
-    }
+    func getWordsCounts(with categoryId: String,
+                        completion: @escaping (Result<(total: Int, studied: Int), Error>) -> Void) {
+        let totalWordsCount = MockData.wordModel.filter { $0.categoryId == categoryId }.count
+        let studiedWordsCount = MockData.wordModel.filter { $0.categoryId == categoryId && $0.isLearned }.count
 
-    func getStudiedWordsCount(with categoryId: String, completion: @escaping (Result<Int, Error>) -> Void) {
-        let studiedWordsCount = MockData.wordModel.filter {
-            $0.categoryId == categoryId && $0.isLearned == true
-        }.count
-        completion(.success(studiedWordsCount))
+        let result = (total: totalWordsCount, studied: studiedWordsCount)
+        completion(.success(result))
     }
 }
