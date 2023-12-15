@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol InputCategoriesDelegate: AnyObject {
-    var categoriesCount: Int { get }
-    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
-}
-
 protocol InputTopFiveWordsDelegate: AnyObject {
     var topFiveWordsCount: Int { get }
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
@@ -20,60 +15,44 @@ protocol InputTopFiveWordsDelegate: AnyObject {
 protocol ProgressSetup {
     func setupAllLearnedWords()
     func setupWordsInProgress()
+    func setProgress()
 }
 
 class CatalogViewController: CustomViewController {
-    private let imageManager = ImageManager.shared
     private let model = CatalogModel()
-    private var categoryModel: [CategoryModel] = []
     private var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
 
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesView: CategoriesView = CategoriesView(inputCategories: self)
+    private lazy var categoriesViewController = CategoriesViewController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadCategories()
+
+        title = "Слова"
+
         loadTopFiveWords()
+
         view.addSubview(scrollView)
         setScrollView()
-        [progressView, topFiveView, categoriesView].forEach {
+
+        [categoriesViewController.view, progressView, topFiveView].forEach {
             scrollView.addSubview($0)
         }
-        title = "Слова"
+        addChild(categoriesViewController)
+
         setProgressView()
         setTopFiveView()
         setCategoriesView()
         setupAllLearnedWords()
         setupWordsInProgress()
+        setProgress()
     }
 }
 
 // MARK: - private methods
 private extension CatalogViewController {
-    func loadCategories() {
-        model.loadCategory { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let data):
-                let categoryModel = data.map { category in
-                    CategoryModel(categoryId: category.categoryId,
-                                    title: category.title,
-                                    imageLink: category.imageLink,
-                                    studiedWordsCount: category.studiedWordsCount,
-                                    totalWordsCount: category.totalWordsCount)
-                }
-                self.categoryModel = categoryModel
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-
     func loadTopFiveWords() {
         model.loadTopFiveWords { [weak self] result in
             guard let self = self else {
@@ -120,19 +99,15 @@ private extension CatalogViewController {
     }
 
     func setCategoriesView() {
-        categoriesView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesView.topAnchor.constraint(equalTo: topFiveView.bottomAnchor,
+        categoriesViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        categoriesViewController.view.topAnchor.constraint(equalTo: topFiveView.bottomAnchor,
                                             constant: UIConstants.CategoriesView.top).isActive = true
-        categoriesView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
-        categoriesView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
-        categoriesView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-
-        let isEvenCount = categoryModel.count % 2 == 0
-        let cellCount = CGFloat(isEvenCount ? categoryModel.count / 2 : (categoryModel.count + 1) / 2)
-        let cellHeight = CGFloat(view.frame.width / 2 - 9) // -18 ( + 18 (minimumLineSpacing)
-        let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
-        let marginHeight = cellHeight * cellCount + categoriesMargin
-        categoriesView.heightAnchor.constraint(equalToConstant: marginHeight).isActive = true
+        categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
+        categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
+        categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        categoriesViewController.view.heightAnchor.constraint(equalToConstant:
+                                 categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
+        categoriesViewController.didMove(toParent: self)
     }
 }
 // MARK: - UIConstants
@@ -153,48 +128,20 @@ private extension CatalogViewController {
         }
     }
 }
+// swiftlint:enable nesting
 
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
     func setupAllLearnedWords() {
-        progressView.setupAllWords(count: 120) // должна с бека сумма всех слов приходить
+        progressView.setupAllLearnedWords(count: 141) // должна с бека сумма всех слов приходить
     }
 
     func setupWordsInProgress() {
-        progressView.setupWordsInProgress(count: 60)
-    }
-}
-// swiftlint:enable nesting
-
-// MARK: - Protocol InputCategoriesDelegate
-extension CatalogViewController: InputCategoriesDelegate {
-    var categoriesCount: Int {
-        categoryModel.count
+        progressView.setupWordsInProgress(count: 5)
     }
 
-    func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        guard let url = URL(string: categoryModel[index].imageLink) else {
-            completion(CategoryUIModel())
-            return
-        }
-
-        imageManager.loadImage(from: url) { [weak self] result in
-            switch result {
-            case .success(let data):
-                guard let self = self else { return }
-                completion(
-                    CategoryUIModel(
-                        categoryId: categoryModel[index].categoryId,
-                        title: categoryModel[index].title,
-                        image: UIImage(data: data),
-                        studiedWordsCount: categoryModel[index].studiedWordsCount,
-                        totalWordsCount: categoryModel[index].totalWordsCount
-                    )
-                )
-            case .failure(let error):
-                print(error)
-            }
-        }
+    func setProgress() {
+        progressView.setProgress()
     }
 }
 
@@ -206,8 +153,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void) {
         let topFiveWordsModel = TopFiveWordsModel(
-            topFiveWordsId: topFiveModel[index].topFiveWordsId,
-            title: topFiveModel[index].title,
+            translations: topFiveModel[index].translations,
             level: topFiveModel[index].level
         )
         completion(topFiveWordsModel)
