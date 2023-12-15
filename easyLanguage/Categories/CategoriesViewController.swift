@@ -12,6 +12,11 @@ protocol InputCategoriesDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
+protocol SortCategoriesView {
+    func sortByDateCreation()
+    func sortCategoryByName()
+}
+
 final class CategoriesViewController: UIViewController {
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
@@ -70,7 +75,15 @@ private extension CategoriesViewController {
         titleLabel.text = "Категории"
         titleLabel.textColor = .black
         addNewCategoryLogo.image = UIImage(named: "AddIconImage")
+        sortCategoriesLogo.isUserInteractionEnabled = true
+        configureSortCategoriesLogo()
+    }
+
+    func configureSortCategoriesLogo() {
         sortCategoriesLogo.image = UIImage(named: "SortIconImage")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSortCategoriesLogo))
+        sortCategoriesLogo.isUserInteractionEnabled = true
+        sortCategoriesLogo.addGestureRecognizer(tapGesture)
     }
 
     func setTitleLabel() {
@@ -112,6 +125,28 @@ private extension CategoriesViewController {
                                                -UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
+
+    @objc
+    func didTapSortCategoriesLogo() {
+         let alertController = UIAlertController(title: "Сортировка категорий",
+                                                 message: "Выберите в каком порядке отобразить категории",
+                                                 preferredStyle: .actionSheet)
+
+          let recentlyAddedAction = UIAlertAction(title: "Недавно добавленные", style: .default) { [weak self] _ in
+              self?.sortByDateCreation()
+          }
+
+          let byNameAction = UIAlertAction(title: "Названию", style: .default) { [weak self] _ in
+              self?.sortCategoryByName()
+          }
+
+          let cancelAction = UIAlertAction(title: "Вернуться", style: .cancel, handler: nil)
+
+          alertController.addAction(recentlyAddedAction)
+          alertController.addAction(byNameAction)
+          alertController.addAction(cancelAction)
+          self.present(alertController, animated: true)
+     }
 }
 
 // MARK: - Protocol InputCategoriesDelegate
@@ -166,3 +201,35 @@ private extension CategoriesViewController {
     }
 }
 // swiftlint:enable nesting
+
+// MARK: - Protocol SortCategoriesView
+extension CategoriesViewController: SortCategoriesView {
+    func sortCategoryByName() {
+        categoryModel.sort {
+            $0.title < $1.title
+        }
+        updateCollectionView(with: categoryModel)
+    }
+
+    func sortByDateCreation() {
+        categoryModel.sort {
+            $0.createdDate > $1.createdDate
+        }
+        updateCollectionView(with: categoryModel)
+    }
+
+    private func updateCollectionView(with categoryModel: [CategoryModel]) {
+        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
+        // performBatchUpdates - для атомарного обновления (одна неделимая единица)
+        categoriesCollectionView.performBatchUpdates({
+            for newIndex in indexPathsToUpdate {
+                // Обновление данных в ячейках
+                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
+                    categoriesCollectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
+                        cell.cellConfigure(with: categoryUIModel, at: newIndex)
+                    }
+                }
+            }
+        })
+    }
+}
