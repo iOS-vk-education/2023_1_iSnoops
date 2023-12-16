@@ -58,7 +58,7 @@ private extension ProfileViewController {
     }
     func setWordsInProgressLabel() {
         progressView.setupWordsInProgress(count: 60)
-        progressView.setupAllWords(count: 120)
+        progressView.setupAllLearnedWords(count: 120)
     }
 
     // MARK: - Layouts

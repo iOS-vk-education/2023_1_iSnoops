@@ -9,7 +9,7 @@ import UIKit
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [catalogVC, profileVC, learningVC]
+        viewControllers = [catalogVC, learningVC, profileVC]
     }
 
     private var catalogVC: UIViewController {
