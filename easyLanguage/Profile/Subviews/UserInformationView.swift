@@ -7,8 +7,12 @@
 
 import UIKit
 
+protocol UserInformationViewOutput {
+    func getSize() -> CGFloat
+}
+
 final class UserInformationView: UIView {
-    // MARK: - Init image, first & last name textfield
+    // MARK: - Init components
     private let imageView = UIImageView()
     private let firstNameTextField = UITextField()
     private let lastNameTextField = UITextField()
@@ -18,7 +22,7 @@ final class UserInformationView: UIView {
         [imageView, firstNameTextField, lastNameTextField].forEach {
             self.addSubview($0)
         }
-        setVisualAppearance()
+        setTipAppearance()
         setImageView()
         setFirstNameTextField()
         setLastNameTextField()
@@ -47,15 +51,17 @@ extension UserInformationView {
         textField.resignFirstResponder()
         return true
     }
+}
 
+extension UserInformationView: UserInformationViewOutput {
     func getSize() -> CGFloat {
-        return Image.marginTop + Image.imageSize + TextFields.height * 2 + FirstName.marginTop + LastName.marginTop
+        Image.marginTop + Image.imageSize + TextFields.height * 2 + FirstName.marginTop + LastName.marginTop
     }
 }
 
 // MARK: - Private methods
 private extension UserInformationView {
-    func setVisualAppearance() {
+    func setTipAppearance() {
         setUpImage(imageView)
         firstNameTextField.text = FirstName.text
         lastNameTextField.text = LastName.text

@@ -22,10 +22,14 @@ final class TabBarController: UITabBarController {
     }
 
     private var profileVC: UIViewController {
-        let profileViewController = UINavigationController(rootViewController: ProfileViewController())
+        let profileViewController = UINavigationController(
+            rootViewController: ProfileViewController(themeViewOutput: ChoosingThemeView(),
+                                                   userInformationViewOutput: UserInformationView()
+                                                   )
+        )
         let title = "Профиль"
         let image = UIImage(systemName: "person.fill")
-        profileViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
+        profileViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 1)
         return profileViewController
     }
 }

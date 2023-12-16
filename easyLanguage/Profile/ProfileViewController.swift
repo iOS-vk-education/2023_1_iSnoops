@@ -16,6 +16,19 @@ final class ProfileViewController: CustomViewController {
     private let progressView = ProgressView()
     private let choosingThemeView = ChoosingThemeView()
 
+    private let themeViewOutput: ThemeViewOutput
+    private let userInformationViewOutput: UserInformationViewOutput
+
+    init(themeViewOutput: ThemeViewOutput, userInformationViewOutput: UserInformationViewOutput) {
+        self.themeViewOutput = themeViewOutput
+        self.userInformationViewOutput = userInformationViewOutput
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -94,7 +107,7 @@ private extension ProfileViewController {
         choosingThemeView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         choosingThemeView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         choosingThemeView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        choosingThemeView.heightAnchor.constraint(equalToConstant: choosingThemeView.getSize()).isActive = true
+        choosingThemeView.heightAnchor.constraint(equalToConstant: themeViewOutput.getSize()).isActive = true
     }
 }
 

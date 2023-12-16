@@ -7,29 +7,28 @@
 
 import UIKit
 
-class ChoosingThemeView: UIView {
-    // MARK: - Init labels & buttons
-    private let themeTitle = UILabel()
-    private let lightThemeButton = UIButton()
-    private let darkThemeButton = UIButton()
-    private let systemThemeButton = UIButton()
-    private let lightThemeLabel = UILabel()
-    private let darkThemeLabel = UILabel()
-    private let systemThemeLabel = UILabel()
+protocol ThemeViewOutput {
+    func getSize() -> CGFloat
+}
 
-    var buttons = Array(repeating: UIButton(), count: 3)
-    var labels = Array(repeating: UILabel(), count: 3)
+class ChoosingThemeView: UIView {
+    // MARK: - Init components
+    private let title = UILabel()
+
+    var components =  [(UIButton(), UILabel()),
+                    (UIButton(), UILabel()),
+                     (UIButton(), UILabel())
+                      ]
+    var labelText = ["Светлая", "Автоматически", "Темная"]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        for button in buttons {
+        for (button, label) in components {
             self.addSubview(button)
+            self.addSubview(label)
         }
-        [themeTitle, lightThemeLabel, systemThemeLabel,
-         darkThemeLabel, lightThemeButton, systemThemeButton, darkThemeButton].forEach {
-            self.addSubview($0)
-        }
-        setVisualAppearance()
+        self.addSubview(title)
+        setTipAppearance()
     }
 
     required init?(coder: NSCoder) {
@@ -39,96 +38,69 @@ class ChoosingThemeView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         setThemeLabel()
-        for index in 0...2 {
-            setButton(button: buttons[index], index: CGFloat(index))
-            configureCircularButton(buttons[index], color: .blue, isActive: false)
+        for (index, (button, label)) in components.enumerated() {
+            setButton(button: button, index: CGFloat(index))
+            setLabel(label: label, button: button)
         }
-//        for button in buttons {
-//            setButton(button: button)
-//            configureCircularButton(button, color: .blue, isActive: false)
-//        }
-//        for index in 0...2 {
-//            setButton(button: buttons[index], index: CGFloat(index))
-//            configureCircularButton(buttons[index], color: .blue, isActive: false)
-//        }
-//        setLightThemeButton()
-//        setSystemThemeButton()
-//        setDarkThemeButton()
-        setLightThemeLabel()
-        setSystemThemeLabel()
-        setDarkThemeLabel()
     }
 }
 
-// MARK: - Open methods
-extension ChoosingThemeView {
+// MARK: - Internal methods
+extension ChoosingThemeView: ThemeViewOutput {
     func getSize() -> CGFloat {
-        return ThemeTitle.marginTop + ThemeTitle.height + Button.marginTop
+        ThemeTitle.marginTop + ThemeTitle.height + Button.marginTop
         + Button.size + LabelUnderButton.marginTop + LabelUnderButton.height
     }
 }
 
 // MARK: - Private methods
 private extension ChoosingThemeView {
-    func setVisualAppearance() {
-        themeTitle.text = "Тема оформления"
-        themeTitle.textAlignment = .center
-//        configureCircularButton(lightThemeButton, color: .blue, isActive: true)
-//        configureCircularButton(darkThemeButton, color: .blue, isActive: false)
-//        configureCircularButton(systemThemeButton, color: .blue, isActive: false)
-        configureLabel(lightThemeLabel, withText: "Светлая")
-        configureLabel(darkThemeLabel, withText: "Темная")
-        configureLabel(systemThemeLabel, withText: "Автоматически")
-        [lightThemeButton, systemThemeButton, darkThemeButton].forEach {
-            $0.layer.cornerRadius = Button.size / 2
+    func setTipAppearance() {
+        title.text = "Тема оформления"
+        title.textAlignment = .center
+        for (index, (button, label)) in components.enumerated() {
+            configureCircularButton(button: button, isActive: false)
+            configureLabel(label: label, index: index)
         }
+        switchButtonState(button: (components.first?.0)!, active: true)
     }
 
-    func configureCircularButton(_ button: UIButton, color: UIColor, isActive: Bool) {
-        button.layer.borderColor = color.cgColor
+    func configureCircularButton(button: UIButton, isActive: Bool) {
+        button.layer.borderColor = UIColor.blue.cgColor
         button.layer.borderWidth = 3.5
-        button.layer.cornerRadius = button.frame.size.width / 2
+        button.layer.cornerRadius = Button.size / 2
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(themeButtonTapped(_:)), for: .touchUpInside)
-        switchButtonState(button: button, active: isActive)
     }
 
-//    @objc func themeButtonTapped(_ sender: UIButton) {
-//        switch sender {
-//        case lightThemeButton:
-//            lightThemeButton.backgroundColor = .blue
-//            darkThemeButton.backgroundColor = .white
-//            systemThemeButton.backgroundColor = .white
-//            Color.systemMode = .lightMode
-//        case darkThemeButton:
-//            lightThemeButton.backgroundColor = .white
-//            darkThemeButton.backgroundColor = .blue
-//            systemThemeButton.backgroundColor = .white
-//            Color.systemMode = .darkMode
-//        case systemThemeButton:
-//            lightThemeButton.backgroundColor = .white
-//            darkThemeButton.backgroundColor = .white
-//            systemThemeButton.backgroundColor = .blue
-//            Color.systemMode = .autoMode
-//        default:
-//            break
-//        }
-//    }
     @objc func themeButtonTapped(_ sender: UIButton) {
-        guard let currentStateButton = buttons.first(where: { $0.isSelected }) else { return }
-        guard let newStateButton = buttons.first(where: { $0 == sender }) else { return }
+        guard let currentStateButton = components.map({$0.0}).first(where: { $0.isSelected }) else { return }
+        guard let newStateButton = components.map({$0.0}).first(where: { $0 == sender }) else { return }
         switchButtonState(button: currentStateButton, active: false)
-        switchButtonState(button: newStateButton, active: true)
+        switchButtonState(button: newStateButton, active: true,
+                          index: components.map({$0.0}).firstIndex(of: newStateButton)!)
     }
 
-    func switchButtonState(button: UIButton, active: Bool) {
+    func switchButtonState(button: UIButton, active: Bool, index: Int = 0) {
         let color: UIColor = active ? .blue : .white
         button.isSelected = active
         button.backgroundColor = color
+        if active {
+            switch index {
+            case 0:
+                Color.systemMode = .lightMode
+            case 1:
+                Color.systemMode = .autoMode
+            case 2:
+                Color.systemMode = .darkMode
+            default:
+                break
+            }
+        }
     }
 
-    func configureLabel(_ label: UILabel, withText text: String) {
-        label.text = text
+    func configureLabel(label: UILabel, index: Int) {
+        label.text = labelText[index]
         label.textAlignment = .center
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 14)
@@ -136,81 +108,39 @@ private extension ChoosingThemeView {
     }
 
     func getButtonSpacing() -> CGFloat {
-        return (self.bounds.width - 3 * Button.size) / 4
+        (self.bounds.width - 3 * Button.size) / 4
     }
+}
 
+private extension ChoosingThemeView {
     // MARK: - Layout
     func setThemeLabel() {
-        themeTitle.translatesAutoresizingMaskIntoConstraints = false
-        themeTitle.topAnchor.constraint(equalTo: self.topAnchor, constant: ThemeTitle.marginTop).isActive = true
-        themeTitle.leftAnchor.constraint(equalTo: self.leftAnchor, constant: ThemeTitle.marginLeft).isActive = true
-        themeTitle.widthAnchor.constraint(equalTo: self.widthAnchor, constant: ThemeTitle.marginRight).isActive = true
-        themeTitle.heightAnchor.constraint(equalToConstant: ThemeTitle.height).isActive = true
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.topAnchor.constraint(equalTo: self.topAnchor, constant: ThemeTitle.marginTop).isActive = true
+        title.leftAnchor.constraint(equalTo: self.leftAnchor, constant: ThemeTitle.marginLeft).isActive = true
+        title.widthAnchor.constraint(equalTo: self.widthAnchor, constant: ThemeTitle.marginRight).isActive = true
+        title.heightAnchor.constraint(equalToConstant: ThemeTitle.height).isActive = true
     }
 
     func setButton(button: UIButton, index: CGFloat) {
         let leftConstant = (getButtonSpacing() * (index + 1.0) + index * Button.size)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.topAnchor.constraint(equalTo: themeTitle.bottomAnchor,
-                                              constant: Button.marginTop).isActive = true
+        button.topAnchor.constraint(equalTo: title.bottomAnchor,
+                                    constant: Button.marginTop).isActive = true
         button.leftAnchor.constraint(equalTo: self.leftAnchor, constant:
-        leftConstant).isActive = true
+                                        leftConstant).isActive = true
         button.widthAnchor.constraint(equalToConstant: Button.size).isActive = true
         button.heightAnchor.constraint(equalToConstant: Button.size).isActive = true
-        print(leftConstant)
-    }
-//    func setLightThemeButton() {
-//        lightThemeButton.translatesAutoresizingMaskIntoConstraints = false
-//        lightThemeButton.topAnchor.constraint(equalTo: themeTitle.bottomAnchor,
-//                                              constant: Button.marginTop).isActive = true
-//        lightThemeButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: getButtonSpacing()).isActive = true
-//        lightThemeButton.widthAnchor.constraint(equalToConstant: Button.size).isActive = true
-//        lightThemeButton.heightAnchor.constraint(equalToConstant: Button.size).isActive = true
-//    }
-//
-//    func setSystemThemeButton() {
-//        systemThemeButton.translatesAutoresizingMaskIntoConstraints = false
-//        systemThemeButton.topAnchor.constraint(equalTo: lightThemeButton.topAnchor).isActive = true
-//        systemThemeButton.leftAnchor.constraint(equalTo: lightThemeButton.rightAnchor,
-//                                                   constant: getButtonSpacing()).isActive = true
-//        systemThemeButton.widthAnchor.constraint(equalToConstant: Button.size).isActive = true
-//        systemThemeButton.heightAnchor.constraint(equalToConstant: Button.size).isActive = true
-//    }
-//
-//    func setDarkThemeButton() {
-//        darkThemeButton.translatesAutoresizingMaskIntoConstraints = false
-//        darkThemeButton.topAnchor.constraint(equalTo: lightThemeButton.topAnchor).isActive = true
-//        darkThemeButton.leftAnchor.constraint(equalTo: systemThemeButton.rightAnchor,
-//                                              constant: getButtonSpacing()).isActive = true
-//        darkThemeButton.widthAnchor.constraint(equalToConstant: Button.size).isActive = true
-//        darkThemeButton.heightAnchor.constraint(equalToConstant: Button.size).isActive = true
-//    }
-
-    func setLightThemeLabel() {
-        lightThemeLabel.translatesAutoresizingMaskIntoConstraints = false
-        lightThemeLabel.topAnchor.constraint(equalTo: lightThemeButton.bottomAnchor,
-                                             constant: LabelUnderButton.marginTop).isActive = true
-        lightThemeLabel.centerXAnchor.constraint(equalTo: lightThemeButton.centerXAnchor).isActive = true
-        lightThemeLabel.heightAnchor.constraint(equalToConstant: LabelUnderButton.height).isActive = true
     }
 
-    func setDarkThemeLabel() {
-        darkThemeLabel.translatesAutoresizingMaskIntoConstraints = false
-        darkThemeLabel.topAnchor.constraint(equalTo: lightThemeButton.bottomAnchor,
-                                            constant: LabelUnderButton.marginTop).isActive = true
-        darkThemeLabel.centerXAnchor.constraint(equalTo: darkThemeButton.centerXAnchor).isActive = true
-        darkThemeLabel.heightAnchor.constraint(equalToConstant: LabelUnderButton.height).isActive = true
-    }
-
-    func setSystemThemeLabel() {
-        systemThemeLabel.translatesAutoresizingMaskIntoConstraints = false
-        systemThemeLabel.topAnchor.constraint(equalTo: systemThemeButton.bottomAnchor,
-                                                 constant: LabelUnderButton.marginTop).isActive = true
-        systemThemeLabel.centerXAnchor.constraint(equalTo: systemThemeButton.centerXAnchor).isActive = true
-        systemThemeLabel.heightAnchor.constraint(equalToConstant: LabelUnderButton.height).isActive = true
+    func setLabel(label: UILabel, button: UIButton) {
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.topAnchor.constraint(equalTo: button.bottomAnchor,
+                                   constant: LabelUnderButton.marginTop).isActive = true
+        label.centerXAnchor.constraint(equalTo: button.centerXAnchor).isActive = true
+        label.heightAnchor.constraint(equalToConstant: LabelUnderButton.height).isActive = true
     }
 }
-
 // MARK: - Constants
 private extension ChoosingThemeView {
     struct ThemeTitle {
