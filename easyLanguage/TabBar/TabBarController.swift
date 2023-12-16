@@ -4,13 +4,12 @@
 //
 //  Created by Grigoriy on 24.10.2023.
 //
-
 import UIKit
 
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [catalogVC, profileVC]
+        viewControllers = [catalogVC, profileVC, learningVC]
     }
 
     private var catalogVC: UIViewController {
@@ -21,15 +20,23 @@ final class TabBarController: UITabBarController {
         return catalogViewController
     }
 
+    private var learningVC: UIViewController {
+        let learningViewController = UINavigationController(rootViewController: LearningViewController())
+        let title = "Тренировка слов"
+        let image = UIImage(systemName: "character.book.closed.fill")
+        learningViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 1)
+        return learningViewController
+    }
+
     private var profileVC: UIViewController {
         let profileViewController = UINavigationController(
             rootViewController: ProfileViewController(themeViewOutput: ChoosingThemeView(),
-                                                   userInformationViewOutput: UserInformationView()
-                                                   )
+                                                      userInformationViewOutput: UserInformationView()
+                                                     )
         )
         let title = "Профиль"
         let image = UIImage(systemName: "person.fill")
-        profileViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 1)
+        profileViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 2)
         return profileViewController
     }
 }
