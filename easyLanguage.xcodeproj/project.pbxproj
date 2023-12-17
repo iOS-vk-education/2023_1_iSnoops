@@ -54,6 +54,8 @@
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
 		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
+		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
+		17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8AA2B2F71C80064698E /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +104,8 @@
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
+		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +209,8 @@
 		0717C0C22AE84D2000C140C9 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				17D8C8832B2F505C0064698E /* RegistrationViewController.swift */,
+				17D8C8AA2B2F71C80064698E /* LoginViewController.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -532,6 +538,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */,
+				17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */,
 				07F1BE872AF828EA00F50845 /* CatalogCollectionViewDataSource.swift in Sources */,
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
 				0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */,
@@ -567,6 +574,7 @@
 				179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */,
 				074F9DA12B2A199D00132465 /* ProfileApiModel.swift in Sources */,
 				07C4F7762B1CF50A0073BED0 /* TopFiveWordsModel.swift in Sources */,
+				17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */,
 				070811532B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift in Sources */,
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
