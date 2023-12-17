@@ -14,37 +14,35 @@ protocol InputWordsDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void)
 }
 
-protocol CategoryDetailTaps {
-    func addButtonTapped()
+protocol CategoryDetailOutput {
+    func buttonTapped()
 }
 
 final class CategoryDetailViewController: CustomViewController {
-    private var categoryTitle = "EXAMPLE" //FIXME: - будут данные из ячейки catalogVC
     private var linkedWordsId = MockData.categoryModel[2].linkedWordsId //FIXME: - будут данные из ячейки catalogVC
     private var numberOfSelectedCategory = 2 //FIXME: - будут данные из ячейки catalogVC
-    private lazy var categoryDetailCollectionView = CategoryDetailCollectionView(inputWords: self)
+    private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
     private let model = CategoryDetailModel()
     private var wordsModel: [WordUIModel] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(categoryDetailCollectionView)
+        view.addSubview(collectionView)
         loadWords()
-        setCategoryDetailCollectionView()
+        setCollectionView()
         setNavBar()
     }
 }
 
 // MARK: - open methods
 extension CategoryDetailViewController {
-    func configureCategoryDetailViewController(with categoryTitle: String, linkedWordsId: String) {
-        self.categoryTitle = categoryTitle
+    func configureCategoryDetailViewController(linkedWordsId: String) {
         self.linkedWordsId = linkedWordsId
     }
 }
 
-// MARK: - private methods
+// MARK: - networking
 private extension CategoryDetailViewController {
     func loadWords() {
         model.loadWords(with: linkedWordsId) { [weak self] result in
@@ -60,31 +58,33 @@ private extension CategoryDetailViewController {
             }
         }
     }
+}
 
+// MARK: - private methods
+private extension CategoryDetailViewController {
     func setNavBar() {
-        title = categoryTitle
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                  style: .done,
                                                  target: self,
-                                                 action: #selector(addButtonTapped))
+                                                 action: #selector(buttonTapped))
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
-    func setCategoryDetailCollectionView() {
-        categoryDetailCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        categoryDetailCollectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        categoryDetailCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                     constant: UIConstants.CategoryDetailCollectionView.padding).isActive = true
-        categoryDetailCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                     constant: -UIConstants.CategoryDetailCollectionView.padding).isActive = true
-        categoryDetailCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    func setCollectionView() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                     constant: UIConstants.horizontally).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                     constant: -UIConstants.horizontally).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 }
 
-extension CategoryDetailViewController: CategoryDetailTaps {
-    @objc
-    func addButtonTapped() {
-        // добавление нового слова (AddNewWordVC)
+// MARK: - Constants
+private extension CategoryDetailViewController {
+    struct UIConstants {
+        static let horizontally: CGFloat = 18.0
     }
 }
 
@@ -106,13 +106,10 @@ extension CategoryDetailViewController: InputWordsDelegate {
     }
 }
 
-// MARK: - Constants
-// swiftlint:disable nesting
-private extension CategoryDetailViewController {
-    struct UIConstants {
-        struct CategoryDetailCollectionView {
-            static let padding: CGFloat = 18.0
-        }
+// MARK: - CategoryDetailOutput
+extension CategoryDetailViewController: CategoryDetailOutput {
+    @objc
+    func buttonTapped() {
+        // добавление нового слова (AddNewWordVC)
     }
 }
-// swiftlint:enable nesting

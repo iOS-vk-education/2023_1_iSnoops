@@ -7,15 +7,14 @@
 
 import UIKit
 
-protocol CategoryDetailCollectionViewCellTaps {
-    func didTabTopFiveView()
-    func didTabLikeImageView()
+protocol CategoryDetailCellOutput {
+    func didTapMarkIcon()
+    func didTapCell()
 }
 
 final class CategoryDetailCollectionViewCell: UICollectionViewCell {
-
-    private let titleLabel = UILabel()
-    private let likeImageView = UIImageView()
+    private let title = UILabel()
+    private let markIcon = UIImageView()
     private var nativeTitle: String?
     private var foreignTitle: String?
     private var isFlipped = false
@@ -25,15 +24,15 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setVisualAppearance()
-        [titleLabel, likeImageView].forEach {
+        setAppearance()
+        [title, markIcon].forEach {
             contentView.addSubview($0)
         }
-        setTitleLabel()
-        setLikeImageView()
+        addConstraints()
 
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
-        self.addGestureRecognizer(tapGestureRecognizer)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
+        self.addGestureRecognizer(tapGesture)
+        layer.cornerRadius = 15
     }
 
     required init?(coder: NSCoder) {
@@ -41,18 +40,18 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Life circle
+// MARK: - life cycle
 extension CategoryDetailCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         isFlipped = false
         foreignTitle = nil
         nativeTitle = nil
-        titleLabel.text = nil
+        title.text = nil
     }
 }
 
-// MARK: - methods
+// MARK: - internal methods
 extension CategoryDetailCollectionViewCell {
     func cellConfigure(with index: Int, wordUIModel: WordUIModel) {
         self.wordUIModel = wordUIModel
@@ -75,101 +74,78 @@ private extension CategoryDetailCollectionViewCell {
 
         backgroundColor = modifiedBackgroundColor
         cellBackgroundColor = modifiedBackgroundColor
-        titleLabel.textColor = colors.textColor
+        title.textColor = colors.textColor
     }
 
-    func setVisualAppearance() {
-        configureTopFiveView()
-        configureTitleLabel()
-        configureLikeImageView()
+    func updateTitleLabel() {
+        if isFlipped {
+            title.text = foreignTitle
+        } else {
+            title.text = nativeTitle
+        }
     }
 
-    func configureTopFiveView() {
-        layer.cornerRadius = Constants.cornerRadius
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
-        self.addGestureRecognizer(tapGestureRecognizer)
-    }
-
-    func configureTitleLabel() {
-        titleLabel.numberOfLines = 0
-        titleLabel.textAlignment = .center
-    }
-
-    func configureLikeImageView() {
-        likeImageView.clipsToBounds = true
-        likeImageView.contentMode = .scaleAspectFit
-
-        likeImageView.isUserInteractionEnabled = true
-        let likeTapGestureRecognizer =  UITapGestureRecognizer(target: self, action: #selector(didTabLikeImageView))
-        likeImageView.addGestureRecognizer(likeTapGestureRecognizer)
-    }
-
-    func setTitleLabel() {
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: topAnchor,
-                                        constant: UIConstants.TitleLabel.padding).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                        constant: UIConstants.TitleLabel.padding).isActive = true
-        titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                        constant: -UIConstants.TitleLabel.padding).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor,
-                                        constant: -UIConstants.TitleLabel.padding).isActive = true
-    }
-
-    func setLikeImageView() {
-        likeImageView.translatesAutoresizingMaskIntoConstraints = false
-        likeImageView.topAnchor.constraint(equalTo: topAnchor,
-                                        constant: UIConstants.LikeImageView.topLeft).isActive = true
-        likeImageView.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                        constant: UIConstants.LikeImageView.topLeft).isActive = true
-        likeImageView.widthAnchor.constraint(equalToConstant: UIConstants.LikeImageView.size).isActive = true
-        likeImageView.heightAnchor.constraint(equalToConstant: UIConstants.LikeImageView.size).isActive = true
+    func updateLike(with isLearned: Bool) {
+        markIcon.image = UIImage(named: isLearned ? "Star.fill" : "Star")
     }
 }
 
-extension CategoryDetailCollectionViewCell: CategoryDetailCollectionViewCellTaps {
-    @objc
-    func didTabLikeImageView() {
-        guard let wordUIModel = wordUIModel else {
-            return
-        }
-        // обдновление лайка на беке
-        updateLike(with: !wordUIModel.isLearned)
+// MARK: - set appearance elements
+private extension CategoryDetailCollectionViewCell {
+    func setAppearance() {
+        titleAppearance()
+        markIconAppearence()
     }
 
-    @objc
-    func didTabTopFiveView() {
-        let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
-        isFlipped = !isFlipped
-        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in
-            self?.updateTitleLabel()
-        })
+    func titleAppearance() {
+        title.numberOfLines = 0
+        title.textAlignment = .center
     }
 
-    private func updateTitleLabel() {
-        if isFlipped {
-            titleLabel.text = foreignTitle
-        } else {
-            titleLabel.text = nativeTitle
-        }
+    func markIconAppearence() {
+        markIcon.clipsToBounds = true
+        markIcon.contentMode = .scaleAspectFit
+
+        markIcon.isUserInteractionEnabled = true
+        let tapGesture =  UITapGestureRecognizer(target: self, action: #selector(didTapMarkIcon))
+        markIcon.addGestureRecognizer(tapGesture)
+    }
+}
+
+// MARK: - set constraints
+private extension CategoryDetailCollectionViewCell {
+    func addConstraints() {
+        setTitle()
+        setMarkIcon()
     }
 
-    private func updateLike(with isLearned: Bool) {
-        likeImageView.image = UIImage(named: isLearned ? ImageConstants.filledStar : ImageConstants.emptyStar)
+    func setTitle() {
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.topAnchor.constraint(equalTo: topAnchor,
+                                        constant: UIConstants.TitleLabel.padding).isActive = true
+        title.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                        constant: UIConstants.TitleLabel.padding).isActive = true
+        title.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                        constant: -UIConstants.TitleLabel.padding).isActive = true
+        title.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                        constant: -UIConstants.TitleLabel.padding).isActive = true
+    }
+
+    func setMarkIcon() {
+        markIcon.translatesAutoresizingMaskIntoConstraints = false
+        markIcon.topAnchor.constraint(equalTo: topAnchor,
+                                        constant: UIConstants.LikeImageView.topLeft).isActive = true
+        markIcon.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                        constant: UIConstants.LikeImageView.topLeft).isActive = true
+        markIcon.widthAnchor.constraint(equalToConstant: UIConstants.LikeImageView.size).isActive = true
+        markIcon.heightAnchor.constraint(equalToConstant: UIConstants.LikeImageView.size).isActive = true
     }
 }
 
 // MARK: - Constants
 // swiftlint:disable nesting
 private extension CategoryDetailCollectionViewCell {
-    struct ImageConstants {
-        static let emptyStar = "Star"
-        static let filledStar = "Star.fill"
-    }
-
     struct Constants {
-        static let cornerRadius: CGFloat = 15
-
         static let colors: [(backgroundColor: UIColor, textColor: UIColor)] = [
             (.Catalog.Green.categoryBackground, .Catalog.Green.categoryText),
             (.Catalog.Purple.categoryBackground, .Catalog.Purple.categoryText),
@@ -194,3 +170,24 @@ private extension CategoryDetailCollectionViewCell {
     }
 }
 // swiftlint:enable nesting
+
+// MARK: - CategoryDetailCellOutput
+extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
+    @objc
+    func didTapMarkIcon() {
+        guard let wordUIModel = wordUIModel else {
+            return
+        }
+        // обновление лайка на беке
+        updateLike(with: !wordUIModel.isLearned)
+    }
+
+    @objc
+    func didTapCell() {
+        let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
+        isFlipped = !isFlipped
+        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in
+            self?.updateTitleLabel()
+        })
+    }
+}

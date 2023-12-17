@@ -14,7 +14,7 @@ protocol CategoryDetailNetworkManagerProtocol {
 
 final class CategoryDetailNetworkManager: CategoryDetailNetworkManagerProtocol {
 
-    static let shared = CategoryDetailNetworkManager()
+    static let shared: CategoryDetailNetworkManagerProtocol = CategoryDetailNetworkManager()
     private init() {}
 
     func getWords(with categoryId: String, completion: @escaping (Result<[WordApiModel], Error>) -> Void) {
