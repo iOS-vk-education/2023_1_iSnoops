@@ -30,7 +30,7 @@ final class TopFiveView: UIView {
     }
 }
 
-// MARK: - life circle
+// MARK: - life cycle
 extension TopFiveView {
     override func layoutSubviews() {
         super.layoutSubviews()
