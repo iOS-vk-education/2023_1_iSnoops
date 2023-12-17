@@ -12,9 +12,3 @@ extension TopFiveCollectionView: UICollectionViewDelegate {
         inputTopFiveWords?.topFiveWordsCount ?? 0
     }
 }
-
-extension CategoriesCollectionView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        inputCategories?.categoriesCount ?? 0
-    }
-}
