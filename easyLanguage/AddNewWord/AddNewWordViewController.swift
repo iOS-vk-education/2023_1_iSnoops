@@ -8,152 +8,36 @@
 
 import UIKit
 
-protocol KeyboardDismissable {
-    func setDismissKeyboard()
+protocol AddNewWordOutput {
+    func didTabButton()
 }
 
-protocol AddNewWordViewControllerTaps {
-    func didTabAddWordButton()
-}
-
-class AddNewWordViewController: UIViewController, UISheetPresentationControllerDelegate {
+class AddNewWordViewController: UIViewController {
     private let nativeLabel = UILabel()
     private let nativeField: UITextField = UITextField()
     private let dividingStripView = UIView()
     private let foreignLabel = UILabel()
     private let foreignField: UITextField = UITextField()
-    private let addButton: UIButton = UIButton()
+    private let button: UIButton = UIButton()
+    private var horizontalPadding: CGFloat = 0
+    private var height: CGFloat = 0
 }
 
-// MARK: - Life Circle
+// MARK: - life cycle
 extension AddNewWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [nativeLabel, foreignLabel, nativeField, foreignField, addButton, dividingStripView].forEach {
+        [nativeLabel, foreignLabel, nativeField, foreignField, button, dividingStripView].forEach {
             view.addSubview($0)
         }
 
         view.backgroundColor = .PrimaryColors.Background.background
-        setVisualAppearance()
-
-        setNativeLabel()
-        setNativeField()
-        setDividingStripView()
-        setForeignLabel()
-        setForeignField()
-        setAddButton()
-        setDismissKeyboard()
-    }
-}
-
-// MARK: - private methods
-private extension AddNewWordViewController {
-    func setVisualAppearance() {
-        setNativeAppearance()
-        setDividingStripViewAppearance()
-        setForeignAppearanceAppearance()
-        setAddButtonAppearance()
-    }
-
-    func setNativeAppearance() {
-        nativeLabel.text = TextConstants.NativeLabel.text
-        nativeField.placeholder = TextConstants.NativeField.placeholderText
-        nativeField.tintColor = .gray
-        nativeField.borderStyle = .roundedRect
-    }
-
-    func setDividingStripViewAppearance() {
-        dividingStripView.backgroundColor = .black
-    }
-
-    func setForeignAppearanceAppearance() {
-        foreignLabel.text = TextConstants.ForeignLabel.text
-        foreignField.placeholder = TextConstants.ForeignField.placeholderText
-        foreignField.tintColor = .gray
-        foreignField.borderStyle = .roundedRect
-        foreignField.keyboardType = .asciiCapable
-    }
-
-    func setAddButtonAppearance() {
-        addButton.setTitle(TextConstants.AddButton.title, for: .normal)
-        addButton.backgroundColor = .PrimaryColors.Button.blue
-        addButton.layer.cornerRadius = Consts.AddButton.cornerRadius
-        addButton.addTarget(self, action: #selector(didTabAddWordButton), for: .touchUpInside)
-    }
-
-    func setNativeLabel() {
-        nativeLabel.translatesAutoresizingMaskIntoConstraints = false
-        nativeLabel.topAnchor.constraint(equalTo: view.topAnchor,
-                                         constant: UIConstants.top).isActive = true
-        nativeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                         constant: view.frame.width / 10).isActive = true
-        nativeLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 1.5).isActive = true
-        nativeLabel.sizeToFit()
-    }
-
-    func setNativeField() {
-        nativeField.translatesAutoresizingMaskIntoConstraints = false
-        nativeField.topAnchor.constraint(equalTo: nativeLabel.bottomAnchor,
-                                         constant: UIConstants.top).isActive = true
-        nativeField.heightAnchor.constraint(equalToConstant: view.frame.height / 15).isActive = true
-        nativeField.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                                   constant: view.frame.width / 10).isActive = true
-        nativeField.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                   constant: -view.frame.width / 10).isActive = true
-    }
-
-    func setDividingStripView() {
-        dividingStripView.translatesAutoresizingMaskIntoConstraints = false
-        dividingStripView.topAnchor.constraint(equalTo: nativeField.bottomAnchor,
-                                               constant: UIConstants.DividingStripView.top).isActive = true
-        dividingStripView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                               constant: view.frame.width / 10).isActive = true
-        dividingStripView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                               constant: -view.frame.width / 10).isActive = true
-        dividingStripView.heightAnchor.constraint(equalToConstant:
-                                               UIConstants.DividingStripView.height).isActive = true
-    }
-
-    func setForeignLabel() {
-        foreignLabel.translatesAutoresizingMaskIntoConstraints = false
-        foreignLabel.topAnchor.constraint(equalTo: dividingStripView.bottomAnchor,
-                                          constant: UIConstants.top).isActive = true
-        foreignLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                          constant: view.frame.width / 10).isActive = true
-        foreignLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                          constant: -view.frame.width / 10).isActive = true
-        foreignLabel.sizeToFit()
-    }
-
-    func setForeignField() {
-        foreignField.translatesAutoresizingMaskIntoConstraints = false
-        foreignField.topAnchor.constraint(equalTo: foreignLabel.bottomAnchor,
-                                          constant: UIConstants.top).isActive = true
-        foreignField.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                          constant: view.frame.width / 10).isActive = true
-        foreignField.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                          constant: -view.frame.width / 10).isActive = true
-        foreignField.heightAnchor.constraint(equalToConstant: view.frame.height / 15).isActive = true
-    }
-
-    func setAddButton() {
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.topAnchor.constraint(equalTo: foreignField.bottomAnchor,
-                                           constant: UIConstants.AddButton.top).isActive = true
-        addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                           constant: view.frame.width / 10).isActive = true
-        addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                           constant: -view.frame.width / 10).isActive = true
-        addButton.heightAnchor.constraint(equalToConstant: view.frame.height / 15).isActive = true
-    }
-}
-
-// MARK: - KeyboardDismissable
-extension AddNewWordViewController: KeyboardDismissable {
-    func setDismissKeyboard() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+
+        setAppearance()
+        addConstraints()
     }
 
     @objc
@@ -162,10 +46,138 @@ extension AddNewWordViewController: KeyboardDismissable {
     }
 }
 
-// MARK: - AddNewWordViewControllerTaps
-extension AddNewWordViewController: AddNewWordViewControllerTaps {
+// MARK: - set appearance elements
+private extension AddNewWordViewController {
+    func setAppearance() {
+        setNativeLabelAppearance()
+        setNativeFieldAppearance()
+        setDividingStripViewAppearance()
+        setForeignLabelAppearance()
+        setForeignFieldAppearance()
+        setButtonAppearance()
+    }
+
+    func setNativeLabelAppearance() {
+        nativeLabel.text = "Русский"
+    }
+
+    func setNativeFieldAppearance() {
+        nativeField.placeholder = "Введите слово на русском"
+        nativeField.tintColor = .gray
+        nativeField.borderStyle = .roundedRect
+    }
+
+    func setDividingStripViewAppearance() {
+        dividingStripView.backgroundColor = .black
+    }
+
+    func setForeignLabelAppearance() {
+        foreignLabel.text = "English"
+    }
+
+    func setForeignFieldAppearance() {
+        foreignField.placeholder = "Enter a word in english"
+        foreignField.tintColor = .gray
+        foreignField.borderStyle = .roundedRect
+        foreignField.keyboardType = .asciiCapable
+    }
+
+    func setButtonAppearance() {
+        button.setTitle("Добавить слово", for: .normal)
+        button.backgroundColor = .PrimaryColors.Button.blue
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
+    }
+}
+
+// MARK: - set constraints
+private extension AddNewWordViewController {
+    func addConstraints() {
+        horizontalPadding = view.bounds.width / 10
+        height =  view.bounds.height / 15
+        setNativeLabel()
+        setNativeField()
+        setDividingStripView()
+        setForeignLabel()
+        setForeignField()
+        setButton()
+    }
+
+    func setNativeLabel() {
+        nativeLabel.translatesAutoresizingMaskIntoConstraints = false
+        nativeLabel.topAnchor.constraint(equalTo: view.topAnchor,
+                                         constant: UIConstants.top).isActive = true
+        nativeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                         constant: horizontalPadding).isActive = true
+        nativeLabel.widthAnchor.constraint(equalToConstant: view.bounds.width / 1.5).isActive = true
+        nativeLabel.sizeToFit()
+    }
+
+    func setNativeField() {
+        nativeField.translatesAutoresizingMaskIntoConstraints = false
+        nativeField.topAnchor.constraint(equalTo: nativeLabel.bottomAnchor,
+                                         constant: UIConstants.top).isActive = true
+        nativeField.heightAnchor.constraint(equalToConstant: height).isActive = true
+        nativeField.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                             constant: horizontalPadding).isActive = true
+        nativeField.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                              constant: -horizontalPadding).isActive = true
+    }
+
+    func setDividingStripView() {
+        dividingStripView.translatesAutoresizingMaskIntoConstraints = false
+        dividingStripView.topAnchor.constraint(equalTo: nativeField.bottomAnchor, constant: 30).isActive = true
+        dividingStripView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                   constant: horizontalPadding).isActive = true
+        dividingStripView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                    constant: -horizontalPadding).isActive = true
+        dividingStripView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+    }
+
+    func setForeignLabel() {
+        foreignLabel.translatesAutoresizingMaskIntoConstraints = false
+        foreignLabel.topAnchor.constraint(equalTo: dividingStripView.bottomAnchor,
+                                          constant: UIConstants.top).isActive = true
+        foreignLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                              constant: horizontalPadding).isActive = true
+        foreignLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                               constant: -horizontalPadding).isActive = true
+        foreignLabel.sizeToFit()
+    }
+
+    func setForeignField() {
+        foreignField.translatesAutoresizingMaskIntoConstraints = false
+        foreignField.topAnchor.constraint(equalTo: foreignLabel.bottomAnchor,
+                                          constant: UIConstants.top).isActive = true
+        foreignField.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                              constant: horizontalPadding).isActive = true
+        foreignField.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                               constant: -horizontalPadding).isActive = true
+        foreignField.heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+
+    func setButton() {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.topAnchor.constraint(equalTo: foreignField.bottomAnchor, constant: 15).isActive = true
+        button.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                        constant: horizontalPadding).isActive = true
+        button.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                         constant: -horizontalPadding).isActive = true
+        button.heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+}
+
+// MARK: - Constants
+private extension AddNewWordViewController {
+    struct UIConstants {
+        static let top: CGFloat = 10
+    }
+}
+
+// MARK: - AddNewWordOutput
+extension AddNewWordViewController: AddNewWordOutput {
     @objc
-    func didTabAddWordButton() {
+    func didTabButton() {
         guard let nativeText = nativeField.text, !nativeText.isEmpty else {
             showAlert(message: "Необходимо ввести слово на русском")
             return
@@ -175,7 +187,6 @@ extension AddNewWordViewController: AddNewWordViewControllerTaps {
             return
         }
 
-        // работа с моделькой
         nativeField.text = nil
         foreignField.text = nil
         self.dismiss(animated: true)
@@ -189,49 +200,3 @@ extension AddNewWordViewController: AddNewWordViewControllerTaps {
         self.present(alertController, animated: true, completion: nil)
     }
 }
-
-// MARK: - Consts
-// swiftlint:disable nesting
-private extension AddNewWordViewController {
-    struct TextConstants {
-        struct NativeLabel {
-            static let text: String = "Русский"
-        }
-
-        struct ForeignLabel {
-            static let text: String = "English"
-        }
-
-        struct NativeField {
-            static let placeholderText: String = "Введите слово на русском"
-        }
-
-        struct ForeignField {
-            static let placeholderText: String = "Enter a word in english"
-        }
-
-        struct AddButton {
-            static let title: String = "Добавить слово"
-        }
-    }
-
-    struct Consts {
-        struct AddButton {
-            static let cornerRadius: CGFloat  = 16
-        }
-    }
-
-    struct UIConstants {
-        static let top: CGFloat = 10.0
-
-        struct DividingStripView {
-            static let height: CGFloat = 1.0
-            static let top: CGFloat = 30.0
-        }
-
-        struct AddButton {
-            static let top: CGFloat = 15.0
-        }
-    }
-}
-// swiftlint:enable nesting
