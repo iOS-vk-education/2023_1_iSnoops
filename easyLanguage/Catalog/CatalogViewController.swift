@@ -92,8 +92,7 @@ private extension CatalogViewController {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
         topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
                                          constant: UIConstants.TopFiveView.top).isActive = true
-        topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                          constant: UIConstants.TopFiveView.left).isActive = true
+        topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         topFiveView.heightAnchor.constraint(equalToConstant: view.frame.height / 4.5).isActive = true
     }
