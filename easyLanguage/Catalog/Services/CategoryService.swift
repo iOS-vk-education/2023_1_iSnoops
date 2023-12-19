@@ -11,20 +11,24 @@ import FirebaseStorage
 
 protocol CatalogNetworkManagerProtocol {
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
+    func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void)
+    func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
 
-    private let fireDataBase = Firestore.firestore()
-    static let shared = CatalogNetworkManager()
+    static let shared: CatalogNetworkManagerProtocol = CatalogNetworkManager()
     private init() {}
+
+    private let imageManager = ImageManager.shared
+    private let dataBase = Firestore.firestore()
 
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void) {
         completion(.success(MockData.topFiveWords))
     }
 
     func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void) {
-        fireDataBase.collection("categories").getDocuments { querySnapshot, error in
+        dataBase.collection("categories").getDocuments { querySnapshot, error in
             if let error = error {
                 print(error)
                 completion(.failure(error))
@@ -49,6 +53,75 @@ final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
                 completion(.failure(NetworkError.emptyData))
             } else {
                 completion(.success(categories))
+            }
+        }
+    }
+
+    // FIXME: - эти методы пойдут в AddNewCategory
+    func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void) {
+        uploadCategoryImage(with: category.imageLink) { [weak self] result in
+            guard let self = self else {
+                return
+            }
+
+            switch result {
+            case .success(let imageURL):
+                let categoryDict: [String: Any] = [
+                    "title": category.title,
+                    "imageLink": imageURL.absoluteString,
+                    "createdDate": category.createdDate,
+                    "linkedWordsId": category.linkedWordsId
+                ]
+
+                self.dataBase.collection("categories").addDocument(data: categoryDict) { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    func uploadCategoryImage(with imageLink: String?, completion: @escaping (Result<URL, Error>) -> Void) {
+        guard let imageLink = imageLink,
+              let imageUrl = URL(string: imageLink)
+        else {
+            return
+        }
+
+        imageManager.loadImage(from: imageUrl) { result in
+            switch result {
+            case .success(let imageData):
+                let storage = Storage.storage()
+                let storageRef = storage.reference()
+
+                let imageName = UUID().uuidString
+                let imageRef = storageRef.child("categories/\(imageName)")
+
+                let metadata = StorageMetadata()
+                metadata.contentType = "image/png"
+
+                imageRef.putData(imageData, metadata: metadata) { _, error in
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+
+                    imageRef.downloadURL { url, error in
+                        if let url = url {
+                            completion(.success(url))
+                        } else if let error = error {
+                            completion(.failure(error))
+                        }
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+                return
             }
         }
     }
