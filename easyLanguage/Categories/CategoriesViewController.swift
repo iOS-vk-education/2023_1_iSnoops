@@ -67,6 +67,7 @@ private extension CategoriesViewController {
     }
 
     func setVisualAppearance() {
+        titleLabel.font = TextStyle.bodyBig.font
         titleLabel.text = "Категории"
         titleLabel.textColor = .black
         addNewCategoryLogo.image = UIImage(named: "AddIconImage")

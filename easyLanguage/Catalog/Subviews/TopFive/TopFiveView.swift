@@ -43,6 +43,8 @@ extension TopFiveView {
 // MARK: - private methods
 private extension TopFiveView {
     func setVisualAppearance() {
+        adviceLabel.font = TextStyle.bodySmall.font
+        titleLabel.font = TextStyle.bodyBig.font
         titleLabel.textColor = .black
         titleLabel.text = TopFiveView.Consts.titleText
         adviceLabel.text = TopFiveView.Consts.adviceText

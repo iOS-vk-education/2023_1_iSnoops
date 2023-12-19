@@ -50,6 +50,7 @@ private extension CategoryCollectionViewCell {
         [progressLabel, titleLabel].forEach {
             $0.numberOfLines = 0
             $0.textAlignment = .center
+            $0.font = TextStyle.bodyMedium.font
         }
         backgroundLevelView.backgroundColor = .white
         backgroundLevelView.layer.cornerRadius =  Constants.cornerRadius
