@@ -30,7 +30,7 @@ class CatalogViewController: CustomViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Слова"
+        title = NSLocalizedString("wordsTitle", comment: "")
 
         loadTopFiveWords()
 

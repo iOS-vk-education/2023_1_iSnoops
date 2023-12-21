@@ -67,7 +67,7 @@ private extension CategoriesViewController {
     }
 
     func setVisualAppearance() {
-        titleLabel.text = "Категории"
+        titleLabel.text = NSLocalizedString("сategoriesTitle", comment: "")
         titleLabel.textColor = .black
         addNewCategoryLogo.image = UIImage(named: "AddIconImage")
         sortCategoriesLogo.image = UIImage(named: "SortIconImage")

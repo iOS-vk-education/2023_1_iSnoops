@@ -85,8 +85,8 @@ private extension TopFiveView {
 // swiftlint:disable nesting
 private extension TopFiveView {
     struct Consts {
-        static let titleText: String = "5 слов дня"
-        static let adviceText: String = "Для перевода слова нажмите на карточку"
+        static let titleText = NSLocalizedString("topFiveWordsTitle", comment: "")
+        static let adviceText = NSLocalizedString("topFiveWordsAdvice", comment: "")
     }
 
     struct UIConstants {

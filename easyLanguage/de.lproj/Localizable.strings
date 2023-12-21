@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  easyLanguage
+
+  Created by Grigoriy on 21.12.2023.
+  
+*/
+"wordsTitle" = "Wörter";
+"wordTrainingTitle" = "Worttraining";
+"topFiveWordsTitle" = "Top 5 Wörter des Tages";
+"сategoriesTitle" = "Kategorien";
+"topFiveWordsAdvice" = "Drücken Sie auf die Karte, um das Wort zu übersetzen";
+"progressAdvice" = "Um das Lernen der Wörter fortzusetzen, klicken Sie auf den Fortschritt";
