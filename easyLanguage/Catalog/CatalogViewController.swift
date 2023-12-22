@@ -12,14 +12,8 @@ protocol InputTopFiveWordsDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
 }
 
-protocol ProgressSetup {
-    func setupAllLearnedWords()
-    func setupWordsInProgress()
-    func setProgress()
-}
-
 class CatalogViewController: CustomViewController {
-    private let model = CatalogModel()
+    private let output: CatalogViewOutput
     private var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
 
     private let scrollView = UIScrollView()
@@ -27,13 +21,28 @@ class CatalogViewController: CustomViewController {
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
     private lazy var categoriesViewController = CategoriesViewController()
 
+    init(output: CatalogViewOutput) {
+        self.output = output
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setup()
+        output.viewDidLoad()
+    }
+}
+
+// MARK: - private methods
+private extension CatalogViewController {
+    func setup() {
         title = "Слова"
-
-        loadTopFiveWords()
-
         view.addSubview(scrollView)
         setScrollView()
 
@@ -45,26 +54,9 @@ class CatalogViewController: CustomViewController {
         setProgressView()
         setTopFiveView()
         setCategoriesView()
-        setupAllLearnedWords()
-        setupWordsInProgress()
-        setProgress()
-    }
-}
-
-// MARK: - private methods
-private extension CatalogViewController {
-    func loadTopFiveWords() {
-        model.loadTopFiveWords { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let data):
-                self.topFiveModel = data
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+//        setupAllLearnedWords()
+//        setupWordsInProgress()
+//        setProgress()
     }
 
     func setScrollView() {
@@ -130,21 +122,6 @@ private extension CatalogViewController {
 }
 // swiftlint:enable nesting
 
-// MARK: - Protocol ProgressSetup
-extension CatalogViewController: ProgressSetup {
-    func setupAllLearnedWords() {
-        progressView.setupAllLearnedWords(count: 141) // должна с бека сумма всех слов приходить
-    }
-
-    func setupWordsInProgress() {
-        progressView.setupWordsInProgress(count: 5)
-    }
-
-    func setProgress() {
-        progressView.setProgress()
-    }
-}
-
 // MARK: - Protocol InputTopFiveWordsDelegate
 extension CatalogViewController: InputTopFiveWordsDelegate {
     var topFiveWordsCount: Int {
@@ -157,5 +134,27 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
             level: topFiveModel[index].level
         )
         completion(topFiveWordsModel)
+    }
+}
+
+extension CatalogViewController: CatalogViewInput {
+    func loadTopFiveWords(with data: [TopFiveWordsModel]) {
+        self.topFiveModel = data
+    }
+
+    func setProgress() {
+        progressView.setProgress()
+    }
+
+    func setupAllLearnedWords(with count: Int) {
+        progressView.setupAllLearnedWords(count: count)
+    }
+
+    func setupWordsInProgress(with count: Int) {
+        progressView.setupWordsInProgress(count: count)
+    }
+
+    func showError(with text: String) {
+        print(text) //FIXME: - заменить либо на алерт либо на либу с алертами
     }
 }
