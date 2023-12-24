@@ -85,7 +85,7 @@ private extension CatalogViewController {
                                             constant: -UIConstants.ProgressView.padding).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
                                             constant: -UIConstants.ProgressView.padding * 2).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: view.frame.height / 12).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: view.bounds.height / 25).isActive = true
     }
 
     func setTopFiveView() {
