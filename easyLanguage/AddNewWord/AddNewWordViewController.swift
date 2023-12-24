@@ -28,9 +28,7 @@ extension AddNewWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [nativeLabel, foreignLabel, nativeField, foreignField, button, dividingStripView].forEach {
-            view.addSubview($0)
-        }
+
 
         view.backgroundColor = .PrimaryColors.Background.background
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -93,8 +91,13 @@ private extension AddNewWordViewController {
 // MARK: - set constraints
 private extension AddNewWordViewController {
     func addConstraints() {
+        [nativeLabel, foreignLabel, nativeField, foreignField, button, dividingStripView].forEach {
+            view.addSubview($0)
+        }
+
         horizontalPadding = view.bounds.width / 10
         height =  view.bounds.height / 15
+
         setNativeLabel()
         setNativeField()
         setDividingStripView()
