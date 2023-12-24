@@ -43,7 +43,7 @@ final class CategoriesViewController: UIViewController {
     }
 }
 
-//MARK: - internal func
+// MARK: - internal func
 extension CategoriesViewController {
     func calculateCategoriesCollectionViewHeight() -> CGFloat {
         let isEvenCount = categoryModel.count % 2 == 0
@@ -82,6 +82,7 @@ private extension CategoriesViewController {
     func configureTitleLabel() {
         titleLabel.text = "Категории"
         titleLabel.textColor = .PrimaryColors.Font.header
+        titleLabel.font = TextStyle.bodyBig.font
     }
 
     func configureSortCategoriesLogo() {
