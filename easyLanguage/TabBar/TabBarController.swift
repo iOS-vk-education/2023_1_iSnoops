@@ -14,7 +14,7 @@ final class TabBarController: UITabBarController {
 
     private var catalogVC: UIViewController {
         let catalogViewController = UINavigationController(rootViewController: CatalogViewController())
-        let title = "Слова"
+        let title = NSLocalizedString("wordsTitle", comment: "")
         let image = UIImage(systemName: "character.book.closed.fill")
         catalogViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
         return catalogViewController
@@ -22,7 +22,7 @@ final class TabBarController: UITabBarController {
 
     private var learningVC: UIViewController {
         let learningViewController = UINavigationController(rootViewController: LearningViewController())
-        let title = "Тренировка слов"
+        let title = NSLocalizedString("wordTrainingTitle", comment: "")
         let image = UIImage(systemName: "character.book.closed.fill")
         learningViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 1)
         return learningViewController
