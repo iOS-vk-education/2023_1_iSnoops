@@ -46,39 +46,40 @@ private extension TopFiveView {
         adviceLabel.font = TextStyle.bodySmall.font
         titleLabel.font = TextStyle.bodyBig.font
         titleLabel.textColor = .black
-        titleLabel.text = TopFiveView.Consts.titleText
-        adviceLabel.text = TopFiveView.Consts.adviceText
+        titleLabel.text = "5 слов дня"
+        adviceLabel.text = "Для перевода слова нажмите на карточку"
         adviceLabel.textColor = .gray
     }
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: UIConstants.TitleLabel.width).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                            constant: UIConstants.padding).isActive = true
         titleLabel.sizeToFit()
     }
 
     func setTopFiveCollectionView() {
         topFiveCollectionView.translatesAutoresizingMaskIntoConstraints = false
         topFiveCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
-                                                   constant: UIConstants.TopFiveCollectionView.top).isActive = true
+                                               constant: UIConstants.padding).isActive = true
         topFiveCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         topFiveCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
 
-        let height = CGFloat(UIConstants.AdviceLabel.top
+        let height = CGFloat(UIConstants.padding
                              + UIConstants.AdviceLabel.height
                              + titleLabel.frame.height
-                             + UIConstants.TopFiveCollectionView.top)
+                             + UIConstants.padding)
         topFiveCollectionView.heightAnchor.constraint(equalToConstant: frame.height - height).isActive = true
     }
 
     func setAdviceLabel() {
         adviceLabel.translatesAutoresizingMaskIntoConstraints = false
-        adviceLabel.topAnchor.constraint(equalTo: topFiveCollectionView.bottomAnchor,
-                                         constant: UIConstants.AdviceLabel.top).isActive = true
-        adviceLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        adviceLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        adviceLabel.topAnchor.constraint(equalTo: topFiveCollectionView.bottomAnchor, constant: 5).isActive = true
+        adviceLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                             constant: UIConstants.padding).isActive = true
+        adviceLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                              constant: UIConstants.padding).isActive = true
         adviceLabel.heightAnchor.constraint(equalToConstant: UIConstants.AdviceLabel.height).isActive = true
     }
 }
@@ -86,22 +87,10 @@ private extension TopFiveView {
 // MARK: - Constants
 // swiftlint:disable nesting
 private extension TopFiveView {
-    struct Consts {
-        static let titleText: String = "5 слов дня"
-        static let adviceText: String = "Для перевода слова нажмите на карточку"
-    }
-
     struct UIConstants {
-        struct TitleLabel {
-            static let width: CGFloat = 54.0
-        }
-
-        struct TopFiveCollectionView {
-            static let top: CGFloat = 18.0
-        }
+        static let padding: CGFloat = 18.0
 
         struct AdviceLabel {
-            static let top: CGFloat = 5.0
             static let height: CGFloat = 16.0
         }
     }
