@@ -80,7 +80,7 @@ private extension CategoriesViewController {
     }
 
     func configureTitleLabel() {
-        titleLabel.text = "Категории"
+       titleLabel.text = NSLocalizedString("сategoriesTitle", comment: "")
         titleLabel.textColor = .PrimaryColors.Font.header
         titleLabel.font = TextStyle.bodyBig.font
     }

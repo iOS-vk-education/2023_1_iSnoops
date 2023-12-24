@@ -31,6 +31,7 @@
 		078FA6302B2CC6B3007166DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA62F2B2CC6B3007166DB /* FirebaseAuth */; };
 		078FA63C2B2CC6B3007166DB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA63B2B2CC6B3007166DB /* FirebaseFirestore */; };
 		078FA65A2B2DA74F007166DB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA6592B2DA74F007166DB /* FirebaseStorage */; };
+		07A4DDB82B34BC4A003A9596 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07A4DDBA2B34BC4A003A9596 /* Localizable.strings */; };
 		07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */; };
 		07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */; };
 		07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */; };
@@ -82,6 +83,8 @@
 		074F9DA02B2A199D00132465 /* ProfileApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileApiModel.swift; path = easyLanguage/Network/ApiModels/ProfileApiModel.swift; sourceTree = SOURCE_ROOT; };
 		074F9DB12B2AF3E600132465 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
+		07A4DDB92B34BC4A003A9596 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		07A4DDBB2B34BC56003A9596 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
 		07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManagerErrors.swift; sourceTree = "<group>"; };
 		07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -181,6 +184,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				07A4DDBA2B34BC4A003A9596 /* Localizable.strings */,
 				179FEC162B231AE200772FC8 /* LearningView */,
 				0717C1182AE96CAB00C140C9 /* TabBar */,
 				0717C0C22AE84D2000C140C9 /* Auth */,
@@ -265,6 +269,7 @@
 		0717C1182AE96CAB00C140C9 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
+				07A4DDB52B34BBF4003A9596 /* Localization */,
 				0717C0DE2AE8577200C140C9 /* TabBarController.swift */,
 			);
 			path = TabBar;
@@ -307,6 +312,13 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		07A4DDB52B34BBF4003A9596 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		07C4F7592B1BC9940073BED0 /* Errors */ = {
@@ -483,6 +495,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 0717C09F2AE84CA700C140C9;
 			packageReferences = (
@@ -504,6 +517,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0717C0B82AE84CA900C140C9 /* LaunchScreen.storyboard in Resources */,
+				07A4DDB82B34BC4A003A9596 /* Localizable.strings in Resources */,
 				0717C0B52AE84CA900C140C9 /* Assets.xcassets in Resources */,
 				074F9DB22B2AF3E600132465 /* GoogleService-Info.plist in Resources */,
 			);
@@ -593,6 +607,15 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		07A4DDBA2B34BC4A003A9596 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				07A4DDB92B34BC4A003A9596 /* en */,
+				07A4DDBB2B34BC56003A9596 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -601,6 +624,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -664,6 +688,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

@@ -46,8 +46,8 @@ private extension TopFiveView {
         adviceLabel.font = TextStyle.bodySmall.font
         titleLabel.font = TextStyle.bodyBig.font
         titleLabel.textColor = .black
-        titleLabel.text = "5 слов дня"
-        adviceLabel.text = "Для перевода слова нажмите на карточку"
+        titleLabel.text = NSLocalizedString("topFiveWordsTitle", comment: "")
+        adviceLabel.text = NSLocalizedString("topFiveWordsAdvice", comment: "")
         adviceLabel.textColor = .gray
     }
 
