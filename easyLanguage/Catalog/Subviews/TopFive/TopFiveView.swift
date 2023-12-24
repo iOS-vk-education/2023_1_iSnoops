@@ -30,7 +30,7 @@ final class TopFiveView: UIView {
     }
 }
 
-// MARK: - life circle
+// MARK: - life cycle
 extension TopFiveView {
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -43,6 +43,8 @@ extension TopFiveView {
 // MARK: - private methods
 private extension TopFiveView {
     func setVisualAppearance() {
+        adviceLabel.font = TextStyle.bodySmall.font
+        titleLabel.font = TextStyle.bodyBig.font
         titleLabel.textColor = .black
         titleLabel.text = "5 слов дня"
         adviceLabel.text = "Для перевода слова нажмите на карточку"
