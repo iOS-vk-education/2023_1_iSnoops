@@ -34,7 +34,7 @@ class CatalogViewController: CustomViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Слова"
+        title = NSLocalizedString("wordsTitle", comment: "")
 
         loadTopFiveWords()
 
@@ -89,15 +89,14 @@ private extension CatalogViewController {
                                             constant: -UIConstants.ProgressView.padding).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
                                             constant: -UIConstants.ProgressView.padding * 2).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: view.frame.height / 12).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: view.bounds.height / 25).isActive = true
     }
 
     func setTopFiveView() {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
         topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
                                          constant: UIConstants.TopFiveView.top).isActive = true
-        topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                          constant: UIConstants.TopFiveView.left).isActive = true
+        topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         topFiveView.heightAnchor.constraint(equalToConstant: view.frame.height / 4.5).isActive = true
     }
