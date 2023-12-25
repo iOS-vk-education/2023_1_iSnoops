@@ -5,9 +5,21 @@
   Created by Grigoriy on 21.12.2023.
   
 */
+
+//MARK: - Catalog
 "wordsTitle" = "Слова";
 "wordTrainingTitle" = "Тренировка слов";
 "topFiveWordsTitle" = "5 слов дня";
 "сategoriesTitle" = "Категории";
 "topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
 "progressAdvice" = "Чтобы продолжить учить слова нажмите на прогресс";
+"sortTitle" = "Выберите в каком порядке отобразить категории";
+"sortMessage" = "Сортировка категорий";
+"sortRecentlyAdded" = "Недавно добавленные";
+"sortByName" = "Названию";
+"sortCancel" = "Вернуться";
+
+//MARK: - AddNewCategory
+"addPhotoAdvice" = "Добавить фото";
+"addCategoryButtonTitle" = "Добавить категорию";
+"categoryNamePlaceholder" = "Название категории";

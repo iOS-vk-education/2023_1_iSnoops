@@ -12,17 +12,14 @@ protocol InputCategoriesDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
-protocol SortCategoriesView {
-    func sortByDateCreation()
-    func sortCategoryByName()
-}
-
 protocol CategoriesViewControllerOutput {
     func tapAddCategory()
     func tapSortCategory()
 }
 
 final class CategoriesViewController: UIViewController {
+    private var indexCache: [Int: Int] = [:]
+
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
     private var categoryModel: [CategoryModel] = []
@@ -69,6 +66,9 @@ private extension CategoriesViewController {
             switch result {
             case .success(let data):
                 self.categoryModel = data
+//                for (index, _) in data.enumerated() {
+//                    self.indexCache[index] = index
+//                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -85,14 +85,14 @@ private extension CategoriesViewController {
     }
 
     func configureTitleLabel() {
-       titleLabel.text = NSLocalizedString("сategoriesTitle", comment: "")
+        titleLabel.text = NSLocalizedString("сategoriesTitle", comment: "")
         titleLabel.textColor = .PrimaryColors.Font.header
         titleLabel.font = TextStyle.bodyBig.font
     }
 
     func configureSortCategoriesLogo() {
         sortCategoriesLogo.image = UIImage(named: "SortIconImage")
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSortCategoriesLogo))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSortCategory))
         sortCategoriesLogo.isUserInteractionEnabled = true
         sortCategoriesLogo.addGestureRecognizer(tapGesture)
     }
@@ -152,28 +152,6 @@ private extension CategoriesViewController {
                                                -UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
-
-    @objc
-    func didTapSortCategoriesLogo() {
-         let alertController = UIAlertController(title: "Сортировка категорий",
-                                                 message: "Выберите в каком порядке отобразить категории",
-                                                 preferredStyle: .actionSheet)
-
-          let recentlyAddedAction = UIAlertAction(title: "Недавно добавленные", style: .default) { [weak self] _ in
-              self?.sortByDateCreation()
-          }
-
-          let byNameAction = UIAlertAction(title: "Названию", style: .default) { [weak self] _ in
-              self?.sortCategoryByName()
-          }
-
-          let cancelAction = UIAlertAction(title: "Вернуться", style: .cancel, handler: nil)
-
-          alertController.addAction(recentlyAddedAction)
-          alertController.addAction(byNameAction)
-          alertController.addAction(cancelAction)
-          self.present(alertController, animated: true)
-     }
 }
 
 // MARK: - constants
@@ -199,7 +177,9 @@ extension CategoriesViewController: InputCategoriesDelegate {
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
+        // swiftlint:disable line_length
+        let defaultImageLink = "https://firebasestorage.googleapis.com/v0/b/easylanguage-e6d17.appspot.com/o/categories%2F1E1922CE-61D4-46BE-B2C7-4E12B316CCFA?alt=media&token=80174f66-ee40-4f34-9a35-8d7ed4fbd571"
+        // swiftlint:enable line_length
         guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
             completion(CategoryUIModel())
             return
@@ -209,14 +189,30 @@ extension CategoriesViewController: InputCategoriesDelegate {
             switch result {
             case .success(let data):
                 guard let self = self else { return }
-                completion(
-                    CategoryUIModel(
-                        title: categoryModel[index].title,
-                        image: UIImage(data: data),
-                        studiedWordsCount: categoryModel[index].studiedWordsCount,
-                        totalWordsCount: categoryModel[index].totalWordsCount
+                if let indexCache = indexCache[index] {
+                    print("indexCache", indexCache, index)
+                    completion(
+                        CategoryUIModel(
+                            title: categoryModel[indexCache].title,
+                            image: UIImage(data: data),
+                            studiedWordsCount: categoryModel[indexCache].studiedWordsCount,
+                            totalWordsCount: categoryModel[indexCache].totalWordsCount,
+                            index: indexCache
+                        )
                     )
-                )
+                } else {
+                    print(index)
+                    indexCache[index] = index
+                    completion(
+                        CategoryUIModel(
+                            title: categoryModel[index].title,
+                            image: UIImage(data: data),
+                            studiedWordsCount: categoryModel[index].studiedWordsCount,
+                            totalWordsCount: categoryModel[index].totalWordsCount,
+                            index: index
+                        )
+                    )
+                }
             case .failure(let error):
                 print(error)
             }
@@ -244,39 +240,44 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
 
     @objc
     func tapSortCategory() {
-        //FIXME: - обработка нажатия на сортировку
-    }
-}
-// swiftlint:enable nesting
+        let alertController = UIAlertController(title: NSLocalizedString("sortTitle", comment: ""),
+                                                message: NSLocalizedString("sortMessage", comment: ""),
+                                                preferredStyle: .actionSheet)
 
-// MARK: - Protocol SortCategoriesView
-extension CategoriesViewController: SortCategoriesView {
-    func sortCategoryByName() {
-        categoryModel.sort {
-            $0.title < $1.title
+        let recentlyAddedAction = UIAlertAction(title: NSLocalizedString("sortRecentlyAdded", comment: ""),
+                                                style: .default) { [weak self] _ in
+            self?.sortByDateCreation()
         }
-        updateCollectionView(with: categoryModel)
+
+        let byNameAction = UIAlertAction(title: NSLocalizedString("sortByName", comment: ""),
+                                         style: .default) { [weak self] _ in
+            self?.sortCategoryByName()
+        }
+
+        let cancelAction = UIAlertAction(title: NSLocalizedString("sortCancel", comment: ""),
+                                         style: .cancel, handler: nil)
+
+        alertController.addAction(recentlyAddedAction)
+        alertController.addAction(byNameAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true)
     }
 
-    func sortByDateCreation() {
+    private func sortByDateCreation() {
         categoryModel.sort {
             $0.createdDate > $1.createdDate
         }
         updateCollectionView(with: categoryModel)
     }
 
+    private func sortCategoryByName() {
+        categoryModel.sort {
+            $0.title < $1.title
+        }
+        updateCollectionView(with: categoryModel)
+    }
+
     private func updateCollectionView(with categoryModel: [CategoryModel]) {
-        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
-        // performBatchUpdates - для атомарного обновления (одна неделимая единица)
-        categoriesCollectionView.performBatchUpdates({
-            for newIndex in indexPathsToUpdate {
-                // Обновление данных в ячейках
-                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
-                    categoriesCollectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
-                        cell.cellConfigure(with: categoryUIModel, at: newIndex)
-                    }
-                }
-            }
-        })
+        categoriesCollectionView.reloadData()
     }
 }
