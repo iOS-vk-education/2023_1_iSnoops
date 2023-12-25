@@ -63,7 +63,7 @@ final class LearningViewController: UIViewController {
     }
     // MARK: Private methods
     private func setupViews() {
-        title = "Тренировка слов"
+        let title = NSLocalizedString("wordTrainingTitle", comment: "")
         view.addSubview(descriptionLabel)
         view.addSubview(cardStack)
         view.addSubview(progressInfo)
