@@ -14,7 +14,6 @@ protocol TopFiveServiceProtocol {
 final class TopFiveService: TopFiveServiceProtocol {
 
     static let shared: TopFiveServiceProtocol = TopFiveService()
-    private init() {}
 
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void) {
         completion(.success(MockData.topFiveWords))

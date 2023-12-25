@@ -15,7 +15,6 @@ protocol WordsServiceProtocol {
 final class WordsService: WordsServiceProtocol {
 
     static let shared: WordsServiceProtocol = WordsService()
-    private init() {}
 
     func getWordsCounts(with categoryId: String,
                         completion: @escaping (Result<(total: Int, studied: Int), Error>) -> Void) {

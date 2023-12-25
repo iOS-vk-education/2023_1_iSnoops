@@ -12,6 +12,10 @@ protocol InputTopFiveWordsDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
 }
 
+protocol InputCategoriesViewControllerDelegate: AnyObject {
+    func reloadCollecionHeight()
+}
+
 protocol ProgressSetup {
     func setupAllLearnedWords()
     func setupWordsInProgress()
@@ -25,7 +29,7 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesViewController = CategoriesViewController()
+    private lazy var categoriesViewController = CategoriesViewController(inputCategoriesViewControllerDelegate: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,8 +109,6 @@ private extension CatalogViewController {
         categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        categoriesViewController.view.heightAnchor.constraint(equalToConstant:
-                                 categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
         categoriesViewController.didMove(toParent: self)
     }
 }
@@ -157,5 +159,12 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
             level: topFiveModel[index].level
         )
         completion(topFiveWordsModel)
+    }
+}
+
+extension CatalogViewController: InputCategoriesViewControllerDelegate {
+    func reloadCollecionHeight() {
+        categoriesViewController.view.heightAnchor.constraint(equalToConstant:
+                                 categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
     }
 }

@@ -13,6 +13,17 @@ protocol InputCategoriesDelegate: AnyObject {
 }
 
 final class CategoriesViewController: UIViewController {
+    weak var inputCategoriesViewControllerDelegate: InputCategoriesViewControllerDelegate?
+
+    init(inputCategoriesViewControllerDelegate: InputCategoriesViewControllerDelegate?) {
+        super.init(nibName: nil, bundle: nil)
+        self.inputCategoriesViewControllerDelegate = inputCategoriesViewControllerDelegate
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
     private var categoryModel: [CategoryModel] = []
@@ -40,6 +51,7 @@ final class CategoriesViewController: UIViewController {
         categoriesCollectionView.setupInputCategoriesDelegate(with: self)
     }
 }
+
 extension CategoriesViewController {
     func calculateCategoriesCollectionViewHeight() -> CGFloat {
         let isEvenCount = categoryModel.count % 2 == 0
@@ -53,13 +65,17 @@ extension CategoriesViewController {
 // MARK: - private methods
 private extension CategoriesViewController {
     func loadCategories() {
-        model.loadCategory { [weak self] result in
-            guard let self = self else {
-                return
-            }
+        model.loadCategory { result in
             switch result {
             case .success(let data):
-                self.categoryModel = data
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else {
+                        return
+                    }
+                    self.categoryModel = data
+                    self.categoriesCollectionView.reloadData()
+                    self.inputCategoriesViewControllerDelegate?.reloadCollecionHeight()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -121,7 +137,9 @@ extension CategoriesViewController: InputCategoriesDelegate {
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
+        // swiftlint:disable line_length
+        let defaultImageLink = "https://firebasestorage.googleapis.com/v0/b/easylanguage-e6d17.appspot.com/o/categories%2F1E1922CE-61D4-46BE-B2C7-4E12B316CCFA?alt=media&token=80174f66-ee40-4f34-9a35-8d7ed4fbd571"
+        // swiftlint:enable line_length
         guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
             completion(CategoryUIModel())
             return

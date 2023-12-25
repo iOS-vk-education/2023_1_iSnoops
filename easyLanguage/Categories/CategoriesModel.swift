@@ -28,8 +28,10 @@ final class CategoriesModel {
             switch result {
             case .success(let categories):
                 var categoryModels: [CategoryModel] = []
+                let group = DispatchGroup()
 
                 for category in categories {
+                    group.enter()
                     self?.loadWordsCounts(with: category.linkedWordsId) { result in
                         switch result {
                         case .success(let counts):
@@ -42,12 +44,17 @@ final class CategoriesModel {
                                 linkedWordsId: category.linkedWordsId
                             )
                             categoryModels.append(categoryModel)
+                            group.leave()
                         case .failure(let error):
                             print(error.localizedDescription)
+                            group.leave()
                         }
                     }
                 }
-                completion(.success(categoryModels))
+
+                group.notify(queue: .main) {
+                    completion(.success(categoryModels))
+                }
             case .failure(let error):
                 completion(.failure(error))
             }
