@@ -48,19 +48,14 @@ final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
                     return nil
                 }
             }
-
-            if categories.isEmpty {
-                completion(.failure(NetworkError.emptyData))
-            } else {
-                completion(.success(categories))
-            }
+            completion(.success(categories))
         }
     }
 
     // FIXME: - эти методы пойдут в AddNewCategory
     func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void) {
         uploadCategoryImage(with: category.imageLink) { [weak self] result in
-            guard let self = self else {
+            guard let self else {
                 return
             }
 
@@ -80,8 +75,21 @@ final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
                         completion(.success(()))
                     }
                 }
+
+                self.addDocumentToCategoriesCollection(with: categoryDict, completion: completion)
             case .failure(let error):
                 completion(.failure(error))
+            }
+        }
+    }
+
+    private func addDocumentToCategoriesCollection(with data: [String: Any],
+                                                   completion: @escaping (Result<Void, Error>) -> Void) {
+        dataBase.collection("categories").addDocument(data: data) { error in
+            if let error {
+                completion(.failure(error))
+            } else {
+                completion(.success(()))
             }
         }
     }
@@ -96,32 +104,39 @@ final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
         imageManager.loadImage(from: imageUrl) { result in
             switch result {
             case .success(let imageData):
-                let storage = Storage.storage()
-                let storageRef = storage.reference()
-
-                let imageName = UUID().uuidString
-                let imageRef = storageRef.child("categories/\(imageName)")
+                let imageRef = Storage.storage().reference().child("categories/\(UUID().uuidString)")
 
                 let metadata = StorageMetadata()
                 metadata.contentType = "image/png"
 
-                imageRef.putData(imageData, metadata: metadata) { _, error in
+                imageRef.putData(imageData, metadata: metadata) { [weak self] _, error in
                     if let error = error {
                         completion(.failure(error))
                         return
                     }
 
                     imageRef.downloadURL { url, error in
-                        if let url = url {
+                        if let url {
                             completion(.success(url))
                         } else if let error = error {
                             completion(.failure(error))
                         }
                     }
+                    self?.downloadURL(from: imageRef, completion: completion)
                 }
             case .failure(let error):
                 completion(.failure(error))
                 return
+            }
+        }
+    }
+
+    private func downloadURL(from imageRef: StorageReference, completion: @escaping (Result<URL, Error>) -> Void) {
+        imageRef.downloadURL { url, error in
+            if let url = url {
+                completion(.success(url))
+            } else if let error = error {
+                completion(.failure(error))
             }
         }
     }
