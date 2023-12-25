@@ -15,29 +15,30 @@ protocol InputWordsDelegate: AnyObject {
 }
 
 protocol CategoryDetailOutput {
-    func buttonTapped()
+    func addNewWordButtonTapped()
 }
 
 final class CategoryDetailViewController: CustomViewController {
-    private var linkedWordsId = MockData.categoryModel[2].linkedWordsId //FIXME: - будут данные из ячейки catalogVC
-    private var numberOfSelectedCategory = 2 //FIXME: - будут данные из ячейки catalogVC
     private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
+    private var wordsModel = [WordUIModel]()
     private let model = CategoryDetailModel()
-    private var wordsModel: [WordUIModel] = []
+    private var linkedWordsId = MockData.categoryModel[2].linkedWordsId //FIXME: - будут данные из ячейки catalogVC
+    private var selectedCategory = 2 //FIXME: - будут данные из ячейки catalogVC
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(collectionView)
+
         loadWords()
-        setCollectionView()
         setNavBar()
+        setCollectionView()
     }
 }
 
 // MARK: - open methods
 extension CategoryDetailViewController {
-    func configureCategoryDetailViewController(linkedWordsId: String) {
+    func set(linkedWordsId: String) {
         self.linkedWordsId = linkedWordsId
     }
 }
@@ -66,7 +67,7 @@ private extension CategoryDetailViewController {
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                  style: .done,
                                                  target: self,
-                                                 action: #selector(buttonTapped))
+                                                 action: #selector(addNewWordButtonTapped))
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
@@ -91,7 +92,7 @@ private extension CategoryDetailViewController {
 // MARK: - Protocol InputWordsDelegate
 extension CategoryDetailViewController: InputWordsDelegate {
     var index: Int {
-        numberOfSelectedCategory
+        selectedCategory
     }
 
     var wordsCount: Int {
@@ -109,7 +110,7 @@ extension CategoryDetailViewController: InputWordsDelegate {
 // MARK: - CategoryDetailOutput
 extension CategoryDetailViewController: CategoryDetailOutput {
     @objc
-    func buttonTapped() {
+    func addNewWordButtonTapped() {
         // добавление нового слова (AddNewWordVC)
     }
 }

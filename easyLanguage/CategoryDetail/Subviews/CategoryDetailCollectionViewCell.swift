@@ -8,29 +8,26 @@
 import UIKit
 
 protocol CategoryDetailCellOutput {
-    func didTapMarkIcon()
-    func didTapCell()
+    func didTapMarkAsLearned()
+    func showTranslation()
 }
 
 final class CategoryDetailCollectionViewCell: UICollectionViewCell {
+    private var cellBackgroundColor: UIColor?
     private let title = UILabel()
-    private let markIcon = UIImageView()
+    private let markAsLearned = UIImageView()
     private var nativeTitle: String?
     private var foreignTitle: String?
     private var isFlipped = false
-    private var cellBackgroundColor: UIColor?
     private var wordUIModel: WordUIModel?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setAppearance()
-        [title, markIcon].forEach {
-            contentView.addSubview($0)
-        }
         addConstraints()
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showTranslation))
         self.addGestureRecognizer(tapGesture)
         layer.cornerRadius = 15
     }
@@ -60,7 +57,7 @@ extension CategoryDetailCollectionViewCell {
         if cellBackgroundColor == nil {
             setColors(with: index)
         }
-        updateLike(with: wordUIModel.isLearned)
+        updateMark(with: wordUIModel.isLearned)
         updateTitleLabel()
     }
 }
@@ -78,15 +75,11 @@ private extension CategoryDetailCollectionViewCell {
     }
 
     func updateTitleLabel() {
-        if isFlipped {
-            title.text = foreignTitle
-        } else {
-            title.text = nativeTitle
-        }
+        isFlipped ? (title.text = foreignTitle) : (title.text = nativeTitle)
     }
 
-    func updateLike(with isLearned: Bool) {
-        markIcon.image = UIImage(named: isLearned ? "Star.fill" : "Star")
+    func updateMark(with isLearned: Bool) {
+        markAsLearned.image = UIImage(named: isLearned ? "Star.fill" : "Star")
     }
 }
 
@@ -94,7 +87,7 @@ private extension CategoryDetailCollectionViewCell {
 private extension CategoryDetailCollectionViewCell {
     func setAppearance() {
         titleAppearance()
-        markIconAppearence()
+        markAsLearnedAppearence()
     }
 
     func titleAppearance() {
@@ -102,21 +95,24 @@ private extension CategoryDetailCollectionViewCell {
         title.textAlignment = .center
     }
 
-    func markIconAppearence() {
-        markIcon.clipsToBounds = true
-        markIcon.contentMode = .scaleAspectFit
+    func markAsLearnedAppearence() {
+        markAsLearned.clipsToBounds = true
+        markAsLearned.contentMode = .scaleAspectFit
 
-        markIcon.isUserInteractionEnabled = true
-        let tapGesture =  UITapGestureRecognizer(target: self, action: #selector(didTapMarkIcon))
-        markIcon.addGestureRecognizer(tapGesture)
+        markAsLearned.isUserInteractionEnabled = true
+        let tapGesture =  UITapGestureRecognizer(target: self, action: #selector(didTapMarkAsLearned))
+        markAsLearned.addGestureRecognizer(tapGesture)
     }
 }
 
 // MARK: - set constraints
 private extension CategoryDetailCollectionViewCell {
     func addConstraints() {
+        [title, markAsLearned].forEach {
+            contentView.addSubview($0)
+        }
         setTitle()
-        setMarkIcon()
+        setMarkAsLearned()
     }
 
     func setTitle() {
@@ -131,14 +127,14 @@ private extension CategoryDetailCollectionViewCell {
                                         constant: -UIConstants.TitleLabel.padding).isActive = true
     }
 
-    func setMarkIcon() {
-        markIcon.translatesAutoresizingMaskIntoConstraints = false
-        markIcon.topAnchor.constraint(equalTo: topAnchor,
-                                        constant: UIConstants.LikeImageView.topLeft).isActive = true
-        markIcon.leadingAnchor.constraint(equalTo: leadingAnchor,
-                                        constant: UIConstants.LikeImageView.topLeft).isActive = true
-        markIcon.widthAnchor.constraint(equalToConstant: UIConstants.LikeImageView.size).isActive = true
-        markIcon.heightAnchor.constraint(equalToConstant: UIConstants.LikeImageView.size).isActive = true
+    func setMarkAsLearned() {
+        markAsLearned.translatesAutoresizingMaskIntoConstraints = false
+        markAsLearned.topAnchor.constraint(equalTo: topAnchor,
+                                        constant: UIConstants.MarkAsLearned.topLeft).isActive = true
+        markAsLearned.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                        constant: UIConstants.MarkAsLearned.topLeft).isActive = true
+        markAsLearned.widthAnchor.constraint(equalToConstant: UIConstants.MarkAsLearned.size).isActive = true
+        markAsLearned.heightAnchor.constraint(equalToConstant: UIConstants.MarkAsLearned.size).isActive = true
     }
 }
 
@@ -163,7 +159,7 @@ private extension CategoryDetailCollectionViewCell {
             static let padding: CGFloat = 10.0
         }
 
-        struct LikeImageView {
+        struct MarkAsLearned {
             static let topLeft: CGFloat = 10.0
             static let size: CGFloat = 35.0
         }
@@ -174,16 +170,16 @@ private extension CategoryDetailCollectionViewCell {
 // MARK: - CategoryDetailCellOutput
 extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
     @objc
-    func didTapMarkIcon() {
+    func didTapMarkAsLearned() {
         guard let wordUIModel = wordUIModel else {
             return
         }
-        // обновление лайка на беке
-        updateLike(with: !wordUIModel.isLearned)
+        // FIXME: - обновление лайка на беке (
+        updateMark(with: !wordUIModel.isLearned)
     }
 
     @objc
-    func didTapCell() {
+    func showTranslation() {
         let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
         isFlipped = !isFlipped
         UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in

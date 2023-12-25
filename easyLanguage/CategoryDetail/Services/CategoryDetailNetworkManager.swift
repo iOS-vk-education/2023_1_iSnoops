@@ -9,13 +9,12 @@ import Foundation
 
 protocol CategoryDetailNetworkManagerProtocol {
     func getWords(with linkedWordsId: String, completion: @escaping (Result<[WordApiModel], Error>) -> Void)
-    func postWord(with newWord: WordApiModel, completion: @escaping (Result<Void, Error>) -> Void)
+    func addWord(with newWord: WordApiModel, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class CategoryDetailNetworkManager: CategoryDetailNetworkManagerProtocol {
 
     static let shared: CategoryDetailNetworkManagerProtocol = CategoryDetailNetworkManager()
-    private init() {}
 
     func getWords(with categoryId: String, completion: @escaping (Result<[WordApiModel], Error>) -> Void) {
         let filteredWords = MockData.wordModel.filter {
@@ -24,7 +23,7 @@ final class CategoryDetailNetworkManager: CategoryDetailNetworkManagerProtocol {
         completion(.success(filteredWords))
     }
 
-    func postWord(with newWord: WordApiModel, completion: @escaping (Result<Void, Error>) -> Void) {
+    func addWord(with newWord: WordApiModel, completion: @escaping (Result<Void, Error>) -> Void) {
         MockData.wordModel.append(newWord)
         completion(.success(()))
     }
