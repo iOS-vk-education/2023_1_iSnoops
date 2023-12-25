@@ -23,8 +23,8 @@
 		072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92542B1CF5BB006CA4C1 /* WordApiModel.swift */; };
 		072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */; };
 		072B925C2B1CF952006CA4C1 /* TopFiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B925B2B1CF951006CA4C1 /* TopFiveService.swift */; };
-		074455492B223D1400FA5469 /* AddNewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455482B223D1400FA5469 /* AddNewWordViewController.swift */; };
 		072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */; };
+		074455492B223D1400FA5469 /* AddNewWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455482B223D1400FA5469 /* AddNewWordViewController.swift */; };
 		074F9DA12B2A199D00132465 /* ProfileApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074F9DA02B2A199D00132465 /* ProfileApiModel.swift */; };
 		074F9DB22B2AF3E600132465 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 074F9DB12B2AF3E600132465 /* GoogleService-Info.plist */; };
 		075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */; };
@@ -79,8 +79,8 @@
 		072B92542B1CF5BB006CA4C1 /* WordApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordApiModel.swift; path = easyLanguage/Network/ApiModels/WordApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryApiModel.swift; path = easyLanguage/Network/ApiModels/CategoryApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B925B2B1CF951006CA4C1 /* TopFiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveService.swift; sourceTree = "<group>"; };
-		074455482B223D1400FA5469 /* AddNewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWordViewController.swift; sourceTree = "<group>"; };
 		072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryViewController.swift; sourceTree = "<group>"; };
+		074455482B223D1400FA5469 /* AddNewWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWordViewController.swift; sourceTree = "<group>"; };
 		074F9DA02B2A199D00132465 /* ProfileApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileApiModel.swift; path = easyLanguage/Network/ApiModels/ProfileApiModel.swift; sourceTree = SOURCE_ROOT; };
 		074F9DB12B2AF3E600132465 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
@@ -187,7 +187,6 @@
 			isa = PBXGroup;
 			children = (
 				07D31BE12B389364005002E3 /* Onboarding */,
-				07A4DDBA2B34BC4A003A9596 /* Localizable.strings */,
 				179FEC162B231AE200772FC8 /* LearningView */,
 				0717C1182AE96CAB00C140C9 /* TabBar */,
 				0717C0C22AE84D2000C140C9 /* Auth */,
@@ -223,6 +222,7 @@
 		0717C0C32AE84D2E00C140C9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				07A4DDBA2B34BC4A003A9596 /* Localizable.strings */,
 				074F9DB12B2AF3E600132465 /* GoogleService-Info.plist */,
 				0717C0B42AE84CA900C140C9 /* Assets.xcassets */,
 				0717C0B62AE84CA900C140C9 /* LaunchScreen.storyboard */,
