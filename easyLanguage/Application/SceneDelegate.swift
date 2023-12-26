@@ -6,6 +6,7 @@
 //
 // swiftlint:disable all
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -14,13 +15,42 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(windowScene: windowScene)
-        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
-                window?.rootViewController = OnboardingViewController()
-        } else {
-            window?.rootViewController = TabBarController()
-        }
         window?.makeKeyAndVisible()
+        checkAuthentication()
+//        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
+//                window?.rootViewController = OnboardingViewController()
+//        } else {
+//            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
+//           
+//        }
+        
     }
+    
+    public func checkAuthentication() {
+            if Auth.auth().currentUser == nil {
+                self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
+            } else {
+                self.goToController(with: TabBarController())
+            }
+        }
+        
+        private func goToController(with viewController: UIViewController) {
+            DispatchQueue.main.async { [weak self] in
+                UIView.animate(withDuration: 0.25) {
+                    self?.window?.layer.opacity = 0
+                    
+                } completion: { [weak self] _ in
+                    
+                    let nav = viewController
+                    nav.modalPresentationStyle = .fullScreen
+                    self?.window?.rootViewController = nav
+                    
+                    UIView.animate(withDuration: 0.25) { [weak self] in
+                        self?.window?.layer.opacity = 1
+                    }
+                }
+            }
+        }
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

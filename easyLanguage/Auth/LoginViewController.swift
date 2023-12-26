@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 final class LoginViewController: UIViewController {
     // MARK: Views
@@ -98,6 +99,25 @@ final class LoginViewController: UIViewController {
     @objc
     private func tapButton() {
         // логика входа
-        navigationController?.pushViewController(RegistrationViewController(), animated: true)
+        guard let fields = loginPasswordInput.arrangedSubviews as? [UITextField] else {
+            return
+        }
+        guard let emailString = fields[0].text,
+              let passwordString = fields[1].text
+        else {
+            return
+        }
+        // логика регистрации
+        let userRequest = LoginUserRequest(email: emailString,
+                                           password: passwordString)
+        AuthService.shared.signIn(with: userRequest) { error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            } else {
+                self.navigationController?.pushViewController(OnboardingViewController(), animated: true)
+            }
+        }
+           
     }
 }
