@@ -79,7 +79,7 @@ private extension CategoriesViewController {
             case .success(let data):
                 DispatchQueue.main.async {
                     self.categoryModel = data
-                    self.categorieseOutputDelegate?.reloadHeight(with: self.calculateCategoriesCollectionViewHeight())
+                    self.categorieseOutputDelegate?.reloadHeight()
                     self.categoriesCollectionView.reloadData()
                 }
             case .failure(let error):

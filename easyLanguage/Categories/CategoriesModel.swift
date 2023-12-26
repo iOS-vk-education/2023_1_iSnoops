@@ -20,7 +20,8 @@ final class CategoriesModel {
                                   studiedWordsCount: 0, //FIXME: - нужен запрос
                                   totalWordsCount: 0, //FIXME: - нужен запрос
                                   createdDate: category.createdDate,
-                                  linkedWordsId: category.linkedWordsId)
+                                  linkedWordsId: category.linkedWordsId,
+                                  index: 0)  //FIXME: - нужен от итерации
                 }
                 completion(.success(categoryModels))
             case .failure(let error):
