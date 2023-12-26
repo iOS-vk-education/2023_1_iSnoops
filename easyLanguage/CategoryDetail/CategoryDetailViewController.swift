@@ -102,7 +102,8 @@ extension CategoryDetailViewController: InputWordsDelegate {
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void) {
         let wordModel = WordUIModel(categoryId: wordsModel[index].categoryId,
                                     translations: wordsModel[index].translations,
-                                    isLearned: wordsModel[index].isLearned)
+                                    isLearned: wordsModel[index].isLearned,
+                                    id: wordsModel[index].id)
         completion(wordModel)
     }
 }
