@@ -54,7 +54,6 @@ final class CategoryService: CatalogNetworkManagerProtocol {
         }
     }
 
-
     // FIXME: - эти методы пойдут в AddNewCategory
     func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void) {
         uploadCategoryImage(with: category.imageLink) { [weak self] result in
