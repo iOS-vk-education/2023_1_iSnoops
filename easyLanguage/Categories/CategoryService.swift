@@ -11,7 +11,7 @@ import FirebaseStorage
 
 protocol CatalogNetworkManagerProtocol {
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
-    func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void)
+    func loadCategories() async throws -> [CategoryApiModel]
     func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
@@ -27,30 +27,33 @@ final class CategoryService: CatalogNetworkManagerProtocol {
         completion(.success(MockData.topFiveWords))
     }
 
-    func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void) {
-        dataBase.collection("categories").getDocuments { querySnapshot, error in
-            if let error = error {
-                print(error)
-                completion(.failure(error))
-                return
-            }
-
-            guard let documents = querySnapshot?.documents else {
-                completion(.failure(NetworkError.unexpected))
-                return
-            }
-
-            let categories: [CategoryApiModel] = documents.compactMap { document in
-                do {
-                    let category = try document.data(as: CategoryApiModel.self)
-                    return category
-                } catch {
-                    return nil
+    func loadCategories() async throws -> [CategoryApiModel] {
+        return try await withCheckedThrowingContinuation { continuation in
+            dataBase.collection("categories").getDocuments { querySnapshot, error in
+                if let error = error {
+                    print(error)
+                    continuation.resume(throwing: error)
                 }
+
+                guard let documents = querySnapshot?.documents else {
+                    continuation.resume(throwing: NetworkError.unexpected)
+                    return
+                }
+
+                let categories: [CategoryApiModel] = documents.compactMap { document in
+                    do {
+                        let category = try document.data(as: CategoryApiModel.self)
+                        return category
+                    } catch {
+                        return nil
+                    }
+                }
+
+                continuation.resume(returning: categories)
             }
-            completion(.success(categories))
         }
     }
+
 
     // FIXME: - эти методы пойдут в AddNewCategory
     func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void) {
