@@ -28,8 +28,6 @@ extension AddNewWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
-
         view.backgroundColor = .PrimaryColors.Background.background
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
