@@ -7,6 +7,11 @@
 
 import UIKit
 
+struct OnboardingSlide {
+    let title: String
+    let image: UIImage
+}
+
 final class OnboardingViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -55,11 +60,11 @@ private extension OnboardingViewController {
         view.backgroundColor = .PrimaryColors.Background.background
 
         slides = [
-            OnboardingSlide(title: NSLocalizedString("onboardingSlide1Title", comment: ""),
+            OnboardingSlide(title: NSLocalizedString("gameplayLanguageLearningTitle", comment: ""),
                             image: UIImage(systemName: "person")!),
-            OnboardingSlide(title: NSLocalizedString("onboardingSlide2Title", comment: ""),
+            OnboardingSlide(title: NSLocalizedString("createCustomCategoriesTitle", comment: ""),
                             image: UIImage(systemName: "person")!),
-            OnboardingSlide(title: NSLocalizedString("onboardingSlide3Title", comment: ""),
+            OnboardingSlide(title: NSLocalizedString("swipeBasedLanguageLearningTitle", comment: ""),
                             image: UIImage(systemName: "person")!)
         ]
 
