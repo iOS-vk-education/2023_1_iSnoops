@@ -35,7 +35,7 @@ class CatalogViewController: CustomViewController {
         super.viewDidLoad()
 
         setup()
-        output.viewDidLoad()
+        output.didLoadView()
     }
 }
 
@@ -138,7 +138,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 }
 
 extension CatalogViewController: CatalogViewInput {
-    func loadTopFiveWords(with data: [TopFiveWordsModel]) {
+    func configureTopFiveWords(with data: [TopFiveWordsModel]) {
         self.topFiveModel = data
     }
 

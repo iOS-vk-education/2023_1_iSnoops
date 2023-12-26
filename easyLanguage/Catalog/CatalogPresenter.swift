@@ -13,7 +13,7 @@ final class CatalogPresenter {
 }
 
 extension CatalogPresenter: CatalogViewOutput {
-    func viewDidLoad() {
+    func didLoadView() {
         guard let view else {
             return
         }
@@ -21,7 +21,7 @@ extension CatalogPresenter: CatalogViewOutput {
         model.loadTopFiveWords { result in
             switch result {
             case .success(let data):
-                view.loadTopFiveWords(with: data)
+                view.configureTopFiveWords(with: data)
             case .failure(let error):
                 view.showError(with: error.localizedDescription)
             }

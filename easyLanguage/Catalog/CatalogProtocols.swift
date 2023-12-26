@@ -8,11 +8,11 @@
 import Foundation
 
 protocol CatalogViewOutput: AnyObject {
-    func viewDidLoad()
+    func didLoadView()
 }
 
 protocol CatalogViewInput: AnyObject {
-    func loadTopFiveWords(with data: [TopFiveWordsModel])
+    func configureTopFiveWords(with data: [TopFiveWordsModel])
     func showError(with text: String)
     func setupAllLearnedWords(with count: Int)
     func setupWordsInProgress(with count: Int)
