@@ -11,3 +11,10 @@
 "сategoriesTitle" = "Категории";
 "topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
 "progressAdvice" = "Чтобы продолжить учить слова нажмите на прогресс";
+
+//MARK: - Onboarding
+"onboardingSlide1Title" = "В игровой форме легко учить иностранные языки";
+"onboardingSlide2Title" = "Создавай любые категории и учи то, что нравится больше всего";
+"onboardingSlide3Title" = "Учи язык с помощью свайпов!";
+"nextButtonStartTitle" = "Начать";
+"nextButtonContinueTitle" = "Далее";

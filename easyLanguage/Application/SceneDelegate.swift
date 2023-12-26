@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = TabBarController()
 
+//        window?.rootViewController = OnboardingViewController()
         if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
                 window?.rootViewController = OnboardingViewController()
         } else {

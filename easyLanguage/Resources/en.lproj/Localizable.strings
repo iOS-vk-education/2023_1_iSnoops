@@ -11,3 +11,10 @@
 "сategoriesTitle" = "Categories";
 "topFiveWordsAdvice" = "To translate a word, click on the card";
 "progressAdvice" = "To continue learning words, click on progress";
+
+//MARK: - Onboarding
+"onboardingSlide1Title" = "Learn foreign languages easily through gameplay";
+"onboardingSlide2Title" = "Create any categories and study what you like the most";
+"onboardingSlide3Title" = "Learn language with the help of swipes!";
+"nextButtonStartTitle" = "Start";
+"nextButtonContinueTitle" = "Next";
