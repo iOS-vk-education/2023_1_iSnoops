@@ -18,7 +18,8 @@ final class CategoryDetailModel {
                 let wordsModel = wordsApiModel.map { word in
                     WordUIModel(categoryId: word.categoryId,
                                 translations: word.translations,
-                                isLearned: word.isLearned)
+                                isLearned: word.isLearned,
+                                id: word.id)
                 }
                 completion(.success(wordsModel))
             case .failure(let error):
