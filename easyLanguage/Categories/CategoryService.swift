@@ -8,15 +8,14 @@
 import Foundation
 
 protocol CategoryServiceProtocol {
-    func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void)
+    func loadCategories() async throws -> [CategoryApiModel]
 }
 
 final class CategoryService: CategoryServiceProtocol {
 
     static let shared: CategoryServiceProtocol = CategoryService()
-    private init() {}
 
-    func getCategories(completion: @escaping (Result<[CategoryApiModel], Error>) -> Void) {
-        completion(.success(MockData.categoryModel))
+    func loadCategories() async throws -> [CategoryApiModel] {
+        return try await MockData.categoryModel
     }
 }
