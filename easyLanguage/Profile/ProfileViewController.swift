@@ -9,15 +9,17 @@ import UIKit
 
 final class ProfileViewController: CustomViewController {
     // MARK: - Init views
-    private let scrollView = UIScrollView()
-
-    private let labelUnderTextField = UILabel()
-    private let userInformationView = UserInformationView()
-    private let progressView = ProgressView()
-    private let choosingThemeView = ChoosingThemeView()
 
     private let themeViewOutput: ThemeViewOutput
     private let userInformationViewOutput: UserInformationViewOutput
+
+    private let scrollView = UIScrollView()
+
+    private let userInformationView = UserInformationView()
+    private let labelUnderTextField = UILabel()
+    private let progressView = ProgressView()
+    private let choosingThemeView = ChoosingThemeView()
+    private let getOutButton = UIButton()
 
     init(themeViewOutput: ThemeViewOutput, userInformationViewOutput: UserInformationViewOutput) {
         self.themeViewOutput = themeViewOutput
@@ -31,18 +33,19 @@ final class ProfileViewController: CustomViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .PrimaryColors.Background.background
         title = "Профиль"
         view.addSubview(scrollView)
         setScrollView()
-        [userInformationView, progressView, labelUnderTextField, choosingThemeView].forEach {
+        [userInformationView, progressView, labelUnderTextField, choosingThemeView, getOutButton].forEach {
             scrollView.addSubview($0)
         }
         setTipAppearance()
         setUserInformationView()
         setLabelUnderTextField()
-        setChoosingTheme()
         setProgressView()
+        setChoosingTheme()
+        setGetOutButton()
     }
 }
 
@@ -55,12 +58,26 @@ private extension ProfileViewController {
         labelUnderTextField.font = UIFont.systemFont(ofSize: 12)
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
+        getOutButton.setTitle("Выйти из аккаунта", for: .normal)
+        getOutButton.setTitleColor(UIColor.red, for: .normal)
+        getOutButton.addTarget(self, action: #selector(didTapGetOutButton), for: .touchUpInside)
     }
     func setWordsInProgressLabel() {
         progressView.setupWordsInProgress(count: 60)
         progressView.setupAllLearnedWords(count: 120)
     }
-
+    @objc
+    func didTapGetOutButton() {
+        let alertController = UIAlertController(title: "Выход из аккаунта",
+            message: "Вы уверены, что хотите выйти из аккаунта?", preferredStyle: .alert)
+        let getOutAction = UIAlertAction(title: "Выйти", style: .destructive) {_ in
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .default) {_ in
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(getOutAction)
+        self.present(alertController, animated: true)
+    }
     // MARK: - Layouts
     func setScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -109,6 +126,12 @@ private extension ProfileViewController {
         choosingThemeView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         choosingThemeView.heightAnchor.constraint(equalToConstant: themeViewOutput.getSize()).isActive = true
     }
+    func setGetOutButton() {
+        getOutButton.translatesAutoresizingMaskIntoConstraints = false
+        getOutButton.topAnchor.constraint(equalTo:
+                    choosingThemeView.bottomAnchor, constant: LogOutButton.marginTop).isActive = true
+        getOutButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+    }
 }
 
 // MARK: - Constants
@@ -124,5 +147,8 @@ private extension ProfileViewController {
         static let height: CGFloat = 60
         static let marginTop: CGFloat = 35
         static let marginLeft: CGFloat = 20
+    }
+    struct LogOutButton {
+        static let marginTop: CGFloat = 35
     }
 }

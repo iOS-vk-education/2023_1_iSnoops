@@ -19,10 +19,14 @@ class ChoosingThemeView: UIView {
                     (UIButton(), UILabel()),
                      (UIButton(), UILabel())
                       ]
-    var labelText = ["Светлая", "Автоматически", "Темная"]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        components = Color.SystemMode.allCases.map {
+            let label = UILabel()
+            label.text = $0.description()
+            return (UIButton(), label)
+        }
         for (button, label) in components {
             self.addSubview(button)
             self.addSubview(label)
@@ -76,31 +80,32 @@ private extension ChoosingThemeView {
     @objc func themeButtonTapped(_ sender: UIButton) {
         guard let currentStateButton = components.map({$0.0}).first(where: { $0.isSelected }) else { return }
         guard let newStateButton = components.map({$0.0}).first(where: { $0 == sender }) else { return }
+        let label = components[components.map({$0.0}).firstIndex(of: newStateButton)!].1
         switchButtonState(button: currentStateButton, active: false)
-        switchButtonState(button: newStateButton, active: true,
-                          index: components.map({$0.0}).firstIndex(of: newStateButton)!)
+        switchButtonState(button: newStateButton, active: true)
+        switchTheme(label: label)
     }
 
-    func switchButtonState(button: UIButton, active: Bool, index: Int = 0) {
-        let color: UIColor = active ? .blue : .white
+    func switchButtonState(button: UIButton, active: Bool) {
+        let color: UIColor = active ? .blue : .PrimaryColors.Background.background
         button.isSelected = active
         button.backgroundColor = color
-        if active {
-            switch index {
-            case 0:
-                Color.systemMode = .lightMode
-            case 1:
-                Color.systemMode = .autoMode
-            case 2:
-                Color.systemMode = .darkMode
-            default:
-                break
-            }
+    }
+
+    func switchTheme(label: UILabel) {
+        switch label.text {
+        case "Светлая":
+            Color.systemMode = .lightMode
+        case "Автоматически":
+            Color.systemMode = .autoMode
+        case "Темная":
+            Color.systemMode = .darkMode
+        default:
+            break
         }
     }
 
     func configureLabel(label: UILabel, index: Int) {
-        label.text = labelText[index]
         label.textAlignment = .center
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 14)
