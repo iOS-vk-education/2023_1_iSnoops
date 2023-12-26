@@ -68,13 +68,16 @@ extension CategoriesViewController {
 // MARK: - Networking
 private extension CategoriesViewController {
     func loadCategories() {
-        Task(priority: .medium) {
-            do {
-                categoryModel = try await model.loadCategory()
+        model.loadCategory { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let categories):
+                self.categoryModel = categories
                 self.categorieseOutputDelegate?.reloadHeight()
                 self.categoriesCollectionView.reloadData()
-            } catch {
-                print(error)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }

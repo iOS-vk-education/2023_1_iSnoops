@@ -12,13 +12,12 @@ import FirebaseStorage
 protocol CatalogNetworkManagerProtocol {
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
     func loadCategories() async throws -> [CategoryApiModel]
-    func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void)
+//    func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class CategoryService: CatalogNetworkManagerProtocol {
 
     static let shared: CatalogNetworkManagerProtocol = CategoryService()
-    private init() {}
 
     private let imageManager = ImageManager.shared
     private let dataBase = Firestore.firestore()
@@ -55,38 +54,44 @@ final class CategoryService: CatalogNetworkManagerProtocol {
     }
 
     // FIXME: - эти методы пойдут в AddNewCategory
-    func postCategory(with category: CategoryModel, completion: @escaping (Result<Void, Error>) -> Void) {
-        uploadCategoryImage(with: category.imageLink) { [weak self] result in
-            guard let self else {
-                return
-            }
+    func createNewCategory(with category: CategoryModel) async throws {
+        let uploadCategory = try await postCategory(with: category)
+        let dict = uploadCategory
+        try await addDocumentToFireBase(dict: dict)
+    }
 
-            switch result {
-            case .success(let imageURL):
-                let categoryDict: [String: Any] = [
-                    "title": category.title,
-                    "imageLink": imageURL.absoluteString,
-                    "createdDate": category.createdDate,
-                    "linkedWordsId": category.linkedWordsId
-                ]
+    private func postCategory(with category: CategoryModel) async throws -> [String: Any] {
+        return try await withCheckedThrowingContinuation { continuation in
+            uploadCategoryImage(with: category.imageLink) { [weak self] result in
+                guard let self else { return }
 
-                self.addDocumentToCategoriesCollection(with: categoryDict, completion: completion)
-            case .failure(let error):
-                completion(.failure(error))
+                switch result {
+                case .success(let imageURL):
+                    let categoryDict: [String: Any] = [
+                        "title": category.title,
+                        "imageLink": imageURL.absoluteString,
+                        "createdDate": category.createdDate,
+                        "linkedWordsId": category.linkedWordsId
+                    ]
+                    continuation.resume(returning: categoryDict)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
             }
         }
     }
 
-    private func addDocumentToCategoriesCollection(with data: [String: Any],
-                                                   completion: @escaping (Result<Void, Error>) -> Void) {
-        dataBase.collection("categories").addDocument(data: data) { error in
-            if let error {
-                completion(.failure(error))
-            } else {
-                completion(.success(()))
-            }
-        }
-    }
+    private func addDocumentToFireBase(dict: [String: Any]) async throws {
+         return try await withCheckedThrowingContinuation { continuation in
+             self.dataBase.collection("categories").addDocument(data: dict) { error in
+                 if let error = error {
+                     continuation.resume(throwing: error)
+                 } else {
+                     continuation.resume(returning: ())
+                 }
+             }
+         }
+     }
 
     func uploadCategoryImage(with imageLink: String?, completion: @escaping (Result<URL, Error>) -> Void) {
         guard let imageLink = imageLink,
