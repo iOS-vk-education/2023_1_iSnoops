@@ -18,6 +18,10 @@ protocol ProgressSetup {
     func setProgress()
 }
 
+protocol CategorieseOutputDelegate: AnyObject {
+    func reloadHeight(with height: CGFloat)
+}
+
 class CatalogViewController: CustomViewController {
     private let model = CatalogModel()
     private var topFiveModel: [TopFiveWordsModel] = [TopFiveWordsModel]()
@@ -25,7 +29,7 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesViewController = CategoriesViewController()
+    private lazy var categoriesViewController = CategoriesViewController(categorieseOutputDelegate: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,8 +108,6 @@ private extension CatalogViewController {
         categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        categoriesViewController.view.heightAnchor.constraint(equalToConstant:
-                                 categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
         categoriesViewController.didMove(toParent: self)
     }
 }
@@ -156,5 +158,11 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
             level: topFiveModel[index].level
         )
         completion(topFiveWordsModel)
+    }
+}
+
+extension CatalogViewController: CategorieseOutputDelegate {
+    func reloadHeight(with height: CGFloat) {
+        categoriesViewController.view.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
 }

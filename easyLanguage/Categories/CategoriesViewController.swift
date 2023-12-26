@@ -20,6 +20,7 @@ protocol CategoriesViewControllerOutput {
 final class CategoriesViewController: UIViewController {
     private var indexCache: [Int: Int] = [:]
 
+    private var categorieseOutputDelegate: CategorieseOutputDelegate?
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
     private var categoryModel: [CategoryModel] = []
@@ -29,6 +30,17 @@ final class CategoriesViewController: UIViewController {
     private let sortCategoriesLogo: UIImageView = UIImageView()
     private let categoriesCollectionView = CategoriesCollectionView()
 
+    init(categorieseOutputDelegate: CategorieseOutputDelegate?) {
+        super.init(nibName: nil, bundle: nil)
+        self.categorieseOutputDelegate = categorieseOutputDelegate
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension CategoriesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,10 +77,11 @@ private extension CategoriesViewController {
             }
             switch result {
             case .success(let data):
-                self.categoryModel = data
-//                for (index, _) in data.enumerated() {
-//                    self.indexCache[index] = index
-//                }
+                DispatchQueue.main.async {
+                    self.categoryModel = data
+                    self.categorieseOutputDelegate?.reloadHeight(with: self.calculateCategoriesCollectionViewHeight())
+                    self.categoriesCollectionView.reloadData()
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }

@@ -24,3 +24,10 @@
 "addCategoryButtonTitle" = "Add Category";
 "categoryNamePlaceholder" = "Category Name";
 
+
+//MARK: - Onboarding
+"gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";
+"createCustomCategoriesTitle" = "Create any categories and study what you like the most";
+"swipeBasedLanguageLearningTitle" = "Learn language with the help of swipes!";
+"nextButtonStartTitle" = "Start";
+"nextButtonContinueTitle" = "Next";
