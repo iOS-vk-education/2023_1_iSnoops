@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  easyLanguage
+
+  Created by Grigoriy on 21.12.2023.
+  
+*/
+"wordsTitle" = "Слова";
+"wordTrainingTitle" = "Тренировка слов";
+"topFiveWordsTitle" = "5 слов дня";
+"сategoriesTitle" = "Категории";
+"topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
+"progressAdvice" = "Чтобы продолжить учить слова нажмите на прогресс";
+
+//MARK: - Onboarding
+"gameplayLanguageLearningTitle" = "В игровой форме легко учить иностранные языки";
+"createCustomCategoriesTitle" = "Создавай любые категории и учи то, что нравится больше всего";
+"swipeBasedLanguageLearningTitle" = "Учи язык с помощью свайпов!";
+"nextButtonStartTitle" = "Начать";
+"nextButtonContinueTitle" = "Далее";
