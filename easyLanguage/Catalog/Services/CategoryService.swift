@@ -68,14 +68,6 @@ final class CatalogNetworkManager: CatalogNetworkManagerProtocol {
                     "linkedWordsId": category.linkedWordsId
                 ]
 
-                self.dataBase.collection("categories").addDocument(data: categoryDict) { error in
-                    if let error = error {
-                        completion(.failure(error))
-                    } else {
-                        completion(.success(()))
-                    }
-                }
-
                 self.addDocumentToCategoriesCollection(with: categoryDict, completion: completion)
             case .failure(let error):
                 completion(.failure(error))
