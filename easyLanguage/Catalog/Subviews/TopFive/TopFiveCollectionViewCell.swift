@@ -95,6 +95,7 @@ private extension TopFiveCollectionViewCell {
         }
         backgroundLevelView.backgroundColor = .white
         backgroundLevelView.layer.cornerRadius = 12
+        titleLabel.font = TextStyle.bodyMedium.font
     }
 
     func setBackgroundLevelView() {

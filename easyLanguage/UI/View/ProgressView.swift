@@ -83,11 +83,13 @@ private extension ProgressView {
     }
 
     func setAdviceLabelAppearance() {
-        adviceLabel.text = "Чтобы продолжить учить слова нажмите на прогресс"
+        adviceLabel.text =  NSLocalizedString("progressAdvice", comment: "")
+        adviceLabel.font = TextStyle.bodySmall.font
         adviceLabel.textColor = .gray
     }
 
     func setPercentageLabelAppearance() {
+        percentageLabel.font = TextStyle.bodySmall.font
         percentageLabel.textAlignment = .center
         percentageLabel.textColor = .black
     }

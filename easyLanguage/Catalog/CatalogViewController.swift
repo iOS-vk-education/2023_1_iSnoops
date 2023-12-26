@@ -12,14 +12,14 @@ protocol InputTopFiveWordsDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
 }
 
-protocol InputCategoriesViewControllerDelegate: AnyObject {
-    func reloadCollecionHeight()
-}
-
 protocol ProgressSetup {
     func setupAllLearnedWords()
     func setupWordsInProgress()
     func setProgress()
+}
+
+protocol CategorieseOutputDelegate: AnyObject {
+    func reloadHeight()
 }
 
 class CatalogViewController: CustomViewController {
@@ -29,12 +29,12 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesViewController = CategoriesViewController(inputCategoriesViewControllerDelegate: self)
+    private lazy var categoriesViewController = CategoriesViewController(categorieseOutputDelegate: self)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Слова"
+        title = NSLocalizedString("wordsTitle", comment: "")
 
         loadTopFiveWords()
 
@@ -89,15 +89,14 @@ private extension CatalogViewController {
                                             constant: -UIConstants.ProgressView.padding).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
                                             constant: -UIConstants.ProgressView.padding * 2).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: view.frame.height / 12).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: view.bounds.height / 25).isActive = true
     }
 
     func setTopFiveView() {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
         topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
                                          constant: UIConstants.TopFiveView.top).isActive = true
-        topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                          constant: UIConstants.TopFiveView.left).isActive = true
+        topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         topFiveView.heightAnchor.constraint(equalToConstant: view.frame.height / 4.5).isActive = true
     }
@@ -162,8 +161,8 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
     }
 }
 
-extension CatalogViewController: InputCategoriesViewControllerDelegate {
-    func reloadCollecionHeight() {
+extension CatalogViewController: CategorieseOutputDelegate {
+    func reloadHeight() {
         categoriesViewController.view.heightAnchor.constraint(equalToConstant:
                                  categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
     }
