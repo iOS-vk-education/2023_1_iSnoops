@@ -19,16 +19,10 @@ class ChoosingThemeView: UIView {
                     (UIButton(), UILabel()),
                      (UIButton(), UILabel())
                       ]
-    var labelText = ["Светлая", "Автоматически", "Темная"]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        for (button, label) in components {
-            self.addSubview(button)
-            self.addSubview(label)
-        }
-        self.addSubview(title)
-        setTipAppearance()
+        setAppearanseAndConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -44,7 +38,6 @@ class ChoosingThemeView: UIView {
         }
     }
 }
-
 // MARK: - Internal methods
 extension ChoosingThemeView: ThemeViewOutput {
     func getSize() -> CGFloat {
@@ -53,10 +46,27 @@ extension ChoosingThemeView: ThemeViewOutput {
     }
 }
 
+// MARK: - set all constraints
+private extension ChoosingThemeView {
+    func setAppearanseAndConstraints() {
+        components = Color.SystemMode.allCases.map {
+            let label = UILabel()
+            label.text = $0.description()
+            return (UIButton(), label)
+        }
+        for (button, label) in components {
+            self.addSubview(button)
+            self.addSubview(label)
+        }
+        self.addSubview(title)
+        setTipAppearance()
+    }
+}
+
 // MARK: - Private methods
 private extension ChoosingThemeView {
     func setTipAppearance() {
-        title.text = "Тема оформления"
+        title.text = NSLocalizedString("themeTitle", comment: "")
         title.textAlignment = .center
         for (index, (button, label)) in components.enumerated() {
             configureCircularButton(button: button, isActive: false)
@@ -76,34 +86,39 @@ private extension ChoosingThemeView {
     @objc func themeButtonTapped(_ sender: UIButton) {
         guard let currentStateButton = components.map({$0.0}).first(where: { $0.isSelected }) else { return }
         guard let newStateButton = components.map({$0.0}).first(where: { $0 == sender }) else { return }
+        let label = components[components.map({$0.0}).firstIndex(of: newStateButton)!].1
         switchButtonState(button: currentStateButton, active: false)
-        switchButtonState(button: newStateButton, active: true,
-                          index: components.map({$0.0}).firstIndex(of: newStateButton)!)
+        switchButtonState(button: newStateButton, active: true)
+        switchTheme(text: label.text!)
     }
 
-    func switchButtonState(button: UIButton, active: Bool, index: Int = 0) {
-        let color: UIColor = active ? .blue : .white
+    func switchButtonState(button: UIButton, active: Bool) {
+        let color: UIColor = active ? .blue : .PrimaryColors.Background.background
         button.isSelected = active
         button.backgroundColor = color
-        if active {
-            switch index {
-            case 0:
-                Color.systemMode = .lightMode
-            case 1:
-                Color.systemMode = .autoMode
-            case 2:
-                Color.systemMode = .darkMode
-            default:
-                break
-            }
+    }
+
+    func switchTheme(text: String) {
+//        print(UserDefaults.standard.string(forKey: "selectedTheme")!)
+        switch text {
+        case NSLocalizedString("lightThemeLabel", comment: ""):
+            UserDefaults.standard.set("lightThemeLabel", forKey: "selectedTheme")
+            Color.systemMode = .lightMode
+        case NSLocalizedString("autoThemeLabel", comment: ""):
+            UserDefaults.standard.set("autoThemeLabel", forKey: "selectedTheme")
+            Color.systemMode = .autoMode
+        case NSLocalizedString("darkThemeLabel", comment: ""):
+            UserDefaults.standard.set("darkThemeLabel", forKey: "selectedTheme")
+            Color.systemMode = .darkMode
+        default:
+            break
         }
     }
 
     func configureLabel(label: UILabel, index: Int) {
-        label.text = labelText[index]
         label.textAlignment = .center
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .Profile.ButtonLabel.color
+        label.font = TextStyle.bodyMedium.font
         label.sizeToFit()
     }
 
@@ -157,6 +172,6 @@ private extension ChoosingThemeView {
 
     struct LabelUnderButton {
         static let marginTop: CGFloat = 10
-        static let height: CGFloat = 10
+        static let height: CGFloat = 20
     }
 }

@@ -8,15 +8,15 @@
 import Foundation
 
 final class CatalogModel {
-    private let catalogNetworkManager = CatalogNetworkManager.shared
+    private let topFiveNetworkManager = TopFiveService.shared
+    private let wordsNetworkManager = WordsService.shared
 
     func loadTopFiveWords(completion: @escaping (Result<[TopFiveWordsModel], Error>) -> Void) {
-        catalogNetworkManager.getTopFiveWords { result in
+        topFiveNetworkManager.getTopFiveWords { result in
             switch result {
             case .success(let topFiveData):
                 let topFiveWords = topFiveData.map { word in
-                    TopFiveWordsModel(translations: word.translations,
-                                      level: word.level)
+                    TopFiveWordsModel(translations: word.translations)
                 }
                 completion(.success(topFiveWords))
             case .failure(let error):

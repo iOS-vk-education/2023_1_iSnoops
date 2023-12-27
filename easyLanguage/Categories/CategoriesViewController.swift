@@ -9,10 +9,18 @@ import UIKit
 
 protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
+    func getCatalogModel(with index: Int) -> CategoryModel
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
+protocol CategoriesViewControllerOutput {
+    func tapAddCategory()
+    func tapSortCategory()
+}
+
 final class CategoriesViewController: UIViewController {
+
+    private var categorieseOutputDelegate: CategorieseOutputDelegate?
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
     private var categoryModel: [CategoryModel] = []
@@ -22,24 +30,35 @@ final class CategoriesViewController: UIViewController {
     private let sortCategoriesLogo: UIImageView = UIImageView()
     private let categoriesCollectionView = CategoriesCollectionView()
 
+    init(categorieseOutputDelegate: CategorieseOutputDelegate?, navigationController: UINavigationController?) {
+        super.init(nibName: nil, bundle: nil)
+        self.categorieseOutputDelegate = categorieseOutputDelegate
+        categoriesCollectionView.setNavigationController(navigationController ?? UINavigationController())
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+extension CategoriesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         loadCategories()
 
-        setVisualAppearance()
+        setAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
             view.addSubview($0)
         }
         view.backgroundColor = .PrimaryColors.Background.background
 
-        setTitleLabel()
-        setAddImageView()
-        setSortImageView()
-        setCategoriesCollectionView()
+        addConstraints()
         categoriesCollectionView.setupInputCategoriesDelegate(with: self)
+
     }
 }
+
 extension CategoriesViewController {
     func calculateCategoriesCollectionViewHeight() -> CGFloat {
         let isEvenCount = categoryModel.count % 2 == 0
@@ -50,34 +69,66 @@ extension CategoriesViewController {
     }
 }
 
-// MARK: - private methods
+// MARK: - Networking
 private extension CategoriesViewController {
     func loadCategories() {
         model.loadCategory { [weak self] result in
-            guard let self = self else {
-                return
-            }
+            guard let self else { return }
+
             switch result {
-            case .success(let data):
-                self.categoryModel = data
+            case .success(let categories):
+                self.categoryModel = categories
+                self.categorieseOutputDelegate?.reloadHeight()
+                self.categoriesCollectionView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
+}
 
-    func setVisualAppearance() {
-        titleLabel.text = "Категории"
-        titleLabel.textColor = .black
-        addNewCategoryLogo.image = UIImage(named: "AddIconImage")
+// MARK: - set appearance elements
+private extension CategoriesViewController {
+    func setAppearance() {
+        configureTitleLabel()
+        configureSortCategoriesLogo()
+        configureAddNewCategoryLogo()
+    }
+
+    func configureTitleLabel() {
+        titleLabel.text = NSLocalizedString("сategoriesTitle", comment: "")
+        titleLabel.textColor = .PrimaryColors.Font.header
+        titleLabel.font = TextStyle.bodyBig.font
+    }
+
+    func configureSortCategoriesLogo() {
         sortCategoriesLogo.image = UIImage(named: "SortIconImage")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSortCategory))
+        sortCategoriesLogo.isUserInteractionEnabled = true
+        sortCategoriesLogo.addGestureRecognizer(tapGesture)
+    }
+
+    func configureAddNewCategoryLogo() {
+        addNewCategoryLogo.image = UIImage(named: "AddIconImage")
+        addNewCategoryLogo.isUserInteractionEnabled = true
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(tapAddCategory))
+        addNewCategoryLogo.addGestureRecognizer(recognizer)
+    }
+}
+
+// MARK: - set constraints
+private extension CategoriesViewController {
+    func addConstraints() {
+        setTitleLabel()
+        setAddImageView()
+        setSortImageView()
+        setCategoriesCollectionView()
     }
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                            constant: UIConstants.TitleLabel.leading).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18).isActive = true
     }
 
     func setAddImageView() {
@@ -104,8 +155,8 @@ private extension CategoriesViewController {
 
     func setCategoriesCollectionView() {
         categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesCollectionView.topAnchor.constraint(equalTo: addNewCategoryLogo.bottomAnchor, constant:
-                                               UIConstants.CategoriesCollectionView.top).isActive = true
+        categoriesCollectionView.topAnchor.constraint(equalTo: addNewCategoryLogo.bottomAnchor,
+                                               constant: 10).isActive = true
         categoriesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:
                                                UIConstants.CategoriesCollectionView.horizontally).isActive = true
         categoriesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:
@@ -114,29 +165,51 @@ private extension CategoriesViewController {
     }
 }
 
-// MARK: - Protocol InputCategoriesDelegate
+// MARK: - constants
+private extension CategoriesViewController {
+    // swiftlint:disable nesting
+    struct UIConstants {
+        struct CategoriesLogo {
+            static let trailing: CGFloat = 18.0
+            static let size: CGFloat = 35.0
+        }
+
+        struct CategoriesCollectionView {
+            static let horizontally: CGFloat = 18.0
+        }
+    }
+}
+// swiftlint:enable nesting
+
+// MARK: - InputCategoriesDelegate
 extension CategoriesViewController: InputCategoriesDelegate {
+    func getCatalogModel(with index: Int) -> CategoryModel {
+        return categoryModel[index]
+    }
+
     var categoriesCount: Int {
         categoryModel.count
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
-        guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
+        guard let imageLink = categoryModel[index].imageLink,
+              let url = URL(string: imageLink) else {
             completion(CategoryUIModel())
             return
         }
 
         imageManager.loadImage(from: url) { [weak self] result in
+            guard let self = self else { return }
+
             switch result {
             case .success(let data):
-                guard let self = self else { return }
                 completion(
                     CategoryUIModel(
-                        title: categoryModel[index].title,
+                        title: self.categoryModel[index].title,
                         image: UIImage(data: data),
-                        studiedWordsCount: categoryModel[index].studiedWordsCount,
-                        totalWordsCount: categoryModel[index].totalWordsCount
+                        studiedWordsCount: self.categoryModel[index].studiedWordsCount,
+                        totalWordsCount: self.categoryModel[index].totalWordsCount,
+                        index: self.categoryModel[index].index ?? 0
                     )
                 )
             case .failure(let error):
@@ -146,23 +219,75 @@ extension CategoriesViewController: InputCategoriesDelegate {
     }
 }
 
-// MARK: - Constants
-private extension CategoriesViewController {
-    // swiftlint:disable nesting
-    struct UIConstants {
-        struct TitleLabel {
-            static let leading: CGFloat = 18.0
+// MARK: - CategoriesViewControllerOutput
+extension CategoriesViewController: CategoriesViewControllerOutput {
+    @objc
+    func tapAddCategory() {
+        let addCategoryVC = AddNewCategoryViewController()
+        addCategoryVC.modalPresentationStyle = .pageSheet
+
+        guard let sheet = addCategoryVC.sheetPresentationController else {
+            return
         }
 
-        struct CategoriesLogo {
-            static let trailing: CGFloat = 18.0
-            static let size: CGFloat = 35.0
+        sheet.preferredCornerRadius = 25
+        sheet.prefersGrabberVisible = true
+        sheet.detents = [.medium()]
+
+        present(addCategoryVC, animated: true, completion: nil)
+    }
+
+    @objc
+    func tapSortCategory() {
+        let alertController = UIAlertController(title: NSLocalizedString("sortTitle", comment: ""),
+                                                message: NSLocalizedString("sortMessage", comment: ""),
+                                                preferredStyle: .actionSheet)
+
+        let recentlyAddedAction = UIAlertAction(title: NSLocalizedString("sortRecentlyAdded", comment: ""),
+                                                style: .default) { [weak self] _ in
+            self?.sortByDateCreation()
         }
 
-        struct CategoriesCollectionView {
-            static let top: CGFloat = 10.0
-            static let horizontally: CGFloat = 18.0
+        let byNameAction = UIAlertAction(title: NSLocalizedString("sortByName", comment: ""),
+                                         style: .default) { [weak self] _ in
+            self?.sortCategoryByName()
         }
+
+        let cancelAction = UIAlertAction(title: NSLocalizedString("sortCancel", comment: ""),
+                                         style: .cancel, handler: nil)
+
+        alertController.addAction(recentlyAddedAction)
+        alertController.addAction(byNameAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true)
+    }
+
+    private func sortByDateCreation() {
+        categoryModel.sort {
+            $0.createdDate > $1.createdDate
+        }
+        updateCollectionView(with: categoryModel)
+    }
+
+    private func sortCategoryByName() {
+        categoryModel.sort {
+            $0.title < $1.title
+        }
+        updateCollectionView(with: categoryModel)
+    }
+
+    private func updateCollectionView(with categoryModel: [CategoryModel]) {
+        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
+        // performBatchUpdates - для атомарного обновления (одна неделимая единица)
+        categoriesCollectionView.performBatchUpdates({
+            for newIndex in indexPathsToUpdate {
+                // Обновление данных в ячейках
+                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
+                    categoriesCollectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
+                        cell.cellConfigure(with: categoryUIModel, at: newIndex)
+                    }
+                }
+            }
+        })
     }
 }
-// swiftlint:enable nesting

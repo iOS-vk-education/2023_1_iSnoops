@@ -11,21 +11,20 @@ protocol UserInformationViewOutput {
     func getSize() -> CGFloat
 }
 
+protocol UserInformationViewDelegate: AnyObject {
+    func didTapImage()
+}
+
 final class UserInformationView: UIView {
     // MARK: - Init components
-    private let imageView = UIImageView()
+    private var imageView = UIImageView()
     private let firstNameTextField = UITextField()
     private let lastNameTextField = UITextField()
 
+    weak var delegate: UserInformationViewDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [imageView, firstNameTextField, lastNameTextField].forEach {
-            self.addSubview($0)
-        }
-        setTipAppearance()
-        setImageView()
-        setFirstNameTextField()
-        setLastNameTextField()
+        setAppearanseAndConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -51,6 +50,10 @@ extension UserInformationView {
         textField.resignFirstResponder()
         return true
     }
+
+    func setImage(image: UIImage) {
+        imageView.image = image
+    }
 }
 
 extension UserInformationView: UserInformationViewOutput {
@@ -59,30 +62,52 @@ extension UserInformationView: UserInformationViewOutput {
     }
 }
 
+// MARK: - set all constraints
+private extension UserInformationView {
+    func setAppearanseAndConstraints() {
+        [imageView, firstNameTextField, lastNameTextField].forEach {
+            self.addSubview($0)
+        }
+        setTipAppearance()
+        setImageView()
+        setFirstNameTextField()
+        setLastNameTextField()
+    }
+}
+
 // MARK: - Private methods
 private extension UserInformationView {
     func setTipAppearance() {
-        setUpImage(imageView)
-        firstNameTextField.text = FirstName.text
-        lastNameTextField.text = LastName.text
+        setUpImage()
+        firstNameTextField.text = "Арсений"
+        firstNameTextField.font = TextStyle.bodyMedium.font
+        lastNameTextField.text = "Чистяков"
+        lastNameTextField.font = TextStyle.bodyMedium.font
         setUpTextField(firstNameTextField)
         setUpTextField(lastNameTextField)
     }
 
-    func setUpImage(_ image: UIImageView) {
-        image.image = UIImage(named: "ProfileEmptyImage")
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        image.layer.cornerRadius = imageView.frame.size.width / 2
-        image.layer.borderWidth = 2.0
-        image.layer.borderColor = UIColor.white.cgColor
-        image.isUserInteractionEnabled = true
+    func setUpImage() {
+        imageView.image = UIImage(systemName: "person.circle")?.withRenderingMode(.alwaysTemplate)
+        imageView.tintColor = .gray
+        imageView.isUserInteractionEnabled = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = Image.imageSize / 2
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImage))
+        imageView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func didTapImage() {
+        delegate?.didTapImage()
     }
 
     func setUpTextField(_ textField: UITextField) {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 15
         textField.isUserInteractionEnabled = false
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.backgroundColor = .PrimaryColors.Background.background
     }
 
     // MARK: - Layouts
@@ -132,11 +157,9 @@ private extension UserInformationView {
 
     struct FirstName {
         static let marginTop: CGFloat = 30
-        static let text: String = "Арсений"
     }
 
     struct LastName {
         static let marginTop: CGFloat = 5
-        static let text: String = "Чистяков"
     }
 }

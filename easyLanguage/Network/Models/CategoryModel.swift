@@ -14,4 +14,5 @@ struct CategoryModel {
     var totalWordsCount: Int
     let createdDate: Date
     let linkedWordsId: String // Связующий идентификатор для слов в категории
+    let index: Int?
 }

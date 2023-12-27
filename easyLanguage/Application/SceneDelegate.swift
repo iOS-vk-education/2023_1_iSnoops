@@ -6,6 +6,7 @@
 //
 // swiftlint:disable all
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -13,9 +14,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = TabBarController()
-        window?.makeKeyAndVisible()
+        let window = UIWindow(windowScene: windowScene)
+        self.window = window
+        window.rootViewController = TabBarController()
+        
+        self.window?.makeKeyAndVisible()
+        
+//        window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
+//        self.checkAuthentication()
+        //        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
+        //                window?.rootViewController = OnboardingViewController()
+        //        } else {
+        //            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
+        //
+        //        }
+        
+    }
+    
+    public func checkAuthentication() {
+        if Auth.auth().currentUser == nil {
+            self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
+        } else {
+            self.goToController(with: TabBarController())
+        }
+    }
+    
+    private func goToController(with viewController: UIViewController) {
+        let nav = viewController
+        nav.modalPresentationStyle = .fullScreen
+        self.window?.rootViewController = nav
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {

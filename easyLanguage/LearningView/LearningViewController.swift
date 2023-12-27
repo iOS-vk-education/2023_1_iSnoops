@@ -17,7 +17,8 @@ final class LearningViewController: UIViewController {
         label.numberOfLines = 2
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Нажми на карточку, чтобы посмотреть перевод слова"
+        label.font = TextStyle.bodyBig.font
+        label.text = NSLocalizedString("descriptionText", comment: "")
         return label
     }()
 
@@ -36,10 +37,12 @@ final class LearningViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillEqually
         let correctLabel = UILabel()
-        correctLabel.text = "Знаю:"
+        correctLabel.font = TextStyle.bodyMedium.font
+        correctLabel.text =  NSLocalizedString("correctText", comment: "")
         correctLabel.translatesAutoresizingMaskIntoConstraints = false
         let incorrectLabel = UILabel()
-        incorrectLabel.text = "Не знаю:"
+        incorrectLabel.font = TextStyle.bodyMedium.font
+        incorrectLabel.text =  NSLocalizedString("incorrectText", comment: "")
         incorrectLabel.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(correctLabel)
         stackView.addArrangedSubview(incorrectLabel)
@@ -55,7 +58,6 @@ final class LearningViewController: UIViewController {
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(cardStack)
         setupViews()
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
@@ -63,11 +65,12 @@ final class LearningViewController: UIViewController {
     }
     // MARK: Private methods
     private func setupViews() {
-        title = "Тренировка слов"
+        view.backgroundColor = .PrimaryColors.Background.background
+        let title = NSLocalizedString("wordTrainingTitle", comment: "")
+        view.addSubview(cardStack)
         view.addSubview(descriptionLabel)
         view.addSubview(cardStack)
         view.addSubview(progressInfo)
-        view.backgroundColor = .white
     }
 
     private func setupDescriptionLabelConstraints() {
@@ -155,11 +158,11 @@ extension LearningViewController: SwipeCardStackDelegate {
         case .left:
             MockData.wordModel[index].isLearned = true // Предположил это
             correctCount += 1
-            labels[0].text = "Знаю: \(correctCount)"
+            labels[0].text = "\(NSLocalizedString("correctText", comment: "")) \(correctCount)"
             isFlipped = false
         case .right:
             incorrectCount += 1
-            labels[1].text = "Не знаю: \(incorrectCount)"
+            labels[1].text = "\(NSLocalizedString("incorrectText", comment: "")) \(incorrectCount)"
             isFlipped = false
         default:
             break

@@ -9,8 +9,6 @@ import UIKit
 
 final class TopFiveCollectionViewCell: UICollectionViewCell {
 
-    private let backgroundLevelView = UIView()
-    private let levelLabel = UILabel()
     private let titleLabel = UILabel()
     private var isFlipped = false
     private var nativeTitle: String?
@@ -19,14 +17,8 @@ final class TopFiveCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        setVisualAppearance()
-        [backgroundLevelView, titleLabel].forEach {
-            contentView.addSubview($0)
-        }
-        backgroundLevelView.addSubview(levelLabel)
-        setBackgroundLevelView()
-        setLevelLabel()
-        setTitleLabel()
+        setAppearance()
+        addConstraints()
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTabTopFiveView))
         addGestureRecognizer(tapGestureRecognizer)
@@ -53,7 +45,6 @@ extension TopFiveCollectionViewCell {
     func cellConfigure(with model: TopFiveWordsModel, at indexPath: IndexPath) {
         nativeTitle = model.translations["ru"]
         foreignTitle = model.translations["en"]
-        levelLabel.text = model.level
         titleLabel.text = model.translations["ru"]
         setupColorsForWord(with: indexPath.item)
     }
@@ -61,7 +52,6 @@ extension TopFiveCollectionViewCell {
 
 // MARK: - private methods
 private extension TopFiveCollectionViewCell {
-
     @objc
     func didTabTopFiveView() {
         let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
@@ -83,38 +73,18 @@ private extension TopFiveCollectionViewCell {
         let colors = Constants.colors[index]
 
         backgroundColor = colors.backgroundColor
-        [levelLabel, titleLabel].forEach {
-            $0.textColor = colors.textColor
-        }
+        titleLabel.textColor = colors.textColor
     }
 
-    func setVisualAppearance() {
+    func setAppearance() {
         layer.cornerRadius = 12
-        [levelLabel, titleLabel].forEach {
-            $0.textAlignment = .center
-        }
-        backgroundLevelView.backgroundColor = .white
-        backgroundLevelView.layer.cornerRadius = 12
+        titleLabel.textAlignment = .center
+        titleLabel.font = TextStyle.bodyMedium.font
     }
 
-    func setBackgroundLevelView() {
-        backgroundLevelView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundLevelView.topAnchor.constraint(equalTo: topAnchor,
-                                                 constant: UIConstants.BackgroundLevelView.margin).isActive = true
-        backgroundLevelView.rightAnchor.constraint(equalTo: rightAnchor,
-                                                 constant: -UIConstants.BackgroundLevelView.margin).isActive = true
-        backgroundLevelView.heightAnchor.constraint(equalToConstant:
-                                                 frame.width / 4).isActive = true
-        backgroundLevelView.widthAnchor.constraint(equalToConstant:
-                                                 frame.width / 4).isActive = true
-    }
-
-    func setLevelLabel() {
-        levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.centerYAnchor.constraint(equalTo: backgroundLevelView.centerYAnchor).isActive = true
-        levelLabel.leftAnchor.constraint(equalTo: backgroundLevelView.leftAnchor).isActive = true
-        levelLabel.rightAnchor.constraint(equalTo: backgroundLevelView.rightAnchor).isActive = true
-        levelLabel.sizeToFit()
+    func addConstraints() {
+        contentView.addSubview(titleLabel)
+        setTitleLabel()
     }
 
     func setTitleLabel() {
@@ -139,10 +109,6 @@ private extension TopFiveCollectionViewCell {
     }
 
     struct UIConstants {
-        struct BackgroundLevelView {
-            static let margin: CGFloat = 10.0
-        }
-
         struct TitleLabel {
             static let horizontally: CGFloat = 8.0
         }

@@ -1,0 +1,71 @@
+/* 
+  Localizable.strings
+  easyLanguage
+
+  Created by Grigoriy on 21.12.2023.
+*/
+
+//MARK: - Catalog
+"wordsTitle" = "Words";
+"wordTrainingTitle" = "Word Training";
+"topFiveWordsTitle" = "5 words of the day";
+"сategoriesTitle" = "Categories";
+"topFiveWordsAdvice" = "To translate a word, click on the card";
+"progressAdvice" = "To continue learning words, click on progress";
+"sortTitle" = "Choose the order to display categories";
+"sortMessage" = "Category Sorting";
+"sortRecentlyAdded" = "Recently Added";
+"sortByName" = "By Name";
+"sortCancel" = "Cancel";
+
+//MARK: - AddNewCategory
+"addPhotoAdvice" = "Add Photo";
+"addCategoryButtonTitle" = "Add Category";
+"categoryNamePlaceholder" = "Category Name";
+
+
+//MARK: - Onboarding
+"gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";
+"createCustomCategoriesTitle" = "Create any categories and study what you like the most";
+"swipeBasedLanguageLearningTitle" = "Learn language with the help of swipes!";
+"nextButtonStartTitle" = "Start";
+"nextButtonContinueTitle" = "Next";
+
+//MARK: - Profile
+"profileTitle" = "Profile";
+"labelUnderTextFields" = "Provide a name and, if desired, a page photo for your profile.";
+"themeTitle" = "Theme decoration";
+"lightThemeLabel" = "Light";
+"autoThemeLabel" = "Automatically";
+"darkThemeLabel" = "Dark";
+"logOutFromAccount" = "Log out of your account";
+
+//MARK: - ProfileAlert
+"alertTitle" = "Logout";
+"alertQuestion" = "Are you sure you want to log out of your account?";
+"alertCancel" = "Cancel";
+"alertExit" = "Exit";
+
+//MARK: - Login+Registration
+"loginTitle" = "Log In";
+"registrationTitle" = "Sign Up";
+"registrationButtonTitle" = "Sign Up";
+"namePlaceholder" = "Name";
+"emailPlaceholder" = "Email";
+"passwordPlaceholder" = "Password";
+
+//MARK: - LearningVC
+"descriptionText" = "Click on the card to see the translation of the word";
+"correctText" = "I know:";
+"incorrectText" = "don't know:";
+
+//MARK: - AlertManager
+"alertButton" = "Back";
+"invalidEmailTitle" = "Invalid email";
+"invalidPasswordTitle" = "Invalid password";
+"invalidNameTitle" = "Invalid name";
+"invalidMessage" = "Please check the entered data";
+"weakPassword" = "weak password";
+"emailAlreadyInUse" = "This email is already in use";
+"registrationErrorAlert" = "Unknown error during registration";
+"signInErrorAlert" = "Failed to login";

@@ -7,17 +7,22 @@
 
 import UIKit
 
-final class ProfileViewController: CustomViewController {
-    // MARK: - Init views
-    private let scrollView = UIScrollView()
+final class ProfileViewController: CustomViewController, UserInformationViewDelegate {
 
-    private let labelUnderTextField = UILabel()
-    private let userInformationView = UserInformationView()
-    private let progressView = ProgressView()
-    private let choosingThemeView = ChoosingThemeView()
+    // MARK: - Init views
 
     private let themeViewOutput: ThemeViewOutput
     private let userInformationViewOutput: UserInformationViewOutput
+
+    private let scrollView = UIScrollView()
+
+    private let userInformationView = UserInformationView()
+    private let labelUnderTextField = UILabel()
+    private let progressView = ProgressView()
+    private let choosingThemeView = ChoosingThemeView()
+    private let logOutButton = UIButton()
+
+    private let imagePicker = ImagePicker()
 
     init(themeViewOutput: ThemeViewOutput, userInformationViewOutput: UserInformationViewOutput) {
         self.themeViewOutput = themeViewOutput
@@ -31,34 +36,78 @@ final class ProfileViewController: CustomViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "Профиль"
+        userInformationView.delegate = self
+        setAppearanseAndConstraints()
+    }
+    @objc func didTapImage() {
+        imagePicker.showImagePicker(with: self) { [weak self] image in
+                    self?.userInformationView.setImage(image: image)
+                }
+    }
+
+//    func didSelectImage(_ image: UIImage) {
+//        userInformationView.setImage(image: image)
+//    }
+}
+
+// MARK: - set all constraints
+private extension ProfileViewController {
+    private func setAppearanseAndConstraints() {
         view.addSubview(scrollView)
         setScrollView()
-        [userInformationView, progressView, labelUnderTextField, choosingThemeView].forEach {
+        [userInformationView, progressView, labelUnderTextField, choosingThemeView, logOutButton].forEach {
             scrollView.addSubview($0)
         }
         setTipAppearance()
         setUserInformationView()
         setLabelUnderTextField()
-        setChoosingTheme()
         setProgressView()
+        setChoosingTheme()
+        setLogOutButton()
+        setWordsInProgressLabel()
     }
 }
 
 // MARK: - Private methods
 private extension ProfileViewController {
     func setTipAppearance() {
+        view.backgroundColor = .PrimaryColors.Background.background
+        title = NSLocalizedString("profileTitle", comment: "")
         setWordsInProgressLabel()
-        labelUnderTextField.text = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля"
+        labelUnderTextField.text = NSLocalizedString("labelUnderTextFields", comment: "")
         labelUnderTextField.textColor = UIColor.gray
-        labelUnderTextField.font = UIFont.systemFont(ofSize: 12)
+        labelUnderTextField.font = TextStyle.bodySmall.font
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
+        logOutButton.setTitle(NSLocalizedString("logOutFromAccount", comment: ""), for: .normal)
+        logOutButton.setTitleColor(UIColor.red, for: .normal)
+        logOutButton.titleLabel?.font = TextStyle.bodyBig.font
+        logOutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
     }
+
     func setWordsInProgressLabel() {
         progressView.setupWordsInProgress(count: 60)
         progressView.setupAllLearnedWords(count: 120)
+    }
+
+    @objc
+    func didTapLogOutButton() {
+        let alertController = UIAlertController(title: NSLocalizedString("alertTitle", comment: ""),
+            message: NSLocalizedString("alertQuestion", comment: ""), preferredStyle: .alert)
+    let logOutAction = UIAlertAction(title: NSLocalizedString("alertExit", comment: ""), style: .destructive) {_ in
+            AuthService.shared.signOut { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        
+        self.navigationController?.pushViewController(LoginViewController(), animated: true)
+        }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(logOutAction)
+        self.present(alertController, animated: true)
     }
 
     // MARK: - Layouts
@@ -81,24 +130,24 @@ private extension ProfileViewController {
     func setLabelUnderTextField() {
         labelUnderTextField.translatesAutoresizingMaskIntoConstraints = false
         labelUnderTextField.topAnchor.constraint(equalTo: userInformationView.bottomAnchor,
-                                                 constant: LabelUnderTextField.marginTop).isActive = true
+                                                 constant: 3).isActive = true
         labelUnderTextField.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                                  constant: LabelUnderTextField.marginLeft).isActive = true
+                                                  constant: Constraints.marginLeft).isActive = true
         labelUnderTextField.rightAnchor.constraint(equalTo: userInformationView.rightAnchor,
-                                                   constant: LabelUnderTextField.marginRight).isActive = true
-        labelUnderTextField.heightAnchor.constraint(equalToConstant: LabelUnderTextField.height).isActive = true
+                                                   constant: -Constraints.marginLeft).isActive = true
+        labelUnderTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
 
     func setProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.topAnchor.constraint(equalTo:
                                             labelUnderTextField.bottomAnchor,
-                                          constant: Progress.marginTop).isActive = true
+                                          constant: 30).isActive = true
         progressView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                           constant: Progress.marginLeft).isActive = true
+                                           constant: Constraints.marginLeft).isActive = true
         progressView.rightAnchor.constraint(equalTo: scrollView.rightAnchor,
-                                            constant: -Progress.marginLeft).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: Progress.height).isActive = true
+                                            constant: -Constraints.marginLeft).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: 35).isActive = true
     }
 
     func setChoosingTheme() {
@@ -109,20 +158,17 @@ private extension ProfileViewController {
         choosingThemeView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         choosingThemeView.heightAnchor.constraint(equalToConstant: themeViewOutput.getSize()).isActive = true
     }
+    func setLogOutButton() {
+        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+        logOutButton.topAnchor.constraint(equalTo:
+                    choosingThemeView.bottomAnchor, constant: 35).isActive = true
+        logOutButton.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+    }
 }
 
 // MARK: - Constants
 private extension ProfileViewController {
-    struct LabelUnderTextField {
-        static let height: CGFloat = 30
-        static let marginTop: CGFloat = 3
-        static let marginLeft: CGFloat = 25
-        static let marginRight: CGFloat = -20
-    }
-
-    struct Progress {
-        static let height: CGFloat = 60
-        static let marginTop: CGFloat = 35
+    struct Constraints {
         static let marginLeft: CGFloat = 20
     }
 }

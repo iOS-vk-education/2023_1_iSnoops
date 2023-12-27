@@ -10,5 +10,6 @@ import Foundation
 struct WordUIModel {
     let categoryId: String // Связующий идентификатор для связи с категорией
     let translations: [String: String]
-    let isLearned: Bool
+    var isLearned: Bool
+    let id: String // для лайка
 }
