@@ -26,7 +26,7 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let selectedCategory = inputCategories?.getCatalogModel(with: indexPath.item) {
             let categoryDetailViewController = CategoryDetailViewController()
-            categoryDetailViewController.set(with: indexPath.item, category: selectedCategory)
+            categoryDetailViewController.set(with: selectedCategory)
             navigationController?.pushViewController(categoryDetailViewController, animated: true)
         }
     }
