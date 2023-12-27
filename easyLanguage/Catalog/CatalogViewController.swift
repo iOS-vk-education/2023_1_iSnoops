@@ -154,8 +154,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void) {
         let topFiveWordsModel = TopFiveWordsModel(
-            translations: topFiveModel[index].translations,
-            level: topFiveModel[index].level
+            translations: topFiveModel[index].translations
         )
         completion(topFiveWordsModel)
     }
