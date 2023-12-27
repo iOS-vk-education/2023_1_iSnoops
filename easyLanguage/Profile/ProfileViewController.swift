@@ -7,7 +7,8 @@
 
 import UIKit
 
-final class ProfileViewController: CustomViewController {
+final class ProfileViewController: CustomViewController, UserInformationViewDelegate {
+
     // MARK: - Init views
 
     private let themeViewOutput: ThemeViewOutput
@@ -21,6 +22,8 @@ final class ProfileViewController: CustomViewController {
     private let choosingThemeView = ChoosingThemeView()
     private let getOutButton = UIButton()
 
+    private let imagePicker = ImagePicker()
+
     init(themeViewOutput: ThemeViewOutput, userInformationViewOutput: UserInformationViewOutput) {
         self.themeViewOutput = themeViewOutput
         self.userInformationViewOutput = userInformationViewOutput
@@ -33,8 +36,9 @@ final class ProfileViewController: CustomViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        userInformationView.delegate = self
         view.backgroundColor = .PrimaryColors.Background.background
-        title = "Профиль"
+        title = NSLocalizedString("profileTitle", comment: "")
         view.addSubview(scrollView)
         setScrollView()
         [userInformationView, progressView, labelUnderTextField, choosingThemeView, getOutButton].forEach {
@@ -46,6 +50,16 @@ final class ProfileViewController: CustomViewController {
         setProgressView()
         setChoosingTheme()
         setGetOutButton()
+        setWordsInProgressLabel()
+    }
+    @objc func didTapImage() {
+        imagePicker.showImagePicker(with: self) { [weak self] image in
+                    self?.didSelectImage(image)
+                }
+    }
+
+    func didSelectImage(_ image: UIImage) {
+        userInformationView.setImage(image: image)
     }
 }
 
@@ -53,31 +67,35 @@ final class ProfileViewController: CustomViewController {
 private extension ProfileViewController {
     func setTipAppearance() {
         setWordsInProgressLabel()
-        labelUnderTextField.text = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля"
+        labelUnderTextField.text = NSLocalizedString("labelUnderTextFields", comment: "")
         labelUnderTextField.textColor = UIColor.gray
-        labelUnderTextField.font = UIFont.systemFont(ofSize: 12)
+        labelUnderTextField.font = TextStyle.bodySmall.font
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
-        getOutButton.setTitle("Выйти из аккаунта", for: .normal)
+        getOutButton.setTitle(NSLocalizedString("logOutFromAccount", comment: ""), for: .normal)
         getOutButton.setTitleColor(UIColor.red, for: .normal)
+        getOutButton.titleLabel?.font = TextStyle.bodyBig.font
         getOutButton.addTarget(self, action: #selector(didTapGetOutButton), for: .touchUpInside)
     }
+
     func setWordsInProgressLabel() {
         progressView.setupWordsInProgress(count: 60)
         progressView.setupAllLearnedWords(count: 120)
     }
+
     @objc
     func didTapGetOutButton() {
-        let alertController = UIAlertController(title: "Выход из аккаунта",
-            message: "Вы уверены, что хотите выйти из аккаунта?", preferredStyle: .alert)
-        let getOutAction = UIAlertAction(title: "Выйти", style: .destructive) {_ in
+        let alertController = UIAlertController(title: NSLocalizedString("alertTitle", comment: ""),
+            message: NSLocalizedString("alertQuestion", comment: ""), preferredStyle: .alert)
+        let getOutAction = UIAlertAction(title: NSLocalizedString("alertExit", comment: ""), style: .destructive) {_ in
         }
-        let cancelAction = UIAlertAction(title: "Отменить", style: .default) {_ in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }
         alertController.addAction(cancelAction)
         alertController.addAction(getOutAction)
         self.present(alertController, animated: true)
     }
+
     // MARK: - Layouts
     func setScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false

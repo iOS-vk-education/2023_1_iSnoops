@@ -16,11 +16,11 @@ struct Color {
         func description() -> String {
             switch self {
             case .lightMode:
-                "Светлая"
+                NSLocalizedString("lightThemeLabel", comment: "")
             case .autoMode:
-                "Автоматически"
+                NSLocalizedString("autoThemeLabel", comment: "")
             case .darkMode:
-                "Темная"
+                NSLocalizedString("darkThemeLabel", comment: "")
             }
         }
     }

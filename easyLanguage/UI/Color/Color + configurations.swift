@@ -16,6 +16,16 @@ extension UIColor {
         struct Button {
             static let blue: UIColor = Color(lightMode: UIColor(hex: "3478F6") ?? .white).currentColor
         }
+        struct Font {
+            static let header: UIColor = Color(lightMode: .black, darkMode: .white).currentColor
+        }
+    }
+
+    struct Profile {
+        struct ButtonLabel {
+            static let color: UIColor = Color(lightMode: UIColor(hex: "000000") ?? white,
+                                                   darkMode: UIColor(hex: "FFFFFF") ?? .darkGray).currentColor
+        }
     }
 
     struct SecondaryColors {

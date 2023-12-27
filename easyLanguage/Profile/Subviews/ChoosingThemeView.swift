@@ -41,6 +41,11 @@ class ChoosingThemeView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        print(#function)
+        print(UserDefaults.standard.string(forKey: "selectedTheme"))
+        if (UserDefaults.standard.string(forKey: "selectedTheme") != nil){
+            switchTheme(text: UserDefaults.standard.string(forKey: "selectedTheme")!)
+        }
         setThemeLabel()
         for (index, (button, label)) in components.enumerated() {
             setButton(button: button, index: CGFloat(index))
@@ -60,7 +65,7 @@ extension ChoosingThemeView: ThemeViewOutput {
 // MARK: - Private methods
 private extension ChoosingThemeView {
     func setTipAppearance() {
-        title.text = "Тема оформления"
+        title.text = NSLocalizedString("themeTitle", comment: "")
         title.textAlignment = .center
         for (index, (button, label)) in components.enumerated() {
             configureCircularButton(button: button, isActive: false)
@@ -83,7 +88,7 @@ private extension ChoosingThemeView {
         let label = components[components.map({$0.0}).firstIndex(of: newStateButton)!].1
         switchButtonState(button: currentStateButton, active: false)
         switchButtonState(button: newStateButton, active: true)
-        switchTheme(label: label)
+        switchTheme(text: label.text!)
     }
 
     func switchButtonState(button: UIButton, active: Bool) {
@@ -92,13 +97,16 @@ private extension ChoosingThemeView {
         button.backgroundColor = color
     }
 
-    func switchTheme(label: UILabel) {
-        switch label.text {
-        case "Светлая":
+    func switchTheme(text: String) {
+        switch text {
+        case NSLocalizedString("lightThemeLabel", comment: ""):
+            UserDefaults.standard.set("lightThemeLabel", forKey: "selectedTheme")
             Color.systemMode = .lightMode
-        case "Автоматически":
+        case NSLocalizedString("autoThemeLabel", comment: ""):
+            UserDefaults.standard.set("autoThemeLabel", forKey: "selectedTheme")
             Color.systemMode = .autoMode
-        case "Темная":
+        case NSLocalizedString("darkThemeLabel", comment: ""):
+            UserDefaults.standard.set("darkThemeLabel", forKey: "selectedTheme")
             Color.systemMode = .darkMode
         default:
             break
@@ -107,8 +115,8 @@ private extension ChoosingThemeView {
 
     func configureLabel(label: UILabel, index: Int) {
         label.textAlignment = .center
-        label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .Profile.ButtonLabel.color
+        label.font = TextStyle.bodyMedium.font
         label.sizeToFit()
     }
 
@@ -162,6 +170,6 @@ private extension ChoosingThemeView {
 
     struct LabelUnderButton {
         static let marginTop: CGFloat = 10
-        static let height: CGFloat = 10
+        static let height: CGFloat = 20
     }
 }

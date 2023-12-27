@@ -56,6 +56,10 @@ extension UserInformationView {
         textField.resignFirstResponder()
         return true
     }
+
+    func setImage(image: UIImage) {
+        imageView.image = image
+    }
 }
 
 extension UserInformationView: UserInformationViewOutput {
@@ -68,8 +72,10 @@ extension UserInformationView: UserInformationViewOutput {
 private extension UserInformationView {
     func setTipAppearance() {
         setUpImage()
-        firstNameTextField.text = FirstName.text
-        lastNameTextField.text = LastName.text
+        firstNameTextField.text = "Арсений"
+        firstNameTextField.font = TextStyle.bodyMedium.font
+        lastNameTextField.text = "Чистяков"
+        lastNameTextField.font = TextStyle.bodyMedium.font
         setUpTextField(firstNameTextField)
         setUpTextField(lastNameTextField)
     }
@@ -78,6 +84,9 @@ private extension UserInformationView {
         imageView.image = UIImage(systemName: "person.circle")?.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = .gray
         imageView.isUserInteractionEnabled = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = Image.imageSize / 2
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapImage))
         imageView.addGestureRecognizer(tapGesture)
     }
@@ -85,20 +94,13 @@ private extension UserInformationView {
     @objc func didTapImage() {
         delegate?.didTapImage()
     }
-//    @objc func didTapImage() {
-//        imagePicker.showImagePicker(with: self) { [weak self] image in
-//                    self?.didSelectImage(image)
-//                }
-//    }
-//    
-//    func didSelectImage(_ image: UIImage) {
-//        imageView.image = image
-//        }
-    
+
     func setUpTextField(_ textField: UITextField) {
         textField.borderStyle = .roundedRect
         textField.layer.cornerRadius = 15
         textField.isUserInteractionEnabled = false
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.backgroundColor = .PrimaryColors.Background.background
     }
 
     // MARK: - Layouts
@@ -148,75 +150,9 @@ private extension UserInformationView {
 
     struct FirstName {
         static let marginTop: CGFloat = 30
-        static let text: String = "Арсений"
     }
 
     struct LastName {
         static let marginTop: CGFloat = 5
-        static let text: String = "Чистяков"
-    }
-}
-
-
-
-protocol ImageSelectionDelegate: AnyObject {
-    func didSelectImage(_ image: UIImage)
-}
-
-class YourCustomView: UIView {
-    
-    weak var delegate: ImageSelectionDelegate?
-    
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.isUserInteractionEnabled = true
-        return imageView
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        // Добавляем жест нажатия на UIImageView
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
-        imageView.addGestureRecognizer(tapGesture)
-        
-        addSubview(imageView)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc private func imageTapped() {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        
-        // Проверяем, есть ли у нас контроллер, к которому мы можем привязать UIImagePickerController
-        var responder: UIResponder? = self
-        while responder != nil {
-            if let viewController = responder as? UIViewController {
-                viewController.present(imagePickerController, animated: true, completion: nil)
-                break
-            }
-            responder = responder?.next
-        }
-    }
-}
-
-extension YourCustomView: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        picker.dismiss(animated: true, completion: nil)
-        
-        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            imageView.image = pickedImage
-            
-            // Уведомляем делегата о выборе изображения
-            delegate?.didSelectImage(pickedImage)
-        }
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
     }
 }
