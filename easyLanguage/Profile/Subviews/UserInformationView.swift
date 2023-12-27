@@ -24,13 +24,7 @@ final class UserInformationView: UIView {
     weak var delegate: UserInformationViewDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [imageView, firstNameTextField, lastNameTextField].forEach {
-            self.addSubview($0)
-        }
-        setTipAppearance()
-        setImageView()
-        setFirstNameTextField()
-        setLastNameTextField()
+        setAppearanseAndConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -65,6 +59,19 @@ extension UserInformationView {
 extension UserInformationView: UserInformationViewOutput {
     func getSize() -> CGFloat {
         Image.marginTop + Image.imageSize + TextFields.height * 2 + FirstName.marginTop + LastName.marginTop
+    }
+}
+
+// MARK: - set all constraints
+private extension UserInformationView {
+    func setAppearanseAndConstraints() {
+        [imageView, firstNameTextField, lastNameTextField].forEach {
+            self.addSubview($0)
+        }
+        setTipAppearance()
+        setImageView()
+        setFirstNameTextField()
+        setLastNameTextField()
     }
 }
 

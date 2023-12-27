@@ -22,6 +22,33 @@ class ChoosingThemeView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setAppearanseAndConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setThemeLabel()
+        for (index, (button, label)) in components.enumerated() {
+            setButton(button: button, index: CGFloat(index))
+            setLabel(label: label, button: button)
+        }
+    }
+}
+// MARK: - Internal methods
+extension ChoosingThemeView: ThemeViewOutput {
+    func getSize() -> CGFloat {
+        ThemeTitle.marginTop + ThemeTitle.height + Button.marginTop
+        + Button.size + LabelUnderButton.marginTop + LabelUnderButton.height
+    }
+}
+
+// MARK: - set all constraints
+private extension ChoosingThemeView {
+    func setAppearanseAndConstraints() {
         components = Color.SystemMode.allCases.map {
             let label = UILabel()
             label.text = $0.description()
@@ -33,32 +60,6 @@ class ChoosingThemeView: UIView {
         }
         self.addSubview(title)
         setTipAppearance()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        print(#function)
-        print(UserDefaults.standard.string(forKey: "selectedTheme"))
-        if (UserDefaults.standard.string(forKey: "selectedTheme") != nil){
-            switchTheme(text: UserDefaults.standard.string(forKey: "selectedTheme")!)
-        }
-        setThemeLabel()
-        for (index, (button, label)) in components.enumerated() {
-            setButton(button: button, index: CGFloat(index))
-            setLabel(label: label, button: button)
-        }
-    }
-}
-
-// MARK: - Internal methods
-extension ChoosingThemeView: ThemeViewOutput {
-    func getSize() -> CGFloat {
-        ThemeTitle.marginTop + ThemeTitle.height + Button.marginTop
-        + Button.size + LabelUnderButton.marginTop + LabelUnderButton.height
     }
 }
 
@@ -98,6 +99,7 @@ private extension ChoosingThemeView {
     }
 
     func switchTheme(text: String) {
+//        print(UserDefaults.standard.string(forKey: "selectedTheme")!)
         switch text {
         case NSLocalizedString("lightThemeLabel", comment: ""):
             UserDefaults.standard.set("lightThemeLabel", forKey: "selectedTheme")
