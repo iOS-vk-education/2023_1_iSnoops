@@ -37,7 +37,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 // MARK: - open methods
 extension CategoryCollectionViewCell {
     func cellConfigure(with model: CategoryUIModel, at indexPath: IndexPath) {
-        setupColorsForCategory(with: indexPath.item)
+        setupColorsForCategory(with: model.index)
         setupProgressAndTitleLabels(with: model)
         imageView.image = model.image
     }
@@ -59,8 +59,7 @@ private extension CategoryCollectionViewCell {
     }
 
     func setupColorsForCategory(with index: Int) {
-        let index = index % Constants.colors.count
-        let colors = Constants.colors[index]
+        let colors = Constants.colors[index % Constants.colors.count]
 
         backgroundColor = colors.backgroundColor
         [progressLabel, titleLabel].forEach { $0.textColor = colors.textColor }
@@ -114,7 +113,6 @@ private extension CategoryCollectionViewCell {
                                            constant: frame.width / 8).isActive = true
         progressLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
                                            constant: frame.width / 8).isActive = true
-        progressLabel.widthAnchor.constraint(equalToConstant: UIConstants.ProgressLabel.width).isActive = true
     }
 }
 
@@ -143,10 +141,6 @@ private extension CategoryCollectionViewCell {
 
         struct TitleLabel {
             static let horizontally: CGFloat = 15.0
-        }
-
-        struct ProgressLabel {
-            static let width: CGFloat = 60.0
         }
     }
 }
