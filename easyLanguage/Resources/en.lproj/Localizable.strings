@@ -5,12 +5,25 @@
   Created by Grigoriy on 21.12.2023.
   
 */
+
+//MARK: - Catalog
 "wordsTitle" = "Words";
 "wordTrainingTitle" = "Word Training";
 "topFiveWordsTitle" = "5 words of the day";
 "сategoriesTitle" = "Categories";
 "topFiveWordsAdvice" = "To translate a word, click on the card";
 "progressAdvice" = "To continue learning words, click on progress";
+"sortTitle" = "Choose the order to display categories";
+"sortMessage" = "Category Sorting";
+"sortRecentlyAdded" = "Recently Added";
+"sortByName" = "By Name";
+"sortCancel" = "Cancel";
+
+//MARK: - AddNewCategory
+"addPhotoAdvice" = "Add Photo";
+"addCategoryButtonTitle" = "Add Category";
+"categoryNamePlaceholder" = "Category Name";
+
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";
