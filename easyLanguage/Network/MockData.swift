@@ -17,27 +17,33 @@ struct MockData {
 //    ]
 
     static var categoryModel: [CategoryApiModel] = [
-        CategoryApiModel(title: "Технологии и информатика",
+        CategoryApiModel(profileId: "1",
+                         title: "Технологии и информатика",
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-60),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(title: "Спорт",
+        CategoryApiModel(profileId: "2",
+                         title: "Спорт",
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-6),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(title: "Еда",
+        CategoryApiModel(profileId: "3",
+                         title: "Еда",
                          imageLink: nil,
                          createdDate: Date(),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(title: "Путешествия",
+        CategoryApiModel(profileId: "4",
+                         title: "Путешествия",
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-10),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(title: "Семья",
+        CategoryApiModel(profileId: "5",
+                         title: "Семья",
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-20),
                          linkedWordsId: UUID().uuidString)
     ]
+
 
     static var wordModel: [WordApiModel] = [
         WordApiModel(categoryId: categoryModel[0].linkedWordsId,
