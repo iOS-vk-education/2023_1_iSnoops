@@ -22,28 +22,27 @@ struct MockData {
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-60),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "2",
+        CategoryApiModel(profileId: "1",
                          title: "Спорт",
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-6),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "3",
+        CategoryApiModel(profileId: "1",
                          title: "Еда",
                          imageLink: nil,
                          createdDate: Date(),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "4",
+        CategoryApiModel(profileId: "1",
                          title: "Путешествия",
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-10),
                          linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "5",
+        CategoryApiModel(profileId: "1",
                          title: "Семья",
                          imageLink: nil,
                          createdDate: Date().addingTimeInterval(-20),
                          linkedWordsId: UUID().uuidString)
     ]
-
 
     static var wordModel: [WordApiModel] = [
         WordApiModel(categoryId: categoryModel[0].linkedWordsId,
