@@ -63,6 +63,11 @@ final class LearningViewController: UIViewController {
         setupCardStackConstraints()
         setupProgressInfoConstraints()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print(#function)
+    }
+       
     // MARK: Private methods
     private func setupViews() {
         view.backgroundColor = .PrimaryColors.Background.background
