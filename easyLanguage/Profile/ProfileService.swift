@@ -23,8 +23,6 @@ final class ProfileService: ProfileServiceProtocol {
 
     }
 
-//    func loadNameAndMail(with )
-
 //    func uploadProfileImage(with imageLink: String?, completion: @escaping (Result<URL, Error>) -> Void) {
 //        guard let imageLink = imageLink,
 //              let imageUrl = URL(string: imageLink)

@@ -21,20 +21,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
         
 //        window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
-//        self.checkAuthentication()
-        //        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
-        //                window?.rootViewController = OnboardingViewController()
-        //        } else {
-        //            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
-        //
-        //        }
+        self.checkAuthentication()
+//        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
+//            window?.rootViewController = OnboardingViewController()
+//        } else {
+//            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
+//
+//        }
         
     }
     
     public func checkAuthentication() {
         if Auth.auth().currentUser == nil {
+            print(Auth.auth().currentUser?.uid)
             self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
         } else {
+            print(Auth.auth().currentUser?.uid)
             self.goToController(with: TabBarController())
         }
     }
