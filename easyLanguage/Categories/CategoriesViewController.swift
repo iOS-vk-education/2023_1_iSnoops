@@ -18,7 +18,6 @@ protocol CategoriesViewControllerOutput {
 }
 
 final class CategoriesViewController: UIViewController {
-    private var indexCache: [Int: Int] = [:]
 
     private var categorieseOutputDelegate: CategorieseOutputDelegate?
     private let imageManager = ImageManager.shared
@@ -199,33 +198,19 @@ extension CategoriesViewController: InputCategoriesDelegate {
         }
 
         imageManager.loadImage(from: url) { [weak self] result in
+            guard let self = self else { return }
+
             switch result {
             case .success(let data):
-                guard let self = self else { return }
-                if let indexCache = indexCache[index] {
-                    print("indexCache", indexCache, index)
-                    completion(
-                        CategoryUIModel(
-                            title: categoryModel[indexCache].title,
-                            image: UIImage(data: data),
-                            studiedWordsCount: categoryModel[indexCache].studiedWordsCount,
-                            totalWordsCount: categoryModel[indexCache].totalWordsCount,
-                            index: indexCache
-                        )
+                completion(
+                    CategoryUIModel(
+                        title: self.categoryModel[index].title,
+                        image: UIImage(data: data),
+                        studiedWordsCount: self.categoryModel[index].studiedWordsCount,
+                        totalWordsCount: self.categoryModel[index].totalWordsCount,
+                        index: self.categoryModel[index].index ?? 0
                     )
-                } else {
-                    print(index)
-                    indexCache[index] = index
-                    completion(
-                        CategoryUIModel(
-                            title: categoryModel[index].title,
-                            image: UIImage(data: data),
-                            studiedWordsCount: categoryModel[index].studiedWordsCount,
-                            totalWordsCount: categoryModel[index].totalWordsCount,
-                            index: index
-                        )
-                    )
-                }
+                )
             case .failure(let error):
                 print(error)
             }
@@ -291,6 +276,17 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
     }
 
     private func updateCollectionView(with categoryModel: [CategoryModel]) {
-        categoriesCollectionView.reloadData()
+        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
+        // performBatchUpdates - для атомарного обновления (одна неделимая единица)
+        categoriesCollectionView.performBatchUpdates({
+            for newIndex in indexPathsToUpdate {
+                // Обновление данных в ячейках
+                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
+                    categoriesCollectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
+                        cell.cellConfigure(with: categoryUIModel, at: newIndex)
+                    }
+                }
+            }
+        })
     }
 }

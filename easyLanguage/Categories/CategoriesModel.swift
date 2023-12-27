@@ -14,14 +14,14 @@ final class CategoriesModel {
         catalogNetworkManager.getCategories { result in
             switch result {
             case .success(let categories):
-                let categoryModels = categories.map { category in
+                let categoryModels = categories.enumerated().map { index, category in
                     CategoryModel(title: category.title,
                                   imageLink: category.imageLink,
                                   studiedWordsCount: 0, //FIXME: - нужен запрос
                                   totalWordsCount: 0, //FIXME: - нужен запрос
                                   createdDate: category.createdDate,
                                   linkedWordsId: category.linkedWordsId,
-                                  index: 0)  //FIXME: - нужен от итерации
+                                  index: index)
                 }
                 completion(.success(categoryModels))
             case .failure(let error):
