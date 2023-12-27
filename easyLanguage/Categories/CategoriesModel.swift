@@ -43,3 +43,4 @@ final class CategoriesModel {
         try await wordsService.loadWordsCounts(with: linkedWordsId)
     }
 }
+

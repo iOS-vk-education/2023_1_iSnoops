@@ -18,8 +18,12 @@ extension CategoryDetailCollectionView: UICollectionViewDataSource {
 
         let index = inputWords?.index ?? 0
         inputWords?.item(at: indexPath.item, completion: { wordUIModel in
-            cell.cellConfigure(with: index, wordUIModel: wordUIModel)
+            cell.cellConfigure(with: index, cellIndex: indexPath.item, wordUIModel: wordUIModel)
         })
+
+        if let inputWords = inputWords {
+            cell.setInputWords(with: inputWords)
+        }
 
         return cell
     }

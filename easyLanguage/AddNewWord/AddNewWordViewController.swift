@@ -8,11 +8,14 @@
 
 import UIKit
 
-protocol AddNewWordOutput {
-    func didTabButton()
+protocol AddNewWordOutput: AnyObject {
+    func didCreateWord()
 }
 
 class AddNewWordViewController: UIViewController {
+    private let model = AddNewWordModel()
+    private var categoryId = ""
+
     private let nativeLabel = UILabel()
     private let nativeField: UITextField = UITextField()
     private let dividingStripView = UIView()
@@ -21,6 +24,8 @@ class AddNewWordViewController: UIViewController {
     private let button: UIButton = UIButton()
     private var horizontalPadding: CGFloat = 0
     private var height: CGFloat = 0
+
+    weak var delegate: AddNewWordOutput?
 }
 
 // MARK: - life cycle
@@ -28,12 +33,11 @@ extension AddNewWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .PrimaryColors.Background.background
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-
         setAppearance()
         addConstraints()
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
     }
 
     @objc
@@ -42,9 +46,35 @@ extension AddNewWordViewController {
     }
 }
 
+// MARK: - public func
+extension AddNewWordViewController {
+    func setCategoryId(with categoryId: String) {
+        self.categoryId = categoryId
+    }
+}
+
+// MARK: - Network
+private extension AddNewWordViewController {
+    func addNewWord(with translations: [String: String]) {
+         model.addNewWord(with: WordUIModel(categoryId: categoryId,
+                                            translations: translations,
+                                            isLearned: false,
+                                            id: UUID().uuidString)) { result in
+             switch result {
+             case .success:
+                 self.delegate?.didCreateWord()
+             case .failure(let error):
+                 print(error.localizedDescription)
+                 self.showAlert(message: "ошибка добавления слова")
+             }
+         }
+     }
+}
+
 // MARK: - set appearance elements
 private extension AddNewWordViewController {
     func setAppearance() {
+        view.backgroundColor = .PrimaryColors.Background.background
         setNativeLabelAppearance()
         setNativeFieldAppearance()
         setDividingStripViewAppearance()
@@ -83,6 +113,32 @@ private extension AddNewWordViewController {
         button.backgroundColor = .PrimaryColors.Button.blue
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTabButton), for: .touchUpInside)
+    }
+
+    @objc
+    func didTabButton() {
+        guard let nativeText = nativeField.text, !nativeText.isEmpty else {
+            showAlert(message: "Необходимо ввести слово на русском")
+            return
+        }
+        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
+            showAlert(message: "Необходимо ввести перевод слова")
+            return
+        }
+
+        addNewWord(with: ["ru": nativeText, "en": foreignText] )
+
+        nativeField.text = nil
+        foreignField.text = nil
+        self.dismiss(animated: true)
+    }
+
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -172,32 +228,5 @@ private extension AddNewWordViewController {
 private extension AddNewWordViewController {
     struct UIConstants {
         static let top: CGFloat = 10
-    }
-}
-
-// MARK: - AddNewWordOutput
-extension AddNewWordViewController: AddNewWordOutput {
-    @objc
-    func didTabButton() {
-        guard let nativeText = nativeField.text, !nativeText.isEmpty else {
-            showAlert(message: "Необходимо ввести слово на русском")
-            return
-        }
-        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
-            showAlert(message: "Необходимо ввести перевод слова")
-            return
-        }
-
-        nativeField.text = nil
-        foreignField.text = nil
-        self.dismiss(animated: true)
-    }
-
-    private func showAlert(message: String) {
-        let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(okAction)
-
-        self.present(alertController, animated: true, completion: nil)
     }
 }

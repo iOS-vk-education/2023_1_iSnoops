@@ -12,18 +12,19 @@ protocol InputWordsDelegate: AnyObject {
     var wordsCount: Int { get }
     var index: Int { get }
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void)
+    func changeIsLearned(with number: Int, isLearned: Bool)
 }
 
-protocol CategoryDetailOutput {
-    func addNewWordButtonTapped()
+protocol CategoryDetailOutput: AnyObject {
+    func tappedAddWord()
 }
 
 final class CategoryDetailViewController: CustomViewController {
     private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
     private var wordsModel = [WordUIModel]()
     private let model = CategoryDetailModel()
-    private var linkedWordsId = MockData.categoryModel[2].linkedWordsId //FIXME: - будут данные из ячейки catalogVC
-    private var selectedCategory = 2 //FIXME: - будут данные из ячейки catalogVC
+    private var selectedCategory = 0
+    private var linkedWordsId = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +39,15 @@ final class CategoryDetailViewController: CustomViewController {
 
 // MARK: - open methods
 extension CategoryDetailViewController {
-    func set(linkedWordsId: String) {
-        self.linkedWordsId = linkedWordsId
+    func set(with selectedItem: Int, category: CategoryModel) {
+        self.selectedCategory = selectedItem
+        self.linkedWordsId = category.linkedWordsId
+
+        seTitle(with: category.title)
+    }
+
+    private func seTitle(with title: String) {
+        self.title = title
     }
 }
 
@@ -54,6 +62,9 @@ private extension CategoryDetailViewController {
             switch result {
             case .success(let data):
                 self.wordsModel = data
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
             case .failure(let error):
                 print("[DEBUG]: \(#function), \(error.localizedDescription)")
             }
@@ -67,7 +78,7 @@ private extension CategoryDetailViewController {
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                  style: .done,
                                                  target: self,
-                                                 action: #selector(addNewWordButtonTapped))
+                                                 action: #selector(tappedAddWord))
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 
@@ -106,12 +117,35 @@ extension CategoryDetailViewController: InputWordsDelegate {
                                     id: wordsModel[index].id)
         completion(wordModel)
     }
+
+    func changeIsLearned(with number: Int, isLearned: Bool) {
+        model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned)
+    }
 }
 
 // MARK: - CategoryDetailOutput
 extension CategoryDetailViewController: CategoryDetailOutput {
     @objc
-    func addNewWordButtonTapped() {
-        // добавление нового слова (AddNewWordVC)
+    func tappedAddWord() {
+        let addCategoryVC = AddNewWordViewController()
+        addCategoryVC.modalPresentationStyle = .pageSheet
+        addCategoryVC.setCategoryId(with: linkedWordsId)
+        addCategoryVC.delegate = self
+
+        guard let sheet = addCategoryVC.sheetPresentationController else {
+            return
+        }
+
+        sheet.preferredCornerRadius = 25
+        sheet.prefersGrabberVisible = true
+        sheet.detents = [.medium()]
+
+        present(addCategoryVC, animated: true, completion: nil)
+    }
+}
+
+extension CategoryDetailViewController: AddNewWordOutput {
+    func didCreateWord() {
+        loadWords()
     }
 }

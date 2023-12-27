@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		07048BFE2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07048BFD2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift */; };
+		07048C022B3B7BC50050F0B5 /* CategoryDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07048C012B3B7BC50050F0B5 /* CategoryDetailService.swift */; };
+		07048C042B3BA6560050F0B5 /* AddNewWordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07048C032B3BA6560050F0B5 /* AddNewWordModel.swift */; };
+		07048C062B3BA65E0050F0B5 /* AddNewWordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07048C052B3BA65E0050F0B5 /* AddNewWordService.swift */; };
 		0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708114C2B29B6D000623B74 /* CategoriesViewController.swift */; };
 		0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0708114E2B29EF4900623B74 /* CategoriesModel.swift */; };
 		070811532B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070811522B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift */; };
@@ -72,6 +75,9 @@
 
 /* Begin PBXFileReference section */
 		07048BFD2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		07048C012B3B7BC50050F0B5 /* CategoryDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailService.swift; sourceTree = "<group>"; };
+		07048C032B3BA6560050F0B5 /* AddNewWordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWordModel.swift; sourceTree = "<group>"; };
+		07048C052B3BA65E0050F0B5 /* AddNewWordService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWordService.swift; sourceTree = "<group>"; };
 		0708114C2B29B6D000623B74 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		0708114E2B29EF4900623B74 /* CategoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesModel.swift; sourceTree = "<group>"; };
 		070811522B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -310,6 +316,8 @@
 			isa = PBXGroup;
 			children = (
 				074455482B223D1400FA5469 /* AddNewWordViewController.swift */,
+				07048C032B3BA6560050F0B5 /* AddNewWordModel.swift */,
+				07048C052B3BA65E0050F0B5 /* AddNewWordService.swift */,
 			);
 			path = AddNewWord;
 			sourceTree = "<group>";
@@ -319,8 +327,8 @@
 			children = (
 				074455742B25E92D00FA5469 /* CategoryDetailViewController.swift */,
 				074455762B25E93F00FA5469 /* CategoryDetailModel.swift */,
+				07048C012B3B7BC50050F0B5 /* CategoryDetailService.swift */,
 				074455712B25E8ED00FA5469 /* Delegates */,
-				074455692B25E6CC00FA5469 /* Services */,
 				0744556A2B25E6D400FA5469 /* Subviews */,
 			);
 			path = CategoryDetail;
@@ -333,14 +341,6 @@
 				07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */,
 			);
 			path = UIModels;
-			sourceTree = "<group>";
-		};
-		074455692B25E6CC00FA5469 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				074455802B25E9D800FA5469 /* CategoryDetailNetworkManager.swift */,
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		0744556A2B25E6D400FA5469 /* Subviews */ = {
@@ -637,8 +637,8 @@
 				0744557F2B25E9BA00FA5469 /* CategoryDetailCollectionViewCell.swift in Sources */,
 				074455492B223D1400FA5469 /* AddNewWordViewController.swift in Sources */,
 				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,
+				07048C022B3B7BC50050F0B5 /* CategoryDetailService.swift in Sources */,
 				07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */,
-				074455812B25E9D800FA5469 /* CategoryDetailNetworkManager.swift in Sources */,
 				074455752B25E92D00FA5469 /* CategoryDetailViewController.swift in Sources */,
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
 				072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */,
@@ -660,6 +660,8 @@
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
 				07F1BE852AF828E300F50845 /* CatalogCollectionViewDelegate.swift in Sources */,
+				07048C042B3BA6560050F0B5 /* AddNewWordModel.swift in Sources */,
+				07048C062B3BA65E0050F0B5 /* AddNewWordService.swift in Sources */,
 				07048BFE2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
