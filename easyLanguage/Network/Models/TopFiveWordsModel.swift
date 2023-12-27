@@ -9,5 +9,4 @@ import Foundation
 
 struct TopFiveWordsModel {
     let translations: [String: String]
-    let level: String
 }
