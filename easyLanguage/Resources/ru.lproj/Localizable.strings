@@ -30,3 +30,30 @@
 "swipeBasedLanguageLearningTitle" = "Учи язык с помощью свайпов!";
 "nextButtonStartTitle" = "Начать";
 "nextButtonContinueTitle" = "Далее";
+
+//MARK: - Login+Registration
+"loginTitle" = "Войти";
+"registrationTitle" = "Регистрация";
+"registrationButtonTitle" = "Зарегестрироваться";
+"namePlaceholder" = "Имя";
+"emailPlaceholder" = "Электронная почта";
+"passwordPlaceholder" = "Пароль";
+
+//MARK: - LearningVC
+"descriptionText" = "Нажмите на карточку, чтобы увидеть перевод слова";
+"correctText" = "Знаю:";
+"incorrectText" = "Не знаю:";
+
+//MARK: - AlertManager
+"alertButton" = "Назад";
+"invalidEmailTitle" = "Недействительный email";
+"invalidPasswordTitle" = "Недействительный пароль";
+"invalidNameTitle" = "Недействительный имя пользователя";
+"invalidMessage" = "Пожалуйста, проверьте введенные данные";
+"weakPassword" = "Слабый пароль";
+"emailAlreadyInUse" = "Эта почта уже используется";
+"registrationErrorAlert" = "Неизвестная ошибка при регистрации";
+"signInErrorAlert" = "Не удалось войти в аккаунт";
+
+
+

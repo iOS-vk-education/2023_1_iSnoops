@@ -70,6 +70,11 @@
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
 		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
+		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
+		17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8AA2B2F71C80064698E /* LoginViewController.swift */; };
+		17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F032B3B697100E6B7FE /* AuthService.swift */; };
+		17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */; };
+		17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F072B3B90FC00E6B7FE /* AlertManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,6 +140,11 @@
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
+		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		17F57F032B3B697100E6B7FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Register+LoginUserRequestModel.swift"; sourceTree = "<group>"; };
+		17F57F072B3B90FC00E6B7FE /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +249,10 @@
 		0717C0C22AE84D2000C140C9 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				178E20432B3BA56A003AF819 /* Views */,
+				17F57F072B3B90FC00E6B7FE /* AlertManager.swift */,
+				17F57F032B3B697100E6B7FE /* AuthService.swift */,
+				17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -492,6 +506,15 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		178E20432B3BA56A003AF819 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				17D8C8832B2F505C0064698E /* RegistrationViewController.swift */,
+				17D8C8AA2B2F71C80064698E /* LoginViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		179FEC162B231AE200772FC8 /* LearningView */ = {
 			isa = PBXGroup;
 			children = (
@@ -606,6 +629,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */,
+				17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */,
 				07F1BE872AF828EA00F50845 /* CatalogCollectionViewDataSource.swift in Sources */,
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
 				0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */,
@@ -631,6 +655,7 @@
 				07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */,
 				070811572B29F1D300623B74 /* CategoriesCollectionViewDelegateFlowLayout.swift in Sources */,
 				07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */,
+				17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */,
 				0744557F2B25E9BA00FA5469 /* CategoryDetailCollectionViewCell.swift in Sources */,
 				074455492B223D1400FA5469 /* AddNewWordViewController.swift in Sources */,
 				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,
@@ -640,6 +665,7 @@
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
 				072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */,
 				07EF04C92AFBE9C20095DECB /* Color + configurations.swift in Sources */,
+				17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */,
 				074455792B25E95500FA5469 /* CategoryDetailCollectionViewDataSource.swift in Sources */,
 				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,
@@ -649,9 +675,11 @@
 				07F1BEA42AF82BB500F50845 /* Font.swift in Sources */,
 				07F1BE982AF8299900F50845 /* ProgressView.swift in Sources */,
 				07D31BE32B389385005002E3 /* OnboardingViewController.swift in Sources */,
+				17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */,
 				179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */,
 				074F9DA12B2A199D00132465 /* ProfileApiModel.swift in Sources */,
 				07C4F7762B1CF50A0073BED0 /* TopFiveWordsModel.swift in Sources */,
+				17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */,
 				070811532B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift in Sources */,
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
