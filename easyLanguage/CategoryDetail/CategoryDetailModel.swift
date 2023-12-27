@@ -9,10 +9,10 @@ import Foundation
 
 final class CategoryDetailModel {
 
-    private let categoryDetailNetworkManager = CategoryDetailNetworkManager.shared
+    private let categoryService = CategoryDetailService.shared
 
     func loadWords(with linkedWordsId: String, completion: @escaping (Result<[WordUIModel], Error>) -> Void) {
-        categoryDetailNetworkManager.getWords(with: linkedWordsId) { result in
+        categoryService.loadWords(with: linkedWordsId) { result in
             switch result {
             case .success(let wordsApiModel):
                 let wordsModel = wordsApiModel.map { word in
@@ -26,5 +26,9 @@ final class CategoryDetailModel {
                 print("[DEBUG]: \(#function), \(error.localizedDescription)")
             }
         }
+    }
+
+    func reloadIsLearned(with id: String, isLearned: Bool) {
+        categoryService.reloadIsLearned(with: id, isLearned: isLearned)
     }
 }

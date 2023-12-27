@@ -46,7 +46,7 @@ struct MockData {
 
     static var wordModel: [WordApiModel] = [
         WordApiModel(categoryId: categoryModel[0].linkedWordsId,
-                     translations: ["ru": "Кодирование", "en": "Coding",],
+                     translations: ["ru": "Кодирование", "en": "Coding"],
                      isLearned: false,
                      id: UUID().uuidString),
         WordApiModel(categoryId: categoryModel[0].linkedWordsId,

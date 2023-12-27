@@ -19,7 +19,12 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
     private var nativeTitle: String?
     private var foreignTitle: String?
     private var isFlipped = false
+
     private var wordUIModel: WordUIModel?
+    private var categoryIndex = 0
+    private var cellIndex = 0
+
+    weak var delegate: InputWordsDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -41,6 +46,7 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
 extension CategoryDetailCollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
+
         isFlipped = false
         foreignTitle = nil
         nativeTitle = nil
@@ -50,23 +56,30 @@ extension CategoryDetailCollectionViewCell {
 
 // MARK: - internal methods
 extension CategoryDetailCollectionViewCell {
-    func cellConfigure(with index: Int, wordUIModel: WordUIModel) {
+    func cellConfigure(with categoryIndex: Int, cellIndex: Int, wordUIModel: WordUIModel) {
         self.wordUIModel = wordUIModel
+        self.categoryIndex = categoryIndex
+        self.cellIndex = cellIndex
+
         nativeTitle = wordUIModel.translations["ru"]
         foreignTitle = wordUIModel.translations["en"]
         if cellBackgroundColor == nil {
-            setColors(with: index)
+            setColors(with: categoryIndex)
         }
         updateMark(with: wordUIModel.isLearned)
         updateTitleLabel()
+    }
+
+    func setInputWords(with delegate: InputWordsDelegate) {
+        self.delegate = delegate
     }
 }
 
 // MARK: - private methods
 private extension CategoryDetailCollectionViewCell {
-    func setColors(with index: Int) {
-        let index = index % Constants.colors.count
-        let colors = Constants.colors[index]
+    func setColors(with categoryIndex: Int) {
+        let categoryIndex = categoryIndex % Constants.colors.count
+        let colors = Constants.colors[categoryIndex]
         let modifiedBackgroundColor = UIColor.generateRandomSimilarColor(from: colors.backgroundColor)
 
         backgroundColor = modifiedBackgroundColor
@@ -171,11 +184,10 @@ private extension CategoryDetailCollectionViewCell {
 extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
     @objc
     func didTapMarkAsLearned() {
-        guard let wordUIModel = wordUIModel else {
-            return
-        }
-        // FIXME: - обновление лайка на беке (
-        updateMark(with: !wordUIModel.isLearned)
+        wordUIModel?.isLearned.toggle()
+
+        delegate?.changeIsLearned(with: cellIndex, isLearned: wordUIModel?.isLearned ?? true)
+        updateMark(with: (wordUIModel?.isLearned ?? true))
     }
 
     @objc
