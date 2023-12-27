@@ -4,7 +4,6 @@
 //
 //  Created by Матвей Матюшко on 16.12.2023.
 //
-
 import Foundation
 import UIKit
 import FirebaseAuth
@@ -14,8 +13,8 @@ final class LoginViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30, weight: .bold)
-        label.text = "Войти"
+        label.font = TextStyle.header.font
+        label.text = NSLocalizedString("loginTitle", comment: "")
         return label
     }()
 
@@ -28,15 +27,15 @@ final class LoginViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         let loginField = UITextField(frame: CGRect(x: 0, y: 0, width: 343, height: 50))
-        loginField.placeholder = "Почта"
+        loginField.placeholder = NSLocalizedString("emailPlaceholder", comment: "")
         loginField.layer.cornerRadius = 10
-        loginField.backgroundColor = UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
+        loginField.backgroundColor = UIColor.PrimaryColors.TextField.fieldColor
         loginField.borderStyle = .roundedRect
 
         let passwordField = UITextField(frame: CGRect(x: 0, y: 0, width: 343, height: 50))
-        passwordField.placeholder = "Пароль"
+        passwordField.placeholder = NSLocalizedString("passwordPlaceholder", comment: "")
         passwordField.layer.cornerRadius = 10
-        passwordField.backgroundColor = UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
+        passwordField.backgroundColor = UIColor.PrimaryColors.TextField.fieldColor
         passwordField.isSecureTextEntry = !passwordField.isSecureTextEntry
         passwordField.borderStyle = .roundedRect
 
@@ -55,10 +54,11 @@ final class LoginViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Войти", for: .normal)
+        button.titleLabel?.font = TextStyle.bodyMedium.font
+        button.setTitle(NSLocalizedString("loginTitle", comment: ""), for: .normal)
         button.backgroundColor = UIColor.PrimaryColors.Button.blue
         button.layer.cornerRadius = 25
-        button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(tapLoginButton), for: .touchUpInside)
         return button
     }()
     // MARK: LifeCycle
@@ -71,7 +71,7 @@ final class LoginViewController: UIViewController {
     }
     // MARK: Private methods
     private func setupViews() {
-        view.backgroundColor = .white
+        view.backgroundColor = .PrimaryColors.Background.background
         view.addSubview(titleLabel)
         view.addSubview(loginPasswordInput)
         view.addSubview(loginButton)
@@ -97,7 +97,7 @@ final class LoginViewController: UIViewController {
     }
 
     @objc
-    private func tapButton() {
+    private func tapLoginButton() {
         // логика входа
         guard let fields = loginPasswordInput.arrangedSubviews as? [UITextField] else {
             return

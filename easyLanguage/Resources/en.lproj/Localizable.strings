@@ -3,7 +3,6 @@
   easyLanguage
 
   Created by Grigoriy on 21.12.2023.
-  
 */
 "wordsTitle" = "Words";
 "wordTrainingTitle" = "Word Training";
@@ -18,3 +17,27 @@
 "swipeBasedLanguageLearningTitle" = "Learn language with the help of swipes!";
 "nextButtonStartTitle" = "Start";
 "nextButtonContinueTitle" = "Next";
+
+//MARK: - Login+Registration
+"loginTitle" = "Log In";
+"registrationTitle" = "Sign Up";
+"registrationButtonTitle" = "Sign Up";
+"namePlaceholder" = "Name";
+"emailPlaceholder" = "Email";
+"passwordPlaceholder" = "Password";
+
+//MARK: - LearningVC
+"descriptionText" = "Click on the card to see the translation of the word";
+"correctText" = "I know:";
+"incorrectText" = "don't know:";
+
+//MARK: - AlertManager
+"alertButton" = "Back";
+"invalidEmailTitle" = "Invalid email";
+"invalidPasswordTitle" = "Invalid password";
+"invalidNameTitle" = "Invalid name";
+"invalidMessage" = "Please check the entered data";
+"weakPassword" = "weak password";
+"emailAlreadyInUse" = "This email is already in use";
+"registrationErrorAlert" = "Unknown error during registration";
+"signInErrorAlert" = "Failed to login";

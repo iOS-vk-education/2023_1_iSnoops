@@ -14,8 +14,8 @@ final class RegistrationViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 30, weight: .bold)
-        label.text = "Регистрация"
+        label.font = TextStyle.header.font
+        label.text = NSLocalizedString("registrationTitle", comment: "")
         return label
     }()
 
@@ -28,21 +28,21 @@ final class RegistrationViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         let nameField = UITextField(frame: CGRect(x: 0, y: 0, width: 343, height: 50))
-        nameField.placeholder = "Имя"
+        nameField.placeholder = NSLocalizedString("namePlaceholder", comment: "")
         nameField.layer.cornerRadius = 10
-        nameField.backgroundColor = UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
+        nameField.backgroundColor = UIColor.PrimaryColors.TextField.fieldColor
         nameField.borderStyle = .roundedRect
 
         let loginField = UITextField(frame: CGRect(x: 0, y: 0, width: 343, height: 50))
-        loginField.placeholder = "Почта"
+        loginField.placeholder =  NSLocalizedString("emailPlaceholder", comment: "")
         loginField.layer.cornerRadius = 10
-        loginField.backgroundColor = UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
+        loginField.backgroundColor = UIColor.PrimaryColors.TextField.fieldColor
         loginField.borderStyle = .roundedRect
 
         let passwordField = UITextField(frame: CGRect(x: 0, y: 0, width: 343, height: 50))
-        passwordField.placeholder = "Пароль"
+        passwordField.placeholder =  NSLocalizedString("passwordPlaceholder", comment: "")
         passwordField.layer.cornerRadius = 10
-        passwordField.backgroundColor = UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
+        passwordField.backgroundColor = UIColor.PrimaryColors.TextField.fieldColor
         passwordField.isSecureTextEntry = !passwordField.isSecureTextEntry
         passwordField.borderStyle = .roundedRect
 
@@ -63,7 +63,8 @@ final class RegistrationViewController: UIViewController {
     private lazy var registrationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Зарегестрироваться", for: .normal)
+        button.titleLabel?.font = TextStyle.bodyMedium.font
+        button.setTitle(NSLocalizedString("registrationButtonTitle", comment: ""), for: .normal)
         button.backgroundColor = UIColor.PrimaryColors.Button.blue
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
@@ -79,12 +80,12 @@ final class RegistrationViewController: UIViewController {
     }
     // MARK: Private methods
     private func setupViews() {
-        let pushToLoginViewButton = UIBarButtonItem(title: "Войти",
+        let pushToLoginViewButton = UIBarButtonItem(title: NSLocalizedString("loginTitle", comment: ""),
                                                     style: .plain,
                                                     target: self,
                                                     action: #selector(tapLoginButton))
         navigationItem.rightBarButtonItems = [pushToLoginViewButton]
-        view.backgroundColor = .white
+        view.backgroundColor = .PrimaryColors.Background.background
         view.addSubview(titleLabel)
         view.addSubview(loginPasswordInput)
         view.addSubview(registrationButton)
@@ -111,8 +112,8 @@ final class RegistrationViewController: UIViewController {
     @objc
     private func tapButton() {
         guard let labels = loginPasswordInput.arrangedSubviews as? [UITextField] else {
-            print("net subviews")
-            return }
+            return
+        }
         guard let emailString = labels[1].text,
               let passwordString = labels[2].text
         else {
@@ -122,7 +123,7 @@ final class RegistrationViewController: UIViewController {
         let userRequest = RegisterUserRequest(username: labels[0].text ?? "",
                                               email: emailString,
                                               password: passwordString)
-        AuthService.shared.registerUser(with: userRequest) { wasRegister, error in
+        AuthService.shared.registerUser(with: userRequest) { _, error in
             if let maybeError = error {
                 let nsError = maybeError as NSError
                 switch nsError.code {
@@ -137,7 +138,6 @@ final class RegistrationViewController: UIViewController {
                 }
                 return
             }
-            print(wasRegister)
             let viewController = LoginViewController()
             let nav = UINavigationController(rootViewController: viewController)
             nav.modalPresentationStyle = .fullScreen

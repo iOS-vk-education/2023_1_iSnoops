@@ -19,6 +19,10 @@ extension UIColor {
         struct Font {
             static let header: UIColor = Color(lightMode: .black, darkMode: .white).currentColor
         }
+        struct TextField {
+            static let fieldColor: UIColor = Color(lightMode: UIColor(hex: "E8E8E8") ?? .white,
+                                                      darkMode: UIColor(hex: "26282B") ?? .darkGray).currentColor
+        }
     }
 
     struct SecondaryColors {
