@@ -39,8 +39,8 @@ final class CategoryDetailViewController: CustomViewController {
 
 // MARK: - open methods
 extension CategoryDetailViewController {
-    func set(with selectedItem: Int, category: CategoryModel) {
-        self.selectedCategory = selectedItem
+    func set(with category: CategoryModel) {
+        self.selectedCategory = category.index ?? 0
         self.linkedWordsId = category.linkedWordsId
 
         seTitle(with: category.title)
