@@ -70,7 +70,7 @@
 		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
 		17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8AA2B2F71C80064698E /* LoginViewController.swift */; };
 		17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F032B3B697100E6B7FE /* AuthService.swift */; };
-		17F57F062B3B6A2000E6B7FE /* RegisterUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F052B3B6A2000E6B7FE /* RegisterUserRequest.swift */; };
+		17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */; };
 		17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F072B3B90FC00E6B7FE /* AlertManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -137,7 +137,7 @@
 		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		17F57F032B3B697100E6B7FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		17F57F052B3B6A2000E6B7FE /* RegisterUserRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterUserRequest.swift; sourceTree = "<group>"; };
+		17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Register+LoginUserRequestModel.swift"; sourceTree = "<group>"; };
 		17F57F072B3B90FC00E6B7FE /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -243,11 +243,10 @@
 		0717C0C22AE84D2000C140C9 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				17D8C8832B2F505C0064698E /* RegistrationViewController.swift */,
+				178E20432B3BA56A003AF819 /* Views */,
 				17F57F072B3B90FC00E6B7FE /* AlertManager.swift */,
 				17F57F032B3B697100E6B7FE /* AuthService.swift */,
-				17D8C8AA2B2F71C80064698E /* LoginViewController.swift */,
-				17F57F052B3B6A2000E6B7FE /* RegisterUserRequest.swift */,
+				17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -515,6 +514,15 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		178E20432B3BA56A003AF819 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				17D8C8832B2F505C0064698E /* RegistrationViewController.swift */,
+				17D8C8AA2B2F71C80064698E /* LoginViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		179FEC162B231AE200772FC8 /* LearningView */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,7 +627,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#if [[ \"$(uname -m)\" == arm64 ]]; then\n#    export PATH=\"/opt/homebrew/bin:$PATH\"\n#fi\n\n#if which swiftlint >/dev/null; then\n #   swiftlint\n#else\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n#fi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -665,7 +673,7 @@
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
 				072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */,
 				07EF04C92AFBE9C20095DECB /* Color + configurations.swift in Sources */,
-				17F57F062B3B6A2000E6B7FE /* RegisterUserRequest.swift in Sources */,
+				17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */,
 				074455792B25E95500FA5469 /* CategoryDetailCollectionViewDataSource.swift in Sources */,
 				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,

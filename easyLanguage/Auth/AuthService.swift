@@ -9,21 +9,17 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
-
 class AuthService {
     public static let shared = AuthService()
-    
-    private init() {
-        
-    }
-    
+
+    private init() { }
+
     public func registerUser(with userRequest: RegisterUserRequest,
                              completion: @escaping (Bool, Error?) -> Void) {
-        
         let username = userRequest.username
         let email = userRequest.email
         let password = userRequest.password
-        
+
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(false, error)
@@ -34,7 +30,7 @@ class AuthService {
                 completion(false, nil)
                 return
             }
-            
+
             let database = Firestore.firestore()
             database.collection("users")
                 .document(resultUser.uid)
@@ -50,20 +46,18 @@ class AuthService {
                 }
         }
     }
-    
+
     public func signIn(with userRequest: LoginUserRequest, completion: @escaping (Error?) -> Void) {
         Auth.auth().signIn(withEmail: userRequest.email, password: userRequest.password) { _, error in
             if let error = error {
-                //                switch error:
-                
                 completion(error)
                 return
             } else {
-                //                completion(nil)
+                completion(nil)
             }
         }
     }
-    
+
     public func signOut(completion: @escaping (Error?) -> Void) {
         do {
             try Auth.auth().signOut()

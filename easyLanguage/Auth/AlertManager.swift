@@ -9,95 +9,59 @@ import Foundation
 import UIKit
 
 class AlertManager {
-    
-    private static func showBasicAlert(on vc: UIViewController, title: String, message: String?) {
+    private static func showBasicAlert(on viewController: UIViewController, title: String, message: String?) {
         DispatchQueue.main.async {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Закрыть", style: .default, handler: nil))
-            vc.present(alert, animated: true)
+            alert.addAction(UIAlertAction(title: "Назад", style: .default, handler: nil))
+            viewController.present(alert, animated: true)
         }
     }
 }
 
-// MARK: - Show Validation Alerts
+// MARK: - Недействительные данные
 extension AlertManager {
-    
-    public static func showInvalidEmailAlert(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "недействительный email", message: "пожалуйста, проверьте введенные данные")
+    public static func showInvalidEmailAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: "Недействительный email",
+                            message: "Пожалуйста, проверьте введенные данные")
     }
-    
-    public static func showInvalidPasswordAlert(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "недействительный пароль", message: "пожалуйста, проверьте введенные данные")
+
+    public static func showInvalidPasswordAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: "Недействительный пароль",
+                            message: "Пожалуйста, проверьте введенные данные")
     }
-    
-    public static func showInvalidUsernameAlert(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "недействительное имя пользователя", message: "пожалуйста, проверьте введенные данные")
+
+    public static func showInvalidUsernameAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: "Недействительный имя пользователя",
+                            message: "Пожалуйста, проверьте введенные данные")
     }
 }
 
-
-// MARK: - Registration Errors
+// MARK: - Ошибки при регистрации
 extension AlertManager {
-    public static func showCodeWeakPassword(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "Эта почта уже используется", message: nil)
+    public static func showWeakPassword(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: "Слабый пароль", message: nil)
     }
 
-    public static func showEmailAlreadyInUse(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "Эта почта уже используется", message: nil)
+    public static func showEmailAlreadyInUse(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: "Эта почта уже используется", message: nil)
     }
-    public static func showRegistrationErrorAlert(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "Неизвестная ошибка при регистрации", message: nil)
-    }
-    
-    public static func showRegistrationErrorAlert(on vc: UIViewController, with error: Error) {
-        self.showBasicAlert(on: vc, title: "Unknown Registration Error", message: "\(error.localizedDescription)")
+    public static func showRegistrationErrorAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: "Неизвестная ошибка при регистрации", message: nil)
     }
 }
 
-
-// MARK: - Log In Errors
+// MARK: - Ошибки при входе
 extension AlertManager {
-    
-    public static func showSignInErrorAlert(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "Unknown Error Signing In", message: nil)
+    public static func showSignInErrorAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: "Не удалось войти в аккаунт", message: nil)
     }
-    
-    public static func showSignInErrorAlert(on vc: UIViewController, with error: Error) {
-        self.showBasicAlert(on: vc, title: "Error Signing In", message: "\(error.localizedDescription)")
-    }
-}
 
-
-// MARK: - Logout Errors
-extension AlertManager {
-    
-    public static func showLogoutError(on vc: UIViewController, with error: Error) {
-        self.showBasicAlert(on: vc, title: "Log Out Error", message: "\(error.localizedDescription)")
-    }
-}
-
-
-// MARK: - Forgot Password
-extension AlertManager {
-
-    public static func showPasswordResetSent(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "Password Reset Sent", message: nil)
-    }
-    
-    public static func showErrorSendingPasswordReset(on vc: UIViewController, with error: Error) {
-        self.showBasicAlert(on: vc, title: "Error Sending Password Reset", message: "\(error.localizedDescription)")
-    }
-}
-
-
-// MARK: - Fetching User Errors
-extension AlertManager {
-    
-    public static func showFetchingUserError(on vc: UIViewController, with error: Error) {
-        self.showBasicAlert(on: vc, title: "Error Fetching User", message: "\(error.localizedDescription)")
-    }
-    
-    public static func showUnknownFetchingUserError(on vc: UIViewController) {
-        self.showBasicAlert(on: vc, title: "Unknown Error Fetching User", message: nil)
+    public static func showSignInErrorAlert(on viewController: UIViewController, with error: Error) {
+        self.showBasicAlert(on: viewController,
+                            title: "Не удалось войти в аккаунт",
+                            message: "\(error.localizedDescription)")
     }
 }

@@ -107,17 +107,21 @@ final class LoginViewController: UIViewController {
         else {
             return
         }
-        // логика регистрации
         let userRequest = LoginUserRequest(email: emailString,
                                            password: passwordString)
         AuthService.shared.signIn(with: userRequest) { error in
-            if let error = error {
-                print(error.localizedDescription)
+            if let maybeError = error {
+                let nsError = maybeError as NSError
+                switch nsError.code {
+                case AuthErrorCode.invalidEmail.rawValue:
+                    AlertManager.showInvalidEmailAlert(on: self)
+                default:
+                    AlertManager.showSignInErrorAlert(on: self)
+                }
                 return
             } else {
                 self.navigationController?.pushViewController(OnboardingViewController(), animated: true)
             }
         }
-           
     }
 }

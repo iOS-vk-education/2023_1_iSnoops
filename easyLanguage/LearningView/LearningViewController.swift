@@ -147,7 +147,7 @@ extension LearningViewController: SwipeCardStackDelegate {
     func cardStack(_ cardStack: SwipeCardStack, didSelectCardAt index: Int) {
 
         // TODO: REMOVE THIS
-        AuthService.shared.signOut() { error in
+        AuthService.shared.signOut { error in
             if let error = error {
                 print(error.localizedDescription)
             }
