@@ -9,16 +9,11 @@ import Foundation
 
 struct MockData {
     static let topFiveWords: [TopFiveWordsApiModel] = [
-        TopFiveWordsApiModel(translations: ["ru": "Хомяк", "en": "Hamster"],
-                             level: "B1"),
-        TopFiveWordsApiModel(translations: ["ru": "Ластик", "en": "Rubber"],
-                             level: "A2"),
-        TopFiveWordsApiModel(translations: ["ru": "Полка", "en": "Shelf"],
-                             level: "C1"),
-        TopFiveWordsApiModel(translations: ["ru": "Царапать", "en": "Scratch"],
-                             level: "B2"),
-        TopFiveWordsApiModel(translations: ["ru": "Полотенце", "en": "Towel"],
-                             level: "A2")
+        TopFiveWordsApiModel(translations: ["ru": "Хомяк", "en": "Hamster"]),
+        TopFiveWordsApiModel(translations: ["ru": "Ластик", "en": "Rubber"]),
+        TopFiveWordsApiModel(translations: ["ru": "Полка", "en": "Shelf"]),
+        TopFiveWordsApiModel(translations: ["ru": "Царапать", "en": "Scratch"]),
+        TopFiveWordsApiModel(translations: ["ru": "Полотенце", "en": "Towel"])
     ]
 
     static var categoryModel: [CategoryApiModel] = [
@@ -46,7 +41,7 @@ struct MockData {
 
     static var wordModel: [WordApiModel] = [
         WordApiModel(categoryId: categoryModel[0].linkedWordsId,
-                     translations: ["ru": "Кодирование", "en": "Coding",],
+                     translations: ["ru": "Кодирование", "en": "Coding"],
                      isLearned: false,
                      id: UUID().uuidString),
         WordApiModel(categoryId: categoryModel[0].linkedWordsId,

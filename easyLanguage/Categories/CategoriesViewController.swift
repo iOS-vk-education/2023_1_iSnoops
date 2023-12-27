@@ -9,6 +9,7 @@ import UIKit
 
 protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
+    func getCatalogModel(with index: Int) -> CategoryModel
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
@@ -18,6 +19,7 @@ protocol CategoriesViewControllerOutput {
 }
 
 final class CategoriesViewController: UIViewController {
+
     private var categorieseOutputDelegate: CategorieseOutputDelegate?
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
@@ -28,9 +30,10 @@ final class CategoriesViewController: UIViewController {
     private let sortCategoriesLogo: UIImageView = UIImageView()
     private let categoriesCollectionView = CategoriesCollectionView()
 
-    init(categorieseOutputDelegate: CategorieseOutputDelegate?) {
+    init(categorieseOutputDelegate: CategorieseOutputDelegate?, navigationController: UINavigationController?) {
         super.init(nibName: nil, bundle: nil)
         self.categorieseOutputDelegate = categorieseOutputDelegate
+        categoriesCollectionView.setNavigationController(navigationController ?? UINavigationController())
     }
 
     required init?(coder: NSCoder) {
@@ -52,10 +55,10 @@ extension CategoriesViewController {
 
         addConstraints()
         categoriesCollectionView.setupInputCategoriesDelegate(with: self)
+
     }
 }
 
-// MARK: - internal func
 extension CategoriesViewController {
     func calculateCategoriesCollectionViewHeight() -> CGFloat {
         let isEvenCount = categoryModel.count % 2 == 0
@@ -70,16 +73,13 @@ extension CategoriesViewController {
 private extension CategoriesViewController {
     func loadCategories() {
         model.loadCategory { [weak self] result in
-            guard let self = self else {
-                return
-            }
+            guard let self else { return }
+
             switch result {
-            case .success(let data):
-                DispatchQueue.main.async {
-                    self.categoryModel = data
-                    self.categorieseOutputDelegate?.reloadHeight(with: self.calculateCategoriesCollectionViewHeight())
-                    self.categoriesCollectionView.reloadData()
-                }
+            case .success(let categories):
+                self.categoryModel = categories
+                self.categorieseOutputDelegate?.reloadHeight()
+                self.categoriesCollectionView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -96,13 +96,16 @@ private extension CategoriesViewController {
     }
 
     func configureTitleLabel() {
-       titleLabel.text = NSLocalizedString("сategoriesTitle", comment: "")
+        titleLabel.text = NSLocalizedString("сategoriesTitle", comment: "")
         titleLabel.textColor = .PrimaryColors.Font.header
         titleLabel.font = TextStyle.bodyBig.font
     }
 
     func configureSortCategoriesLogo() {
         sortCategoriesLogo.image = UIImage(named: "SortIconImage")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapSortCategory))
+        sortCategoriesLogo.isUserInteractionEnabled = true
+        sortCategoriesLogo.addGestureRecognizer(tapGesture)
     }
 
     func configureAddNewCategoryLogo() {
@@ -180,27 +183,33 @@ private extension CategoriesViewController {
 
 // MARK: - InputCategoriesDelegate
 extension CategoriesViewController: InputCategoriesDelegate {
+    func getCatalogModel(with index: Int) -> CategoryModel {
+        return categoryModel[index]
+    }
+
     var categoriesCount: Int {
         categoryModel.count
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        let defaultImageLink = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg"
-        guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
+        guard let imageLink = categoryModel[index].imageLink,
+              let url = URL(string: imageLink) else {
             completion(CategoryUIModel())
             return
         }
 
         imageManager.loadImage(from: url) { [weak self] result in
+            guard let self = self else { return }
+
             switch result {
             case .success(let data):
-                guard let self = self else { return }
                 completion(
                     CategoryUIModel(
-                        title: categoryModel[index].title,
+                        title: self.categoryModel[index].title,
                         image: UIImage(data: data),
-                        studiedWordsCount: categoryModel[index].studiedWordsCount,
-                        totalWordsCount: categoryModel[index].totalWordsCount
+                        studiedWordsCount: self.categoryModel[index].studiedWordsCount,
+                        totalWordsCount: self.categoryModel[index].totalWordsCount,
+                        index: self.categoryModel[index].index ?? 0
                     )
                 )
             case .failure(let error):
@@ -230,6 +239,55 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
 
     @objc
     func tapSortCategory() {
-        //FIXME: - обработка нажатия на сортировку
+        let alertController = UIAlertController(title: NSLocalizedString("sortTitle", comment: ""),
+                                                message: NSLocalizedString("sortMessage", comment: ""),
+                                                preferredStyle: .actionSheet)
+
+        let recentlyAddedAction = UIAlertAction(title: NSLocalizedString("sortRecentlyAdded", comment: ""),
+                                                style: .default) { [weak self] _ in
+            self?.sortByDateCreation()
+        }
+
+        let byNameAction = UIAlertAction(title: NSLocalizedString("sortByName", comment: ""),
+                                         style: .default) { [weak self] _ in
+            self?.sortCategoryByName()
+        }
+
+        let cancelAction = UIAlertAction(title: NSLocalizedString("sortCancel", comment: ""),
+                                         style: .cancel, handler: nil)
+
+        alertController.addAction(recentlyAddedAction)
+        alertController.addAction(byNameAction)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true)
+    }
+
+    private func sortByDateCreation() {
+        categoryModel.sort {
+            $0.createdDate > $1.createdDate
+        }
+        updateCollectionView(with: categoryModel)
+    }
+
+    private func sortCategoryByName() {
+        categoryModel.sort {
+            $0.title < $1.title
+        }
+        updateCollectionView(with: categoryModel)
+    }
+
+    private func updateCollectionView(with categoryModel: [CategoryModel]) {
+        let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
+        // performBatchUpdates - для атомарного обновления (одна неделимая единица)
+        categoriesCollectionView.performBatchUpdates({
+            for newIndex in indexPathsToUpdate {
+                // Обновление данных в ячейках
+                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
+                    categoriesCollectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
+                        cell.cellConfigure(with: categoryUIModel, at: newIndex)
+                    }
+                }
+            }
+        })
     }
 }

@@ -69,19 +69,19 @@ private extension AddNewCategoryViewController {
     }
 
     func configureAdvice() {
-        advice.text = "Добавить фото"
+        advice.text = NSLocalizedString("addPhotoAdvice", comment: "")
         advice.textAlignment = .center
     }
 
     func configureButton() {
-        button.setTitle("Добавить категорию", for: .normal)
+        button.setTitle(NSLocalizedString("addCategoryButtonTitle", comment: ""), for: .normal)
         button.backgroundColor = .PrimaryColors.Button.blue
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
     func configureTextField() {
-        textField.placeholder = "Название категории"
+        textField.placeholder = NSLocalizedString("categoryNamePlaceholder", comment: "")
         textField.tintColor = .gray
         textField.borderStyle = .roundedRect
     }

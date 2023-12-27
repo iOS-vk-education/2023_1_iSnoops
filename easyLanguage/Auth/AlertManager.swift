@@ -1,0 +1,71 @@
+//
+//  AlertManager.swift
+//  easyLanguage
+//
+//  Created by Матвей Матюшко on 27.12.2023.
+//
+import Foundation
+import UIKit
+
+class AlertManager {
+    private static func showBasicAlert(on viewController: UIViewController, title: String, message: String?) {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("alertButton", comment: ""),
+                                          style: .default,
+                                          handler: nil))
+            viewController.present(alert, animated: true)
+        }
+    }
+}
+
+// MARK: - Недействительные данные
+extension AlertManager {
+    public static func showInvalidEmailAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("invalidEmailTitle", comment: ""),
+                            message: NSLocalizedString("invalidMessage", comment: ""))
+    }
+
+    public static func showInvalidPasswordAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("invalidPasswordTitle", comment: ""),
+                            message: NSLocalizedString("invalidMessage", comment: ""))
+    }
+
+    public static func showInvalidUsernameAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("invalidNameTitle", comment: ""),
+                            message: NSLocalizedString("invalidMessage", comment: ""))
+    }
+}
+
+// MARK: - Ошибки при регистрации
+extension AlertManager {
+    public static func showWeakPassword(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: NSLocalizedString("weakPassword", comment: ""), message: nil)
+    }
+    public static func showEmailAlreadyInUse(on viewController: UIViewController) {
+    self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("emailAlreadyInUse", comment: ""),
+                            message: nil)
+    }
+    public static func showRegistrationErrorAlert(on viewController: UIViewController) {
+    self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("registrationErrorAlert", comment: ""),
+                            message: nil)
+    }
+}
+
+// MARK: - Ошибки при входе
+extension AlertManager {
+    public static func showSignInErrorAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: NSLocalizedString("signInErrorAlert", comment: ""), message: nil)
+    }
+
+    public static func showSignInErrorAlert(on viewController: UIViewController, with error: Error) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("signInErrorAlert", comment: ""),
+                            message: "\(error.localizedDescription)")
+    }
+}

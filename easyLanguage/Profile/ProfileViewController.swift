@@ -95,11 +95,13 @@ private extension ProfileViewController {
         let alertController = UIAlertController(title: NSLocalizedString("alertTitle", comment: ""),
             message: NSLocalizedString("alertQuestion", comment: ""), preferredStyle: .alert)
     let logOutAction = UIAlertAction(title: NSLocalizedString("alertExit", comment: ""), style: .destructive) {_ in
-//            AuthService.shared.signOut { error in
-//                if let error = error {
-//                    print(error.localizedDescription)
-//                }
-//            }
+            AuthService.shared.signOut { error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+            }
+        
+        self.navigationController?.pushViewController(LoginViewController(), animated: true)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }

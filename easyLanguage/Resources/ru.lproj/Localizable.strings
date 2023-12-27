@@ -5,12 +5,24 @@
   Created by Grigoriy on 21.12.2023.
   
 */
+
+//MARK: - Catalog
 "wordsTitle" = "Слова";
 "wordTrainingTitle" = "Тренировка слов";
 "topFiveWordsTitle" = "5 слов дня";
 "сategoriesTitle" = "Категории";
 "topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
 "progressAdvice" = "Чтобы продолжить учить слова нажмите на прогресс";
+"sortTitle" = "Выберите в каком порядке отобразить категории";
+"sortMessage" = "Сортировка категорий";
+"sortRecentlyAdded" = "Недавно добавленные";
+"sortByName" = "Названию";
+"sortCancel" = "Вернуться";
+
+//MARK: - AddNewCategory
+"addPhotoAdvice" = "Добавить фото";
+"addCategoryButtonTitle" = "Добавить категорию";
+"categoryNamePlaceholder" = "Название категории";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "В игровой форме легко учить иностранные языки";
@@ -33,3 +45,27 @@
 "alertQuestion" = "Вы уверены, что хотите выйти из аккаунта?";
 "alertCancel" = "Отменить";
 "alertExit" = "Выйти";
+
+//MARK: - Login+Registration
+"loginTitle" = "Войти";
+"registrationTitle" = "Регистрация";
+"registrationButtonTitle" = "Зарегестрироваться";
+"namePlaceholder" = "Имя";
+"emailPlaceholder" = "Электронная почта";
+"passwordPlaceholder" = "Пароль";
+
+//MARK: - LearningVC
+"descriptionText" = "Нажмите на карточку, чтобы увидеть перевод слова";
+"correctText" = "Знаю:";
+"incorrectText" = "Не знаю:";
+
+//MARK: - AlertManager
+"alertButton" = "Назад";
+"invalidEmailTitle" = "Недействительный email";
+"invalidPasswordTitle" = "Недействительный пароль";
+"invalidNameTitle" = "Недействительный имя пользователя";
+"invalidMessage" = "Пожалуйста, проверьте введенные данные";
+"weakPassword" = "Слабый пароль";
+"emailAlreadyInUse" = "Эта почта уже используется";
+"registrationErrorAlert" = "Неизвестная ошибка при регистрации";
+"signInErrorAlert" = "Не удалось войти в аккаунт";
