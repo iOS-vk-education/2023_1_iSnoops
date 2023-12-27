@@ -8,6 +8,7 @@
 import Foundation
 
 struct CategoryApiModel: Codable {
+    let profileId: String
     let title: String
     let imageLink: String?
     let createdDate: Date
