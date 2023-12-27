@@ -66,6 +66,7 @@ private extension CatalogViewController {
             switch result {
             case .success(let data):
                 self.topFiveModel = data
+                self.topFiveView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
             }
