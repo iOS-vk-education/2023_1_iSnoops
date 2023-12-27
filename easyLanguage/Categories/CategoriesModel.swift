@@ -17,7 +17,7 @@ final class CategoriesModel {
             do {
                 let categoryAPIModel = try await catalogService.loadCategories()
 
-                for category in categoryAPIModel {
+                for (index, category) in categoryAPIModel.enumerated() {
                     let counts = try await loadWordsCounts(with: category.linkedWordsId)
                     let categoryModel = CategoryModel(
                         title: category.title,
@@ -25,7 +25,8 @@ final class CategoriesModel {
                         studiedWordsCount: counts.1,
                         totalWordsCount: counts.0,
                         createdDate: category.createdDate,
-                        linkedWordsId: category.linkedWordsId
+                        linkedWordsId: category.linkedWordsId,
+                        index: index
                     )
                     categoriesModel.append(categoryModel)
                 }
