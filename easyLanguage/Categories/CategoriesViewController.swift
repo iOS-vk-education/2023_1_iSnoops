@@ -9,6 +9,7 @@ import UIKit
 
 protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
+    func getCatalogModel(with index: Int) -> CategoryModel
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
 }
 
@@ -29,9 +30,10 @@ final class CategoriesViewController: UIViewController {
     private let sortCategoriesLogo: UIImageView = UIImageView()
     private let categoriesCollectionView = CategoriesCollectionView()
 
-    init(categorieseOutputDelegate: CategorieseOutputDelegate?) {
+    init(categorieseOutputDelegate: CategorieseOutputDelegate?, navigationController: UINavigationController?) {
         super.init(nibName: nil, bundle: nil)
         self.categorieseOutputDelegate = categorieseOutputDelegate
+        categoriesCollectionView.setNavigationController(navigationController ?? UINavigationController())
     }
 
     required init?(coder: NSCoder) {
@@ -53,6 +55,7 @@ extension CategoriesViewController {
 
         addConstraints()
         categoriesCollectionView.setupInputCategoriesDelegate(with: self)
+
     }
 }
 
@@ -184,6 +187,10 @@ private extension CategoriesViewController {
 
 // MARK: - InputCategoriesDelegate
 extension CategoriesViewController: InputCategoriesDelegate {
+    func getCatalogModel(with index: Int) -> CategoryModel {
+        return categoryModel[index]
+    }
+
     var categoriesCount: Int {
         categoryModel.count
     }

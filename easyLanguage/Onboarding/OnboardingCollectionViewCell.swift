@@ -79,10 +79,8 @@ private extension OnboardingCollectionViewCell {
 }
 
 // MARK: - Constants
-// swiftlint:disable nesting
 private extension OnboardingCollectionViewCell {
     struct UIConstants {
         static let horizontally: CGFloat = 20
     }
 }
-// swiftlint:enable nesting

@@ -90,7 +90,7 @@ private extension OnboardingViewController {
     @objc
     private func nextButtonTapped() {
         if currentPage == slides.count - 1 {
-            let controller = CatalogViewController()
+            let controller = TabBarController()
             controller.modalPresentationStyle = .fullScreen
             present(controller, animated: true, completion: nil)
             UserDefaults.standard.set(true, forKey: "onboardingCompleted")

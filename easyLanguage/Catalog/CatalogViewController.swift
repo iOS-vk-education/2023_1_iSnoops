@@ -29,8 +29,9 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-    private lazy var categoriesViewController = CategoriesViewController(categorieseOutputDelegate: self)
 
+    private lazy var categoriesViewController = CategoriesViewController(categorieseOutputDelegate: self,
+                                                                         navigationController: navigationController)
     override func viewDidLoad() {
         super.viewDidLoad()
 
