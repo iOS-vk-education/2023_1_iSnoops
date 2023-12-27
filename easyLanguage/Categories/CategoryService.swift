@@ -23,7 +23,7 @@ final class CategoryService: CatalogNetworkManagerProtocol {
     private let dataBase = Firestore.firestore()
 
     func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void) {
-        completion(.success(MockData.topFiveWords))
+//        completion(.success(MockData.topFiveWords))
     }
 
     func loadCategories() async throws -> [CategoryApiModel] {

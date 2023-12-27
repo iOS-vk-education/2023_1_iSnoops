@@ -9,4 +9,5 @@ import Foundation
 
 struct TopFiveWordsApiModel: Decodable {
     let translations: [String: String]
+    let profileId: String  //UUID linkedTopFiveWords
 }
