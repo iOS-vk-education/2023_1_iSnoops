@@ -32,6 +32,7 @@ final class CategoryService: CatalogNetworkManagerProtocol {
                 if let error = error {
                     print(error)
                     continuation.resume(throwing: error)
+                    return
                 }
 
                 guard let documents = querySnapshot?.documents else {
