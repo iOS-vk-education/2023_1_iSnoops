@@ -44,6 +44,7 @@ final class CategoryService: CatalogNetworkManagerProtocol {
                         let category = try document.data(as: CategoryApiModel.self)
                         return category
                     } catch {
+                        continuation.resume(throwing: error)
                         return nil
                     }
                 }
@@ -62,9 +63,7 @@ final class CategoryService: CatalogNetworkManagerProtocol {
 
     private func postCategory(with category: CategoryModel) async throws -> [String: Any] {
         return try await withCheckedThrowingContinuation { continuation in
-            uploadCategoryImage(with: category.imageLink) { [weak self] result in
-                guard let self else { return }
-
+            uploadCategoryImage(with: category.imageLink) { result in
                 switch result {
                 case .success(let imageURL):
                     let categoryDict: [String: Any] = [

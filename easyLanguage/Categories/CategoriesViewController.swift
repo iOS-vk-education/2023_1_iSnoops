@@ -192,10 +192,8 @@ extension CategoriesViewController: InputCategoriesDelegate {
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
-        // swiftlint:disable line_length
-        let defaultImageLink = "https://firebasestorage.googleapis.com/v0/b/easylanguage-e6d17.appspot.com/o/categories%2F1E1922CE-61D4-46BE-B2C7-4E12B316CCFA?alt=media&token=80174f66-ee40-4f34-9a35-8d7ed4fbd571"
-        // swiftlint:enable line_length
-        guard let url = URL(string: categoryModel[index].imageLink ?? defaultImageLink) else {
+        guard let imageLink = categoryModel[index].imageLink,
+              let url = URL(string: imageLink) else {
             completion(CategoryUIModel())
             return
         }
