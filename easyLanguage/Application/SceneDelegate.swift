@@ -24,13 +24,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
         //
         //        }
-        
     }
     
     public func checkAuthentication() {
         if Auth.auth().currentUser == nil {
             self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
         } else {
+            print(Auth.auth().currentUser?.uid)
             self.goToController(with: TabBarController())
         }
     }

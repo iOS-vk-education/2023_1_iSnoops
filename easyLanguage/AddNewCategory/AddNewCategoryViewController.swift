@@ -19,6 +19,9 @@ final class AddNewCategoryViewController: UIViewController {
     private let button: UIButton = UIButton()
     private let imagePicker = ImagePicker()
     private var horizontalPadding: CGFloat = 0
+
+    private let model = AddNewCategoryModel()
+    private var selectedImage: UIImage?
 }
 
 extension AddNewCategoryViewController {
@@ -46,6 +49,7 @@ extension AddNewCategoryViewController {
     func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
             self?.imageView.image = image
+            self?.selectedImage = image
         }
     }
 }
@@ -144,9 +148,12 @@ extension AddNewCategoryViewController: AddNewCategoryOutput {
     @objc
     func didTapButton() {
         guard let enteredText = textField.text, !enteredText.isEmpty else {
-            // TODO: - сделать проверку на существующую категорию, пробрасывать ошибку, если возможно
+            print("empty field")
             return
         }
+
+        model.createNewCategory(with: enteredText, categoryImage: selectedImage)
+
         textField.text = nil
         dismiss(animated: true)
     }
