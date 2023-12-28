@@ -10,10 +10,6 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
 
-enum AuthErrors: Error {
-    case userNotAuthenticated
-}
-
 protocol LearningViewServiceProtocol {
      func loadWords() async throws -> [WordApiModel]
      func postLearning(words: [TopFiveWordsApiModel], completion: @escaping (Result<Void, Error>) -> Void)

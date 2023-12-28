@@ -10,12 +10,8 @@ import Foundation
 struct RegisterUserRequest: Decodable {
     let username: String
     let email: String
-<<<<<<< HEAD
     let password: String
     let userId: String
-=======
-    let password: String?
->>>>>>> main
 }
 
 struct LoginUserRequest {

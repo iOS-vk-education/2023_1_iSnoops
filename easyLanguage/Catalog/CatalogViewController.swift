@@ -48,25 +48,12 @@ class CatalogViewController: CustomViewController {
 
         setCategoriesView()
     }
-<<<<<<< HEAD
     
     override func viewWillAppear(_ animated: Bool) {
         loadTopFiveWords()
         topFiveView.reloadData()
-    }
-=======
-
-    override func viewWillAppear(_ animated: Bool) {
-        loadTopFiveWords()
         setProgressWords()
     }
-
-//    override func viewWillAppear() {
-//        super.viewWillAppear()
-//
-//
-//    }
->>>>>>> main
 }
 
 // MARK: - private methods
