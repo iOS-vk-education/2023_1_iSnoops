@@ -19,18 +19,18 @@ protocol LearningViewServiceProtocol {
 }
 
 final class LearningViewService: LearningViewServiceProtocol {
-
+    
     static let shared: LearningViewServiceProtocol = LearningViewService()
-
+    
     private let dataBase = Firestore.firestore()
-
+    
     func loadWords() async throws -> [WordApiModel] {
         let categories = try await loadCategories()
         var words = [WordApiModel]()
-
+        
         for category in categories {
             let categoryId = category.linkedWordsId
-
+            
             do {
                 let categoryWords = try await loadWordsInCategory(with: categoryId)
                 words.append(contentsOf: categoryWords)
@@ -38,7 +38,7 @@ final class LearningViewService: LearningViewServiceProtocol {
                 throw error
             }
         }
-
+        
         return words
     }
 
@@ -116,69 +116,22 @@ final class LearningViewService: LearningViewServiceProtocol {
                 }
         }
     }
-    
+
     func postLearning(words: [TopFiveWordsApiModel], completion: @escaping (Result<Void, Error>) -> Void) {
         guard let userId = checkAuthentication() else {
             completion(.failure(AuthErrors.userNotAuthenticated))
+            return
         }
+
         for word in words {
-            dataBase.collection("topFiveWords").document(userId).setData({
-                "translations": word.translations
-            }())
+            let documentRef = dataBase.collection("topFiveWords").document(userId)
+            documentRef.setData(["translations": word.translations]) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
         }
     }
-    
-//    private func postCategory(with category: CategoryUIModel) async throws -> [String: Any] {
-//            guard let userId = checkAuthentication() else {
-//                throw AuthErrors.userNotAuthenticated
-//            }
-//
-//            var categoryDict: [String: Any] = [
-//                "title": category.title,
-//                "createdDate": Date(),
-//                "linkedWordsId": category.linkedWordsId,
-//                "profileId": userId
-//            ]
-//
-//            if let image = category.image {
-//                let imageUrl = try await uploadCategoryImage(with: image)
-//                categoryDict["imageLink"] = imageUrl.absoluteString
-//            }
-//
-//            return categoryDict
-//        }
-//
-//    func addNewWord(with model: WordApiModel, completion: @escaping (Result<Void, Error>) -> Void) {
-//        dataBase.collection("words").document(model.id).setData([
-//            "categoryId": model.categoryId,
-//            "translations": model.translations,
-//            "isLearned": model.isLearned,
-//            "id": model.id
-//        ]) { error in
-//            if let error = error {
-//                completion(.failure((error)))
-//            } else {
-//                completion(.success(()))
-//            }
-//        }
-//    }
-    
-//    private func postCategory(with category: CategoryModel) async throws -> [String: Any] {
-//        return try await withCheckedThrowingContinuation { continuation in
-//            uploadCategoryImage(with: category.imageLink) { result in
-//                switch result {
-//                case .success(let imageURL):
-//                    let categoryDict: [String: Any] = [
-//                        "title": category.title,
-//                        "imageLink": imageURL.absoluteString,
-//                        "createdDate": category.createdDate,
-//                        "linkedWordsId": category.linkedWordsId
-//                    ]
-//                    continuation.resume(returning: categoryDict)
-//                case .failure(let error):
-//                    continuation.resume(throwing: error)
-//                }
-//            }
-//        }
-//    }
 }
