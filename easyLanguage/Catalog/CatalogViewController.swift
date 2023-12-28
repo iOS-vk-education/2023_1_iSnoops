@@ -37,8 +37,6 @@ class CatalogViewController: CustomViewController {
 
         title = NSLocalizedString("wordsTitle", comment: "")
 
-        loadTopFiveWords()
-
         view.addSubview(scrollView)
         setScrollView()
 
@@ -53,6 +51,10 @@ class CatalogViewController: CustomViewController {
         setupAllLearnedWords()
         setupWordsInProgress()
         setProgress()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        loadTopFiveWords()
     }
 }
 
@@ -164,6 +166,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 
 extension CatalogViewController: CategorieseOutputDelegate {
     func reloadHeight() {
+        print(categoriesViewController.calculateCategoriesCollectionViewHeight())
         categoriesViewController.view.heightAnchor.constraint(equalToConstant:
                                  categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
     }

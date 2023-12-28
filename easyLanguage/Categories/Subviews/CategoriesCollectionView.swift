@@ -10,6 +10,7 @@ import UIKit
 final class CategoriesCollectionView: UICollectionView {
     weak var inputCategories: InputCategoriesDelegate?
     weak var navigationController: UINavigationController?
+    weak var categoryDetailOutput: CategoryDetailOutput?
 
     init() {
         let layout = UICollectionViewFlowLayout()

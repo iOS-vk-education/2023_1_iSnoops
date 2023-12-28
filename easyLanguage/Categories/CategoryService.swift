@@ -11,7 +11,6 @@ import FirebaseStorage
 import FirebaseAuth
 
 protocol CatalogNetworkManagerProtocol {
-    func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void)
     func loadCategories() async throws -> [CategoryApiModel]
 }
 
@@ -20,10 +19,6 @@ final class CategoryService: CatalogNetworkManagerProtocol {
     static let shared: CatalogNetworkManagerProtocol = CategoryService()
 
     private let dataBase = Firestore.firestore()
-
-    func getTopFiveWords(completion: @escaping (Result<[TopFiveWordsApiModel], Error>) -> Void) {
-        completion(.success(MockData.topFiveWords))
-    }
 
     func loadCategories() async throws -> [CategoryApiModel] {
         guard let uid = checkAuthentication() else {

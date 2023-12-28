@@ -11,7 +11,8 @@ final class AddNewCategoryModel {
 
     private let addNewCategoryService = AddNewCategoryService.shared
 
-    func createNewCategory(with categoryName: String, categoryImage: UIImage?) {
+    func createNewCategory(with categoryName: String, categoryImage: UIImage?,
+                           completion: @escaping (Result<CategoryUIModel, Error>) -> Void) {
         Task {
             do {
                 let categoryUIModel = CategoryUIModel(title: categoryName,
@@ -21,8 +22,9 @@ final class AddNewCategoryModel {
                                                       linkedWordsId: UUID().uuidString)
 
                 try await addNewCategoryService.createNewCategory(with: categoryUIModel)
+                completion(.success(categoryUIModel))
             } catch {
-                print("createNewCategory", error.localizedDescription)
+                completion(.failure(error))
             }
         }
     }

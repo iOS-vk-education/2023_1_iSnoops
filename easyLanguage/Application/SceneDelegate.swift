@@ -30,7 +30,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if Auth.auth().currentUser == nil {
             self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
         } else {
-            print(Auth.auth().currentUser?.uid)
             self.goToController(with: TabBarController())
         }
     }
