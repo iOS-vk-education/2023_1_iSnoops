@@ -83,7 +83,7 @@ private extension ChoosingThemeView {
             configureCircularButton(button: button)
             configureLabel(label: label)
         }
-        switchAndFindButton(theme: UserDefaults.standard.string(forKey: "selectedTheme")!)
+        switchAndFindButton(theme: UserDefaults.standard.string(forKey: "selectedTheme") ?? "")
     }
 
     func configureCircularButton(button: UIButton) {
