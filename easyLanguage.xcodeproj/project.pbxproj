@@ -44,6 +44,8 @@
 		078FA63C2B2CC6B3007166DB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA63B2B2CC6B3007166DB /* FirebaseFirestore */; };
 		078FA65A2B2DA74F007166DB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA6592B2DA74F007166DB /* FirebaseStorage */; };
 		0799EDAF2B3CBF2C00C0C04F /* ProfileUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDAE2B3CBF2C00C0C04F /* ProfileUIModel.swift */; };
+		0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */; };
+		0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */; };
 		07A4DDB82B34BC4A003A9596 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07A4DDBA2B34BC4A003A9596 /* Localizable.strings */; };
 		07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */; };
 		07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */; };
@@ -115,6 +117,8 @@
 		074F9DB12B2AF3E600132465 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
 		0799EDAE2B3CBF2C00C0C04F /* ProfileUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUIModel.swift; sourceTree = "<group>"; };
+		0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewService.swift; sourceTree = "<group>"; };
+		0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
 		07A4DDB92B34BC4A003A9596 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07A4DDBB2B34BC56003A9596 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
@@ -523,6 +527,8 @@
 			isa = PBXGroup;
 			children = (
 				179FEC182B231AE200772FC8 /* LearningViewController.swift */,
+				0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */,
+				0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */,
 			);
 			path = LearningView;
 			sourceTree = "<group>";
@@ -638,6 +644,8 @@
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
 				0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */,
 				07F1BE892AF828F100F50845 /* CatalogCollectionViewDelegateFlowLayout.swift in Sources */,
+				0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */,
+				0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */,
 				074455772B25E93F00FA5469 /* CategoryDetailModel.swift in Sources */,
 				07EF04CB2AFBEC3F0095DECB /* ColorModeManager.swift in Sources */,
 				072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */,
