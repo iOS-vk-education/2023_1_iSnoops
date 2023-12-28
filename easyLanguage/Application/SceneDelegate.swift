@@ -21,8 +21,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
+        window.rootViewController = TabBarController()
+        
         self.window?.makeKeyAndVisible()
+        
+        if let theme = UserDefaults.standard.string(forKey: "selectedTheme") {
+            switchTheme(delegate: ChoosingThemeView(), theme: theme)
+        }
         self.checkAuthentication()
+    }
+
+    private func switchTheme(delegate: switchAndFindButtonDelegate, theme: String) {
+        delegate.switchAndFindButton(theme: theme)
     }
     
     public func checkAuthentication() {
