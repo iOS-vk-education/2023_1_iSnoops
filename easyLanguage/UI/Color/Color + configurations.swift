@@ -20,8 +20,8 @@ extension UIColor {
             static let header: UIColor = Color(lightMode: .black, darkMode: .white).currentColor
         }
         struct TextField {
-            static let fieldColor: UIColor = Color(lightMode: UIColor(hex: "E8E8E8") ?? .white,
-                                                      darkMode: UIColor(hex: "26282B") ?? .darkGray).currentColor
+            static let fieldColor: UIColor = Color(lightMode: UIColor(hex: "F6F6F6") ?? .white,
+                                                      darkMode: UIColor(hex: "282829") ?? .darkGray).currentColor
         }
     }
 

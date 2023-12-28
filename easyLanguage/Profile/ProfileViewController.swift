@@ -44,10 +44,6 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
                     self?.userInformationView.setImage(image: image)
                 }
     }
-
-//    func didSelectImage(_ image: UIImage) {
-//        userInformationView.setImage(image: image)
-//    }
 }
 
 // MARK: - set all constraints
@@ -100,8 +96,7 @@ private extension ProfileViewController {
                     print(error.localizedDescription)
                 }
             }
-        
-        self.navigationController?.pushViewController(LoginViewController(), animated: true)
+        self.navigationController?.setViewControllers([LoginViewController()], animated: true)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }

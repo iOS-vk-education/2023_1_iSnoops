@@ -67,6 +67,7 @@ private extension CatalogViewController {
             case .success(let data):
                 self.topFiveModel = data
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print(error.localizedDescription)
             }
         }

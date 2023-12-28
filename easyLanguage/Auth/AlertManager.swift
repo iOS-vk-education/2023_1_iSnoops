@@ -69,3 +69,10 @@ extension AlertManager {
                             message: "\(error.localizedDescription)")
     }
 }
+
+// MARK: - Ошибки при загрузке данных
+extension AlertManager {
+    public static func showDataLoadErrorAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: NSLocalizedString("dataLoadErrorAlert", comment: ""), message: nil)
+    }
+}

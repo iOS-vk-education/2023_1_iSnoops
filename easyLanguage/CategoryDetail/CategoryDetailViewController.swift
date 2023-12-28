@@ -66,6 +66,7 @@ private extension CategoryDetailViewController {
                     self.collectionView.reloadData()
                 }
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print("[DEBUG]: \(#function), \(error.localizedDescription)")
             }
         }

@@ -69,3 +69,4 @@
 "emailAlreadyInUse" = "This email is already in use";
 "registrationErrorAlert" = "Unknown error during registration";
 "signInErrorAlert" = "Failed to login";
+"dataLoadErrorAlert" = "Failed to load data";

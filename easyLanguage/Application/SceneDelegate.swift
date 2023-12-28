@@ -8,9 +8,14 @@
 import UIKit
 import FirebaseAuth
 
+protocol switchAndFindButtonDelegate: AnyObject {
+    func switchAndFindButton(theme: String)
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    weak var delegate: switchAndFindButtonDelegate?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
@@ -19,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = TabBarController()
         
         self.window?.makeKeyAndVisible()
-        
 //        window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
 //        self.checkAuthentication()
         //        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
@@ -53,8 +57,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
+        if let theme = UserDefaults.standard.string(forKey: "selectedTheme"){
+            switchTheme(theme: theme)
+        }
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+    }
+    private func switchTheme(theme: String) {
+        delegate?.switchAndFindButton(theme: theme)
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
@@ -72,6 +82,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    
 }
 // swiftlint:enable all

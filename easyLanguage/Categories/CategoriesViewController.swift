@@ -81,6 +81,7 @@ private extension CategoriesViewController {
                 self.categorieseOutputDelegate?.reloadHeight()
                 self.categoriesCollectionView.reloadData()
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print(error.localizedDescription)
             }
         }
@@ -213,6 +214,7 @@ extension CategoriesViewController: InputCategoriesDelegate {
                     )
                 )
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print(error)
             }
         }

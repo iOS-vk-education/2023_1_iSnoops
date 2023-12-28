@@ -11,8 +11,10 @@ protocol ThemeViewOutput {
     func getSize() -> CGFloat
 }
 
-class ChoosingThemeView: UIView {
+class ChoosingThemeView: UIView, switchAndFindButtonDelegate {
+
     // MARK: - Init components
+    private var sceneDelegate: SceneDelegate?
     private let title = UILabel()
 
     var components =  [(UIButton(), UILabel()),
@@ -36,6 +38,11 @@ class ChoosingThemeView: UIView {
             setButton(button: button, index: CGFloat(index))
             setLabel(label: label, button: button)
         }
+        sceneDelegate?.delegate = self
+    }
+
+    func switchAndFindButton(theme: String) {
+        print(theme)
     }
 }
 // MARK: - Internal methods
@@ -99,16 +106,15 @@ private extension ChoosingThemeView {
     }
 
     func switchTheme(text: String) {
-//        print(UserDefaults.standard.string(forKey: "selectedTheme")!)
         switch text {
         case NSLocalizedString("lightThemeLabel", comment: ""):
-            UserDefaults.standard.set("lightThemeLabel", forKey: "selectedTheme")
+            UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
             Color.systemMode = .lightMode
         case NSLocalizedString("autoThemeLabel", comment: ""):
-            UserDefaults.standard.set("autoThemeLabel", forKey: "selectedTheme")
+            UserDefaults.standard.set(NSLocalizedString("autoThemeLabel", comment: ""), forKey: "selectedTheme")
             Color.systemMode = .autoMode
         case NSLocalizedString("darkThemeLabel", comment: ""):
-            UserDefaults.standard.set("darkThemeLabel", forKey: "selectedTheme")
+            UserDefaults.standard.set(NSLocalizedString("darkThemeLabel", comment: ""), forKey: "selectedTheme")
             Color.systemMode = .darkMode
         default:
             break

@@ -36,7 +36,7 @@
 "labelUnderTextFields" = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля";
 "themeTitle" = "Тема оформления";
 "lightThemeLabel" = "Светлая";
-"autoThemeLabel" = "Автоматически";
+"autoThemeLabel" = "Автоматическая";
 "darkThemeLabel" = "Темная";
 "logOutFromAccount" = "Выйти из аккаунта";
 
@@ -69,3 +69,4 @@
 "emailAlreadyInUse" = "Эта почта уже используется";
 "registrationErrorAlert" = "Неизвестная ошибка при регистрации";
 "signInErrorAlert" = "Не удалось войти в аккаунт";
+"dataLoadErrorAlert" = "Не удалось загрузить данные";

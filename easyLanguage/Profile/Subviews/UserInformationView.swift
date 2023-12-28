@@ -19,7 +19,7 @@ final class UserInformationView: UIView {
     // MARK: - Init components
     private var imageView = UIImageView()
     private let firstNameTextField = UITextField()
-    private let lastNameTextField = UITextField()
+    private let mailTextField = UITextField()
 
     weak var delegate: UserInformationViewDelegate?
     override init(frame: CGRect) {
@@ -33,24 +33,6 @@ final class UserInformationView: UIView {
 }
 // MARK: - Open methods
 extension UserInformationView {
-    // Первые две функции пока не работают
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == firstNameTextField {
-            if let firstName = textField.text {
-                print("Имя: \(firstName)")
-            }
-        } else if textField == lastNameTextField {
-            if let lastName = textField.text {
-                print("Фамилия: \(lastName)")
-            }
-        }
-    }
-
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-
     func setImage(image: UIImage) {
         imageView.image = image
     }
@@ -58,20 +40,20 @@ extension UserInformationView {
 
 extension UserInformationView: UserInformationViewOutput {
     func getSize() -> CGFloat {
-        Image.marginTop + Image.imageSize + TextFields.height * 2 + FirstName.marginTop + LastName.marginTop
+        Image.marginTop + Image.imageSize + TextFields.height * 2 + FirstName.marginTop + Mail.marginTop
     }
 }
 
 // MARK: - set all constraints
 private extension UserInformationView {
     func setAppearanseAndConstraints() {
-        [imageView, firstNameTextField, lastNameTextField].forEach {
+        [imageView, firstNameTextField, mailTextField].forEach {
             self.addSubview($0)
         }
         setTipAppearance()
         setImageView()
         setFirstNameTextField()
-        setLastNameTextField()
+        setMailTextField()
     }
 }
 
@@ -81,10 +63,10 @@ private extension UserInformationView {
         setUpImage()
         firstNameTextField.text = "Арсений"
         firstNameTextField.font = TextStyle.bodyMedium.font
-        lastNameTextField.text = "Чистяков"
-        lastNameTextField.font = TextStyle.bodyMedium.font
+        mailTextField.text = "arsen_4@icloud.com"
+        mailTextField.font = TextStyle.bodyMedium.font
         setUpTextField(firstNameTextField)
-        setUpTextField(lastNameTextField)
+        setUpTextField(mailTextField)
     }
 
     func setUpImage() {
@@ -130,15 +112,15 @@ private extension UserInformationView {
         firstNameTextField.heightAnchor.constraint(equalToConstant: TextFields.height).isActive = true
     }
 
-    func setLastNameTextField() {
-        lastNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        lastNameTextField.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor,
-                                               constant: LastName.marginTop).isActive = true
-        lastNameTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant:
+    func setMailTextField() {
+        mailTextField.translatesAutoresizingMaskIntoConstraints = false
+        mailTextField.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor,
+                                               constant: Mail.marginTop).isActive = true
+        mailTextField.leftAnchor.constraint(equalTo: self.leftAnchor, constant:
                                                     TextFields.marginLeft).isActive = true
-        lastNameTextField.widthAnchor.constraint(equalTo: self.widthAnchor, constant:
+        mailTextField.widthAnchor.constraint(equalTo: self.widthAnchor, constant:
                                                     TextFields.marginRight).isActive = true
-        lastNameTextField.heightAnchor.constraint(equalToConstant: TextFields.height).isActive = true
+        mailTextField.heightAnchor.constraint(equalToConstant: TextFields.height).isActive = true
     }
 }
 
@@ -159,7 +141,7 @@ private extension UserInformationView {
         static let marginTop: CGFloat = 30
     }
 
-    struct LastName {
+    struct Mail {
         static let marginTop: CGFloat = 5
     }
 }
