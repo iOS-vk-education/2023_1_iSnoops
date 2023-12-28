@@ -58,6 +58,7 @@
 "descriptionText" = "Click on the card to see the translation of the word";
 "correctText" = "I know:";
 "incorrectText" = "don't know:";
+"emptyWordsLabel" = "You have learned all the words!";
 
 //MARK: - AlertManager
 "alertButton" = "Back";
