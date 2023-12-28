@@ -12,6 +12,7 @@ import FirebaseAuth
 
 protocol CatalogNetworkManagerProtocol {
     func loadCategories() async throws -> [CategoryApiModel]
+    func loadProgressView() async throws -> (Int, Int)
 }
 
 final class CategoryService: CatalogNetworkManagerProtocol {
@@ -53,6 +54,53 @@ final class CategoryService: CatalogNetworkManagerProtocol {
 
                     continuation.resume(returning: categories)
                 }
+        }
+    }
+
+    func loadProgressView() async throws -> (Int, Int) {
+
+        let categories = try await loadCategories()
+
+        var totalWords = 0
+        var learnedWords = 0
+
+        for category in categories {
+            let categoryId = category.linkedWordsId
+
+            do {
+                let words = try await loadWordsForCategory(with: categoryId)
+                totalWords += words.total
+                learnedWords += words.studied
+            } catch {
+                throw error
+            }
+        }
+
+        return (totalWords, learnedWords)
+    }
+
+    private func loadWordsForCategory(with categoryId: String) async throws -> (total: Int, studied: Int) {
+        return try await withCheckedThrowingContinuation { continuation in
+            dataBase.collection("words").whereField("categoryId",
+                                        isEqualTo: categoryId).getDocuments { querySnapshot, error in
+                if let error = error {
+                    print(error)
+                    continuation.resume(throwing: error)
+                }
+
+                guard let documents = querySnapshot?.documents else {
+                    continuation.resume(throwing: NetworkError.unexpected)
+                    return
+                }
+
+                let totalWordsCount = documents.count
+                let studiedWordsCount = documents.filter { document in
+                    (try? document.data(as: WordApiModel.self))?.isLearned == true
+                }.count
+
+                let result = (total: totalWordsCount, studied: studiedWordsCount)
+                continuation.resume(returning: result)
+            }
         }
     }
 

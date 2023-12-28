@@ -7,7 +7,7 @@
 import Foundation
 
 final class CategoriesModel {
-    private let catalogService = CategoryService.shared
+    private let categoryService = CategoryService.shared
     private let wordsService = WordsService.shared
 
     private var categoriesModel = [CategoryModel]()
@@ -18,7 +18,7 @@ final class CategoriesModel {
     func loadCategories(completion: @escaping (Result<[CategoryModel], Error>) -> Void) {
         Task {
             do {
-                let categoryAPIModel = try await self.catalogService.loadCategories()
+                let categoryAPIModel = try await self.categoryService.loadCategories()
 
                 for (index, category) in categoryAPIModel.enumerated() {
                     let counts = try await loadWordsCounts(with: category.linkedWordsId)
