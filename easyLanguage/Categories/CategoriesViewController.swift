@@ -46,6 +46,7 @@ extension CategoriesViewController {
         super.viewDidLoad()
 
         loadCategories()
+        loadWords()
 
         setAppearance()
         [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
@@ -81,6 +82,17 @@ private extension CategoriesViewController {
                 self.categoryModel = categories
                 self.categorieseOutputDelegate?.reloadHeight()
                 self.categoriesCollectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func loadWords() {
+        model.loadWords { result in
+            switch result {
+            case .success(let words):
+                print(words, words.count)
             case .failure(let error):
                 print(error.localizedDescription)
             }
