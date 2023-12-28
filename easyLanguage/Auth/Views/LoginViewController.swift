@@ -120,7 +120,9 @@ final class LoginViewController: UIViewController {
                 }
                 return
             } else {
-                self.navigationController?.pushViewController(OnboardingViewController(), animated: true)
+                let controller = TabBarController()
+                controller.modalPresentationStyle = .fullScreen
+                self.present(controller, animated: true, completion: nil)
             }
         }
     }

@@ -214,11 +214,6 @@ extension LearningViewController: SwipeCardStackDataSource {
 // MARK: Delegate
 extension LearningViewController: SwipeCardStackDelegate {
     func cardStack(_ cardStack: SwipeCardStack, didSelectCardAt index: Int) {
-        AuthService.shared.signOut { error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                    }
-                }
         rotateView(card: cardStack.card(forIndexAt: index) ?? SwipeCard(),
                    model: model[index])
     }
