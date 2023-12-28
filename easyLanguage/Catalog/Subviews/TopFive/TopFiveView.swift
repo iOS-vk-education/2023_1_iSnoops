@@ -40,6 +40,13 @@ extension TopFiveView {
     }
 }
 
+// MARK: - Public Func
+extension TopFiveView {
+    func reloadData() {
+        topFiveCollectionView.reloadData()
+    }
+}
+
 // MARK: - private methods
 private extension TopFiveView {
     func setVisualAppearance() {

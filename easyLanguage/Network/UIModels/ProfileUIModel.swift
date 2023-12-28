@@ -1,23 +1,23 @@
 //
-//  ProfileApiModel.swift
+//  ProfileUIModel.swift
 //  easyLanguage
 //
-//  Created by Grigoriy on 04.11.2023.
+//  Created by Grigoriy on 27.12.2023.
 //
 
-import Foundation
+import UIKit
 
-struct ProfileApiModel: Codable {
+struct ProfileUIModel {
     let name: String
     let email: String
     let password: String
-    let imageLink: String
+    let avatar: UIImage
     let linkedCategoriesId: String //UUID для Categories
     let linkedTopFiveWords: String //UUID для TopFiveWords
-    let systemMode: SystemMode
+    let systemMode: SystemUIModel
 }
 
-enum SystemMode: Codable {
+enum SystemUIModel {
     case lightTheme
     case systemTheme
     case darkTheme

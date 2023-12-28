@@ -8,11 +8,10 @@
 import Foundation
 
 final class CatalogModel {
-    private let topFiveNetworkManager = TopFiveService.shared
-    private let wordsNetworkManager = WordsService.shared
+    private let topFiveService = TopFiveService.shared
 
     func loadTopFiveWords(completion: @escaping (Result<[TopFiveWordsModel], Error>) -> Void) {
-        topFiveNetworkManager.getTopFiveWords { result in
+        topFiveService.loadTopFiveWords { result in
             switch result {
             case .success(let topFiveData):
                 let topFiveWords = topFiveData.map { word in
