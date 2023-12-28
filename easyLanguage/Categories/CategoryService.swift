@@ -13,7 +13,6 @@ import FirebaseAuth
 protocol CatalogNetworkManagerProtocol {
     func loadCategories() async throws -> [CategoryApiModel]
     func loadProgressView() async throws -> (Int, Int)
-    func loadWords() async throws -> [WordApiModel]
 }
 
 final class CategoryService: CatalogNetworkManagerProtocol {
@@ -110,56 +109,6 @@ final class CategoryService: CatalogNetworkManagerProtocol {
             return currentUser.uid
         } else {
             return nil
-        }
-    }
-
-    func loadWords() async throws -> [WordApiModel] {
-
-        let categories = try await loadCategories()
-        var words = [WordApiModel]()
-
-        for category in categories {
-            let categoryId = category.linkedWordsId
-
-            do {
-                let categoryWords = try await loadWordsInCategory(with: categoryId)
-                words.append(contentsOf: categoryWords)
-            } catch {
-                throw error
-            }
-        }
-
-        return words
-    }
-
-    private func loadWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
-        return try await withCheckedThrowingContinuation { continuation in
-            dataBase.collection("words")
-                    .whereField("categoryId", isEqualTo: categoryId)
-                    .whereField("isLearned", isEqualTo: false).getDocuments { querySnapshot, error in
-                if let error = error {
-                    print(error)
-                    continuation.resume(throwing: error)
-                    return
-                }
-
-                guard let documents = querySnapshot?.documents else {
-                    continuation.resume(throwing: NetworkError.unexpected)
-                    return
-                }
-
-                let categoryWords: [WordApiModel] = documents.compactMap { document in
-                    do {
-                        let word = try document.data(as: WordApiModel.self)
-                        return word
-                    } catch {
-                        continuation.resume(throwing: error)
-                        return nil
-                    }
-                }
-
-                continuation.resume(returning: categoryWords)
-            }
         }
     }
 }

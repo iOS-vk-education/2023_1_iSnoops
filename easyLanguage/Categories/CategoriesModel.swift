@@ -49,27 +49,4 @@ final class CategoriesModel {
     private func loadWordsCounts(with linkedWordsId: String) async throws -> (Int, Int) {
         try await wordsService.loadWordsCounts(with: linkedWordsId)
     }
-    
-    private var wordsUIModel = [WordUIModel]()
-
-    func loadWords(completion: @escaping (Result<[WordUIModel], Error>) -> Void) {
-        Task {
-            do {
-                let wordsAPIModel = try await self.categoryService.loadWords()
-
-                for word in wordsAPIModel {
-                    let wordUIModel = WordUIModel(categoryId: word.categoryId,
-                                                  translations: word.translations,
-                                                  isLearned: word.isLearned,
-                                                  id: word.id)
-                    wordsUIModel.append(wordUIModel)
-                }
-                await MainActor.run {
-                    completion(.success(self.wordsUIModel))
-                }
-            } catch {
-                completion(.failure(error))
-            }
-        }
-    }
 }
