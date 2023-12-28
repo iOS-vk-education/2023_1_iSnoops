@@ -12,9 +12,7 @@ final class ProfileModel {
 
     private let imageManager = ImageManager.shared
 
-//    func loadImage(with image: UIImage,
-//                   completion: @escaping (Result<Void, Error>) -> Void) {
-//        profileService.uploadProfileImage(with: <#T##String?#>, completion: <#T##(Result<URL, Error>) -> Void#>)
-//    }
-
+    func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void) {
+        profileService.loadProfile(completion: completion)
+    }
 }

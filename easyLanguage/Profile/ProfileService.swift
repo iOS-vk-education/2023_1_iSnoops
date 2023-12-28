@@ -8,9 +8,14 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseStorage
+import FirebaseAuth
+
+enum AuthErrors: Error {
+    case userNotAuthenticated
+}
 
 protocol ProfileServiceProtocol {
-//    func uploadProfileImage(with imageLink: String?, completion: @escaping (Result<URL, Error>) -> Void)
+    func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void)
 }
 
 final class ProfileService: ProfileServiceProtocol {
@@ -20,53 +25,35 @@ final class ProfileService: ProfileServiceProtocol {
     private let dataBase = Firestore.firestore()
 
     func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void) {
+        guard let userId = checkAuthentication() else {
+            completion(.failure(AuthErrors.userNotAuthenticated))
+            return
+        }
+        print(userId)
+        dataBase.collection("profile").whereField("profileId", isEqualTo: userId).getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let documents = querySnapshot?.documents, let document = documents.first else {
+                completion(.failure(NetworkError.unexpected))
+                return
+            }
 
+            do {
+                let profile = try document.data(as: ProfileApiModel.self)
+                completion(.success(profile))
+            } catch {
+                completion(.failure(error))
+            }
+        }
     }
 
-//    func uploadProfileImage(with imageLink: String?, completion: @escaping (Result<URL, Error>) -> Void) {
-//        guard let imageLink = imageLink,
-//              let imageUrl = URL(string: imageLink)
-//        else {
-//            return
-//        }
-//
-//        imageManager.loadImage(from: imageUrl) { result in
-//            switch result {
-//            case .success(let imageData):
-//                let imageRef = Storage.storage().reference().child("users/\(UUID().uuidString)")
-//
-//                let metadata = StorageMetadata()
-//                metadata.contentType = "image/png"
-//
-//                imageRef.putData(imageData, metadata: metadata) { [weak self] _, error in
-//                    if let error = error {
-//                        completion(.failure(error))
-//                        return
-//                    }
-//
-//                    imageRef.downloadURL { url, error in
-//                        if let url {
-//                            completion(.success(url))
-//                        } else if let error = error {
-//                            completion(.failure(error))
-//                        }
-//                    }
-//                    self?.downloadURL(from: imageRef, completion: completion)
-//                }
-//            case .failure(let error):
-//                completion(.failure(error))
-//                return
-//            }
-//        }
-//    }
-//
-//    private func downloadURL(from imageRef: StorageReference, completion: @escaping (Result<URL, Error>) -> Void) {
-//        imageRef.downloadURL { url, error in
-//            if let url = url {
-//                completion(.success(url))
-//            } else if let error = error {
-//                completion(.failure(error))
-//            }
-//        }
-//    }
+    private func checkAuthentication() -> String? {
+        if let currentUser = Auth.auth().currentUser {
+            return currentUser.uid
+        } else {
+            return nil
+        }
+    }
 }
