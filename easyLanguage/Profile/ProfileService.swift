@@ -30,7 +30,7 @@ final class ProfileService: ProfileServiceProtocol {
             return
         }
         print(userId)
-        dataBase.collection("profile").whereField("users", isEqualTo: userId).getDocuments { querySnapshot, error in
+        dataBase.collection("users").whereField("userId", isEqualTo: userId).getDocuments { querySnapshot, error in
             if let error = error {
                 completion(.failure(error))
                 return

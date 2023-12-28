@@ -15,6 +15,7 @@ protocol UserInformationViewDelegate: AnyObject {
     func didTapImage()
 }
 
+
 final class UserInformationView: UIView {
     // MARK: - Init components
     private var imageView = UIImageView()
@@ -72,8 +73,6 @@ private extension UserInformationView {
         setUpTextField(mailTextField)
     }
 
-
-    
     func setUpImage() {
         imageView.image = UIImage(systemName: "person.circle")?.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = .gray
