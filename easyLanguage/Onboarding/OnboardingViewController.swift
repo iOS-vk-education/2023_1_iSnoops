@@ -61,11 +61,11 @@ private extension OnboardingViewController {
 
         slides = [
             OnboardingSlide(title: NSLocalizedString("gameplayLanguageLearningTitle", comment: ""),
-                            image: UIImage(systemName: "person")!),
+                            image: UIImage(named: "Onboarding_1")!),
             OnboardingSlide(title: NSLocalizedString("createCustomCategoriesTitle", comment: ""),
-                            image: UIImage(systemName: "person")!),
+                            image: UIImage(named: "Onboarding_2")!),
             OnboardingSlide(title: NSLocalizedString("swipeBasedLanguageLearningTitle", comment: ""),
-                            image: UIImage(systemName: "person")!)
+                            image: UIImage(named: "Onboarding_3")!)
         ]
 
         setPageControlAppearance()

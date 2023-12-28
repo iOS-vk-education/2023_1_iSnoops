@@ -61,10 +61,10 @@ private extension OnboardingCollectionViewCell {
 
     func setSlideImageView() {
         slideImageView.translatesAutoresizingMaskIntoConstraints = false
-        slideImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        slideImageView.topAnchor.constraint(equalTo: topAnchor, constant: 150).isActive = true
         slideImageView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         slideImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        slideImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7).isActive = true
+        slideImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4).isActive = true
     }
 
     func setSlideTitle() {

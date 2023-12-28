@@ -16,7 +16,7 @@ class AuthService {
                              completion: @escaping (Bool, Error?) -> Void) {
         let username = userRequest.username
         let email = userRequest.email
-        let password = userRequest.password
+        let password = userRequest.password ?? "1"
 
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {

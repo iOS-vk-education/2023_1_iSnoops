@@ -8,10 +8,21 @@
 import UIKit
 /// Структура для управления цветами в различных режимах (светлый, темный, авто).
 struct Color {
-    enum SystemMode {
+    enum SystemMode: CaseIterable {
         case lightMode
-        case darkMode
         case autoMode
+        case darkMode
+
+        func description() -> String {
+            switch self {
+            case .lightMode:
+                NSLocalizedString("lightThemeLabel", comment: "")
+            case .autoMode:
+                NSLocalizedString("autoThemeLabel", comment: "")
+            case .darkMode:
+                NSLocalizedString("darkThemeLabel", comment: "")
+            }
+        }
     }
 
     private let lightMode: UIColor

@@ -31,6 +31,21 @@
 "nextButtonStartTitle" = "Start";
 "nextButtonContinueTitle" = "Next";
 
+//MARK: - Profile
+"profileTitle" = "Profile";
+"labelUnderTextFields" = "Provide a name and, if desired, a page photo for your profile.";
+"themeTitle" = "Theme decoration";
+"lightThemeLabel" = "Light";
+"autoThemeLabel" = "Automatically";
+"darkThemeLabel" = "Dark";
+"logOutFromAccount" = "Log out of your account";
+
+//MARK: - ProfileAlert
+"alertTitle" = "Logout";
+"alertQuestion" = "Are you sure you want to log out of your account?";
+"alertCancel" = "Cancel";
+"alertExit" = "Exit";
+
 //MARK: - Login+Registration
 "loginTitle" = "Log In";
 "registrationTitle" = "Sign Up";
@@ -54,3 +69,4 @@
 "emailAlreadyInUse" = "This email is already in use";
 "registrationErrorAlert" = "Unknown error during registration";
 "signInErrorAlert" = "Failed to login";
+"dataLoadErrorAlert" = "Failed to load data";

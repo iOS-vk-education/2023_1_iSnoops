@@ -102,13 +102,14 @@ private extension AddNewCategoryViewController {
     func configureButton() {
         button.setTitle(NSLocalizedString("addCategoryButtonTitle", comment: ""), for: .normal)
         button.backgroundColor = .PrimaryColors.Button.blue
-        button.layer.cornerRadius = 16
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
     func configureTextField() {
         textField.placeholder = NSLocalizedString("categoryNamePlaceholder", comment: "")
         textField.tintColor = .gray
+        textField.backgroundColor = .PrimaryColors.TextField.fieldColor
         textField.borderStyle = .roundedRect
     }
 }

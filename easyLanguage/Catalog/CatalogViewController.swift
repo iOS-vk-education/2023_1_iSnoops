@@ -45,6 +45,7 @@ class CatalogViewController: CustomViewController {
 
         setProgressView()
         setTopFiveView()
+
         setCategoriesView()
     }
 
@@ -52,6 +53,12 @@ class CatalogViewController: CustomViewController {
         loadTopFiveWords()
         setProgressWords()
     }
+
+//    override func viewWillAppear() {
+//        super.viewWillAppear()
+//
+//
+//    }
 }
 
 // MARK: - private methods
@@ -66,6 +73,7 @@ private extension CatalogViewController {
                 self.topFiveModel = data
                 self.topFiveView.reloadData()
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print(error.localizedDescription)
             }
         }

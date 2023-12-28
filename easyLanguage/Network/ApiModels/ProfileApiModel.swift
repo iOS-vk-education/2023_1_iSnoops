@@ -8,9 +8,9 @@
 import Foundation
 
 struct ProfileApiModel: Codable {
+    let profileId: String
     let name: String
     let email: String
-    let password: String
     let imageLink: String
     let systemMode: SystemMode
 }

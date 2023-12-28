@@ -8,9 +8,14 @@
 import UIKit
 import FirebaseAuth
 
+protocol switchAndFindButtonDelegate: AnyObject {
+    func switchAndFindButton(theme: String)
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    weak var delegate: switchAndFindButtonDelegate?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
@@ -18,18 +23,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         self.window?.makeKeyAndVisible()
         self.checkAuthentication()
-        //        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
-        //                window?.rootViewController = OnboardingViewController()
-        //        } else {
-        //            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
-        //
-        //        }
     }
     
     public func checkAuthentication() {
         if Auth.auth().currentUser == nil {
+            print(Auth.auth().currentUser?.uid)
             self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
         } else {
+            print(Auth.auth().currentUser?.uid)
             self.goToController(with: TabBarController())
         }
     }
@@ -67,6 +68,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-    
 }
 // swiftlint:enable all

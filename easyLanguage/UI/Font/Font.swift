@@ -27,9 +27,9 @@ extension TextStyle {
         case .header:
             return 25
         case .bodyBig:
-            return 20
-        case .bodyMedium:
             return 18
+        case .bodyMedium:
+            return 15
         case .bodySmall:
             return 12
         }

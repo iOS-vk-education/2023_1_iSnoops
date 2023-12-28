@@ -8,13 +8,13 @@
 import Foundation
 
 struct MockData {
-    static let topFiveWords: [TopFiveWordsApiModel] = [
-        TopFiveWordsApiModel(translations: ["ru": "Хомяк", "en": "Hamster"]),
-        TopFiveWordsApiModel(translations: ["ru": "Ластик", "en": "Rubber"]),
-        TopFiveWordsApiModel(translations: ["ru": "Полка", "en": "Shelf"]),
-        TopFiveWordsApiModel(translations: ["ru": "Царапать", "en": "Scratch"]),
-        TopFiveWordsApiModel(translations: ["ru": "Полотенце", "en": "Towel"])
-    ]
+//    static let topFiveWords: [TopFiveWordsApiModel] = [
+//        TopFiveWordsApiModel(translations: ["ru": "Хомяк", "en": "Hamster"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Ластик", "en": "Rubber"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Полка", "en": "Shelf"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Царапать", "en": "Scratch"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Полотенце", "en": "Towel"])
+//    ]
 
     static var categoryModel: [CategoryApiModel] = [
         CategoryApiModel(
