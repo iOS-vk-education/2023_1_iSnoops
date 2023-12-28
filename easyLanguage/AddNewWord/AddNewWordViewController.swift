@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddNewWordOutput: AnyObject {
-    func didCreateWord()
+    func didCreateWord(with categoryId: String)
 }
 
 class AddNewWordViewController: UIViewController {
@@ -59,13 +59,13 @@ private extension AddNewWordViewController {
          model.addNewWord(with: WordUIModel(categoryId: categoryId,
                                             translations: translations,
                                             isLearned: false,
-                                            id: UUID().uuidString)) { result in
+                                            id: UUID().uuidString)) { [weak self] result in
              switch result {
              case .success:
-                 self.delegate?.didCreateWord()
+                 self?.delegate?.didCreateWord(with: self?.categoryId ?? "")
              case .failure(let error):
                  print(error.localizedDescription)
-                 self.showAlert(message: "ошибка добавления слова")
+                 self?.showAlert(message: "ошибка добавления слова")
              }
          }
      }
@@ -163,7 +163,7 @@ private extension AddNewWordViewController {
     func setNativeLabel() {
         nativeLabel.translatesAutoresizingMaskIntoConstraints = false
         nativeLabel.topAnchor.constraint(equalTo: view.topAnchor,
-                                         constant: UIConstants.top).isActive = true
+                                         constant: view.bounds.height / 15).isActive = true
         nativeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                          constant: horizontalPadding).isActive = true
         nativeLabel.widthAnchor.constraint(equalToConstant: view.bounds.width / 1.5).isActive = true

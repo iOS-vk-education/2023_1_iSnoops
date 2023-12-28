@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
         //
         //        }
-        
     }
     
     public func checkAuthentication() {

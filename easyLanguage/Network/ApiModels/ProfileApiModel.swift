@@ -12,8 +12,6 @@ struct ProfileApiModel: Codable {
     let email: String
     let password: String
     let imageLink: String
-    let linkedCategoriesId: String //UUID для Categories
-    let linkedTopFiveWords: String //UUID для TopFiveWords
     let systemMode: SystemMode
 }
 

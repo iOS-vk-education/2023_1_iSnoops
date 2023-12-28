@@ -12,14 +12,12 @@ protocol InputTopFiveWordsDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void)
 }
 
-protocol ProgressSetup {
-    func setupAllLearnedWords()
-    func setupWordsInProgress()
-    func setProgress()
-}
-
 protocol CategorieseOutputDelegate: AnyObject {
     func reloadHeight()
+}
+
+protocol ProgressSetup {
+    func setProgressWords()
 }
 
 class CatalogViewController: CustomViewController {
@@ -37,8 +35,6 @@ class CatalogViewController: CustomViewController {
 
         title = NSLocalizedString("wordsTitle", comment: "")
 
-        loadTopFiveWords()
-
         view.addSubview(scrollView)
         setScrollView()
 
@@ -50,9 +46,11 @@ class CatalogViewController: CustomViewController {
         setProgressView()
         setTopFiveView()
         setCategoriesView()
-        setupAllLearnedWords()
-        setupWordsInProgress()
-        setProgress()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        loadTopFiveWords()
+        setProgressWords()
     }
 }
 
@@ -135,16 +133,17 @@ private extension CatalogViewController {
 
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
-    func setupAllLearnedWords() {
-        progressView.setupAllLearnedWords(count: 141) // должна с бека сумма всех слов приходить
-    }
-
-    func setupWordsInProgress() {
-        progressView.setupWordsInProgress(count: 5)
-    }
-
-    func setProgress() {
-        progressView.setProgress()
+    func setProgressWords() {
+        model.loadProgressView { [weak self] result in
+            switch result {
+            case .success(let count):
+                self?.progressView.setupAllLearnedWords(count: count.0)
+                self?.progressView.setupWordsInProgress(count: count.1)
+                self?.progressView.setProgress()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
@@ -164,6 +163,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 
 extension CatalogViewController: CategorieseOutputDelegate {
     func reloadHeight() {
+        print(categoriesViewController.calculateCategoriesCollectionViewHeight())
         categoriesViewController.view.heightAnchor.constraint(equalToConstant:
                                  categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
     }
