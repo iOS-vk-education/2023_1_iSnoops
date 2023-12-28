@@ -10,10 +10,6 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
 
-enum AuthErrors: Error {
-    case userNotAuthenticated
-}
-
 protocol ProfileServiceProtocol {
     func loadProfile(completion: @escaping (Result<RegisterUserRequest, Error>) -> Void)
 }
