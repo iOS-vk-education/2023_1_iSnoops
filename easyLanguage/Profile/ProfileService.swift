@@ -15,7 +15,7 @@ enum AuthErrors: Error {
 }
 
 protocol ProfileServiceProtocol {
-    func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void)
+    func loadProfile(completion: @escaping (Result<RegisterUserRequest, Error>) -> Void)
 }
 
 final class ProfileService: ProfileServiceProtocol {
@@ -24,13 +24,13 @@ final class ProfileService: ProfileServiceProtocol {
 
     private let dataBase = Firestore.firestore()
 
-    func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void) {
+    func loadProfile(completion: @escaping (Result<RegisterUserRequest, Error>) -> Void) {
         guard let userId = checkAuthentication() else {
             completion(.failure(AuthErrors.userNotAuthenticated))
             return
         }
         print(userId)
-        dataBase.collection("profile").whereField("profileId", isEqualTo: userId).getDocuments { querySnapshot, error in
+        dataBase.collection("profile").whereField("users", isEqualTo: userId).getDocuments { querySnapshot, error in
             if let error = error {
                 completion(.failure(error))
                 return
@@ -41,7 +41,7 @@ final class ProfileService: ProfileServiceProtocol {
             }
 
             do {
-                let profile = try document.data(as: ProfileApiModel.self)
+                let profile = try document.data(as: RegisterUserRequest.self)
                 completion(.success(profile))
             } catch {
                 completion(.failure(error))

@@ -14,7 +14,6 @@ protocol ThemeViewOutput {
 class ChoosingThemeView: UIView, switchAndFindButtonDelegate {
 
     // MARK: - Init components
-    private var sceneDelegate: SceneDelegate?
     private let title = UILabel()
 
     var components =  [(UIButton(), UILabel()),
@@ -38,11 +37,16 @@ class ChoosingThemeView: UIView, switchAndFindButtonDelegate {
             setButton(button: button, index: CGFloat(index))
             setLabel(label: label, button: button)
         }
-        sceneDelegate?.delegate = self
     }
 
     func switchAndFindButton(theme: String) {
-        print(theme)
+        var newStateButton = UIButton()
+        for (button, label) in components {
+            if label.text! == theme {
+                switchButtonState(button: button, active: true)
+            }
+        }
+        switchTheme(text: theme)
     }
 }
 // MARK: - Internal methods
@@ -75,14 +79,14 @@ private extension ChoosingThemeView {
     func setTipAppearance() {
         title.text = NSLocalizedString("themeTitle", comment: "")
         title.textAlignment = .center
-        for (index, (button, label)) in components.enumerated() {
-            configureCircularButton(button: button, isActive: false)
-            configureLabel(label: label, index: index)
+        for (button, label) in components {
+            configureCircularButton(button: button)
+            configureLabel(label: label)
         }
-        switchButtonState(button: (components.first?.0)!, active: true)
+        switchAndFindButton(theme: UserDefaults.standard.string(forKey: "selectedTheme")!)
     }
 
-    func configureCircularButton(button: UIButton, isActive: Bool) {
+    func configureCircularButton(button: UIButton) {
         button.layer.borderColor = UIColor.blue.cgColor
         button.layer.borderWidth = 3.5
         button.layer.cornerRadius = Button.size / 2
@@ -121,7 +125,7 @@ private extension ChoosingThemeView {
         }
     }
 
-    func configureLabel(label: UILabel, index: Int) {
+    func configureLabel(label: UILabel) {
         label.textAlignment = .center
         label.textColor = .Profile.ButtonLabel.color
         label.font = TextStyle.bodyMedium.font

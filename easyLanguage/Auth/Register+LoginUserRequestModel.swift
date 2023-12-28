@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct RegisterUserRequest {
+struct RegisterUserRequest: Decodable {
     let username: String
     let email: String
-    let password: String
+    let password: String?
 }
 
 struct LoginUserRequest {

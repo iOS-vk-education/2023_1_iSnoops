@@ -24,6 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = TabBarController()
         
         self.window?.makeKeyAndVisible()
+        
+        if let theme = UserDefaults.standard.string(forKey: "selectedTheme"){
+            switchTheme(delegate: ChoosingThemeView(), theme: theme)
+        }
 //        window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
         self.checkAuthentication()
 //        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
@@ -33,6 +37,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //
 //        }
         
+    }
+    private func switchTheme(delegate: switchAndFindButtonDelegate, theme: String) {
+        delegate.switchAndFindButton(theme: theme)
     }
     
     public func checkAuthentication() {
@@ -59,14 +66,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        if let theme = UserDefaults.standard.string(forKey: "selectedTheme"){
-            switchTheme(theme: theme)
-        }
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
-    private func switchTheme(theme: String) {
-        delegate?.switchAndFindButton(theme: theme)
     }
     
     func sceneWillResignActive(_ scene: UIScene) {

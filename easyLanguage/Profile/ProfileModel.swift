@@ -12,7 +12,8 @@ final class ProfileModel {
 
     private let imageManager = ImageManager.shared
 
-    func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void) {
+    func loadProfile(completion: @escaping (Result<RegisterUserRequest, Error>) -> Void) {
+
         profileService.loadProfile(completion: completion)
     }
 }

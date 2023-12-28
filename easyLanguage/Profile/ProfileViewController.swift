@@ -57,6 +57,7 @@ private extension ProfileViewController {
             switch result {
             case .success(let profile):
                 print(profile)
+                self.userInformationView.setupTextFields(with: profile)
             case .failure(let error):
                 print(error.localizedDescription)
             }

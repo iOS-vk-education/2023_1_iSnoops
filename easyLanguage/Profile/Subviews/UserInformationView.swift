@@ -36,6 +36,11 @@ extension UserInformationView {
     func setImage(image: UIImage) {
         imageView.image = image
     }
+
+    func setupTextFields(with model: RegisterUserRequest) {
+        firstNameTextField.text = model.username
+        mailTextField.text = model.email
+    }
 }
 
 extension UserInformationView: UserInformationViewOutput {
@@ -61,14 +66,14 @@ private extension UserInformationView {
 private extension UserInformationView {
     func setTipAppearance() {
         setUpImage()
-        firstNameTextField.text = "Арсений"
         firstNameTextField.font = TextStyle.bodyMedium.font
-        mailTextField.text = "arsen_4@icloud.com"
         mailTextField.font = TextStyle.bodyMedium.font
         setUpTextField(firstNameTextField)
         setUpTextField(mailTextField)
     }
 
+
+    
     func setUpImage() {
         imageView.image = UIImage(systemName: "person.circle")?.withRenderingMode(.alwaysTemplate)
         imageView.tintColor = .gray
