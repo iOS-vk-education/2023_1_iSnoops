@@ -49,11 +49,18 @@ class CatalogViewController: CustomViewController {
 
         setProgressView()
         setTopFiveView()
+
         setCategoriesView()
         setupAllLearnedWords()
         setupWordsInProgress()
         setProgress()
     }
+
+//    override func viewWillAppear() {
+//        super.viewWillAppear()
+//
+//
+//    }
 }
 
 // MARK: - private methods

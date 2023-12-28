@@ -43,7 +43,9 @@
 		078FA6302B2CC6B3007166DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA62F2B2CC6B3007166DB /* FirebaseAuth */; };
 		078FA63C2B2CC6B3007166DB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA63B2B2CC6B3007166DB /* FirebaseFirestore */; };
 		078FA65A2B2DA74F007166DB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA6592B2DA74F007166DB /* FirebaseStorage */; };
-		0799EDAF2B3CBF2C00C0C04F /* ProfileUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDAE2B3CBF2C00C0C04F /* ProfileUIModel.swift */; };
+		0799EDA92B3C9C3000C0C04F /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDA82B3C9C3000C0C04F /* ProfileModel.swift */; };
+		0799EDAB2B3C9C3A00C0C04F /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDAA2B3C9C3A00C0C04F /* ProfileService.swift */; };
+		0799EDAD2B3CA19200C0C04F /* ProfileUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDAC2B3CA19200C0C04F /* ProfileUIModel.swift */; };
 		07A4DDB82B34BC4A003A9596 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07A4DDBA2B34BC4A003A9596 /* Localizable.strings */; };
 		07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */; };
 		07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */; };
@@ -117,7 +119,9 @@
 		074F9DA02B2A199D00132465 /* ProfileApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileApiModel.swift; path = easyLanguage/Network/ApiModels/ProfileApiModel.swift; sourceTree = SOURCE_ROOT; };
 		074F9DB12B2AF3E600132465 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
-		0799EDAE2B3CBF2C00C0C04F /* ProfileUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUIModel.swift; sourceTree = "<group>"; };
+		0799EDA82B3C9C3000C0C04F /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
+		0799EDAA2B3C9C3A00C0C04F /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		0799EDAC2B3CA19200C0C04F /* ProfileUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUIModel.swift; sourceTree = "<group>"; };
 		07A4DDB92B34BC4A003A9596 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07A4DDBB2B34BC56003A9596 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
@@ -360,7 +364,7 @@
 			children = (
 				07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */,
 				07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */,
-				0799EDAE2B3CBF2C00C0C04F /* ProfileUIModel.swift */,
+				0799EDAC2B3CA19200C0C04F /* ProfileUIModel.swift */,
 			);
 			path = UIModels;
 			sourceTree = "<group>";
@@ -547,6 +551,8 @@
 			isa = PBXGroup;
 			children = (
 				AA717AA82B0E678D004157D1 /* ProfileViewController.swift */,
+				0799EDA82B3C9C3000C0C04F /* ProfileModel.swift */,
+				0799EDAA2B3C9C3A00C0C04F /* ProfileService.swift */,
 				AA0C7A302B20F65800DAF144 /* Subviews */,
 			);
 			path = Profile;
@@ -702,9 +708,11 @@
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,
 				075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */,
 				07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */,
+				0799EDAB2B3C9C3A00C0C04F /* ProfileService.swift in Sources */,
 				0710CB442AF3A7B400F5478E /* Color + extensions.swift in Sources */,
 				074455622B24EFD200FA5469 /* WordsService.swift in Sources */,
 				07F1BEA42AF82BB500F50845 /* Font.swift in Sources */,
+				0799EDA92B3C9C3000C0C04F /* ProfileModel.swift in Sources */,
 				07F1BE982AF8299900F50845 /* ProgressView.swift in Sources */,
 				07D31BE32B389385005002E3 /* OnboardingViewController.swift in Sources */,
 				17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */,
@@ -719,6 +727,7 @@
 				07F1BE852AF828E300F50845 /* CatalogCollectionViewDelegate.swift in Sources */,
 				AADADDEB2B25E24400D0C6B9 /* ChoosingThemeView.swift in Sources */,
 				07048C042B3BA6560050F0B5 /* AddNewWordModel.swift in Sources */,
+				0799EDAD2B3CA19200C0C04F /* ProfileUIModel.swift in Sources */,
 				07048C062B3BA65E0050F0B5 /* AddNewWordService.swift in Sources */,
 				07048BFE2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift in Sources */,
 			);

@@ -22,6 +22,8 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
     private let choosingThemeView = ChoosingThemeView()
     private let logOutButton = UIButton()
 
+    private let model = ProfileModel()
+
     private let imagePicker = ImagePicker()
 
     init(themeViewOutput: ThemeViewOutput, userInformationViewOutput: UserInformationViewOutput) {
@@ -38,11 +40,27 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
         super.viewDidLoad()
         userInformationView.delegate = self
         setAppearanseAndConstraints()
+        loadProfile()
     }
+
     @objc func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
                     self?.userInformationView.setImage(image: image)
                 }
+    }
+}
+
+// MARK: - Network
+private extension ProfileViewController {
+    func loadProfile() {
+        model.loadProfile { result in
+            switch result {
+            case .success(let profile):
+                print(profile)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 
