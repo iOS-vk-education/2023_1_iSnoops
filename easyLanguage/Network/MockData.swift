@@ -8,40 +8,40 @@
 import Foundation
 
 struct MockData {
-    static let topFiveWords: [TopFiveWordsApiModel] = [
-        TopFiveWordsApiModel(translations: ["ru": "Хомяк", "en": "Hamster"]),
-        TopFiveWordsApiModel(translations: ["ru": "Ластик", "en": "Rubber"]),
-        TopFiveWordsApiModel(translations: ["ru": "Полка", "en": "Shelf"]),
-        TopFiveWordsApiModel(translations: ["ru": "Царапать", "en": "Scratch"]),
-        TopFiveWordsApiModel(translations: ["ru": "Полотенце", "en": "Towel"])
-    ]
+//    static let topFiveWords: [TopFiveWordsApiModel] = [
+//        TopFiveWordsApiModel(translations: ["ru": "Хомяк", "en": "Hamster"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Ластик", "en": "Rubber"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Полка", "en": "Shelf"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Царапать", "en": "Scratch"]),
+//        TopFiveWordsApiModel(translations: ["ru": "Полотенце", "en": "Towel"])
+//    ]
 
     static var categoryModel: [CategoryApiModel] = [
-        CategoryApiModel(profileId: "1",
-                         title: "Технологии и информатика",
-                         imageLink: nil,
-                         createdDate: Date().addingTimeInterval(-60),
-                         linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "1",
-                         title: "Спорт",
-                         imageLink: nil,
-                         createdDate: Date().addingTimeInterval(-6),
-                         linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "1",
-                         title: "Еда",
-                         imageLink: nil,
-                         createdDate: Date(),
-                         linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "1",
-                         title: "Путешествия",
-                         imageLink: nil,
-                         createdDate: Date().addingTimeInterval(-10),
-                         linkedWordsId: UUID().uuidString),
-        CategoryApiModel(profileId: "1",
-                         title: "Семья",
-                         imageLink: nil,
-                         createdDate: Date().addingTimeInterval(-20),
-                         linkedWordsId: UUID().uuidString)
+        CategoryApiModel(
+            title: "Технологии и информатика",
+            imageLink: nil,
+            createdDate: Date().addingTimeInterval(-60),
+            linkedWordsId: UUID().uuidString),
+        CategoryApiModel(
+            title: "Спорт",
+            imageLink: nil,
+            createdDate: Date().addingTimeInterval(-6),
+            linkedWordsId: UUID().uuidString),
+        CategoryApiModel(
+            title: "Еда",
+            imageLink: nil,
+            createdDate: Date(),
+            linkedWordsId: UUID().uuidString),
+        CategoryApiModel(
+            title: "Путешествия",
+            imageLink: nil,
+            createdDate: Date().addingTimeInterval(-10),
+            linkedWordsId: UUID().uuidString),
+        CategoryApiModel(
+            title: "Семья",
+            imageLink: nil,
+            createdDate: Date().addingTimeInterval(-20),
+            linkedWordsId: UUID().uuidString)
     ]
 
     static var wordModel: [WordApiModel] = [

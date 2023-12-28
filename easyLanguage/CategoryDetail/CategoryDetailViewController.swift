@@ -16,7 +16,8 @@ protocol InputWordsDelegate: AnyObject {
 }
 
 protocol CategoryDetailOutput: AnyObject {
-    func tappedAddWord()
+    func updateTotalCountWords(with linkedWordsId: String)
+    func updateLearnedCountWords(with linkedWordsId: String, isLearned: Bool)
 }
 
 final class CategoryDetailViewController: CustomViewController {
@@ -25,6 +26,7 @@ final class CategoryDetailViewController: CustomViewController {
     private let model = CategoryDetailModel()
     private var selectedCategory = 0
     private var linkedWordsId = ""
+    weak var delegate: CategoryDetailOutput?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,24 @@ final class CategoryDetailViewController: CustomViewController {
         loadWords()
         setNavBar()
         setCollectionView()
+    }
+
+    @objc
+    func tappedAddWord() {
+        let addCategoryVC = AddNewWordViewController()
+        addCategoryVC.modalPresentationStyle = .pageSheet
+        addCategoryVC.setCategoryId(with: linkedWordsId)
+        addCategoryVC.delegate = self
+
+        guard let sheet = addCategoryVC.sheetPresentationController else {
+            return
+        }
+
+        sheet.preferredCornerRadius = 25
+        sheet.prefersGrabberVisible = true
+        sheet.detents = [.medium()]
+
+        present(addCategoryVC, animated: true, completion: nil)
     }
 }
 
@@ -66,6 +86,7 @@ private extension CategoryDetailViewController {
                     self.collectionView.reloadData()
                 }
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print("[DEBUG]: \(#function), \(error.localizedDescription)")
             }
         }
@@ -120,32 +141,13 @@ extension CategoryDetailViewController: InputWordsDelegate {
 
     func changeIsLearned(with number: Int, isLearned: Bool) {
         model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned)
-    }
-}
-
-// MARK: - CategoryDetailOutput
-extension CategoryDetailViewController: CategoryDetailOutput {
-    @objc
-    func tappedAddWord() {
-        let addCategoryVC = AddNewWordViewController()
-        addCategoryVC.modalPresentationStyle = .pageSheet
-        addCategoryVC.setCategoryId(with: linkedWordsId)
-        addCategoryVC.delegate = self
-
-        guard let sheet = addCategoryVC.sheetPresentationController else {
-            return
-        }
-
-        sheet.preferredCornerRadius = 25
-        sheet.prefersGrabberVisible = true
-        sheet.detents = [.medium()]
-
-        present(addCategoryVC, animated: true, completion: nil)
+        delegate?.updateLearnedCountWords(with: wordsModel[number].categoryId, isLearned: isLearned)
     }
 }
 
 extension CategoryDetailViewController: AddNewWordOutput {
-    func didCreateWord() {
+    func didCreateWord(with categoryId: String) {
         loadWords()
+        delegate?.updateTotalCountWords(with: categoryId)
     }
 }

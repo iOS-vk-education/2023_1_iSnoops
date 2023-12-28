@@ -55,10 +55,11 @@ extension CategoriesViewController {
 
         addConstraints()
         categoriesCollectionView.setupInputCategoriesDelegate(with: self)
-
+        categoriesCollectionView.categoryDetailOutput = self
     }
 }
 
+// MARK: - public func
 extension CategoriesViewController {
     func calculateCategoriesCollectionViewHeight() -> CGFloat {
         let isEvenCount = categoryModel.count % 2 == 0
@@ -72,7 +73,7 @@ extension CategoriesViewController {
 // MARK: - Networking
 private extension CategoriesViewController {
     func loadCategories() {
-        model.loadCategory { [weak self] result in
+        model.loadCategories { [weak self] result in
             guard let self else { return }
             switch result {
             case .success(let categories):
@@ -80,6 +81,7 @@ private extension CategoriesViewController {
                 self.categorieseOutputDelegate?.reloadHeight()
                 self.categoriesCollectionView.reloadData()
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print(error.localizedDescription)
             }
         }
@@ -212,6 +214,7 @@ extension CategoriesViewController: InputCategoriesDelegate {
                     )
                 )
             case .failure(let error):
+                AlertManager.showDataLoadErrorAlert(on: self)
                 print(error)
             }
         }
@@ -224,6 +227,7 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
     func tapAddCategory() {
         let addCategoryVC = AddNewCategoryViewController()
         addCategoryVC.modalPresentationStyle = .pageSheet
+        addCategoryVC.delegate = self
 
         guard let sheet = addCategoryVC.sheetPresentationController else {
             return
@@ -288,5 +292,44 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
                 }
             }
         })
+    }
+}
+
+extension CategoriesViewController: AddNewCategoryOutput {
+    func reloadData(with categoryUIModel: CategoryUIModel) {
+        DispatchQueue.main.async {
+            print(self.categoryModel.count)
+            self.categoryModel.append(CategoryModel(title: categoryUIModel.title,
+                                                    imageLink: "",
+                                                    studiedWordsCount: categoryUIModel.studiedWordsCount,
+                                                    totalWordsCount: categoryUIModel.totalWordsCount,
+                                                    createdDate: Date(),
+                                                    linkedWordsId: categoryUIModel.linkedWordsId,
+                                                    index: self.categoryModel.count + 1))
+            self.categorieseOutputDelegate?.reloadHeight()
+            self.categoriesCollectionView.reloadData()
+        }
+    }
+}
+
+extension CategoriesViewController: CategoryDetailOutput {
+    func updateTotalCountWords(with linkedWordsId: String) {
+        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
+            categoryModel[index].totalWordsCount += 1
+            let indexPath = IndexPath(item: index, section: 0)
+            categoriesCollectionView.reloadItems(at: [indexPath])
+        }
+    }
+
+    func updateLearnedCountWords(with linkedWordsId: String, isLearned: Bool) {
+        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
+            if isLearned {
+                categoryModel[index].studiedWordsCount += 1
+            } else {
+                categoryModel[index].studiedWordsCount -= 1
+            }
+            let indexPath = IndexPath(item: index, section: 0)
+            categoriesCollectionView.reloadItems(at: [indexPath])
+        }
     }
 }

@@ -46,8 +46,6 @@ final class CategoryDetailService: CategoryDetailServiceProtocol {
         dataBase.collection("words").document(id).updateData(["isLearned": isLearned]) { error in
             if let error = error {
                 print(error)
-            } else {
-                print("reloadIsLearned", isLearned)
             }
         }
     }

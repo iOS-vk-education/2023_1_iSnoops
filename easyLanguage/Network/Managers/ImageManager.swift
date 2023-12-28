@@ -19,18 +19,19 @@ final class ImageManager: ImageManagerDescription {
     private let networkImageQueue = DispatchQueue(label: "networkImageQueue", attributes: .concurrent)
 
     func loadImage(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
-        let mainTreadCompletion: (Result<Data, Error>) -> Void = { result in
+        let mainThreadCompletion: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 completion(result)
             }
         }
 
         networkImageQueue.async {
-            guard let imageData = try? Data(contentsOf: url) else {
-                mainTreadCompletion(.failure(ImageManagerErrors.unexpected))
-                return
+            do {
+                let imageData = try Data(contentsOf: url)
+                mainThreadCompletion(.success(imageData))
+            } catch {
+                mainThreadCompletion(.failure(error))
             }
-            mainTreadCompletion(.success(imageData))
         }
     }
 }
