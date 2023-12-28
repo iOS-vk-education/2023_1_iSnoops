@@ -115,7 +115,7 @@ private extension ProfileViewController {
                     print(error.localizedDescription)
                 }
             }
-        self.navigationController?.setViewControllers([LoginViewController()], animated: true)
+        self.navigationController?.setViewControllers([RegistrationViewController()], animated: true)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }
