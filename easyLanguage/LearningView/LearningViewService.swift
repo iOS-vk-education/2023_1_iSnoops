@@ -16,21 +16,22 @@ enum AuthErrors: Error {
 
 protocol LearningViewServiceProtocol {
      func loadWords() async throws -> [WordApiModel]
+     func postLearning(words: [TopFiveWordsApiModel], completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 final class LearningViewService: LearningViewServiceProtocol {
-    
+
     static let shared: LearningViewServiceProtocol = LearningViewService()
-    
+
     private let dataBase = Firestore.firestore()
-    
+
     func loadWords() async throws -> [WordApiModel] {
         let categories = try await loadCategories()
         var words = [WordApiModel]()
-        
+    
         for category in categories {
             let categoryId = category.linkedWordsId
-            
+        
             do {
                 let categoryWords = try await loadWordsInCategory(with: categoryId)
                 words.append(contentsOf: categoryWords)
@@ -41,6 +42,7 @@ final class LearningViewService: LearningViewServiceProtocol {
         
         return words
     }
+    
 
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {

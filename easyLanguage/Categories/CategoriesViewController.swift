@@ -74,7 +74,6 @@ private extension CategoriesViewController {
     func loadCategories() {
         model.loadCategory { [weak self] result in
             guard let self else { return }
-
             switch result {
             case .success(let categories):
                 self.categoryModel = categories

@@ -12,6 +12,7 @@ import Shuffle
 final class LearningViewController: UIViewController {
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
+    private var modelForPost: [WordUIModel] = []
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -84,9 +85,12 @@ final class LearningViewController: UIViewController {
         incorrectCount = 0
         loadLearningWords()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        postToTopFive()
+    }
     // MARK: Private methods
     private func setupViews() {
-        
         view.backgroundColor = .PrimaryColors.Background.background
         let title = NSLocalizedString("wordTrainingTitle", comment: "")
         view.addSubview(activityIndicator)
@@ -145,6 +149,12 @@ final class LearningViewController: UIViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    private func postToTopFive() {
+        service.postWords(words: modelForPost) { _ in
+            
         }
     }
 }
@@ -217,6 +227,8 @@ extension LearningViewController: SwipeCardStackDelegate {
             labels[0].text = "\(NSLocalizedString("correctText", comment: "")) \(correctCount)"
             isFlipped = false
         case .left:
+            modelForPost.append(model[index])
+            print("post ----- \(modelForPost)")
             incorrectCount += 1
             labels[1].text = "\(NSLocalizedString("incorrectText", comment: "")) \(incorrectCount)"
             isFlipped = false

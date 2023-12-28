@@ -54,6 +54,11 @@ class CatalogViewController: CustomViewController {
         setupWordsInProgress()
         setProgress()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadTopFiveWords()
+        topFiveView.reloadData()
+    }
 }
 
 // MARK: - private methods
