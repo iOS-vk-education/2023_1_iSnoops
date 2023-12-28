@@ -33,16 +33,6 @@ final class LearningViewModel {
     }
     
     func postWords(words: [WordUIModel],completion: @escaping (Result<[WordUIModel], Error>) -> Void) {
-//        Task {
-//            do {
-//                try await self.learningViewService.
-//                await MainActor.run {
-//                    completion(.success(self.wordsUIModel))
-//                }
-//            } catch {
-//                completion(.failure(error))
-//            }
-//        }
         var wordsArray: [TopFiveWordsApiModel] = []
         for word in words {
             let topFiveWords = TopFiveWordsApiModel(translations: word.translations)

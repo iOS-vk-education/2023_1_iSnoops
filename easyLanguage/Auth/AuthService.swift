@@ -17,6 +17,7 @@ class AuthService {
         let username = userRequest.username
         let email = userRequest.email
         let password = userRequest.password
+        let userId = userRequest.userId
 
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
@@ -34,7 +35,8 @@ class AuthService {
                 .document(resultUser.uid)
                 .setData([
                     "username": username,
-                    "email": email
+                    "email": email,
+                    "userId": resultUser.uid
                 ]) { error in
                     if let error = error {
                         completion(false, error)

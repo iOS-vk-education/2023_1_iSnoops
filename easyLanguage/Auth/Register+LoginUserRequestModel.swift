@@ -11,6 +11,7 @@ struct RegisterUserRequest {
     let username: String
     let email: String
     let password: String
+    let userId: String
 }
 
 struct LoginUserRequest {
