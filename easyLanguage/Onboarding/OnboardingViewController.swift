@@ -9,7 +9,7 @@ import UIKit
 
 struct OnboardingSlide {
     let title: String
-    let image: UIImage
+    let image: UIImage?
 }
 
 final class OnboardingViewController: UIViewController {
@@ -61,11 +61,11 @@ private extension OnboardingViewController {
 
         slides = [
             OnboardingSlide(title: NSLocalizedString("gameplayLanguageLearningTitle", comment: ""),
-                            image: UIImage(named: "Onboarding_1")!),
+                            image: UIImage(named: "OnboardingIcon")),
             OnboardingSlide(title: NSLocalizedString("createCustomCategoriesTitle", comment: ""),
-                            image: UIImage(named: "Onboarding_2")!),
+                            image: UIImage(named: "OnboardingCategories")),
             OnboardingSlide(title: NSLocalizedString("swipeBasedLanguageLearningTitle", comment: ""),
-                            image: UIImage(named: "Onboarding_3")!)
+                            image: UIImage(named: "OnboardingLearning"))
         ]
 
         setPageControlAppearance()
@@ -76,10 +76,11 @@ private extension OnboardingViewController {
         pageControl.numberOfPages = slides.count
         pageControl.currentPageIndicatorTintColor = .PrimaryColors.Button.blue
         pageControl.pageIndicatorTintColor = .systemGray4
+        pageControl.addTarget(self, action: #selector(pageControlValueChanged), for: .valueChanged)
     }
 
     func setNextButtonAppearance() {
-        nextButton.setTitle(NSLocalizedString("nextButtonStartTitle", comment: ""), for: .normal)
+        nextButton.setTitle(NSLocalizedString("nextButtonContinueTitle", comment: ""), for: .normal)
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         nextButton.backgroundColor = .PrimaryColors.Button.blue
         nextButton.setTitleColor(.white, for: .normal)
@@ -99,6 +100,14 @@ private extension OnboardingViewController {
             let indexPath = IndexPath(item: currentPage, section: 0)
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         }
+    }
+
+    @objc
+    private func pageControlValueChanged() {
+        let newPage = pageControl.currentPage
+        let indexPath = IndexPath(item: newPage, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        currentPage = newPage
     }
 }
 
