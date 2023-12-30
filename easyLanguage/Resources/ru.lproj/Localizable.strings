@@ -58,6 +58,7 @@
 "descriptionText" = "Нажмите на карточку, чтобы увидеть перевод слова";
 "correctText" = "Знаю:";
 "incorrectText" = "Не знаю:";
+"emptyWordsLabel" = "Вы выучили все слова!";
 
 //MARK: - AlertManager
 "alertButton" = "Назад";

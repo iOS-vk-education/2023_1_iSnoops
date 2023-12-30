@@ -8,8 +8,8 @@
 
 import UIKit
 
-protocol AddNewCategoryOutput {
-    func didTapButton()
+protocol AddNewCategoryOutput: AnyObject {
+    func reloadData(with categoryModel: CategoryUIModel)
 }
 
 final class AddNewCategoryViewController: UIViewController {
@@ -19,6 +19,11 @@ final class AddNewCategoryViewController: UIViewController {
     private let button: UIButton = UIButton()
     private let imagePicker = ImagePicker()
     private var horizontalPadding: CGFloat = 0
+
+    private let model = AddNewCategoryModel()
+    private var selectedImage: UIImage?
+
+    weak var delegate: AddNewCategoryOutput?
 }
 
 extension AddNewCategoryViewController {
@@ -46,7 +51,28 @@ extension AddNewCategoryViewController {
     func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
             self?.imageView.image = image
+            self?.selectedImage = image
         }
+    }
+
+    @objc
+    func didTapButton() {
+        guard let enteredText = textField.text, !enteredText.isEmpty else {
+            print("empty field")
+            return
+        }
+
+        model.createNewCategory(with: enteredText, categoryImage: selectedImage) { [weak self] result in
+            switch result {
+            case .success(let categoryUIModel):
+                self?.delegate?.reloadData(with: categoryUIModel)
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+        textField.text = nil
+        dismiss(animated: true)
     }
 }
 
@@ -138,17 +164,5 @@ private extension AddNewCategoryViewController {
                                                constant: -horizontalPadding).isActive = true
         button.heightAnchor.constraint(equalToConstant:
                                                view.bounds.height / 15).isActive = true
-    }
-}
-// MARK: - AddCategoryTaps
-extension AddNewCategoryViewController: AddNewCategoryOutput {
-    @objc
-    func didTapButton() {
-        guard let enteredText = textField.text, !enteredText.isEmpty else {
-            // TODO: - сделать проверку на существующую категорию, пробрасывать ошибку, если возможно
-            return
-        }
-        textField.text = nil
-        dismiss(animated: true)
     }
 }

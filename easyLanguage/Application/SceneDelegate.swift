@@ -25,19 +25,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window?.makeKeyAndVisible()
         
-        if let theme = UserDefaults.standard.string(forKey: "selectedTheme"){
+        UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
+        
+        if let theme = UserDefaults.standard.string(forKey: "selectedTheme") {
             switchTheme(delegate: ChoosingThemeView(), theme: theme)
         }
-//        window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
         self.checkAuthentication()
-//        if !UserDefaults.standard.bool(forKey: "onboardingCompleted") {
-//            window?.rootViewController = OnboardingViewController()
-//        } else {
-//            window?.rootViewController = UINavigationController(rootViewController: RegistrationViewController())
-//
-//        }
-        
     }
+
     private func switchTheme(delegate: switchAndFindButtonDelegate, theme: String) {
         delegate.switchAndFindButton(theme: theme)
     }

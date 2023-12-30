@@ -27,6 +27,7 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
         if let selectedCategory = inputCategories?.getCatalogModel(with: indexPath.item) {
             let categoryDetailViewController = CategoryDetailViewController()
             categoryDetailViewController.set(with: selectedCategory)
+            categoryDetailViewController.delegate = categoryDetailOutput
             navigationController?.pushViewController(categoryDetailViewController, animated: true)
         }
     }
