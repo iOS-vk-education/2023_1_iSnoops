@@ -21,29 +21,30 @@ final class ProfileService: ProfileServiceProtocol {
     private let dataBase = Firestore.firestore()
 
     func loadProfile(completion: @escaping (Result<RegisterUserRequest, Error>) -> Void) {
-        guard let userId = checkAuthentication() else {
-            completion(.failure(AuthErrors.userNotAuthenticated))
-            return
-        }
-        print(userId)
-        dataBase.collection("users").whereField("userId", isEqualTo: userId).getDocuments { querySnapshot, error in
-            if let error = error {
-                completion(.failure(error))
+            guard let userId = checkAuthentication() else {
+                completion(.failure(AuthErrors.userNotAuthenticated))
                 return
             }
-            guard let documents = querySnapshot?.documents, let document = documents.first else {
-                completion(.failure(NetworkError.unexpected))
-                return
-            }
+            print(userId)
+            dataBase.collection("users").document(userId).getDocument { document, error in
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
 
-            do {
-                let profile = try document.data(as: RegisterUserRequest.self)
-                completion(.success(profile))
-            } catch {
-                completion(.failure(error))
+                guard let document = document, document.exists else {
+                    completion(.failure(NetworkError.unexpected))
+                    return
+                }
+
+                do {
+                    let profile = try document.data(as: RegisterUserRequest.self)
+                    completion(.success(profile))
+                } catch {
+                    completion(.failure(error))
+                }
             }
         }
-    }
 
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {

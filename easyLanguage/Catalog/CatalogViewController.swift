@@ -32,33 +32,28 @@ class CatalogViewController: CustomViewController {
                                                                          navigationController: navigationController)
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = NSLocalizedString("wordsTitle", comment: "")
-
+        
         view.addSubview(scrollView)
         setScrollView()
-
+        
         [categoriesViewController.view, progressView, topFiveView].forEach {
             scrollView.addSubview($0)
         }
         addChild(categoriesViewController)
-
+        
         setProgressView()
         setTopFiveView()
-
+        
         setCategoriesView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         loadTopFiveWords()
+        topFiveView.reloadData()
         setProgressWords()
     }
-
-//    override func viewWillAppear() {
-//        super.viewWillAppear()
-//
-//
-//    }
 }
 
 // MARK: - private methods

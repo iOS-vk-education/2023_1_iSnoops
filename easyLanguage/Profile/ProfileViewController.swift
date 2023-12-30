@@ -42,6 +42,11 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
         setAppearanseAndConstraints()
         loadProfile()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        setProgressWords()
+    }
 
     @objc func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
@@ -58,6 +63,19 @@ private extension ProfileViewController {
             case .success(let profile):
                 print(profile)
                 self.userInformationView.setupTextFields(with: profile)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func setProgressWords() {
+        model.loadProgressView { [weak self] result in
+            switch result {
+            case .success(let count):
+                self?.progressView.setupAllLearnedWords(count: count.0)
+                self?.progressView.setupWordsInProgress(count: count.1)
+                self?.progressView.setProgress()
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -115,7 +133,7 @@ private extension ProfileViewController {
                     print(error.localizedDescription)
                 }
             }
-        self.navigationController?.setViewControllers([LoginViewController()], animated: true)
+        self.navigationController?.setViewControllers([RegistrationViewController()], animated: true)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }
