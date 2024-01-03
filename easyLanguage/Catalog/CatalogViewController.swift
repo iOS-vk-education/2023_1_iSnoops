@@ -27,25 +27,27 @@ class CatalogViewController: CustomViewController {
     private let scrollView = UIScrollView()
     private let progressView = ProgressView()
     private lazy var topFiveView: TopFiveView = TopFiveView(inputTopFiveWords: self)
-
     private lazy var categoriesViewController = CategoriesViewController(categorieseOutputDelegate: self,
                                                                          navigationController: navigationController)
+
+    private var categoriesViewHeightConstraint: NSLayoutConstraint?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = NSLocalizedString("wordsTitle", comment: "")
-        
+
         view.addSubview(scrollView)
         setScrollView()
-        
+
         [categoriesViewController.view, progressView, topFiveView].forEach {
             scrollView.addSubview($0)
         }
         addChild(categoriesViewController)
-        
+
         setProgressView()
         setTopFiveView()
-        
+
         setCategoriesView()
     }
 
@@ -111,6 +113,8 @@ private extension CatalogViewController {
         categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        categoriesViewHeightConstraint = categoriesViewController.view.heightAnchor.constraint(equalToConstant: 50)
+        categoriesViewHeightConstraint?.isActive = true
         categoriesViewController.didMove(toParent: self)
     }
 }
@@ -166,8 +170,12 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 
 extension CatalogViewController: CategorieseOutputDelegate {
     func reloadHeight() {
-        print(categoriesViewController.calculateCategoriesCollectionViewHeight())
-        categoriesViewController.view.heightAnchor.constraint(equalToConstant:
-                                 categoriesViewController.calculateCategoriesCollectionViewHeight()).isActive = true
+        guard let heightConstraint = categoriesViewHeightConstraint else {
+            return
+        }
+
+        let newHeight = categoriesViewController.calculateCategoriesCollectionViewHeight()
+        heightConstraint.constant = newHeight
+        scrollView.layoutIfNeeded()
     }
 }

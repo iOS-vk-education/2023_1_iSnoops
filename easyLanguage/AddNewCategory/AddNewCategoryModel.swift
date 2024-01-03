@@ -12,17 +12,21 @@ final class AddNewCategoryModel {
     private let addNewCategoryService = AddNewCategoryService.shared
 
     func createNewCategory(with categoryName: String, categoryImage: UIImage?,
-                           completion: @escaping (Result<CategoryUIModel, Error>) -> Void) {
+                           completion: @escaping (Result<CategoryModel, Error>) -> Void) {
         Task {
             do {
-                let categoryUIModel = CategoryUIModel(title: categoryName,
-                                                      image: categoryImage,
-                                                      studiedWordsCount: 0,
-                                                      totalWordsCount: 0,
-                                                      linkedWordsId: UUID().uuidString)
+                var categoryModel = CategoryModel(title: categoryName,
+                                                  imageLink: nil,
+                                                  studiedWordsCount: 0,
+                                                  totalWordsCount: 0,
+                                                  createdDate: Date(),
+                                                  linkedWordsId: UUID().uuidString,
+                                                  index: nil)
 
-                try await addNewCategoryService.createNewCategory(with: categoryUIModel)
-                completion(.success(categoryUIModel))
+                let imageLink = try await addNewCategoryService.createNewCategory(with: categoryModel,
+                                                                                  image: categoryImage)
+                categoryModel.imageLink = imageLink
+                completion(.success(categoryModel))
             } catch {
                 completion(.failure(error))
             }

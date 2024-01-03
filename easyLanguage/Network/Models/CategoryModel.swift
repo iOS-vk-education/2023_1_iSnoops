@@ -9,7 +9,7 @@ import Foundation
 
 struct CategoryModel {
     let title: String
-    let imageLink: String?
+    var imageLink: String?
     var studiedWordsCount: Int
     var totalWordsCount: Int
     let createdDate: Date
