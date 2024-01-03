@@ -298,15 +298,15 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
 extension CategoriesViewController: AddNewCategoryOutput {
     func addNewCategory(with categoryModel: CategoryModel) {
         DispatchQueue.main.async {
-            // swiftlint:disable line_length
+
             self.categoryModel.append(CategoryModel(title: categoryModel.title,
-                                                    imageLink: categoryModel.imageLink ?? "https://firebasestorage.googleapis.com/v0/b/easylanguage-e6d17.appspot.com/o/categories%2F1E1922CE-61D4-46BE-B2C7-4E12B316CCFA?alt=media&token=80174f66-ee40-4f34-9a35-8d7ed4fbd571",
+                                                    imageLink: categoryModel.imageLink,
                                                     studiedWordsCount: categoryModel.studiedWordsCount,
                                                     totalWordsCount: categoryModel.totalWordsCount,
                                                     createdDate: categoryModel.createdDate,
                                                     linkedWordsId: categoryModel.linkedWordsId,
                                                     index: self.categoryModel.count + 1))
-            // swiftlint:enable line_length
+
             self.categorieseOutputDelegate?.reloadHeight()
             self.categoriesCollectionView.reloadData()
         }
