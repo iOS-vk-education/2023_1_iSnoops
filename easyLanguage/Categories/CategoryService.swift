@@ -18,6 +18,7 @@ protocol CatalogNetworkManagerProtocol {
 final class CategoryService: CatalogNetworkManagerProtocol {
 
     static let shared: CatalogNetworkManagerProtocol = CategoryService()
+    private init() {}
 
     private let dataBase = Firestore.firestore()
 

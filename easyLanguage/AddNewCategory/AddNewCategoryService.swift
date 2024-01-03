@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 protocol AddNewCategoryServiceProtocol {
-    func createNewCategory(with category: CategoryUIModel) async throws
+    func createNewCategory(with category: CategoryModel, image: UIImage?) async throws -> String?
 }
 
 final class AddNewCategoryService: AddNewCategoryServiceProtocol {
@@ -21,24 +21,25 @@ final class AddNewCategoryService: AddNewCategoryServiceProtocol {
     private let imageManager = ImageManager.shared
     private let dataBase = Firestore.firestore()
 
-    func createNewCategory(with category: CategoryUIModel) async throws {
-        let uploadCategory = try await postCategory(with: category)
+    func createNewCategory(with category: CategoryModel, image: UIImage?) async throws -> String? {
+        let uploadCategory = try await postCategory(with: category, image: image)
         try await addDocumentToFireBase(dict: uploadCategory)
+        return uploadCategory["imageLink"] as? String
     }
 
-    private func postCategory(with category: CategoryUIModel) async throws -> [String: Any] {
+    private func postCategory(with category: CategoryModel, image: UIImage?) async throws -> [String: Any] {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
         }
 
         var categoryDict: [String: Any] = [
             "title": category.title,
-            "createdDate": Date(),
+            "createdDate": category.createdDate,
             "linkedWordsId": category.linkedWordsId,
             "profileId": userId
         ]
 
-        if let image = category.image {
+        if let image = image {
             let imageUrl = try await uploadCategoryImage(with: image)
             categoryDict["imageLink"] = imageUrl.absoluteString
         }

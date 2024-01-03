@@ -296,16 +296,17 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
 }
 
 extension CategoriesViewController: AddNewCategoryOutput {
-    func reloadData(with categoryUIModel: CategoryUIModel) {
+    func addNewCategory(with categoryModel: CategoryModel) {
         DispatchQueue.main.async {
-            print(self.categoryModel.count)
-            self.categoryModel.append(CategoryModel(title: categoryUIModel.title,
-                                                    imageLink: "",
-                                                    studiedWordsCount: categoryUIModel.studiedWordsCount,
-                                                    totalWordsCount: categoryUIModel.totalWordsCount,
-                                                    createdDate: Date(),
-                                                    linkedWordsId: categoryUIModel.linkedWordsId,
+
+            self.categoryModel.append(CategoryModel(title: categoryModel.title,
+                                                    imageLink: categoryModel.imageLink,
+                                                    studiedWordsCount: categoryModel.studiedWordsCount,
+                                                    totalWordsCount: categoryModel.totalWordsCount,
+                                                    createdDate: categoryModel.createdDate,
+                                                    linkedWordsId: categoryModel.linkedWordsId,
                                                     index: self.categoryModel.count + 1))
+
             self.categorieseOutputDelegate?.reloadHeight()
             self.categoriesCollectionView.reloadData()
         }
