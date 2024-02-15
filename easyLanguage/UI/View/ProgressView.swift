@@ -89,9 +89,9 @@ private extension ProgressView {
     }
 
     func setPercentageLabelAppearance() {
-        percentageLabel.font = TextStyle.bodySmall.font
+        percentageLabel.font = TextStyle.bodyMedium.font
         percentageLabel.textAlignment = .center
-        percentageLabel.textColor = .black
+        percentageLabel.textColor = .Catalog.Green.categoryText
     }
 
     func setProgressView() {
@@ -99,13 +99,12 @@ private extension ProgressView {
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         progressView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: UIConstants.ProgressLineView.height).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
 
     func setAdviceLabel() {
         adviceLabel.translatesAutoresizingMaskIntoConstraints = false
-        adviceLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor,
-                                         constant: UIConstants.AdviceLabel.top).isActive = true
+        adviceLabel.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 6).isActive = true
         adviceLabel.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         adviceLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         adviceLabel.sizeToFit()
@@ -130,20 +129,8 @@ private extension ProgressView {
 }
 
 // MARK: - Constants
-// swiftlint:disable nesting
 private extension ProgressView {
     struct Consts {
-        static let cornerRadius: CGFloat = 6
-    }
-
-    struct UIConstants {
-        struct ProgressLineView {
-            static let height: CGFloat = 12.0
-        }
-
-        struct AdviceLabel {
-            static let top: CGFloat = 5.0
-        }
+        static let cornerRadius: CGFloat = 8
     }
 }
-// swiftlint:enable nesting

@@ -32,20 +32,20 @@ class CatalogViewController: CustomViewController {
                                                                          navigationController: navigationController)
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         title = NSLocalizedString("wordsTitle", comment: "")
-        
+
         view.addSubview(scrollView)
         setScrollView()
-        
+
         [categoriesViewController.view, progressView, topFiveView].forEach {
             scrollView.addSubview($0)
         }
         addChild(categoriesViewController)
-        
+
         setProgressView()
         setTopFiveView()
-        
+
         setCategoriesView()
     }
 
@@ -97,8 +97,7 @@ private extension CatalogViewController {
 
     func setTopFiveView() {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
-        topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
-                                         constant: UIConstants.TopFiveView.top).isActive = true
+        topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor, constant: 18).isActive = true
         topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         topFiveView.heightAnchor.constraint(equalToConstant: view.frame.height / 4.5).isActive = true
@@ -106,8 +105,7 @@ private extension CatalogViewController {
 
     func setCategoriesView() {
         categoriesViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        categoriesViewController.view.topAnchor.constraint(equalTo: topFiveView.bottomAnchor,
-                                            constant: UIConstants.CategoriesView.top).isActive = true
+        categoriesViewController.view.topAnchor.constraint(equalTo: topFiveView.bottomAnchor).isActive = true
         categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
@@ -120,15 +118,6 @@ private extension CatalogViewController {
     struct UIConstants {
         struct ProgressView {
             static let padding: CGFloat = 18.0
-        }
-
-        struct TopFiveView {
-            static let top: CGFloat = 12.0
-            static let left: CGFloat = 18.0
-        }
-
-        struct CategoriesView {
-            static let top: CGFloat = 12.0
         }
     }
 }
