@@ -13,11 +13,16 @@ protocol InputWordsDelegate: AnyObject {
     var index: Int { get }
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void)
     func changeIsLearned(with number: Int, isLearned: Bool)
+    func showAlert(with id: String)
 }
 
 protocol CategoryDetailOutput: AnyObject {
-    func updateTotalCountWords(with linkedWordsId: String)
-    func updateLearnedCountWords(with linkedWordsId: String, isLearned: Bool)
+    func updateCountWords(with linkedWordsId: String,
+                          changeTotalCount: Bool,
+                          changeLearnedCount: Bool,
+                          isLearned: Bool,
+                          isDeleted: Bool
+    )
 }
 
 final class CategoryDetailViewController: CustomViewController {
@@ -141,13 +146,66 @@ extension CategoryDetailViewController: InputWordsDelegate {
 
     func changeIsLearned(with number: Int, isLearned: Bool) {
         model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned)
-        delegate?.updateLearnedCountWords(with: wordsModel[number].categoryId, isLearned: isLearned)
+
+        self.delegate?.updateCountWords(with: wordsModel[number].categoryId,
+                                        changeTotalCount: false,
+                                        changeLearnedCount: true,
+                                        isLearned: isLearned,
+                                        isDeleted: false
+                                        )
+    }
+
+    func showAlert(with id: String) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        // FIXME: - change title
+        let deleteAction = UIAlertAction(title: "Delete Word", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            self.model.deleteWord(with: id, comletion: { result in
+                switch result {
+                case .success:
+                    guard let index = self.wordsModel.firstIndex(where: { $0.id == id }) else {
+                        print("не найдено слово :(")
+                        return
+                    }
+                    let categoryId = self.wordsModel[index].categoryId
+                    let isLearned = self.wordsModel[index].isLearned
+
+                    DispatchQueue.main.async {
+                        self.delegate?.updateCountWords(with: categoryId,
+                                                        changeTotalCount: true,
+                                                        changeLearnedCount: isLearned,
+                                                        isLearned: false,
+                                                        isDeleted: true
+                                                        )
+                        self.wordsModel.removeAll(where: { $0.id == id })
+                        self.collectionView.reloadData()
+                    }
+                case .failure(let error):
+                    // TODO: - add alert
+                    print(error.localizedDescription)
+                }
+            })
+        }
+
+        // FIXME: - change title
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+        }
+
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
 extension CategoryDetailViewController: AddNewWordOutput {
     func didCreateWord(with categoryId: String) {
         loadWords()
-        delegate?.updateTotalCountWords(with: categoryId)
+        delegate?.updateCountWords(with: categoryId,
+                                        changeTotalCount: true,
+                                        changeLearnedCount: false,
+                                        isLearned: false,
+                                        isDeleted: false
+                                        )
     }
 }

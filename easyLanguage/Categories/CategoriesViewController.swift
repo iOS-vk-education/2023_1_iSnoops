@@ -313,21 +313,21 @@ extension CategoriesViewController: AddNewCategoryOutput {
 }
 
 extension CategoriesViewController: CategoryDetailOutput {
-    func updateTotalCountWords(with linkedWordsId: String) {
+    func updateCountWords(with linkedWordsId: String,
+                          changeTotalCount: Bool,
+                          changeLearnedCount: Bool,
+                          isLearned: Bool,
+                          isDeleted: Bool
+    ) {
         if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
-            categoryModel[index].totalWordsCount += 1
-            let indexPath = IndexPath(item: index, section: 0)
-            categoriesCollectionView.reloadItems(at: [indexPath])
-        }
-    }
-
-    func updateLearnedCountWords(with linkedWordsId: String, isLearned: Bool) {
-        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
-            if isLearned {
-                categoryModel[index].studiedWordsCount += 1
-            } else {
-                categoryModel[index].studiedWordsCount -= 1
+            if changeTotalCount {
+                categoryModel[index].totalWordsCount += isDeleted ? -1 : +1
             }
+
+            if changeLearnedCount {
+                categoryModel[index].studiedWordsCount += isLearned ? 1 : -1
+            }
+
             let indexPath = IndexPath(item: index, section: 0)
             categoriesCollectionView.reloadItems(at: [indexPath])
         }
