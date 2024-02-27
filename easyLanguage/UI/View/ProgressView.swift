@@ -99,7 +99,7 @@ private extension ProgressView {
         progressView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         progressView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         progressView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        progressView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        progressView.heightAnchor.constraint(equalToConstant: Consts.height).isActive = true
     }
 
     func setAdviceLabel() {
@@ -131,6 +131,7 @@ private extension ProgressView {
 // MARK: - Constants
 private extension ProgressView {
     struct Consts {
+        static let height: CGFloat = 20
         static let cornerRadius: CGFloat = 8
     }
 }
