@@ -23,10 +23,10 @@ protocol CategoryDetailOutput: AnyObject {
 final class CategoryDetailViewController: CustomViewController {
     private let noWordsLabel: UILabel = {
         let label = UILabel()
-        //TODO: - локализация
-        label.text = "Нет слов в категории. Добавьте их сверху."
-        label.textColor = .gray
+        label.text =  NSLocalizedString("emptyCategoryAdvice", comment: "")
+        label.textColor = .PrimaryColors.Font.secondary
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 
@@ -120,11 +120,8 @@ private extension CategoryDetailViewController {
 
     func setNoWordsLabel() {
         noWordsLabel.translatesAutoresizingMaskIntoConstraints = false
-        noWordsLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 2).isActive = true
-        noWordsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                              constant: UIConstants.horizontally).isActive = true
-        noWordsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                               constant: -UIConstants.horizontally).isActive = true
+        noWordsLabel.topAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        noWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         noWordsLabel.sizeToFit()
     }
 
