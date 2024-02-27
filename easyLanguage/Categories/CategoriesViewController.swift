@@ -7,6 +7,14 @@
 
 import UIKit
 
+struct UpdateCountWordsParameters {
+    let linkedWordsId: String
+    let changeTotalCount: Bool
+    let changeLearnedCount: Bool
+    let isLearned: Bool
+    let isDeleted: Bool
+}
+
 protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
     func getCatalogModel(with index: Int) -> CategoryModel
@@ -313,19 +321,14 @@ extension CategoriesViewController: AddNewCategoryOutput {
 }
 
 extension CategoriesViewController: CategoryDetailOutput {
-    func updateCountWords(with linkedWordsId: String,
-                          changeTotalCount: Bool,
-                          changeLearnedCount: Bool,
-                          isLearned: Bool,
-                          isDeleted: Bool
-    ) {
-        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == linkedWordsId }) {
-            if changeTotalCount {
-                categoryModel[index].totalWordsCount += isDeleted ? -1 : +1
+    func updateCountWords(with parameters: UpdateCountWordsParameters) {
+        if let index = categoryModel.firstIndex(where: { $0.linkedWordsId == parameters.linkedWordsId }) {
+            if parameters.changeTotalCount {
+                categoryModel[index].totalWordsCount += parameters.isDeleted ? -1 : 1
             }
 
-            if changeLearnedCount {
-                categoryModel[index].studiedWordsCount += isLearned ? 1 : -1
+            if parameters.changeLearnedCount {
+                categoryModel[index].studiedWordsCount += parameters.isLearned ? 1 : -1
             }
 
             let indexPath = IndexPath(item: index, section: 0)

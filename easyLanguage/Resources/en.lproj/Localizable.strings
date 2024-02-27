@@ -18,6 +18,10 @@
 "sortByName" = "By Name";
 "sortCancel" = "Cancel";
 
+//MARK: - CategoryDetail
+"detailCancel" = "Cancel";
+"detailDelete" = "Delete word";
+
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Add Photo";
 "addCategoryButtonTitle" = "Add Category";

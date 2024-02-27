@@ -219,6 +219,6 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
     }
 
     private func showDeleteConfirmation() {
-        delegate?.showAlert(with: wordUIModel?.id ?? "")
+        delegate?.showActionSheet(with: wordUIModel?.id ?? "")
     }
 }
