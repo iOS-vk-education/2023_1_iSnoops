@@ -127,13 +127,16 @@ private extension ProfileViewController {
     func didTapLogOutButton() {
         let alertController = UIAlertController(title: NSLocalizedString("alertTitle", comment: ""),
             message: NSLocalizedString("alertQuestion", comment: ""), preferredStyle: .alert)
-    let logOutAction = UIAlertAction(title: NSLocalizedString("alertExit", comment: ""), style: .destructive) {_ in
+        let logOutAction = UIAlertAction(title: NSLocalizedString("alertExit", comment: ""), style: .destructive) {_ in
             AuthService.shared.signOut { error in
                 if let error = error {
                     print(error.localizedDescription)
                 }
             }
-        self.navigationController?.setViewControllers([RegistrationViewController()], animated: true)
+            let controller = RegistrationViewController()
+            controller.modalPresentationStyle = .fullScreen
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.setViewControllers([RegistrationViewController()], animated: true)
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }
