@@ -113,7 +113,10 @@ private extension CatalogViewController {
         categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        categoriesViewHeightConstraint = categoriesViewController.view.heightAnchor.constraint(equalToConstant: 50)
+
+        let categoriesHeightConstraint = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
+        categoriesViewHeightConstraint = categoriesViewController.view.heightAnchor
+            .constraint(equalToConstant: categoriesHeightConstraint)
         categoriesViewHeightConstraint?.isActive = true
         categoriesViewController.didMove(toParent: self)
     }
@@ -171,6 +174,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 extension CatalogViewController: CategorieseOutputDelegate {
     func reloadHeight() {
         guard let heightConstraint = categoriesViewHeightConstraint else {
+            //TODO: - пробросить ошибку
             return
         }
 
