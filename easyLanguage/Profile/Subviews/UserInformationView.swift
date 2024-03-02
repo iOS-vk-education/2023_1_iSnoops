@@ -15,7 +15,6 @@ protocol UserInformationViewDelegate: AnyObject {
     func didTapImage()
 }
 
-
 final class UserInformationView: UIView {
     // MARK: - Init components
     private var imageView = UIImageView()

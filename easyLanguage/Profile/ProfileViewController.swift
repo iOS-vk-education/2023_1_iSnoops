@@ -133,16 +133,22 @@ private extension ProfileViewController {
                     print(error.localizedDescription)
                 }
             }
-            let controller = RegistrationViewController()
-            controller.modalPresentationStyle = .fullScreen
-            self.tabBarController?.tabBar.isHidden = true
-            self.navigationController?.setViewControllers([RegistrationViewController()], animated: true)
+            self.logout()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }
         alertController.addAction(cancelAction)
         alertController.addAction(logOutAction)
         self.present(alertController, animated: true)
+    }
+
+    func logout() {
+        let controller = RegistrationViewController()
+        controller.modalPresentationStyle = .fullScreen
+        let navigation = UINavigationController(rootViewController: controller)
+        guard let window = UIApplication.shared.windows.first else { return }
+        window.rootViewController = navigation
+        window.makeKeyAndVisible()
     }
 
     // MARK: - Layouts

@@ -27,8 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
         if let theme = UserDefaults.standard.string(forKey: "selectedTheme") {
             switchTheme(delegate: ChoosingThemeView(), theme: theme)
-        }
-        else {
+        } else {
             UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
             switchTheme(delegate: ChoosingThemeView(), theme: NSLocalizedString("lightThemeLabel", comment: ""))
         }

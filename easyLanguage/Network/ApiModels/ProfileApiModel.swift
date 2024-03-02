@@ -22,12 +22,12 @@ struct ProfileApiModel: Codable {
         else {
             return nil
         }
-        
+
         self.profileId = userId
         self.name = username
         self.email = email
         self.imageLink = "MOCK"
-        self.systemMode = .lightTheme //MOCK в целом идея хранить на бэке тему мне не нрав но править модельку я не решился :)
+        self.systemMode = .lightTheme
     }
 }
 

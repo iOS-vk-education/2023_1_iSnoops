@@ -25,7 +25,7 @@ final class ProfileService: ProfileServiceProtocol {
                 completion(.failure(AuthErrors.userNotAuthenticated))
                 return
             }
-        dataBase.collection("users").document(userId).getDocument { document, error in
+            dataBase.collection("users").document(userId).getDocument { document, error in
                 if let error = error {
                     completion(.failure(error))
                     return
@@ -35,9 +35,13 @@ final class ProfileService: ProfileServiceProtocol {
                     completion(.failure(NetworkError.unexpected))
                     return
                 }
-            let profile = ProfileApiModel(dict: document.data()!)
-            
-            completion(.success(profile!))
+    
+                do {
+                    let profile = ProfileApiModel(dict: document.data()!)
+                    completion(.success(profile!))
+                } catch {
+                    completion(.failure(NetworkError.unexpected))
+                }
             }
         }
 
