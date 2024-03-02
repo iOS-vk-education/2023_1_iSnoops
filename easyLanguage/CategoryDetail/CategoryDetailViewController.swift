@@ -21,6 +21,15 @@ protocol CategoryDetailOutput: AnyObject {
 }
 
 final class CategoryDetailViewController: CustomViewController {
+    private let noWordsLabel: UILabel = {
+        let label = UILabel()
+        label.text =  NSLocalizedString("emptyCategoryAdvice", comment: "")
+        label.textColor = .PrimaryColors.Font.secondary
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+
     private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
     private var wordsModel = [WordUIModel]()
     private let model = CategoryDetailModel()
@@ -31,10 +40,13 @@ final class CategoryDetailViewController: CustomViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(collectionView)
+        [collectionView, noWordsLabel].forEach {
+            view.addSubview($0)
+        }
 
         loadWords()
         setNavBar()
+        setNoWordsLabel()
         setCollectionView()
     }
 
@@ -85,6 +97,9 @@ private extension CategoryDetailViewController {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
+                if !wordsModel.isEmpty {
+                    noWordsLabel.isHidden = true
+                }
             case .failure(let error):
                 AlertManager.showDataLoadErrorAlert(on: self)
                 print("[DEBUG]: \(#function), \(error.localizedDescription)")
@@ -101,6 +116,13 @@ private extension CategoryDetailViewController {
                                                  target: self,
                                                  action: #selector(tappedAddWord))
         navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+
+    func setNoWordsLabel() {
+        noWordsLabel.translatesAutoresizingMaskIntoConstraints = false
+        noWordsLabel.topAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        noWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        noWordsLabel.sizeToFit()
     }
 
     func setCollectionView() {
