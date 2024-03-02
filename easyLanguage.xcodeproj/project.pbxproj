@@ -43,13 +43,13 @@
 		078FA6302B2CC6B3007166DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA62F2B2CC6B3007166DB /* FirebaseAuth */; };
 		078FA63C2B2CC6B3007166DB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA63B2B2CC6B3007166DB /* FirebaseFirestore */; };
 		078FA65A2B2DA74F007166DB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA6592B2DA74F007166DB /* FirebaseStorage */; };
-		0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */; };
-		0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */; };
 		0799EDA92B3C9C3000C0C04F /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDA82B3C9C3000C0C04F /* ProfileModel.swift */; };
 		0799EDAB2B3C9C3A00C0C04F /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDAA2B3C9C3A00C0C04F /* ProfileService.swift */; };
 		0799EDB12B3CC71300C0C04F /* AuthErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDB02B3CC71300C0C04F /* AuthErrors.swift */; };
 		0799EDB32B3CCA3D00C0C04F /* AddNewCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDB22B3CCA3D00C0C04F /* AddNewCategoryModel.swift */; };
 		0799EDB52B3CCA4300C0C04F /* AddNewCategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDB42B3CCA4300C0C04F /* AddNewCategoryService.swift */; };
+		0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */; };
+		0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */; };
 		07A4DDB82B34BC4A003A9596 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07A4DDBA2B34BC4A003A9596 /* Localizable.strings */; };
 		07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */; };
 		07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */; };
@@ -125,11 +125,11 @@
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
 		0799EDA82B3C9C3000C0C04F /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		0799EDAA2B3C9C3A00C0C04F /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
-		0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewService.swift; sourceTree = "<group>"; };
-		0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
 		0799EDB02B3CC71300C0C04F /* AuthErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrors.swift; sourceTree = "<group>"; };
 		0799EDB22B3CCA3D00C0C04F /* AddNewCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryModel.swift; sourceTree = "<group>"; };
 		0799EDB42B3CCA4300C0C04F /* AddNewCategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryService.swift; sourceTree = "<group>"; };
+		0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewService.swift; sourceTree = "<group>"; };
+		0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
 		07A4DDB92B34BC4A003A9596 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07A4DDBB2B34BC56003A9596 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
@@ -899,7 +899,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FN2R38CS4G;
+				DEVELOPMENT_TEAM = X3GHGN4X8V;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = easyLanguage/Resources/Info.plist;
@@ -930,7 +930,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = FN2R38CS4G;
+				DEVELOPMENT_TEAM = X3GHGN4X8V;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = easyLanguage/Resources/Info.plist;
