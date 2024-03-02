@@ -19,6 +19,9 @@
 "sortByName" = "Названию";
 "sortCancel" = "Вернуться";
 
+//MARK: - CategoryDetail
+"emptyCategoryAdvice" = "Нет слов в категории.\n Добавьте их по тапу на +";
+
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Добавить фото";
 "addCategoryButtonTitle" = "Добавить категорию";

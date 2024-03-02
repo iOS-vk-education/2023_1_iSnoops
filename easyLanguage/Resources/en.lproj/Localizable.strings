@@ -18,11 +18,13 @@
 "sortByName" = "By Name";
 "sortCancel" = "Cancel";
 
+//MARK: - CategoryDetail
+"emptyCategoryAdvice" = "There are no words in the category.\nAdd them by tapping +";
+
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Add Photo";
 "addCategoryButtonTitle" = "Add Category";
 "categoryNamePlaceholder" = "Category Name";
-
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";
