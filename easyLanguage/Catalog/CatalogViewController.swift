@@ -37,7 +37,6 @@ class CatalogViewController: CustomViewController {
 
         title = NSLocalizedString("wordsTitle", comment: "")
 
-        view.addSubview(scrollView)
         setScrollView()
 
         [categoriesViewController.view, progressView, topFiveView].forEach {
@@ -77,6 +76,8 @@ private extension CatalogViewController {
     }
 
     func setScrollView() {
+        view.addSubview(scrollView)
+
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -87,20 +88,20 @@ private extension CatalogViewController {
     func setProgressView() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.topAnchor.constraint(equalTo: scrollView.topAnchor,
-                                          constant: UIConstants.ProgressView.padding).isActive = true
+                                          constant: UIConstants.padding).isActive = true
         progressView.leftAnchor.constraint(equalTo: scrollView.leftAnchor,
-                                           constant: UIConstants.ProgressView.padding).isActive = true
+                                           constant: UIConstants.padding).isActive = true
         progressView.rightAnchor.constraint(equalTo: scrollView.rightAnchor,
-                                            constant: -UIConstants.ProgressView.padding).isActive = true
+                                            constant: -UIConstants.padding).isActive = true
         progressView.widthAnchor.constraint(equalTo: scrollView.widthAnchor,
-                                            constant: -UIConstants.ProgressView.padding * 2).isActive = true
+                                            constant: -UIConstants.padding * 2).isActive = true
         progressView.heightAnchor.constraint(equalToConstant: view.bounds.height / 25).isActive = true
     }
 
     func setTopFiveView() {
         topFiveView.translatesAutoresizingMaskIntoConstraints = false
         topFiveView.topAnchor.constraint(equalTo: progressView.bottomAnchor,
-                                         constant: UIConstants.TopFiveView.top).isActive = true
+                                         constant: UIConstants.padding).isActive = true
         topFiveView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         topFiveView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         topFiveView.heightAnchor.constraint(equalToConstant: view.frame.height / 4.5).isActive = true
@@ -108,8 +109,7 @@ private extension CatalogViewController {
 
     func setCategoriesView() {
         categoriesViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        categoriesViewController.view.topAnchor.constraint(equalTo: topFiveView.bottomAnchor,
-                                            constant: UIConstants.CategoriesView.top).isActive = true
+        categoriesViewController.view.topAnchor.constraint(equalTo: topFiveView.bottomAnchor).isActive = true
         categoriesViewController.view.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
         categoriesViewController.view.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
         categoriesViewController.view.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
@@ -122,24 +122,11 @@ private extension CatalogViewController {
     }
 }
 // MARK: - UIConstants
-// swiftlint:disable nesting
 private extension CatalogViewController {
     struct UIConstants {
-        struct ProgressView {
-            static let padding: CGFloat = 18.0
-        }
-
-        struct TopFiveView {
-            static let top: CGFloat = 12.0
-            static let left: CGFloat = 18.0
-        }
-
-        struct CategoriesView {
-            static let top: CGFloat = 12.0
-        }
+        static let padding: CGFloat = 18.0
     }
 }
-// swiftlint:enable nesting
 
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
