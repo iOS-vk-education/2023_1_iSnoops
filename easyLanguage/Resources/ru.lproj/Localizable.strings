@@ -5,6 +5,8 @@
   Created by Grigoriy on 21.12.2023.
   
 */
+//MARK: - Actions
+"cancel" = "Отмена";
 
 //MARK: - Catalog
 "wordsTitle" = "Слова";
@@ -20,7 +22,6 @@
 "sortCancel" = "Вернуться";
 
 //MARK: - CategoryDetail
-"detailCancel" = "Отмена";
 "detailDelete" = "Удалить слово";
 
 //MARK: - AddNewCategory
@@ -75,3 +76,4 @@
 "registrationErrorAlert" = "Неизвестная ошибка при регистрации";
 "signInErrorAlert" = "Не удалось войти в аккаунт";
 "dataLoadErrorAlert" = "Не удалось загрузить данные";
+"wordDeleteAlert" = "Ошибка при удалении слова";

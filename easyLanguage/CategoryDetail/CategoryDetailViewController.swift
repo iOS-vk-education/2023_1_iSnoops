@@ -175,6 +175,7 @@ extension CategoryDetailViewController: InputWordsDelegate {
             case .success:
                 self.handleSuccessfulDeletion(with: id)
             case .failure(let error):
+                AlertManager.showWordDeleteAlert(on: self)
                 print(error.localizedDescription)
             }
         }
@@ -204,7 +205,7 @@ extension CategoryDetailViewController: InputWordsDelegate {
     }
 
     private func addActionToCancel(to alertController: UIAlertController) {
-        let cancelAction = UIAlertAction(title: NSLocalizedString("detailCancel", comment: ""), style: .cancel) { _ in }
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel) { _ in }
         alertController.addAction(cancelAction)
     }
 }
