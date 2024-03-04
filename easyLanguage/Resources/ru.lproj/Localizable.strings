@@ -71,3 +71,5 @@
 "registrationErrorAlert" = "Неизвестная ошибка при регистрации";
 "signInErrorAlert" = "Не удалось войти в аккаунт";
 "dataLoadErrorAlert" = "Не удалось загрузить данные";
+"addNewCategoryAlert" = "Ошибка добавления категории";
+"reloadHeightAlert" = "Ошибка обновления высоты";

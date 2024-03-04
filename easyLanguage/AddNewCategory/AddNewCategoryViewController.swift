@@ -65,11 +65,11 @@ extension AddNewCategoryViewController {
         model.createNewCategory(with: enteredText, image: selectedImage) { [weak self] result in
             switch result {
             case .success(let categoryModel):
-                guard let self else {
-                    // TODO: - пробросить ошибку
+                guard let self = self, let delegate = self.delegate else {
+                    AlertManager.showAddNewCategoryAlert(on: self ?? Self())
                     return
                 }
-                self.delegate?.addNewCategory(with: categoryModel)
+                delegate.addNewCategory(with: categoryModel)
             case .failure(let error):
                 print(error)
             }

@@ -174,7 +174,7 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
 extension CatalogViewController: CategorieseOutputDelegate {
     func reloadHeight() {
         guard let heightConstraint = categoriesViewHeightConstraint else {
-            //TODO: - пробросить ошибку
+            AlertManager.showReloadHeightAlert(on: self)
             return
         }
 
