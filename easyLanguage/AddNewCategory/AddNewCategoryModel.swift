@@ -9,20 +9,16 @@ import UIKit
 
 final class AddNewCategoryModel {
 
-    private let addNewCategoryService = AddNewCategoryService.shared
+    private let service = AddNewCategoryService.shared
 
-    func createNewCategory(with categoryName: String, categoryImage: UIImage?,
-                           completion: @escaping (Result<CategoryUIModel, Error>) -> Void) {
+    func createNewCategory(with categoryName: String, image: UIImage?,
+                           completion: @escaping (Result<CategoryModel, Error>) -> Void) {
         Task {
             do {
-                let categoryUIModel = CategoryUIModel(title: categoryName,
-                                                      image: categoryImage,
-                                                      studiedWordsCount: 0,
-                                                      totalWordsCount: 0,
-                                                      linkedWordsId: UUID().uuidString)
-
-                try await addNewCategoryService.createNewCategory(with: categoryUIModel)
-                completion(.success(categoryUIModel))
+                var categoryModel = CategoryModel(title: categoryName)
+                let imageLink = try await service.createNewCategory(with: categoryModel, image: image)
+                categoryModel.imageLink = imageLink
+                completion(.success(categoryModel))
             } catch {
                 completion(.failure(error))
             }

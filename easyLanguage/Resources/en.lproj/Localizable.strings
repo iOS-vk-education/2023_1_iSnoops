@@ -73,3 +73,5 @@
 "registrationErrorAlert" = "Unknown error during registration";
 "signInErrorAlert" = "Failed to login";
 "dataLoadErrorAlert" = "Failed to load data";
+"addNewCategoryAlert" = "Error adding category";
+"reloadHeightAlert" = "Height update error";
