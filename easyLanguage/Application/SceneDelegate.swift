@@ -24,11 +24,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = TabBarController()
         
         self.window?.makeKeyAndVisible()
-        
-        UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
-        
+                
         if let theme = UserDefaults.standard.string(forKey: "selectedTheme") {
             switchTheme(delegate: ChoosingThemeView(), theme: theme)
+        } else {
+            UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
+            switchTheme(delegate: ChoosingThemeView(), theme: NSLocalizedString("lightThemeLabel", comment: ""))
         }
         self.checkAuthentication()
     }

@@ -15,7 +15,6 @@ protocol UserInformationViewDelegate: AnyObject {
     func didTapImage()
 }
 
-
 final class UserInformationView: UIView {
     // MARK: - Init components
     private var imageView = UIImageView()
@@ -38,8 +37,8 @@ extension UserInformationView {
         imageView.image = image
     }
 
-    func setupTextFields(with model: RegisterUserRequest) {
-        firstNameTextField.text = model.username
+    func setupTextFields(with model: ProfileApiModel) {
+        firstNameTextField.text = model.name
         mailTextField.text = model.email
     }
 }
