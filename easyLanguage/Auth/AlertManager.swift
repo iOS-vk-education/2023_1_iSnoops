@@ -76,3 +76,21 @@ extension AlertManager {
         self.showBasicAlert(on: viewController, title: NSLocalizedString("dataLoadErrorAlert", comment: ""), message: nil)
     }
 }
+
+// MARK: - Ошибки при добавлении новой категории
+extension AlertManager {
+    public static func showAddNewCategoryAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("addNewCategoryAlert", comment: ""),
+                            message: nil)
+    }
+}
+
+// MARK: - Ошибки обноваления констраинтов
+extension AlertManager {
+    public static func showReloadHeightAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString("reloadHeightAlert", comment: ""),
+                            message: nil)
+    }
+}

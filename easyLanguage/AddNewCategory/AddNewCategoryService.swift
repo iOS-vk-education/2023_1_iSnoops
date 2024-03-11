@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 protocol AddNewCategoryServiceProtocol {
-    func createNewCategory(with category: CategoryUIModel) async throws
+    func createNewCategory(with category: CategoryModel, image: UIImage?) async throws -> String
 }
 
 final class AddNewCategoryService: AddNewCategoryServiceProtocol {
@@ -21,26 +21,37 @@ final class AddNewCategoryService: AddNewCategoryServiceProtocol {
     private let imageManager = ImageManager.shared
     private let dataBase = Firestore.firestore()
 
-    func createNewCategory(with category: CategoryUIModel) async throws {
-        let uploadCategory = try await postCategory(with: category)
+    // swiftlint:disable line_length
+    private let defaultImageLink = "https://firebasestorage.googleapis.com/v0/b/easylanguage-e6d17.appspot.com/o/categories%2F1E1922CE-61D4-46BE-B2C7-4E12B316CCFA?alt=media&token=80174f66-ee40-4f34-9a35-8d7ed4fbd571"
+    // swiftlint:enable line_length
+
+    func createNewCategory(with category: CategoryModel, image: UIImage?) async throws -> String {
+        let uploadCategory = try await postCategory(with: category, image: image)
         try await addDocumentToFireBase(dict: uploadCategory)
+        guard let newCategory = uploadCategory["imageLink"] as? String else {
+            print("[DEBUG]: Не удалось создать категорию")
+            throw NetworkError.unexpected
+        }
+        return newCategory
     }
 
-    private func postCategory(with category: CategoryUIModel) async throws -> [String: Any] {
+    private func postCategory(with category: CategoryModel, image: UIImage?) async throws -> [String: Any] {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
         }
 
         var categoryDict: [String: Any] = [
             "title": category.title,
-            "createdDate": Date(),
+            "createdDate": category.createdDate,
             "linkedWordsId": category.linkedWordsId,
             "profileId": userId
         ]
 
-        if let image = category.image {
+        if let image = image {
             let imageUrl = try await uploadCategoryImage(with: image)
             categoryDict["imageLink"] = imageUrl.absoluteString
+        } else {
+            categoryDict["imageLink"] = URL(string: defaultImageLink)?.absoluteString
         }
 
         return categoryDict
