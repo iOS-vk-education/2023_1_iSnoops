@@ -11,8 +11,8 @@ import FirebaseStorage
 import FirebaseAuth
 
 protocol LearningViewServiceProtocol {
-     func loadWords() async throws -> [WordApiModel]
-     func postLearning(words: [TopFiveWordsApiModel], completion: @escaping (Result<Void, Error>) -> Void)
+    func createNewTopFiveWord(with word: WordUIModel) async throws
+    func loadWords() async throws -> [WordApiModel]
 }
 
 final class LearningViewService: LearningViewServiceProtocol {
@@ -24,10 +24,9 @@ final class LearningViewService: LearningViewServiceProtocol {
     func loadWords() async throws -> [WordApiModel] {
         let categories = try await loadCategories()
         var words = [WordApiModel]()
-    
+
         for category in categories {
             let categoryId = category.linkedWordsId
-        
             do {
                 let categoryWords = try await loadWordsInCategory(with: categoryId)
                 words.append(contentsOf: categoryWords)
@@ -35,10 +34,8 @@ final class LearningViewService: LearningViewServiceProtocol {
                 throw error
             }
         }
-        
         return words
     }
-    
 
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {
@@ -115,21 +112,27 @@ final class LearningViewService: LearningViewServiceProtocol {
         }
     }
 
-    func postLearning(words: [TopFiveWordsApiModel], completion: @escaping (Result<Void, Error>) -> Void) {
+    private func makeTopFiveWordForRequest(with word: WordUIModel) async throws -> [String: Any] {
         guard let userId = checkAuthentication() else {
-            completion(.failure(AuthErrors.userNotAuthenticated))
-            return
+            throw AuthErrors.userNotAuthenticated
         }
+        let topFiveWord: [String: Any] = [
+            "translate": word.translations,
+            "profileId": userId
+        ]
+        return topFiveWord
+    }
 
-        for word in words {
-            let documentRef = dataBase.collection("topFiveWords").document(userId)
-            documentRef.setData(["translations": word.translations]) { error in
-                if let error = error {
-                    completion(.failure(error))
-                } else {
-                    completion(.success(()))
-                }
-            }
+    private func addDocumentTopFiveToFireBase(dict: [String: Any]) async throws {
+        do {
+            try await dataBase.collection("topFiveWords").addDocument(data: dict)
+        } catch {
+            throw error
         }
+    }
+
+    func createNewTopFiveWord(with word: WordUIModel) async throws {
+        let uploadWord = try await makeTopFiveWordForRequest(with: word)
+        try await addDocumentTopFiveToFireBase(dict: uploadWord)
     }
 }

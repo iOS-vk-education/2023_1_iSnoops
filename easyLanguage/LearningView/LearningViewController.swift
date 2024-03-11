@@ -13,6 +13,7 @@ final class LearningViewController: UIViewController {
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
     private var modelForPost: [WordUIModel] = []
+
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -50,14 +51,14 @@ final class LearningViewController: UIViewController {
         stackView.addArrangedSubview(incorrectLabel)
         return stackView
     }()
-    
+
     private lazy var emptyWordsLabel: UILabel = {
        let label = UILabel()
         label.text = NSLocalizedString("emptyWordsLabel", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 220, y: 220, width: 100, height: 100))
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +86,7 @@ final class LearningViewController: UIViewController {
         incorrectCount = 0
         loadLearningWords()
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         postToTopFive()
     }
@@ -121,40 +122,39 @@ final class LearningViewController: UIViewController {
         progressInfo.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20).isActive = true
         progressInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
-    
+
     private func setupEmptyWordsLabelConstraints() {
         emptyWordsLabel.isHidden = true
         emptyWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         emptyWordsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
-    
+
     private func setupActivityIndicatorConstraints() {
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
 
-
     private func loadLearningWords() {
         self.emptyWordsLabel.isHidden = true
-        service.loadWords { [weak self] result in
-            guard let self = self else {
-                return
-            }
-            switch result {
-            case .success(let data):
-                print(data)
-                self.model = data
+        Task {
+            do {
+                self.model = try await service.loadWords()
                 self.activityIndicator.stopAnimating()
                 self.cardStack.reloadData()
-            case .failure(let error):
+            } catch {
+                self.model = []
                 print(error.localizedDescription)
             }
         }
     }
-    
+
     private func postToTopFive() {
-        service.postWords(words: modelForPost) { _ in
-            
+        Task {
+            do {
+               try await service.postWords(words: modelForPost)
+            } catch {
+                print("failure learning post")
+            }
         }
     }
 }
@@ -238,7 +238,6 @@ extension LearningViewController: SwipeCardStackDelegate {
     }
 
     func didSwipeAllCards(_ cardStack: SwipeCardStack) {
-//        cardStack.reloadData()
         emptyWordsLabel.isHidden = false
     }
 }
