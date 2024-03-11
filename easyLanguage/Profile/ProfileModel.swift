@@ -14,8 +14,11 @@ final class ProfileModel {
     private let imageManager = ImageManager.shared
 
     func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void) {
-
         profileService.loadProfile(completion: completion)
+    }
+    
+    func uploadImage(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        profileService.uploadImage(image: image, completion: completion)
     }
 
     func loadProgressView(completion: @escaping (Result<(Int, Int), Error>) -> Void) {
