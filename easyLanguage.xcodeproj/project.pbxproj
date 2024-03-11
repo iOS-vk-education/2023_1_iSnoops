@@ -75,6 +75,7 @@
 		07F1BE9F2AF829C200F50845 /* TopFiveCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */; };
 		07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */; };
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
+		176412712B9F4B4300746175 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176412702B9F4B4300746175 /* StatisticsView.swift */; };
 		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
 		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
@@ -156,6 +157,7 @@
 		07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		176412702B9F4B4300746175 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
 		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				176412722B9F4B5100746175 /* Statistics */,
 				AA717AA52B0E64C1004157D1 /* Profile */,
 				07D31BE12B389364005002E3 /* Onboarding */,
 				179FEC162B231AE200772FC8 /* LearningView */,
@@ -531,6 +534,14 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		176412722B9F4B5100746175 /* Statistics */ = {
+			isa = PBXGroup;
+			children = (
+				176412702B9F4B4300746175 /* StatisticsView.swift */,
+			);
+			path = Statistics;
+			sourceTree = "<group>";
+		};
 		178E20432B3BA56A003AF819 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -709,6 +720,7 @@
 				17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */,
 				0744557F2B25E9BA00FA5469 /* CategoryDetailCollectionViewCell.swift in Sources */,
 				074455492B223D1400FA5469 /* AddNewWordViewController.swift in Sources */,
+				176412712B9F4B4300746175 /* StatisticsView.swift in Sources */,
 				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,
 				07048C022B3B7BC50050F0B5 /* CategoryDetailService.swift in Sources */,
 				07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */,

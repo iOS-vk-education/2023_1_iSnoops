@@ -142,6 +142,7 @@ final class LearningViewController: UIViewController {
                 self.activityIndicator.stopAnimating()
                 self.cardStack.reloadData()
             } catch {
+                AlertManager.showEmptyLearningModel(on: self)
                 self.model = []
                 print(error.localizedDescription)
             }
