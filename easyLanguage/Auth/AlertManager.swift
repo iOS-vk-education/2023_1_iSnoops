@@ -75,6 +75,10 @@ extension AlertManager {
     public static func showDataLoadErrorAlert(on viewController: UIViewController) {
         self.showBasicAlert(on: viewController, title: NSLocalizedString("dataLoadErrorAlert", comment: ""), message: nil)
     }
+
+    public static func showWordDeleteAlert(on viewController: UIViewController) {
+        self.showBasicAlert(on: viewController, title: NSLocalizedString("wordDeleteAlert", comment: ""), message: nil)
+    }
 }
 
 // MARK: - Ошибки при добавлении новой категории
