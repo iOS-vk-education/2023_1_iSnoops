@@ -13,6 +13,22 @@ struct ProfileApiModel: Codable {
     let email: String
     let imageLink: String
     let systemMode: SystemMode
+
+    init?(dict: [String: Any]) {
+        guard
+            let userId = dict["userId"] as? String,
+            let username = dict["username"] as? String,
+            let email = dict["email"] as? String
+        else {
+            return nil
+        }
+
+        self.profileId = userId
+        self.name = username
+        self.email = email
+        self.imageLink = "MOCK"
+        self.systemMode = .lightTheme
+    }
 }
 
 enum SystemMode: Codable {
