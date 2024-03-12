@@ -33,11 +33,13 @@ final class UserInformationView: UIView {
 }
 // MARK: - Open methods
 extension UserInformationView {
-    func setImage(image: UIImage) {
-        imageView.image = image
+    func setImage(imageLink: String) {
+        let url = URL(string: imageLink)
+        let data = try? Data(contentsOf: url!)
+        imageView.image = UIImage(data: data!)
     }
 
-    func setupTextFields(with model: ProfileApiModel) {
+    func setTextFields(with model: ProfileApiModel) {
         firstNameTextField.text = model.name
         mailTextField.text = model.email
     }

@@ -12,6 +12,7 @@ import FirebaseAuth
 
 protocol ProfileServiceProtocol {
     func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void)
+    func uploadImage(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void)
 }
 
 final class ProfileService: ProfileServiceProtocol {
@@ -20,6 +21,33 @@ final class ProfileService: ProfileServiceProtocol {
 
     private let dataBase = Firestore.firestore()
 
+    func uploadImage(image: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        guard let userId = checkAuthentication() else {
+            completion(.failure(AuthErrors.userNotAuthenticated))
+            return
+        }
+        let reference = Storage.storage().reference().child("users").child(userId)
+        guard let imageData = image.jpegData(compressionQuality: 0.4) else {
+            return
+        }
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        reference.putData(imageData, metadata: metadata) { (metadata, error) in
+            guard let metadata = metadata else {
+                completion(.failure(error!))
+                return
+            }
+            reference.downloadURL { [self] (url, error) in
+                guard let url = url else {
+                    completion(.failure(error!))
+                    return
+                }
+                dataBase.collection("users").document(userId).setData(["imageLink": url.absoluteString], merge: true)
+                completion(.success(url))
+            }
+        }
+    }
+    
     func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void) {
             guard let userId = checkAuthentication() else {
                 completion(.failure(AuthErrors.userNotAuthenticated))
