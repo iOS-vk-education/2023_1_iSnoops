@@ -21,10 +21,10 @@ final class LearningViewService: LearningViewServiceProtocol {
 
     private let dataBase = Firestore.firestore()
 
-    func loadWords() async throws -> [WordApiModel] {
+    // MARK: Public methods
+    public func loadWords() async throws -> [WordApiModel] {
         let categories = try await loadCategories()
         var words = [WordApiModel]()
-
         for category in categories {
             let categoryId = category.linkedWordsId
             do {
@@ -37,6 +37,19 @@ final class LearningViewService: LearningViewServiceProtocol {
         return words
     }
 
+    public func createNewTopFiveWord(with word: WordUIModel) async throws {
+        guard let userId = checkAuthentication() else {
+            throw AuthErrors.userNotAuthenticated
+        }
+        guard let check = try await checkIndividualIdForPostAsync(id: word.id, userId: userId) else { return }
+        if check == true {
+            let uploadWord = try await makeTopFiveWordForRequest(with: word)
+            try await addDocumentTopFiveToFireBase(dict: uploadWord)
+        }
+        try await checkCountOfWords()
+    }
+
+    // MARK: Private methods
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {
             return currentUser.uid
@@ -112,13 +125,30 @@ final class LearningViewService: LearningViewServiceProtocol {
         }
     }
 
+    private func checkIndividualIdForPostAsync(id: String,
+                                               userId: String?) async throws -> Bool? {
+        var result: Bool?
+        let document = try await dataBase.collection("topFiveWords")
+            .whereField("id", isEqualTo: id)
+            .whereField("userId", isEqualTo: userId ?? "").getDocuments()
+        if document.isEmpty {
+            result = true
+        } else {
+            result = false
+        }
+
+        return result
+    }
+
     private func makeTopFiveWordForRequest(with word: WordUIModel) async throws -> [String: Any] {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
         }
         let topFiveWord: [String: Any] = [
             "translate": word.translations,
-            "profileId": userId
+            "userId": userId,
+            "id": word.id,
+            "date": Date.now
         ]
         return topFiveWord
     }
@@ -131,8 +161,45 @@ final class LearningViewService: LearningViewServiceProtocol {
         }
     }
 
-    func createNewTopFiveWord(with word: WordUIModel) async throws {
-        let uploadWord = try await makeTopFiveWordForRequest(with: word)
-        try await addDocumentTopFiveToFireBase(dict: uploadWord)
+    private func checkCountOfWords() async throws {
+        guard let uid = checkAuthentication() else {
+            throw AuthErrors.userNotAuthenticated
+        }
+        do {
+            let querySnapshot = try await dataBase.collection("topFiveWords")
+                .whereField("userId", isEqualTo: uid).getDocuments()
+            let documents = querySnapshot.documents
+            if documents.count >= 6 {
+                var topFiveWords: [TopFiveWordsApiModel] = documents.compactMap { document in
+                    do {
+                        let word = try document.data(as: TopFiveWordsApiModel.self)
+                        return word
+                    } catch {
+                        return nil
+                    }
+                }
+                topFiveWords.sort {
+                    $0.date > $1.date
+                }
+                let lastDocument = try await dataBase.collection("topFiveWords")
+                    .whereField("id", isEqualTo: topFiveWords.last?.id ?? "").getDocuments().documents
+                do {
+                    try await deleteWord(with: lastDocument.first?.documentID ?? "")
+                } catch {
+                    throw error
+                }
+            }
+        } catch {
+            print("error")
+        }
+    }
+
+    private func deleteWord(with id: String) async throws {
+        do {
+            try await dataBase.collection("topFiveWords").document(id).delete()
+        } catch {
+            print(error)
+            throw error
+        }
     }
 }
