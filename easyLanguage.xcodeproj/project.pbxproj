@@ -52,6 +52,7 @@
 		0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */; };
 		0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */; };
 		07A4DDB82B34BC4A003A9596 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 07A4DDBA2B34BC4A003A9596 /* Localizable.strings */; };
+		07A9B4F92BA4B2360091F444 /* TranslationApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A9B4F82BA4B2360091F444 /* TranslationApiModel.swift */; };
 		07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */; };
 		07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */; };
 		07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */; };
@@ -134,6 +135,7 @@
 		0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningViewModel.swift; sourceTree = "<group>"; };
 		07A4DDB92B34BC4A003A9596 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		07A4DDBB2B34BC56003A9596 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		07A9B4F82BA4B2360091F444 /* TranslationApiModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationApiModel.swift; sourceTree = "<group>"; };
 		07C4F75A2B1BC9B30073BED0 /* NetworkErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrors.swift; sourceTree = "<group>"; };
 		07C4F75C2B1BC9D30073BED0 /* ImageManagerErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManagerErrors.swift; sourceTree = "<group>"; };
 		07C4F7612B1BCB1C0073BED0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 		07F1BE902AF8294400F50845 /* ApiModels */ = {
 			isa = PBXGroup;
 			children = (
+				07A9B4F82BA4B2360091F444 /* TranslationApiModel.swift */,
 				074F9DA02B2A199D00132465 /* ProfileApiModel.swift */,
 				072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */,
 				072B92532B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift */,
@@ -748,6 +751,7 @@
 				07C4F7762B1CF50A0073BED0 /* TopFiveWordsModel.swift in Sources */,
 				17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */,
 				0799EDB52B3CCA4300C0C04F /* AddNewCategoryService.swift in Sources */,
+				07A9B4F92BA4B2360091F444 /* TranslationApiModel.swift in Sources */,
 				070811532B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift in Sources */,
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				AA0C7A332B20F6D400DAF144 /* UserInformationView.swift in Sources */,

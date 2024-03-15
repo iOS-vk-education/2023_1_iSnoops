@@ -14,12 +14,17 @@ struct Trimmed {
     private(set) var value = ""
     var projectedValue = false
 
-    var wrappedValue: String {
+    var wrappedValue: String? {
         get {
             return value
         }
         set {
+            guard let newValue else {
+                return
+            }
+
             value = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+
             if value != newValue {
                 projectedValue = true
             } else {
@@ -28,7 +33,7 @@ struct Trimmed {
         }
     }
 
-    init(wrappedValue: String) {
+    init(wrappedValue: String?) {
         self.wrappedValue = wrappedValue
     }
 }
