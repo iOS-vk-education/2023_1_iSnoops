@@ -23,7 +23,7 @@ final class TabBarController: UITabBarController {
     private var learningVC: UIViewController {
         let learningViewController = UINavigationController(rootViewController: LearningViewController())
         let title = NSLocalizedString("wordTrainingTitle", comment: "")
-        let image = UIImage(systemName: "character.book.closed.fill")
+        let image = UIImage(systemName: "paperplane.fill")
         learningViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 1)
         return learningViewController
     }

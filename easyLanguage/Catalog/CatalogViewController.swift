@@ -149,10 +149,13 @@ extension CatalogViewController: InputTopFiveWordsDelegate {
     var topFiveWordsCount: Int {
         topFiveModel.count
     }
-
+    
     func item(at index: Int, completion: @escaping (TopFiveWordsModel) -> Void) {
         let topFiveWordsModel = TopFiveWordsModel(
-            translations: topFiveModel[index].translations
+            translate: topFiveModel[index].translate,
+            userId: topFiveModel[index].userId,
+            id: topFiveModel[index].id, 
+            date: topFiveModel[index].date
         )
         completion(topFiveWordsModel)
     }

@@ -27,7 +27,7 @@ final class TopFiveService: TopFiveServiceProtocol {
         }
 
         dataBase.collection("topFiveWords")
-                .whereField("profileId", isEqualTo: uid).getDocuments { querySnapshot, error in
+                .whereField("userId", isEqualTo: uid).getDocuments { querySnapshot, error in
 
             if let error = error {
                 print(error)
