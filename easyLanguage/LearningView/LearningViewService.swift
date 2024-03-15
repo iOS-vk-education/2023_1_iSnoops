@@ -45,8 +45,8 @@ final class LearningViewService: LearningViewServiceProtocol {
         if check == true {
             let uploadWord = try await makeTopFiveWordForRequest(with: word)
             try await addDocumentTopFiveToFireBase(dict: uploadWord)
+            try await checkCountOfWords()
         }
-        try await checkCountOfWords()
     }
 
     // MARK: Private methods
@@ -178,19 +178,23 @@ final class LearningViewService: LearningViewServiceProtocol {
                         return nil
                     }
                 }
-                topFiveWords.sort {
-                    $0.date > $1.date
-                }
-                let lastDocument = try await dataBase.collection("topFiveWords")
-                    .whereField("id", isEqualTo: topFiveWords.last?.id ?? "").getDocuments().documents
-                do {
-                    try await deleteWord(with: lastDocument.first?.documentID ?? "")
-                } catch {
-                    throw error
-                }
+             try await sortAndDeleteLastAddedWord(with: topFiveWords)
             }
         } catch {
             print("error")
+        }
+    }
+
+    private func sortAndDeleteLastAddedWord(with model: [TopFiveWordsApiModel]) async throws {
+        var sortedModel = model.sorted {
+            $0.date > $1.date
+        }
+        let lastDocument = try await dataBase.collection("topFiveWords")
+            .whereField("id", isEqualTo: model.last?.id ?? "").getDocuments().documents
+        do {
+            try await deleteWord(with: lastDocument.first?.documentID ?? "")
+        } catch {
+            throw error
         }
     }
 
