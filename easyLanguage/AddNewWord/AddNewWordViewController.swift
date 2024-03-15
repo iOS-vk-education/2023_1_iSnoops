@@ -17,6 +17,8 @@ class AddNewWordViewController: UIViewController {
     private var categoryId = ""
 
     private let nativeLabel = UILabel()
+    // TODO: - сделать кнопку перевода более красивой
+    private let translate = UIImageView()
     private let nativeField: UITextField = UITextField()
     private let dividingStripView = UIView()
     private let foreignLabel = UILabel()
@@ -76,6 +78,7 @@ private extension AddNewWordViewController {
     func setAppearance() {
         view.backgroundColor = .PrimaryColors.Background.background
         setNativeLabelAppearance()
+        setTranslateButtonAppearance()
         setNativeFieldAppearance()
         setDividingStripViewAppearance()
         setForeignLabelAppearance()
@@ -85,6 +88,15 @@ private extension AddNewWordViewController {
 
     func setNativeLabelAppearance() {
         nativeLabel.text = "Русский"
+    }
+
+    func setTranslateButtonAppearance() {
+        translate.image = UIImage(named: "Translate")
+        translate.contentMode = .scaleAspectFit
+
+        translate.isUserInteractionEnabled = true
+        translate.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                              action: #selector(didTapTranslate)))
     }
 
     func setNativeFieldAppearance() {
@@ -116,12 +128,42 @@ private extension AddNewWordViewController {
     }
 
     @objc
-    func didTabButton() {
-        guard let nativeText = nativeField.text, !nativeText.isEmpty else {
+    func didTapTranslate() {
+        @Trimmed var nativeText: String? = nativeField.text
+        guard let nativeText = nativeText, !nativeText.isEmpty else {
             showAlert(message: "Необходимо ввести слово на русском")
             return
         }
-        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
+
+        model.translate(with: nativeText) { [weak self] result in
+            switch result {
+            case .success(let foreignText):
+                DispatchQueue.main.async {
+                    guard let foreignText else {
+                        self?.showAlert(message: "Не удалось найти перевод")
+                        return
+                    }
+
+                    self?.foreignField.text = foreignText
+                }
+            case .failure(let error):
+                // TODO: - alert
+                print("[DEBUG]: - didTapTranslate error", error.localizedDescription)
+            }
+        }
+    }
+
+    @objc
+    func didTabButton() {
+        @Trimmed var nativeText: String? = nativeField.text
+        @Trimmed var foreignText: String? = foreignField.text
+
+        guard let nativeText = nativeText, !nativeText.isEmpty else {
+            showAlert(message: "Необходимо ввести слово на русском")
+            return
+        }
+
+        guard let foreignText = foreignText, !foreignText.isEmpty else {
             showAlert(message: "Необходимо ввести перевод слова")
             return
         }
@@ -145,7 +187,7 @@ private extension AddNewWordViewController {
 // MARK: - set constraints
 private extension AddNewWordViewController {
     func addConstraints() {
-        [nativeLabel, foreignLabel, nativeField, foreignField, button, dividingStripView].forEach {
+        [nativeLabel, translate, foreignLabel, nativeField, foreignField, button, dividingStripView].forEach {
             view.addSubview($0)
         }
 
@@ -153,6 +195,7 @@ private extension AddNewWordViewController {
         height =  view.bounds.height / 15
 
         setNativeLabel()
+        setTranslate()
         setNativeField()
         setDividingStripView()
         setForeignLabel()
@@ -179,6 +222,16 @@ private extension AddNewWordViewController {
                                              constant: horizontalPadding).isActive = true
         nativeField.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                               constant: -horizontalPadding).isActive = true
+    }
+
+    func setTranslate() {
+        translate.translatesAutoresizingMaskIntoConstraints = false
+        translate.bottomAnchor.constraint(equalTo: nativeField.topAnchor,
+                                          constant: -UIConstants.top).isActive = true
+        translate.widthAnchor.constraint(equalToConstant: view.bounds.width / 10).isActive = true
+        translate.heightAnchor.constraint(equalToConstant: view.bounds.width / 10).isActive = true
+        translate.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                         constant: -horizontalPadding).isActive = true
     }
 
     func setDividingStripView() {

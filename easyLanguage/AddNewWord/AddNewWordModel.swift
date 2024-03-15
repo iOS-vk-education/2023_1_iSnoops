@@ -17,4 +17,8 @@ final class AddNewWordModel {
                                         id: model.id)
         addNewWordService.addNewWord(with: wordAPIModel, completion: completion)
     }
+
+    func translate(with word: String, completion: @escaping (Result<String?, Error>) -> Void) {
+        addNewWordService.apiTranslation(with: word, completion: completion)
+    }
 }

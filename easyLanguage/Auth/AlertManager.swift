@@ -19,6 +19,19 @@ class AlertManager {
     }
 }
 
+/// универсальный метод показа алерта без локализации!
+extension AlertManager {
+    public static func showAlert(
+        on viewController: UIViewController,
+        title: String?,
+        message: String?
+    ) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString(title ?? "", comment: ""),
+                            message: NSLocalizedString(title ?? "", comment: ""))
+    }
+}
+
 // MARK: - Недействительные данные
 extension AlertManager {
     public static func showInvalidEmailAlert(on viewController: UIViewController) {
