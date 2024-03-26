@@ -130,21 +130,33 @@ private extension AddNewWordViewController {
     @objc
     func didTapTranslate() {
         @Trimmed var nativeText: String? = nativeField.text
-        guard let nativeText = nativeText, !nativeText.isEmpty else {
-            showAlert(message: "Необходимо ввести слово на русском")
+        @Trimmed var foreignText: String? = foreignField.text
+
+        guard nativeText != nil || foreignText != nil else {
+            showAlert(message: "Необходимо ввести слово")
             return
         }
 
-        model.translate(with: nativeText) { [weak self] result in
+        let search: String
+        let isNative: Bool
+
+        if nativeText != nil && !nativeText!.isEmpty {
+            search = nativeText!
+            isNative = true
+        } else {
+            search = foreignText!
+            isNative = false
+        }
+
+        model.translate(with: search, isNative: isNative) { [weak self] result in
             switch result {
-            case .success(let foreignText):
+            case .success(let translation):
                 DispatchQueue.main.async {
-                    guard let foreignText else {
+                    guard let translation else {
                         self?.showAlert(message: "Не удалось найти перевод")
                         return
                     }
-
-                    self?.foreignField.text = foreignText
+                    isNative ? (self?.foreignField.text = translation) : (self?.nativeField.text = translation)
                 }
             case .failure(let error):
                 // TODO: - alert
