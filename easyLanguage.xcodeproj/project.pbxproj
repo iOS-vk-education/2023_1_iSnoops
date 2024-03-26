@@ -75,6 +75,7 @@
 		07F1BE9F2AF829C200F50845 /* TopFiveCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */; };
 		07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */; };
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
+		175F9BF32BB3260400BBBA96 /* AboutWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 175F9BF22BB3260400BBBA96 /* AboutWordView.swift */; };
 		176412712B9F4B4300746175 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 176412702B9F4B4300746175 /* StatisticsView.swift */; };
 		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
@@ -157,6 +158,7 @@
 		07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		175F9BF22BB3260400BBBA96 /* AboutWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutWordView.swift; sourceTree = "<group>"; };
 		176412702B9F4B4300746175 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
 		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
@@ -557,6 +559,7 @@
 				179FEC182B231AE200772FC8 /* LearningViewController.swift */,
 				0799EDBC2B3D821700C0C04F /* LearningViewModel.swift */,
 				0799EDBA2B3D820F00C0C04F /* LearningViewService.swift */,
+				175F9BF22BB3260400BBBA96 /* AboutWordView.swift */,
 			);
 			path = LearningView;
 			sourceTree = "<group>";
@@ -677,7 +680,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#if [[ \"$(uname -m)\" == arm64 ]]; then\n#    export PATH=\"/opt/homebrew/bin:$PATH\"\n#fi\n#\n#if which swiftlint >/dev/null; then\n#    swiftlint\n#else\n#    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n#fi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -726,6 +729,7 @@
 				07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */,
 				074455752B25E92D00FA5469 /* CategoryDetailViewController.swift in Sources */,
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
+				175F9BF32BB3260400BBBA96 /* AboutWordView.swift in Sources */,
 				072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */,
 				07EF04C92AFBE9C20095DECB /* Color + configurations.swift in Sources */,
 				17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */,

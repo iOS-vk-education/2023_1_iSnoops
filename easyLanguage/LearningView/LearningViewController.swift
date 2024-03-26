@@ -14,6 +14,7 @@ final class LearningViewController: UIViewController {
     private var model: [WordUIModel] = []
     private var modelForPost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
+    
 
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
@@ -52,6 +53,51 @@ final class LearningViewController: UIViewController {
         stackView.addArrangedSubview(incorrectLabel)
         return stackView
     }()
+    
+    private lazy var aboutWordInfo: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        let categoryLabel = UILabel()
+        categoryLabel.text = "Название категории"
+        categoryLabel.font = TextStyle.bodyMedium.font
+        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        let photoImage = UIImageView()
+        photoImage.image = UIImage(named: "ProfileEmptyImage")
+        photoImage.clipsToBounds = true
+        
+        photoImage.frame = CGRect(x: 0, y: 0, width: view.frame.width / 5, height: view.frame.height / 5)
+        photoImage.translatesAutoresizingMaskIntoConstraints = false
+        photoImage.contentMode = .scaleAspectFit
+        stackView.addArrangedSubview(categoryLabel)
+        stackView.addArrangedSubview(photoImage)
+        
+        return stackView
+    }()
+    
+    private lazy var countText: UILabel = {
+        let label = UILabel()
+        label.text = "0/50"
+        label.font = TextStyle.bodyMedium.font
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var lowerInfo: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .equalSpacing
+        stackView.addArrangedSubview(aboutWordInfo)
+        stackView.addArrangedSubview(progressInfo)
+        stackView.addArrangedSubview(countText)
+        return stackView
+    }()
+    
+    
 
     private lazy var emptyWordsLabel: UILabel = {
        let label = UILabel()
@@ -80,7 +126,8 @@ final class LearningViewController: UIViewController {
         setupEmptyWordsLabelConstraints()
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
-        setupProgressInfoConstraints()
+//        setupProgressInfoConstraints()
+        setupLowerInfoConstraints()
     }
     override func viewWillAppear(_ animated: Bool) {
         correctCount = 0
@@ -105,7 +152,8 @@ final class LearningViewController: UIViewController {
         view.addSubview(cardStack)
         view.addSubview(descriptionLabel)
         view.addSubview(cardStack)
-        view.addSubview(progressInfo)
+//        view.addSubview(progressInfo)
+        view.addSubview(lowerInfo)
     }
 
     private func setupDescriptionLabelConstraints() {
@@ -125,6 +173,12 @@ final class LearningViewController: UIViewController {
     private func setupProgressInfoConstraints() {
         progressInfo.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20).isActive = true
         progressInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    }
+    
+    private func setupLowerInfoConstraints() {
+        lowerInfo.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20).isActive = true
+        lowerInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        lowerInfo.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2).isActive = true
     }
 
     private func setupEmptyWordsLabelConstraints() {
