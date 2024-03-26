@@ -18,7 +18,11 @@ final class AddNewWordModel {
         addNewWordService.addNewWord(with: wordAPIModel, completion: completion)
     }
 
-    func translate(with word: String, completion: @escaping (Result<String?, Error>) -> Void) {
-        addNewWordService.apiTranslation(with: word, completion: completion)
+    func translate(
+        with word: String,
+        isNative: Bool,
+        completion: @escaping (Result<String?, Error>) -> Void
+    ) {
+        addNewWordService.apiTranslation(with: word, isNative: isNative, completion: completion)
     }
 }
