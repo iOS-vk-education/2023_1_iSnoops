@@ -73,7 +73,7 @@ extension AlertManager {
 // MARK: - Ошибки при загрузке данных
 extension AlertManager {
     public static func showDataLoadErrorAlert(on viewController: UIViewController) {
-        self.showBasicAlert(on: viewController, title: NSLocalizedString("dataLoadErrorAlert", comment: ""), 
+        self.showBasicAlert(on: viewController, title: NSLocalizedString("dataLoadErrorAlert", comment: ""),
                             message: nil)
     }
 }
@@ -100,7 +100,7 @@ extension AlertManager {
 extension AlertManager {
     public static func showEmptyLearningModel(on viewController: UIViewController) {
         self.showBasicAlert(on: viewController,
-                            title: NSLocalizedString("dataLoadErrorAlert", comment: ""),
+                            title: NSLocalizedString("dataPostErrorAlert", comment: ""),
                             message: nil)
     }
 }

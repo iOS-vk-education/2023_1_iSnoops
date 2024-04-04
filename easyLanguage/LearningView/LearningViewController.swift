@@ -148,7 +148,6 @@ final class LearningViewController: UIViewController {
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
                 self.model = []
-                print(error.localizedDescription)
             }
         }
     }
@@ -158,7 +157,7 @@ final class LearningViewController: UIViewController {
             do {
                try await service.postWords(words: modelForPost)
             } catch {
-                print("failure learning post")
+                AlertManager.showEmptyLearningModel(on: self)
             }
         }
     }

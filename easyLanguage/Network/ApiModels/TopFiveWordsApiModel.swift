@@ -8,8 +8,8 @@
 import Foundation
 
 struct TopFiveWordsApiModel: Decodable {
-    let translate: [String: String]
-    let userId: String
-    let id: String
-    let date: Date
+    let translate: [String: String] // слово - перевод
+    let userId: String // id пользователя
+    let id: String // id слова
+    let date: Date // дата создания слова
 }

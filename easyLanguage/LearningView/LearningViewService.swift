@@ -41,8 +41,8 @@ final class LearningViewService: LearningViewServiceProtocol {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
         }
-        guard let check = try await checkIndividualIdForPostAsync(id: word.id, userId: userId) else { return }
-        if check == true {
+        let check = try await checkIndividualIdForPostAsync(id: word.id, userId: userId)
+        if check {
             let uploadWord = try await makeTopFiveWordForRequest(with: word)
             try await addDocumentTopFiveToFireBase(dict: uploadWord)
             try await checkCountOfWords()
@@ -78,7 +78,6 @@ final class LearningViewService: LearningViewServiceProtocol {
                         continuation.resume(throwing: NetworkError.unexpected)
                         return
                     }
-
                     let categories: [CategoryApiModel] = documents.compactMap { document in
                         do {
                             let category = try document.data(as: CategoryApiModel.self)
@@ -88,7 +87,6 @@ final class LearningViewService: LearningViewServiceProtocol {
                             return nil
                         }
                     }
-
                     continuation.resume(returning: categories)
                 }
         }
@@ -104,12 +102,10 @@ final class LearningViewService: LearningViewServiceProtocol {
                         continuation.resume(throwing: error)
                         return
                     }
-
                     guard let documents = querySnapshot?.documents else {
                         continuation.resume(throwing: NetworkError.unexpected)
                         return
                     }
-
                     let categoryWords: [WordApiModel] = documents.compactMap { document in
                         do {
                             let word = try document.data(as: WordApiModel.self)
@@ -119,24 +115,18 @@ final class LearningViewService: LearningViewServiceProtocol {
                             return nil
                         }
                     }
-
                     continuation.resume(returning: categoryWords)
                 }
         }
     }
 
     private func checkIndividualIdForPostAsync(id: String,
-                                               userId: String?) async throws -> Bool? {
-        var result: Bool?
+                                               userId: String?) async throws -> Bool {
+        var result: Bool
         let document = try await dataBase.collection("topFiveWords")
             .whereField("id", isEqualTo: id)
             .whereField("userId", isEqualTo: userId ?? "").getDocuments()
-        if document.isEmpty {
-            result = true
-        } else {
-            result = false
-        }
-
+        result = document.isEmpty ? true : false
         return result
     }
 
@@ -170,19 +160,24 @@ final class LearningViewService: LearningViewServiceProtocol {
                 .whereField("userId", isEqualTo: uid).getDocuments()
             let documents = querySnapshot.documents
             if documents.count >= 6 {
-                var topFiveWords: [TopFiveWordsApiModel] = documents.compactMap { document in
-                    do {
-                        let word = try document.data(as: TopFiveWordsApiModel.self)
-                        return word
-                    } catch {
-                        return nil
-                    }
-                }
-             try await sortAndDeleteLastAddedWord(with: topFiveWords)
+                let topFiveWords: [TopFiveWordsApiModel] = getTopFiveWordsCollection(documents: documents)
+                try await sortAndDeleteLastAddedWord(with: topFiveWords)
             }
         } catch {
-            print("error")
+            throw error
         }
+    }
+
+    private func getTopFiveWordsCollection(documents: [QueryDocumentSnapshot]) -> [TopFiveWordsApiModel] {
+        let topFiveWords: [TopFiveWordsApiModel] = documents.compactMap { document in
+            do {
+                let word = try document.data(as: TopFiveWordsApiModel.self)
+                return word
+            } catch {
+                return nil
+            }
+        }
+        return topFiveWords
     }
 
     private func sortAndDeleteLastAddedWord(with model: [TopFiveWordsApiModel]) async throws {
@@ -190,7 +185,7 @@ final class LearningViewService: LearningViewServiceProtocol {
             $0.date > $1.date
         }
         let lastDocument = try await dataBase.collection("topFiveWords")
-            .whereField("id", isEqualTo: model.last?.id ?? "").getDocuments().documents
+            .whereField("id", isEqualTo: sortedModel.last?.id ?? "").getDocuments().documents
         do {
             try await deleteWord(with: lastDocument.first?.documentID ?? "")
         } catch {
@@ -202,7 +197,6 @@ final class LearningViewService: LearningViewServiceProtocol {
         do {
             try await dataBase.collection("topFiveWords").document(id).delete()
         } catch {
-            print(error)
             throw error
         }
     }
