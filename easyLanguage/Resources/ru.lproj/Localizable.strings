@@ -76,3 +76,4 @@
 "dataLoadErrorAlert" = "Не удалось загрузить данные";
 "addNewCategoryAlert" = "Ошибка добавления категории";
 "reloadHeightAlert" = "Ошибка обновления высоты";
+"dataPostErrorAlert" = "Не удалось отправить данные";
