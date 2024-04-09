@@ -8,7 +8,7 @@
 import Foundation
 
 enum AddNewWordViewEvent {
-    /// VIew была загружена
+    /// View была загружена
     case viewLoaded
     /// Нажата кнопка переведа
     case translateButtonTapped(word: String, isNative: Bool)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AddNewWordInteractorOutput {
+@MainActor protocol AddNewWordInteractorOutput {
     func handle(event: AddNewWordInteractorEvent)
 }
 
@@ -37,7 +37,7 @@ final class AddNewWordInteractor {
 extension AddNewWordInteractor: AddNewWordViewOutput {
     // swiftlint:disable cyclomatic_complexity
     // swiftlint:disable function_body_length
-    func handle(event: AddNewWordViewEvent) {
+    @MainActor func handle(event: AddNewWordViewEvent) {
         switch event {
         case .viewLoaded:
             presenter?.handle(event: .viewLoaded)
@@ -50,13 +50,19 @@ extension AddNewWordInteractor: AddNewWordViewOutput {
                 switch result {
                 case .success(let translation):
                     guard let translation else {
-                        self?.presenter?.handle(event: .showAlert(message: "Не удалось найти перевод"))
+                        DispatchQueue.main.async {
+                            self?.presenter?.handle(event: .showAlert(message: "Не удалось найти перевод"))
+                        }
                         return
                     }
                     if isNative {
-                        self?.presenter?.handle(event: .addForeignTranslate(text: translation))
+                        DispatchQueue.main.async {
+                            self?.presenter?.handle(event: .addForeignTranslate(text: translation))
+                        }
                     } else {
-                        self?.presenter?.handle(event: .addNativeTranslate(text: translation))
+                        DispatchQueue.main.async {
+                            self?.presenter?.handle(event: .addNativeTranslate(text: translation))
+                        }
                     }
 
                 case .failure(let error):
@@ -73,14 +79,18 @@ extension AddNewWordInteractor: AddNewWordViewOutput {
                 case .success:
                     guard let wordUIModel = self?.wordUIModel else {
                         print("[DEBUG]: ", #function, #line, "self?.wordUIModel is nil")
-                        self?.presenter?.handle(event: .showAlert(message: "Ошибка добавлнея слова"))
+                        DispatchQueue.main.async {
+                            self?.presenter?.handle(event: .showAlert(message: "Ошибка добавлнея слова"))
+                        }
                         return
                     }
 
                     self?.presenter?.handle(event: .addNewWord(id: wordUIModel.categoryId))
                 case .failure(let error):
                     print("[DEBUG]: ", #function, #line, error.localizedDescription)
-                    self?.presenter?.handle(event: .showAlert(message: "ошибка добавления слова"))
+                    DispatchQueue.main.async {
+                        self?.presenter?.handle(event: .showAlert(message: "ошибка добавления слова"))
+                    }
                 }
             }
         case let .translateCheckIsOptionText(native, foreign):

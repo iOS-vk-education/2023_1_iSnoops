@@ -48,6 +48,7 @@ extension AddNewWordViewController {
     }
 }
 
+// MARK: - AddNewWordPresenterOutput
 extension AddNewWordViewController: AddNewWordPresenterOutput {
     func handle(event: AddNewWordPresenterEvent) {
         switch event {
@@ -55,17 +56,11 @@ extension AddNewWordViewController: AddNewWordPresenterOutput {
             setAppearance()
             addConstraints()
         case .showError(error: let error):
-            DispatchQueue.main.async {
-                self.showAlert(message: error)
-            }
+            self.showAlert(message: error)
         case .updateNativeField(text: let text):
-            DispatchQueue.main.async {
-                self.nativeField.text = text
-            }
+            self.nativeField.text = text
         case .updateForeignField(text: let text):
-            DispatchQueue.main.async {
-                self.foreignField.text = text
-            }
+            self.foreignField.text = text
         case .updateCategoryDetail(id: let id):
             delegate?.didCreateWord(with: id)
         }
