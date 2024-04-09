@@ -12,7 +12,7 @@ import FirebaseStorage
 protocol CategoryDetailServiceProtocol {
     func loadWords(with categoryId: String, comletion: @escaping (Result<[WordApiModel], Error>) -> Void)
     func reloadIsLearned(with id: String, isLearned: Bool)
-    func deleteWord(with id: String, comletion: @escaping (Result<Void, Error>) -> Void)
+    func deleteWord(with id: String, comletion: @escaping (Result<Bool, Error>) -> Void)
 }
 
 final class CategoryDetailService: CategoryDetailServiceProtocol {
@@ -51,13 +51,13 @@ final class CategoryDetailService: CategoryDetailServiceProtocol {
         }
     }
 
-    func deleteWord(with id: String, comletion: @escaping (Result<Void, Error>) -> Void) {
+    func deleteWord(with id: String, comletion: @escaping (Result<Bool, Error>) -> Void) {
         dataBase.collection("words").document(id).delete { error in
             if let error = error {
                 comletion(.failure(error))
                 return
             }
-            comletion(.success(()))
+            comletion(.success((true)))
         }
     }
 }
