@@ -16,7 +16,7 @@ final class AddNewWordInteractor {
     var presenter: AddNewWordInteractorOutput?
 
     private let addNewWordService: AddNewWordServiceProtocol?
-//FIXME: - такие вещи ( передаются в функциях) убрать или потом они нужны для тестов?
+//FIXME: - такие вещи (передаются в параметрах функциях) убрать или потом они нужны для тестов?
     private var word: String?
     private var isNative: Bool?
     private var wordUIModel: WordUIModel?
@@ -67,7 +67,9 @@ extension AddNewWordInteractor: AddNewWordViewOutput {
 
                 case .failure(let error):
                     print("[DEBUG]: ", #function, #line, error.localizedDescription)
-                    self?.presenter?.handle(event: .showAlert(message: "Ошибка добавления перевода"))
+                    DispatchQueue.main.async {
+                        self?.presenter?.handle(event: .showAlert(message: "Ошибка добавления перевода"))
+                    }
                 }
             }
 

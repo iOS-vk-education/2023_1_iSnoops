@@ -9,6 +9,7 @@ import Foundation
 
 final class AddNewWordBuilder {
 
+    //FIXME: - такие вещи (передаются в параметрах функциях) убрать или потом они нужны для тестов?
     static func build(categoryId: String = "",
                       addNewWordService: AddNewWordServiceProtocol? = nil,
                       word: String? = nil,
