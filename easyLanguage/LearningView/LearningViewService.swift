@@ -21,10 +21,10 @@ final class LearningViewService: LearningViewServiceProtocol {
 
     private let dataBase = Firestore.firestore()
 
-    func loadWords() async throws -> [WordApiModel] {
+    // MARK: Public methods
+    public func loadWords() async throws -> [WordApiModel] {
         let categories = try await loadCategories()
         var words = [WordApiModel]()
-
         for category in categories {
             let categoryId = category.linkedWordsId
             do {
@@ -37,6 +37,19 @@ final class LearningViewService: LearningViewServiceProtocol {
         return words
     }
 
+    public func createNewTopFiveWord(with word: WordUIModel) async throws {
+        guard let userId = checkAuthentication() else {
+            throw AuthErrors.userNotAuthenticated
+        }
+        let check = try await checkIndividualIdForPostAsync(id: word.id, userId: userId)
+        if check {
+            let uploadWord = try await makeTopFiveWordForRequest(with: word)
+            try await addDocumentTopFiveToFireBase(dict: uploadWord)
+            try await checkCountOfWords()
+        }
+    }
+
+    // MARK: Private methods
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {
             return currentUser.uid
@@ -65,7 +78,6 @@ final class LearningViewService: LearningViewServiceProtocol {
                         continuation.resume(throwing: NetworkError.unexpected)
                         return
                     }
-
                     let categories: [CategoryApiModel] = documents.compactMap { document in
                         do {
                             let category = try document.data(as: CategoryApiModel.self)
@@ -75,7 +87,6 @@ final class LearningViewService: LearningViewServiceProtocol {
                             return nil
                         }
                     }
-
                     continuation.resume(returning: categories)
                 }
         }
@@ -91,12 +102,10 @@ final class LearningViewService: LearningViewServiceProtocol {
                         continuation.resume(throwing: error)
                         return
                     }
-
                     guard let documents = querySnapshot?.documents else {
                         continuation.resume(throwing: NetworkError.unexpected)
                         return
                     }
-
                     let categoryWords: [WordApiModel] = documents.compactMap { document in
                         do {
                             let word = try document.data(as: WordApiModel.self)
@@ -106,10 +115,19 @@ final class LearningViewService: LearningViewServiceProtocol {
                             return nil
                         }
                     }
-
                     continuation.resume(returning: categoryWords)
                 }
         }
+    }
+
+    private func checkIndividualIdForPostAsync(id: String,
+                                               userId: String?) async throws -> Bool {
+        var result: Bool
+        let document = try await dataBase.collection("topFiveWords")
+            .whereField("id", isEqualTo: id)
+            .whereField("userId", isEqualTo: userId ?? "").getDocuments()
+        result = document.isEmpty ? true : false
+        return result
     }
 
     private func makeTopFiveWordForRequest(with word: WordUIModel) async throws -> [String: Any] {
@@ -118,7 +136,9 @@ final class LearningViewService: LearningViewServiceProtocol {
         }
         let topFiveWord: [String: Any] = [
             "translate": word.translations,
-            "profileId": userId
+            "userId": userId,
+            "id": word.id,
+            "date": Date.now
         ]
         return topFiveWord
     }
@@ -131,8 +151,53 @@ final class LearningViewService: LearningViewServiceProtocol {
         }
     }
 
-    func createNewTopFiveWord(with word: WordUIModel) async throws {
-        let uploadWord = try await makeTopFiveWordForRequest(with: word)
-        try await addDocumentTopFiveToFireBase(dict: uploadWord)
+    private func checkCountOfWords() async throws {
+        guard let uid = checkAuthentication() else {
+            throw AuthErrors.userNotAuthenticated
+        }
+        do {
+            let querySnapshot = try await dataBase.collection("topFiveWords")
+                .whereField("userId", isEqualTo: uid).getDocuments()
+            let documents = querySnapshot.documents
+            if documents.count >= 6 {
+                let topFiveWords: [TopFiveWordsApiModel] = getTopFiveWordsCollection(documents: documents)
+                try await sortAndDeleteLastAddedWord(with: topFiveWords)
+            }
+        } catch {
+            throw error
+        }
+    }
+
+    private func getTopFiveWordsCollection(documents: [QueryDocumentSnapshot]) -> [TopFiveWordsApiModel] {
+        let topFiveWords: [TopFiveWordsApiModel] = documents.compactMap { document in
+            do {
+                let word = try document.data(as: TopFiveWordsApiModel.self)
+                return word
+            } catch {
+                return nil
+            }
+        }
+        return topFiveWords
+    }
+
+    private func sortAndDeleteLastAddedWord(with model: [TopFiveWordsApiModel]) async throws {
+        var sortedModel = model.sorted {
+            $0.date > $1.date
+        }
+        let lastDocument = try await dataBase.collection("topFiveWords")
+            .whereField("id", isEqualTo: sortedModel.last?.id ?? "").getDocuments().documents
+        do {
+            try await deleteWord(with: lastDocument.first?.documentID ?? "")
+        } catch {
+            throw error
+        }
+    }
+
+    private func deleteWord(with id: String) async throws {
+        do {
+            try await dataBase.collection("topFiveWords").document(id).delete()
+        } catch {
+            throw error
+        }
     }
 }

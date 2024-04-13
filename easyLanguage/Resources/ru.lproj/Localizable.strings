@@ -80,3 +80,4 @@
 "addNewCategoryAlert" = "Ошибка добавления категории";
 "reloadHeightAlert" = "Ошибка обновления высоты";
 "wordDeleteAlert" = "Ошибка при удалении слова";
+"dataPostErrorAlert" = "Не удалось отправить данные";

@@ -13,6 +13,7 @@ final class LearningViewController: UIViewController {
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
     private var modelForPost: [WordUIModel] = []
+    private var cardsWereSwiped: Bool = false
 
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
@@ -85,10 +86,13 @@ final class LearningViewController: UIViewController {
         correctCount = 0
         incorrectCount = 0
         loadLearningWords()
+        cardsWereSwiped = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        postToTopFive()
+        if cardsWereSwiped {
+            postToTopFive()
+        }
     }
     // MARK: Private methods
     private func setupViews() {
@@ -144,7 +148,6 @@ final class LearningViewController: UIViewController {
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
                 self.model = []
-                print(error.localizedDescription)
             }
         }
     }
@@ -154,7 +157,7 @@ final class LearningViewController: UIViewController {
             do {
                try await service.postWords(words: modelForPost)
             } catch {
-                print("failure learning post")
+                AlertManager.showEmptyLearningModel(on: self)
             }
         }
     }
@@ -220,6 +223,7 @@ extension LearningViewController: SwipeCardStackDelegate {
     }
 
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
+        cardsWereSwiped = true
         guard let labels = progressInfo.arrangedSubviews as? [UILabel] else { return }
         switch direction {
         case .right:
