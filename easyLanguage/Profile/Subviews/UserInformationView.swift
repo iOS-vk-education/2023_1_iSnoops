@@ -34,8 +34,10 @@ final class UserInformationView: UIView {
 // MARK: - Open methods
 extension UserInformationView {
     func setImage(imageLink: String) {
-        let url = URL(string: imageLink)
-        let data = try? Data(contentsOf: url!)
+        guard let url = URL(string: imageLink) else {
+            return
+        }
+        let data = try? Data(contentsOf: url)
         imageView.image = UIImage(data: data!)
     }
 

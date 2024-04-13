@@ -33,16 +33,24 @@ final class ProfileService: ProfileServiceProtocol {
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         reference.putData(imageData, metadata: metadata) { (metadata, error) in
-            guard let metadata = metadata else {
-                completion(.failure(error!))
+            if let error = error {
+                completion(.failure(error))
                 return
             }
-            reference.downloadURL { [self] (url, error) in
-                guard let url = url else {
-                    completion(.failure(error!))
+            guard let metadata = metadata else {
+                completion(.failure(NetworkError.unexpected))
+                return
+            }
+            reference.downloadURL { [weak self]  (url, error) in
+                if let error = error {
+                    completion(.failure(error))
                     return
                 }
-                dataBase.collection("users").document(userId).setData(["imageLink": url.absoluteString], merge: true)
+                guard let url = url else {
+                    completion(.failure(NetworkError.unexpected))
+                    return
+                }
+                self?.dataBase.collection("users").document(userId).setData(["imageLink": url.absoluteString], merge: true)
                 completion(.success(url))
             }
         }
@@ -58,15 +66,17 @@ final class ProfileService: ProfileServiceProtocol {
                     completion(.failure(error))
                     return
                 }
-
                 guard let document = document, document.exists else {
                     completion(.failure(NetworkError.unexpected))
                     return
                 }
-    
                 do {
-                    let profile = ProfileApiModel(dict: document.data()!)
-                    completion(.success(profile!))
+                    guard let data = document.data(),
+                          let profile = ProfileApiModel(dict: data)
+                    else {
+                        throw NetworkError.unexpected
+                    }
+                    completion(.success(profile))
                 } catch {
                     completion(.failure(NetworkError.unexpected))
                 }

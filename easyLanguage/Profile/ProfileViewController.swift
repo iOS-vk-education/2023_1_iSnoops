@@ -50,7 +50,6 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
 
     @objc func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
-//                    self?.userInformationView.setImage(image: image)
             self?.uploadImage(image: image)
         }
     }
@@ -85,10 +84,10 @@ private extension ProfileViewController {
     }
     
     func uploadImage(image: UIImage) {
-        self.model.uploadImage(image: image) {result in
+        model.uploadImage(image: image) { [weak self] result in
             switch result {
             case .success(let url):
-                self.userInformationView.setImage(imageLink: url.absoluteString)
+                self?.userInformationView.setImage(imageLink: url.absoluteString)
             case .failure(let error):
                 print(error.localizedDescription)
             }
