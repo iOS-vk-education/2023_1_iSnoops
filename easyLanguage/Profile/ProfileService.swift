@@ -37,8 +37,12 @@ final class ProfileService: ProfileServiceProtocol {
                 }
     
                 do {
-                    let profile = ProfileApiModel(dict: document.data()!)
-                    completion(.success(profile!))
+                    guard let data = document.data(),
+                          let profile = ProfileApiModel(dict: data)
+                    else {
+                        throw NetworkError.unexpected
+                    }
+                    completion(.success(profile))
                 } catch {
                     completion(.failure(NetworkError.unexpected))
                 }
