@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddNewCategoryOutput: AnyObject {
-    func reloadData(with categoryModel: CategoryUIModel)
+    func addNewCategory(with categoryModel: CategoryModel)
 }
 
 final class AddNewCategoryViewController: UIViewController {
@@ -62,17 +62,23 @@ extension AddNewCategoryViewController {
             return
         }
 
-        model.createNewCategory(with: enteredText, categoryImage: selectedImage) { [weak self] result in
+        model.createNewCategory(with: enteredText, image: selectedImage) { [weak self] result in
             switch result {
-            case .success(let categoryUIModel):
-                self?.delegate?.reloadData(with: categoryUIModel)
+            case .success(let categoryModel):
+                guard let self = self, let delegate = self.delegate else {
+                    AlertManager.showAddNewCategoryAlert(on: self ?? Self())
+                    return
+                }
+                delegate.addNewCategory(with: categoryModel)
             case .failure(let error):
                 print(error)
             }
-        }
 
-        textField.text = nil
-        dismiss(animated: true)
+            DispatchQueue.main.async {
+                self?.textField.text = nil
+                self?.dismiss(animated: true)
+            }
+        }
     }
 }
 

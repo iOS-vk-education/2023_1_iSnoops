@@ -9,10 +9,10 @@ import Foundation
 
 struct CategoryModel {
     let title: String
-    let imageLink: String?
-    var studiedWordsCount: Int
-    var totalWordsCount: Int
-    let createdDate: Date
-    let linkedWordsId: String // Связующий идентификатор для слов в категории
-    let index: Int?
+    var imageLink: String?
+    var studiedWordsCount: Int = 0
+    var totalWordsCount: Int = 0
+    var createdDate: Date = Date()
+    var linkedWordsId: String = UUID().uuidString // Связующий идентификатор для слов в категории
+    var index: Int? = 0
 }
