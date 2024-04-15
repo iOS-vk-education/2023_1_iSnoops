@@ -8,15 +8,21 @@
 
 import UIKit
 
+protocol AddNewWordViewOutput {
+    func handle(event: AddNewWordViewEvent)
+}
+
 protocol AddNewWordOutput: AnyObject {
     func didCreateWord(with categoryId: String)
 }
 
 class AddNewWordViewController: UIViewController {
-    private let model = AddNewWordModel()
-    private var categoryId = ""
+    var output: AddNewWordViewOutput?
+
+    var categoryId = ""
 
     private let nativeLabel = UILabel()
+    private let translate = UIImageView()
     private let nativeField: UITextField = UITextField()
     private let dividingStripView = UIView()
     private let foreignLabel = UILabel()
@@ -33,11 +39,7 @@ extension AddNewWordViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setAppearance()
-        addConstraints()
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
+        output?.handle(event: .viewLoaded)
     }
 
     @objc
@@ -46,36 +48,34 @@ extension AddNewWordViewController {
     }
 }
 
-// MARK: - public func
-extension AddNewWordViewController {
-    func setCategoryId(with categoryId: String) {
-        self.categoryId = categoryId
+// MARK: - AddNewWordPresenterOutput
+extension AddNewWordViewController: AddNewWordPresenterOutput {
+    func handle(event: AddNewWordPresenterEvent) {
+        switch event {
+        case .showView:
+            setAppearance()
+            addConstraints()
+        case .showError(error: let error):
+            self.showAlert(message: error)
+        case .updateNativeField(text: let text):
+            self.nativeField.text = text
+        case .updateForeignField(text: let text):
+            self.foreignField.text = text
+        case .updateCategoryDetail(id: let id):
+            delegate?.didCreateWord(with: id)
+        }
     }
-}
-
-// MARK: - Network
-private extension AddNewWordViewController {
-    func addNewWord(with translations: [String: String]) {
-         model.addNewWord(with: WordUIModel(categoryId: categoryId,
-                                            translations: translations,
-                                            isLearned: false,
-                                            id: UUID().uuidString)) { [weak self] result in
-             switch result {
-             case .success:
-                 self?.delegate?.didCreateWord(with: self?.categoryId ?? "")
-             case .failure(let error):
-                 print(error.localizedDescription)
-                 self?.showAlert(message: "ошибка добавления слова")
-             }
-         }
-     }
 }
 
 // MARK: - set appearance elements
 private extension AddNewWordViewController {
     func setAppearance() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
         view.backgroundColor = .PrimaryColors.Background.background
+
         setNativeLabelAppearance()
+        setTranslateButtonAppearance()
         setNativeFieldAppearance()
         setDividingStripViewAppearance()
         setForeignLabelAppearance()
@@ -116,23 +116,64 @@ private extension AddNewWordViewController {
     }
 
     @objc
+    func didTapTranslate() {
+        @Trimmed var nativeText: String? = nativeField.text
+        @Trimmed var foreignText: String? = foreignField.text
+
+        output?.handle(event: .translateCheckIsOptionText(nativeText, foreignText))
+//TODO: - убрать
+        let search: String
+        let isNative: Bool
+
+        if nativeText != nil && !nativeText!.isEmpty {
+            search = nativeText!
+            isNative = true
+        } else {
+            search = foreignText!
+            isNative = false
+        }
+        output?.handle(event: .translateButtonTapped(word: search, isNative: isNative))
+    }
+
+    func setTranslateButtonAppearance() {
+        translate.image = UIImage(named: "Translate")
+        translate.contentMode = .scaleAspectFit
+
+        translate.isUserInteractionEnabled = true
+        translate.addGestureRecognizer(UITapGestureRecognizer(target: self,
+                                                              action: #selector(didTapTranslate)))
+    }
+
+    @objc
     func didTabButton() {
-        guard let nativeText = nativeField.text, !nativeText.isEmpty else {
+        @Trimmed var nativeText: String? = nativeField.text
+        @Trimmed var foreignText: String? = foreignField.text
+
+//TODO: - убрать
+        guard let nativeText = nativeText, !nativeText.isEmpty else {
             showAlert(message: "Необходимо ввести слово на русском")
             return
         }
-        guard let foreignText = foreignField.text, !foreignText.isEmpty else {
+
+        guard let foreignText = foreignText, !foreignText.isEmpty else {
             showAlert(message: "Необходимо ввести перевод слова")
             return
         }
 
-        addNewWord(with: ["ru": nativeText, "en": foreignText] )
+        let translations: [String: String] = ["ru": nativeText, "en": foreignText]
 
+        output?.handle(event: .addNewCardTapped(wordUIModel: WordUIModel(categoryId: categoryId,
+                                                                         translations: translations,
+                                                                         isLearned: false,
+                                                                         id: UUID().uuidString)))
         nativeField.text = nil
         foreignField.text = nil
         self.dismiss(animated: true)
     }
+}
 
+// MARK: - Alert
+private extension AddNewWordViewController {
     func showAlert(message: String) {
         let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -145,7 +186,7 @@ private extension AddNewWordViewController {
 // MARK: - set constraints
 private extension AddNewWordViewController {
     func addConstraints() {
-        [nativeLabel, foreignLabel, nativeField, foreignField, button, dividingStripView].forEach {
+        [nativeLabel, translate, foreignLabel, nativeField, foreignField, button, dividingStripView].forEach {
             view.addSubview($0)
         }
 
@@ -153,6 +194,7 @@ private extension AddNewWordViewController {
         height =  view.bounds.height / 15
 
         setNativeLabel()
+        setTranslate()
         setNativeField()
         setDividingStripView()
         setForeignLabel()
@@ -179,6 +221,16 @@ private extension AddNewWordViewController {
                                              constant: horizontalPadding).isActive = true
         nativeField.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                               constant: -horizontalPadding).isActive = true
+    }
+
+    func setTranslate() {
+        translate.translatesAutoresizingMaskIntoConstraints = false
+        translate.bottomAnchor.constraint(equalTo: nativeField.topAnchor,
+                                          constant: -UIConstants.top).isActive = true
+        translate.widthAnchor.constraint(equalToConstant: view.bounds.width / 10).isActive = true
+        translate.heightAnchor.constraint(equalToConstant: view.bounds.width / 10).isActive = true
+        translate.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                         constant: -horizontalPadding).isActive = true
     }
 
     func setDividingStripView() {

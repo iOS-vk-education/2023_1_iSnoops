@@ -52,9 +52,8 @@ final class CategoryDetailViewController: CustomViewController {
 
     @objc
     func tappedAddWord() {
-        let addCategoryVC = AddNewWordViewController()
+        let addCategoryVC = AddNewWordBuilder.build(categoryId: linkedWordsId)
         addCategoryVC.modalPresentationStyle = .pageSheet
-        addCategoryVC.setCategoryId(with: linkedWordsId)
         addCategoryVC.delegate = self
 
         guard let sheet = addCategoryVC.sheetPresentationController else {
