@@ -4,6 +4,8 @@
 
   Created by Grigoriy on 21.12.2023.
 */
+//MARK: - Actions
+"cancel" = "Cancel";
 
 //MARK: - Catalog
 "wordsTitle" = "Words";
@@ -19,6 +21,7 @@
 "sortCancel" = "Cancel";
 
 //MARK: - CategoryDetail
+"detailDelete" = "Delete word";
 "emptyCategoryAdvice" = "There are no words in the category.\nAdd them by tapping +";
 
 //MARK: - AddNewCategory
@@ -75,4 +78,5 @@
 "dataLoadErrorAlert" = "Failed to load data";
 "addNewCategoryAlert" = "Error adding category";
 "reloadHeightAlert" = "Height update error";
+"wordDeleteAlert" = "Error when deleting a word";
 "dataPostErrorAlert" = "Failed to post data";

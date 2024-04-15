@@ -50,8 +50,8 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
 
     @objc func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
-                    self?.userInformationView.setImage(image: image)
-                }
+            self?.uploadImage(image: image)
+        }
     }
 }
 
@@ -61,8 +61,9 @@ private extension ProfileViewController {
         model.loadProfile { result in
             switch result {
             case .success(let profile):
-                print(profile)
-                self.userInformationView.setupTextFields(with: profile)
+                self.userInformationView.setTextFields(with: profile)
+                guard let imageLink = profile.imageLink else { return }
+                self.userInformationView.setImage(imageLink: imageLink)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -76,6 +77,17 @@ private extension ProfileViewController {
                 self?.progressView.setupAllLearnedWords(count: count.0)
                 self?.progressView.setupWordsInProgress(count: count.1)
                 self?.progressView.setProgress()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func uploadImage(image: UIImage) {
+        model.uploadImage(image: image) { [weak self] result in
+            switch result {
+            case .success(let url):
+                self?.userInformationView.setImage(imageLink: url.absoluteString)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -127,19 +139,28 @@ private extension ProfileViewController {
     func didTapLogOutButton() {
         let alertController = UIAlertController(title: NSLocalizedString("alertTitle", comment: ""),
             message: NSLocalizedString("alertQuestion", comment: ""), preferredStyle: .alert)
-    let logOutAction = UIAlertAction(title: NSLocalizedString("alertExit", comment: ""), style: .destructive) {_ in
+        let logOutAction = UIAlertAction(title: NSLocalizedString("alertExit", comment: ""), style: .destructive) {_ in
             AuthService.shared.signOut { error in
                 if let error = error {
                     print(error.localizedDescription)
                 }
             }
-        self.navigationController?.setViewControllers([RegistrationViewController()], animated: true)
+            self.logout()
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }
         alertController.addAction(cancelAction)
         alertController.addAction(logOutAction)
         self.present(alertController, animated: true)
+    }
+
+    func logout() {
+        let controller = RegistrationViewController()
+        controller.modalPresentationStyle = .fullScreen
+        let navigation = UINavigationController(rootViewController: controller)
+        guard let window = UIApplication.shared.windows.first else { return }
+        window.rootViewController = navigation
+        window.makeKeyAndVisible()
     }
 
     // MARK: - Layouts
