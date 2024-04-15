@@ -20,6 +20,7 @@ final class UserInformationView: UIView {
     private var imageView = UIImageView()
     private let firstNameTextField = UITextField()
     private let mailTextField = UITextField()
+    private let imageManager = ImageManager.shared
 
     weak var delegate: UserInformationViewDelegate?
     override init(frame: CGRect) {
@@ -37,8 +38,23 @@ extension UserInformationView {
         guard let url = URL(string: imageLink) else {
             return
         }
-        let data = try? Data(contentsOf: url)
-        imageView.image = UIImage(data: data!)
+
+        var imgData: Data = Data()
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        imageManager.loadImage(from: url) { result in
+            switch result {
+            case .success(let data):
+                imgData = data
+            case .failure(let error):
+                print("ошибка(((", error.localizedDescription)
+            }
+            dispatchGroup.leave()
+        }
+        dispatchGroup.notify(queue: .main) {
+            self.imageView.image = UIImage(data: imgData)
+        }
     }
 
     func setTextFields(with model: ProfileApiModel) {
