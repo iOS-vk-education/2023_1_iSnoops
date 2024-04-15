@@ -32,7 +32,7 @@ final class CategoryDetailModel {
         categoryService.reloadIsLearned(with: id, isLearned: isLearned)
     }
 
-    func deleteWord(with id: String, comletion: @escaping (Result<Void, Error>) -> Void) {
+    func deleteWord(with id: String, comletion: @escaping (Result<Bool, Error>) -> Void) {
         categoryService.deleteWord(with: id) { result in
             comletion(result)
         }

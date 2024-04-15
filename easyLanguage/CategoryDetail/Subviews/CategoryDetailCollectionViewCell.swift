@@ -219,6 +219,10 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
     }
 
     private func showDeleteConfirmation() {
-        delegate?.showActionSheet(with: wordUIModel?.id ?? "")
+        guard let id = wordUIModel?.id else {
+//            delegate?.showActionSheet(with: wordUIModel?.id ?? "")
+            return
+        }
+        delegate?.showActionSheet(with: id)
     }
 }

@@ -14,6 +14,7 @@ protocol InputWordsDelegate: AnyObject {
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void)
     func changeIsLearned(with number: Int, isLearned: Bool)
     func showActionSheet(with id: String)
+    func showAlert(with title: String)
 }
 
 protocol CategoryDetailOutput: AnyObject {
@@ -176,6 +177,10 @@ extension CategoryDetailViewController: InputWordsDelegate {
         addActionToCancel(to: alertController)
 
         present(alertController, animated: true, completion: nil)
+    }
+
+    func showAlert(with title: String) {
+        AlertManager.showWordDeleteAlert(on: self)
     }
 
     private func addActionToDeleteWord(with id: String, to alertController: UIAlertController) {
