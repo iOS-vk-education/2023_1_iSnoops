@@ -13,7 +13,7 @@ enum AddNewWordViewEvent {
     /// Нажата кнопка переведа
     case translateButtonTapped(nativeText: String?, foreignText: String?)
     /// Нажата кнопка добавления слова
-    case addNewCardTapped(wordUIModel: OptionalWordUIModel)
+    case addNewCardTapped(wordUIModel: WordUIModel)
     /// Проверка является ли текст валидным ( для добавления карточки)
     case checkIsValidNativeText(text: String?, isNative: Bool)
 }

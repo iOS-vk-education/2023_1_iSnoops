@@ -66,20 +66,20 @@ extension AddNewWordViewController {
 
     @objc
     func didTapTranslate() {
-        @Trimmed var nativeText: String? = nativeField.text
-        @Trimmed var foreignText: String? = foreignField.text
+        @Trimmed var nativeText: String = nativeField.text ?? ""
+        @Trimmed var foreignText: String = foreignField.text ?? ""
 
         output?.handle(event: .translateButtonTapped(nativeText: nativeText, foreignText: foreignText))
     }
 
     @objc
     func didTabButton() {
-        @Trimmed var nativeText: String? = nativeField.text
-        @Trimmed var foreignText: String? = foreignField.text
+        @Trimmed var nativeText: String = nativeField.text ?? ""
+        @Trimmed var foreignText: String = foreignField.text ?? ""
 
-        let translations: [String: String?] = ["ru": nativeText, "en": foreignText]
+        let translations: [String: String] = ["ru": nativeText, "en": foreignText]
 
-        output?.handle(event: .addNewCardTapped(wordUIModel: OptionalWordUIModel(categoryId: categoryId,
+        output?.handle(event: .addNewCardTapped(wordUIModel: WordUIModel(categoryId: categoryId,
                                                                          translations: translations,
                                                                          isLearned: false,
                                                                          id: UUID().uuidString)))

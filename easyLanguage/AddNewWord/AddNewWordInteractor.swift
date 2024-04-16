@@ -19,13 +19,13 @@ final class AddNewWordInteractor {
 //FIXME: - такие вещи (передаются в параметрах функциях) убрать или потом они нужны для тестов?
     private var word: String?
     private var isNative: Bool?
-    private var wordUIModel: OptionalWordUIModel?
+    private var wordUIModel: WordUIModel?
 
     init(
         addNewWordService: AddNewWordServiceProtocol,
         word: String? = nil,
         isNative: Bool? = nil,
-        wordUIModel: OptionalWordUIModel? = nil
+        wordUIModel: WordUIModel? = nil
     ) {
         self.addNewWordService = addNewWordService
         self.word = word
@@ -44,7 +44,6 @@ extension AddNewWordInteractor: AddNewWordViewOutput {
             self.wordUIModel = model
 
             guard let nativeText = model.translations["ru"],
-                  let nativeText = nativeText,
                   !nativeText.isEmpty else {
                 DispatchQueue.main.async {
                     self.presenter?.handle(event: .showAlert(message: "Необходимо ввести слово на русском"))
@@ -53,7 +52,6 @@ extension AddNewWordInteractor: AddNewWordViewOutput {
             }
 
             guard let foreignText = model.translations["en"],
-                  let foreignText = foreignText,
                   !foreignText.isEmpty else {
                 DispatchQueue.main.async {
                     self.presenter?.handle(event: .showAlert(message: "Необходимо ввести перевод слова"))

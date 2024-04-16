@@ -14,7 +14,7 @@ final class AddNewWordBuilder {
                       addNewWordService: AddNewWordServiceProtocol? = nil,
                       word: String? = nil,
                       isNative: Bool? = nil,
-                      wordUIModel: OptionalWordUIModel? = nil
+                      wordUIModel: WordUIModel? = nil
     ) -> AddNewWordViewController {
 
         let viewController = AddNewWordViewController()
