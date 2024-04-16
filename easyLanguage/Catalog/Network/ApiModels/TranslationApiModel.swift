@@ -8,14 +8,22 @@
 import Foundation
 
 struct TranslationResponse: Codable {
-    let def: [Definition]?
+    let definitions: [Definition]?
+
+    enum CodingKeys: String, CodingKey {
+        case definitions = "def"
+    }
 }
 
 struct Definition: Codable {
-    // swiftlint:disable:next identifier_name
-    let tr: [Translation]?
+    let translations: [Translation]?
+
+    enum CodingKeys: String, CodingKey {
+        case translations = "tr"
+    }
 }
 
 struct Translation: Codable {
     let text: String?
 }
+

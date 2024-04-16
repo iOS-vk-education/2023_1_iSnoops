@@ -35,84 +35,119 @@ final class AddNewWordInteractor {
 }
 
 extension AddNewWordInteractor: AddNewWordViewOutput {
-    // swiftlint:disable cyclomatic_complexity
-    // swiftlint:disable function_body_length
     @MainActor func handle(event: AddNewWordViewEvent) {
         switch event {
         case .viewLoaded:
             presenter?.handle(event: .viewLoaded)
 
-        case let .translateButtonTapped(word, isNative):
-            self.word = word
-            self.isNative = isNative
+        case let .addNewCardTapped(model):
+            self.wordUIModel = model
 
-            translate(with: word, isNative: isNative) { [weak self] result in
-                switch result {
-                case .success(let translation):
-                    guard let translation else {
-                        DispatchQueue.main.async {
-                            self?.presenter?.handle(event: .showAlert(message: "Не удалось найти перевод"))
-                        }
-                        return
-                    }
-                    if isNative {
-                        DispatchQueue.main.async {
-                            self?.presenter?.handle(event: .addForeignTranslate(text: translation))
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self?.presenter?.handle(event: .addNativeTranslate(text: translation))
-                        }
-                    }
-
-                case .failure(let error):
-                    print("[DEBUG]: ", #function, #line, error.localizedDescription)
-                    DispatchQueue.main.async {
-                        self?.presenter?.handle(event: .showAlert(message: "Ошибка добавления перевода"))
-                    }
+            guard let nativeText = model.translations["ru"],
+                  !nativeText.isEmpty else {
+                DispatchQueue.main.async {
+                    self.presenter?.handle(event: .showAlert(message: "Необходимо ввести слово на русском"))
                 }
-            }
-
-        case let .addNewCardTapped(wordUIModel):
-            self.wordUIModel = wordUIModel
-
-            addNewWord(with: wordUIModel) { [weak self] result in
-                switch result {
-                case .success:
-                    guard let wordUIModel = self?.wordUIModel else {
-                        print("[DEBUG]: ", #function, #line, "self?.wordUIModel is nil")
-                        DispatchQueue.main.async {
-                            self?.presenter?.handle(event: .showAlert(message: "Ошибка добавлнея слова"))
-                        }
-                        return
-                    }
-
-                    self?.presenter?.handle(event: .addNewWord(id: wordUIModel.categoryId))
-                case .failure(let error):
-                    print("[DEBUG]: ", #function, #line, error.localizedDescription)
-                    DispatchQueue.main.async {
-                        self?.presenter?.handle(event: .showAlert(message: "ошибка добавления слова"))
-                    }
-                }
-            }
-        case let .translateCheckIsOptionText(native, foreign):
-            guard native != nil || foreign != nil else {
-                self.presenter?.handle(event: .showAlert(message: "Необходимо ввести слово"))
                 return
             }
-        case .checkIsValidNativeText(text: let text, isNative: let isNative):
-            guard let text = text, !text.isEmpty else {
-                if isNative {
-                    self.presenter?.handle(event: .showAlert(message: "Необходимо ввести слово на русском"))
-                } else {
+
+            guard let foreignText = model.translations["en"],
+                  !foreignText.isEmpty else {
+                DispatchQueue.main.async {
                     self.presenter?.handle(event: .showAlert(message: "Необходимо ввести перевод слова"))
                 }
                 return
             }
+
+            let translations: [String: String] = ["ru": nativeText, "en": foreignText]
+
+            handleAddNewWord(model: WordUIModel(categoryId: model.categoryId,
+                                                translations: translations,
+                                                isLearned: model.isLearned,
+                                                id: model.id))
+
+        case let .translateButtonTapped(native, foreign):
+            let search: String
+            let isNative: Bool
+
+            if native != nil && !native!.isEmpty {
+                search = native!
+                isNative = true
+            } else {
+                search = foreign!
+                isNative = false
+            }
+
+            handleTranslationResult(word: search, isNative: isNative)
+
+        case .checkIsValidNativeText(text: let text, isNative: let isNative):
+            guard let text = text, !text.isEmpty else {
+
+                let event: AddNewWordInteractorEvent = isNative
+                ? .showAlert(message: "Необходимо ввести слово на русском")
+                : .showAlert(message: "Необходимо ввести перевод слова")
+                presenter?.handle(event: event)
+
+                return
+            }
         }
     }
-    // swiftlint:enable cyclomatic_complexity
-    // swiftlint:enable function_body_length
+}
+
+private extension AddNewWordInteractor {
+    func handleTranslationResult(word: String, isNative: Bool) {
+        self.word = word
+        self.isNative = isNative
+
+        translate(with: word, isNative: isNative) { [weak self] result in
+            switch result {
+            case .success(let translation):
+                DispatchQueue.main.async {
+                    guard let self = self,
+                          let presenter = self.presenter,
+                          let translation else {
+                        self?.presenter?.handle(event: .showAlert(message: "Не удалось найти перевод"))
+                        return
+                    }
+
+                    let event: AddNewWordInteractorEvent = .addTranslate(text: translation, isNative: isNative)
+
+                    presenter.handle(event: event)
+                }
+            case .failure(let error):
+                print("[DEBUG]: ", #function, #line, error.localizedDescription)
+                DispatchQueue.main.async {
+                    self?.presenter?.handle(event: .showAlert(message: "Ошибка добавления перевода"))
+                }
+            }
+        }
+    }
+
+    func handleAddNewWord(model: WordUIModel) {
+        addNewWord(with: WordUIModel(categoryId: model.categoryId,
+                                     translations: model.translations,
+                                     isLearned: model.isLearned,
+                                     id: model.id)) { [weak self] result in
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    guard let self = self,
+                          let presenter = self.presenter,
+                          let wordUIModel = self.wordUIModel else {
+                        print("[DEBUG]: ", #function, #line, "self?.wordUIModel is nil")
+                        self?.presenter?.handle(event: .showAlert(message: "Ошибка добавления слова"))
+                        return
+                    }
+                    presenter.handle(event: .addNewWord(id: wordUIModel.categoryId))
+                }
+            case .failure(let error):
+                print("[DEBUG]: ", #function, #line, error.localizedDescription)
+                DispatchQueue.main.async {
+                    self?.presenter?.handle(event: .showAlert(message: "ошибка добавления слова"))
+                }
+            }
+        }
+    }
 }
 
 private extension AddNewWordInteractor {
@@ -121,7 +156,12 @@ private extension AddNewWordInteractor {
         isNative: Bool,
         completion: @escaping (Result<String?, Error>) -> Void
     ) {
-        addNewWordService?.apiTranslation(with: word, isNative: isNative, completion: completion)
+        guard let addNewWordService else {
+            completion(.failure(NetworkError.unexpected))
+            return
+        }
+
+        addNewWordService.apiTranslation(with: word, isNative: isNative, completion: completion)
     }
 
     func addNewWord(with model: WordUIModel, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -129,6 +169,11 @@ private extension AddNewWordInteractor {
                                         translations: model.translations,
                                         isLearned: model.isLearned,
                                         id: model.id)
-        addNewWordService?.addNewWord(with: wordAPIModel, completion: completion)
+        guard let addNewWordService else {
+            completion(.failure(NetworkError.unexpected))
+            return
+        }
+
+        addNewWordService.addNewWord(with: wordAPIModel, completion: completion)
     }
 }
