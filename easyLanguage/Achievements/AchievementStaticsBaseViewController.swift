@@ -73,7 +73,7 @@ struct AchievementStaticsBaseViewController: View {
                 if achievementToggle {
                     AchievementView()
                 } else {
-                    // TODO: View Матвея
+                    StatisticView()
                 }
             }
                 .background(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
