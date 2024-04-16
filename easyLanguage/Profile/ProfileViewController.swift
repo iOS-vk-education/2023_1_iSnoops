@@ -157,11 +157,11 @@ private extension ProfileViewController {
 
     func logout() {
         let controller = RegistrationViewController()
-        controller.modalPresentationStyle = .fullScreen
-        let navigation = UINavigationController(rootViewController: controller)
-        guard let window = UIApplication.shared.windows.first else { return }
-        window.rootViewController = navigation
-        window.makeKeyAndVisible()
+        if let navController = UIApplication.shared.windows.first?.rootViewController as? UINavigationController {
+                // Пушим ваш контроллер на стек навигации
+                navController.pushViewController(controller, animated: true)
+            }
+
     }
 
     // MARK: - Layouts
