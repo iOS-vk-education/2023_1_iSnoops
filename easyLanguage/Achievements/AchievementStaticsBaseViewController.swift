@@ -27,54 +27,58 @@ struct AchievementStaticsBaseViewController: View {
     @State private var isUIKitScreenPresented = false
     
     var body: some View {
-        VStack {
-            HStack {
-                Spacer()
-                VStack(alignment: .trailing) {
-                    Button(action: {
-                        let viewController = UIHostingController(rootView: UIKitViewController())
-                        let navController = UINavigationController(rootViewController: viewController)
-                        navController.pushViewController(viewController, animated: true)
-                    }) {
-                            Image(systemName: "gearshape.fill")
-                            .foregroundStyle(.gray)
-                            .font(.system(size: 23))
-                            .padding(.trailing, 10)
+        NavigationView {
+            VStack {
+                HStack {
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                            Button(action: {
+                                isUIKitScreenPresented = true
+                            }) {
+                                    Image(systemName: "gearshape.fill")
+                                    .foregroundStyle(.gray)
+                                    .font(.system(size: 23))
+                                    .padding(.trailing, 10)
+                            }
+                            NavigationLink(destination: UIKitViewController(), isActive: $isUIKitScreenPresented) {
+                                                EmptyView()
+                                            }
                     }
                 }
-            }
-            .frame(height: 0)
-            Image(systemName: "sun.max.circle.fill")
-                .font(.system(size: 90))
-                .foregroundStyle(.cyan)
-                .padding(.bottom, 5)
-                               
-            Text("Арсений").bold()
-                .font(.title2)
-            HStack {
-                Button("Достижения") {
-                    achievementToggle = true
+                .frame(height: 0)
+                Image(systemName: "sun.max.circle.fill")
+                    .font(.system(size: 90))
+                    .foregroundStyle(.cyan)
+                    .padding(.bottom, 5)
+                                   
+                Text("Арсений").bold()
+                    .font(.title2)
+                HStack {
+                    Button("Достижения") {
+                        achievementToggle = true
+                    }
+                    .font(.title3)
+                    .foregroundStyle(
+                        achievementToggle ? .blue : .gray)
+                    .padding(.trailing, 10)
+                    Button("Статистика") {
+                        achievementToggle = false
+                    }
+                    .font(.title3)
+                    .foregroundStyle(achievementToggle ? .gray: .blue)
                 }
-                .font(.title3)
-                .foregroundStyle(
-                    achievementToggle ? .blue : .gray)
-                .padding(.trailing, 10)
-                Button("Статистика") {
-                    achievementToggle = false
+                .padding(.top, 5)
+                .padding(.bottom, 10)
+                Spacer()
+                if achievementToggle {
+                    AchievementView()
+                } else {
+                    // TODO: View Матвея
                 }
-                .font(.title3)
-                .foregroundStyle(achievementToggle ? .gray: .blue)
             }
-            .padding(.top, 5)
-            .padding(.bottom, 10)
-            Spacer()
-            if achievementToggle {
-                AchievementView()
-            } else {
-                // TODO: View Матвея
-            }
+                .background(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
+//            .padding()
         }
-        .padding()
     }
 }
 

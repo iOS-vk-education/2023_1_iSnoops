@@ -21,16 +21,17 @@ struct AchievementView: View {
     var achievements: [Achievement] = testData
 
     var body: some View {
-        List(achievements) { ach in
-            HStack (spacing: 15) {
-                Image(ach.imageName)
-                    .resizable()
-                    .frame(width: 36, height: 40)
-                Text(ach.text)
-                    .frame(height: 50)
+            List(achievements) { ach in
+                HStack (spacing: 15) {
+                    Image(ach.imageName)
+                        .resizable()
+                        .frame(width: 36, height: 40)
+                    Text(ach.text)
+                        .frame(height: 50)
+                }
+                .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
             }
-        }.listStyle(.plain)
-        Spacer()
+        .listStyle(.plain)
     }
 }
 

@@ -4,7 +4,6 @@
 //
 //  Created by Grigoriy on 25.10.2023.
 //
-
 import UIKit
 /// Структура для управления цветами в различных режимах (светлый, темный, авто).
 struct Color {
@@ -12,7 +11,7 @@ struct Color {
         case lightMode
         case autoMode
         case darkMode
-
+        
         func description() -> String {
             switch self {
             case .lightMode:
@@ -24,19 +23,19 @@ struct Color {
             }
         }
     }
-
+    
     private let lightMode: UIColor
     private let darkMode: UIColor
-
+    
     init(lightMode: UIColor, darkMode: UIColor? = nil) {
         self.lightMode = lightMode
         self.darkMode = darkMode ?? lightMode
     }
-
+    
     var currentColor: UIColor {
         return makeCurrentColor()
     }
-
+    
     static var systemMode: SystemMode = .autoMode {
         didSet {
             var userInterfaceStyle: UIUserInterfaceStyle {
@@ -46,12 +45,12 @@ struct Color {
                 case .autoMode: return .unspecified
                 }
             }
-
+            
             guard #available(iOS 13.0, *) else { return }
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
                 windowScene.windows.forEach { $0.overrideUserInterfaceStyle = userInterfaceStyle }
             }
-
+            
         }
     }
     // swiftlint:disable all
