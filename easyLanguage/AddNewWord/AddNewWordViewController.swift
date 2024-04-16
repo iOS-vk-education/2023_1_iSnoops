@@ -41,11 +41,6 @@ extension AddNewWordViewController {
 
         output?.handle(event: .viewLoaded)
     }
-
-    @objc
-    func dismissKeyboard() {
-        view.endEditing(true)
-    }
 }
 
 // MARK: - AddNewWordPresenterOutput

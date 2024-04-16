@@ -65,6 +65,11 @@ extension AddNewWordViewController {
     }
 
     @objc
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
+    @objc
     func didTapTranslate() {
         @Trimmed var nativeText: String = nativeField.text ?? ""
         @Trimmed var foreignText: String = foreignField.text ?? ""
