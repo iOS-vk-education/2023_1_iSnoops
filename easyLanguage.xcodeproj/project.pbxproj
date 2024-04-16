@@ -18,6 +18,7 @@
 		070F96A42B9E0FCE00A6993A /* Trimmed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070F96A32B9E0FCE00A6993A /* Trimmed.swift */; };
 		0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0710CB262AF2B3B400F5478E /* CustomViewController.swift */; };
 		0710CB442AF3A7B400F5478E /* Color + extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0710CB432AF3A7B400F5478E /* Color + extensions.swift */; };
+		0712832F2BCDD630006146A9 /* AddNewWordViewController + Appearence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0712832E2BCDD630006146A9 /* AddNewWordViewController + Appearence.swift */; };
 		0717C0AC2AE84CA700C140C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0AB2AE84CA700C140C9 /* AppDelegate.swift */; };
 		0717C0AE2AE84CA700C140C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0AD2AE84CA700C140C9 /* SceneDelegate.swift */; };
 		0717C0B52AE84CA900C140C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0717C0B42AE84CA900C140C9 /* Assets.xcassets */; };
@@ -104,6 +105,7 @@
 		070F96A32B9E0FCE00A6993A /* Trimmed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trimmed.swift; sourceTree = "<group>"; };
 		0710CB262AF2B3B400F5478E /* CustomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewController.swift; sourceTree = "<group>"; };
 		0710CB432AF3A7B400F5478E /* Color + extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + extensions.swift"; sourceTree = "<group>"; };
+		0712832E2BCDD630006146A9 /* AddNewWordViewController + Appearence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddNewWordViewController + Appearence.swift"; sourceTree = "<group>"; };
 		0717C0A82AE84CA700C140C9 /* easyLanguage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = easyLanguage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0717C0AB2AE84CA700C140C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0717C0AD2AE84CA700C140C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 				074FF4E82BC4A148004064A3 /* AddNewWordBuilder.swift */,
 				074FF4E42BC491C6004064A3 /* AddNewWordModels.swift */,
 				074455482B223D1400FA5469 /* AddNewWordViewController.swift */,
+				0712832E2BCDD630006146A9 /* AddNewWordViewController + Appearence.swift */,
 				074FF4E22BC48A66004064A3 /* AddNewWordPresenter.swift */,
 				074FF4E02BC48A56004064A3 /* AddNewWordInteractor.swift */,
 				07048C052B3BA65E0050F0B5 /* AddNewWordService.swift */,
@@ -773,6 +776,7 @@
 				AADADDEB2B25E24400D0C6B9 /* ChoosingThemeView.swift in Sources */,
 				07048C062B3BA65E0050F0B5 /* AddNewWordService.swift in Sources */,
 				07048BFE2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift in Sources */,
+				0712832F2BCDD630006146A9 /* AddNewWordViewController + Appearence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

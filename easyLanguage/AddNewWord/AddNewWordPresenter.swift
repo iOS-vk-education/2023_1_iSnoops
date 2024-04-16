@@ -22,10 +22,8 @@ extension AddNewWordPresenter: AddNewWordInteractorOutput {
             view?.handle(event: .showView)
         case .showAlert(let message):
             view?.handle(event: .showError(error: message))
-        case .addNativeTranslate(let text):
-            view?.handle(event: .updateNativeField(text: text))
-        case .addForeignTranslate(let text):
-            view?.handle(event: .updateForeignField(text: text))
+        case .addTranslate(text: let text, isNative: let isNative):
+            view?.handle(event: .updateNativeField(text: text, isNative: isNative))
         case .addNewWord(id: let id):
             view?.handle(event: .updateCategoryDetail(id: id))
         }

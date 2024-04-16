@@ -11,13 +11,11 @@ enum AddNewWordViewEvent {
     /// View была загружена
     case viewLoaded
     /// Нажата кнопка переведа
-    case translateButtonTapped(word: String, isNative: Bool)
+    case translateButtonTapped(nativeText: String?, foreignText: String?)
     /// Нажата кнопка добавления слова
-    case addNewCardTapped(wordUIModel: WordUIModel)
-    /// Проверка на заполенение одного из полей перевода
-    case translateCheckIsOptionText(_ nativeText: String?, _ foreignText: String?)
+    case addNewCardTapped(wordUIModel: OptionalWordUIModel)
     /// Проверка является ли текст валидным ( для добавления карточки)
-    case checkIsValidNativeText(text: String?, isNative: Bool) //FIXME: - как правильно возвращать значение?
+    case checkIsValidNativeText(text: String?, isNative: Bool)
 }
 
 enum AddNewWordInteractorEvent {
@@ -25,10 +23,8 @@ enum AddNewWordInteractorEvent {
     case viewLoaded
     /// Показ ошибки
     case showAlert(message: String)
-    /// Успешно добавлен перевод с родным языком
-    case addNativeTranslate(text: String)
-    /// Успешно добавлен перевод с иностранным языком
-    case addForeignTranslate(text: String)
+    /// Успешно добавлен перевод
+    case addTranslate(text: String, isNative: Bool)
     /// Успешно добавлено новое слово
     case addNewWord(id: String)
 }
@@ -38,10 +34,8 @@ enum AddNewWordPresenterEvent {
     case showView
     /// показываем ошибку
     case showError(error: String)
-    /// необходимо обновить вьюху с родным переводом
-    case updateNativeField(text: String)
-    /// необходимо обновить вьюху с иностранным переводом
-    case updateForeignField(text: String)
+    /// необходимо обновить вьюху с  переводом
+    case updateNativeField(text: String, isNative: Bool)
     /// добавление нового слова на экран CategoryDetailViewController
     case updateCategoryDetail(id: String)
 }
