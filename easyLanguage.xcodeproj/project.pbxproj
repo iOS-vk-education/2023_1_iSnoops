@@ -83,6 +83,11 @@
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
 		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
+		17A7002E2BC9387B00012050 /* StatisticVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A7002D2BC9387B00012050 /* StatisticVIew.swift */; };
+		17B94D122BCEC580004D5C32 /* LearningAddedChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B94D112BCEC580004D5C32 /* LearningAddedChart.swift */; };
+		17B94D142BCEC5C6004D5C32 /* WeekStatisticChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B94D132BCEC5C6004D5C32 /* WeekStatisticChart.swift */; };
+		17B94D162BCEC606004D5C32 /* StatisticViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B94D152BCEC606004D5C32 /* StatisticViewModel.swift */; };
+		17B94D182BCEC63A004D5C32 /* StatisticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B94D172BCEC63A004D5C32 /* StatisticModel.swift */; };
 		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
 		17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8AA2B2F71C80064698E /* LoginViewController.swift */; };
 		17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F032B3B697100E6B7FE /* AuthService.swift */; };
@@ -171,6 +176,11 @@
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
+		17A7002D2BC9387B00012050 /* StatisticVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticVIew.swift; sourceTree = "<group>"; };
+		17B94D112BCEC580004D5C32 /* LearningAddedChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningAddedChart.swift; sourceTree = "<group>"; };
+		17B94D132BCEC5C6004D5C32 /* WeekStatisticChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekStatisticChart.swift; sourceTree = "<group>"; };
+		17B94D152BCEC606004D5C32 /* StatisticViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewModel.swift; sourceTree = "<group>"; };
+		17B94D172BCEC63A004D5C32 /* StatisticModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticModel.swift; sourceTree = "<group>"; };
 		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		17F57F032B3B697100E6B7FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -267,6 +277,7 @@
 			children = (
 				AAE2B9322BB322B1006DF763 /* Achievements */,
 				176412722B9F4B5100746175 /* Statistics */,
+				17A7002F2BC9388400012050 /* Statistic */,
 				AA717AA52B0E64C1004157D1 /* Profile */,
 				07D31BE12B389364005002E3 /* Onboarding */,
 				179FEC162B231AE200772FC8 /* LearningView */,
@@ -582,6 +593,26 @@
 			path = LearningView;
 			sourceTree = "<group>";
 		};
+		17A7002F2BC9388400012050 /* Statistic */ = {
+			isa = PBXGroup;
+			children = (
+				17A7002D2BC9387B00012050 /* StatisticVIew.swift */,
+				17B94D192BCEC668004D5C32 /* Charts */,
+				17B94D152BCEC606004D5C32 /* StatisticViewModel.swift */,
+				17B94D172BCEC63A004D5C32 /* StatisticModel.swift */,
+			);
+			path = Statistic;
+			sourceTree = "<group>";
+		};
+		17B94D192BCEC668004D5C32 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				17B94D112BCEC580004D5C32 /* LearningAddedChart.swift */,
+				17B94D132BCEC5C6004D5C32 /* WeekStatisticChart.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
 		AA0C7A302B20F65800DAF144 /* Subviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -719,6 +750,7 @@
 				0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */,
 				17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */,
 				07F1BE872AF828EA00F50845 /* CatalogCollectionViewDataSource.swift in Sources */,
+				17A7002E2BC9387B00012050 /* StatisticVIew.swift in Sources */,
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
 				AAE2B9342BB322E5006DF763 /* AchievementViewController.swift in Sources */,
 				0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */,
@@ -727,7 +759,9 @@
 				074FF4E52BC491C6004064A3 /* AddNewWordModels.swift in Sources */,
 				074FF4E12BC48A56004064A3 /* AddNewWordInteractor.swift in Sources */,
 				0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */,
+				17B94D142BCEC5C6004D5C32 /* WeekStatisticChart.swift in Sources */,
 				074455772B25E93F00FA5469 /* CategoryDetailModel.swift in Sources */,
+				17B94D162BCEC606004D5C32 /* StatisticViewModel.swift in Sources */,
 				07EF04CB2AFBEC3F0095DECB /* ColorModeManager.swift in Sources */,
 				072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */,
 				074FF4E92BC4A148004064A3 /* AddNewWordBuilder.swift in Sources */,
@@ -758,6 +792,7 @@
 				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,
 				07048C022B3B7BC50050F0B5 /* CategoryDetailService.swift in Sources */,
 				07C4F75B2B1BC9B30073BED0 /* NetworkErrors.swift in Sources */,
+				17B94D182BCEC63A004D5C32 /* StatisticModel.swift in Sources */,
 				074455752B25E92D00FA5469 /* CategoryDetailViewController.swift in Sources */,
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
 				072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */,
@@ -782,6 +817,7 @@
 				07C4F7762B1CF50A0073BED0 /* TopFiveWordsModel.swift in Sources */,
 				074FF4E32BC48A66004064A3 /* AddNewWordPresenter.swift in Sources */,
 				17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */,
+				17B94D122BCEC580004D5C32 /* LearningAddedChart.swift in Sources */,
 				0799EDB52B3CCA4300C0C04F /* AddNewCategoryService.swift in Sources */,
 				07A9B4F92BA4B2360091F444 /* TranslationApiModel.swift in Sources */,
 				070811532B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift in Sources */,
@@ -958,7 +994,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -989,7 +1025,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
