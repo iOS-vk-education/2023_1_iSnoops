@@ -186,8 +186,7 @@ extension CategoryDetailViewController: InputWordsDelegate {
 
     private func addActionToDeleteWord(with id: String, to alertController: UIAlertController) {
         let deleteAction = UIAlertAction(title: NSLocalizedString("detailDelete", comment: ""),
-                                         style: .destructive) { [weak self] _ in
-            guard let self = self else { return }
+                                         style: .destructive) { _ in
             self.handleDeleteWord(with: id)
         }
 

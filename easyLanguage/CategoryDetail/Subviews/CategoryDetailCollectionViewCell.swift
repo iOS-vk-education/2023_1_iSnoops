@@ -220,7 +220,6 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
 
     private func showDeleteConfirmation() {
         guard let id = wordUIModel?.id else {
-//            delegate?.showActionSheet(with: wordUIModel?.id ?? "")
             return
         }
         delegate?.showActionSheet(with: id)
