@@ -38,7 +38,7 @@
 "labelUnderTextFields" = "Provide a name and, if desired, a page photo for your profile.";
 "themeTitle" = "Theme decoration";
 "lightThemeLabel" = "Light";
-"autoThemeLabel" = "Automatically";
+"autoThemeLabel" = "System";
 "darkThemeLabel" = "Dark";
 "logOutFromAccount" = "Log out of your account";
 
