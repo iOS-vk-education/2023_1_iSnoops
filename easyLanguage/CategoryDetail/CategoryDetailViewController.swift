@@ -31,6 +31,15 @@ final class CategoryDetailViewController: CustomViewController {
     }()
 
     private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
+    
+    private let button: UIButton = {
+        let button = UIButton()
+        // FIXME: - изменить title с локализацией
+        button.setTitle("Перейти к изучению", for: .normal)
+        button.backgroundColor = .PrimaryColors.Button.blue
+        return button
+    }()
+
     private var wordsModel = [WordUIModel]()
     private let model = CategoryDetailModel()
     private var selectedCategory = 0
@@ -40,7 +49,7 @@ final class CategoryDetailViewController: CustomViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [collectionView, noWordsLabel].forEach {
+        [collectionView, noWordsLabel, button].forEach {
             view.addSubview($0)
         }
 
@@ -48,6 +57,9 @@ final class CategoryDetailViewController: CustomViewController {
         setNavBar()
         setNoWordsLabel()
         setCollectionView()
+        setButton()
+
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
     @objc
@@ -66,6 +78,15 @@ final class CategoryDetailViewController: CustomViewController {
         sheet.detents = [.medium()]
 
         present(addCategoryVC, animated: true, completion: nil)
+    }
+
+    @objc
+    func didTapButton() {
+        let learningVC = LearningViewController()
+        learningVC.learnCategory(with: linkedWordsId)
+        learningVC.modalPresentationStyle = .pageSheet
+
+        present(learningVC, animated: true)
     }
 }
 
@@ -133,6 +154,17 @@ private extension CategoryDetailViewController {
         collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                      constant: -UIConstants.horizontally).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+
+    func setButton() {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                        constant: UIConstants.horizontally).isActive = true
+        button.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                        constant: -UIConstants.horizontally).isActive = true
+        button.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                       constant: -150).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 100).isActive = true
     }
 }
 

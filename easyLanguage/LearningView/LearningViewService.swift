@@ -13,6 +13,7 @@ import FirebaseAuth
 protocol LearningViewServiceProtocol {
     func createNewTopFiveWord(with word: WordUIModel) async throws
     func loadWords() async throws -> [WordApiModel]
+    func loadWordsInCategory(with categoryId: String) async throws -> [WordApiModel]
 }
 
 final class LearningViewService: LearningViewServiceProtocol {
@@ -22,7 +23,7 @@ final class LearningViewService: LearningViewServiceProtocol {
     private let dataBase = Firestore.firestore()
 
     // MARK: Public methods
-    public func loadWords() async throws -> [WordApiModel] {
+    func loadWords() async throws -> [WordApiModel] {
         let categories = try await loadCategories()
         var words = [WordApiModel]()
         for category in categories {
@@ -35,6 +36,34 @@ final class LearningViewService: LearningViewServiceProtocol {
             }
         }
         return words
+    }
+
+    func loadWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
+        return try await withCheckedThrowingContinuation { continuation in
+            dataBase.collection("words")
+                .whereField("categoryId", isEqualTo: categoryId)
+                .whereField("isLearned", isEqualTo: false).getDocuments { querySnapshot, error in
+                    if let error = error {
+                        print(error)
+                        continuation.resume(throwing: error)
+                        return
+                    }
+                    guard let documents = querySnapshot?.documents else {
+                        continuation.resume(throwing: NetworkError.unexpected)
+                        return
+                    }
+                    let categoryWords: [WordApiModel] = documents.compactMap { document in
+                        do {
+                            let word = try document.data(as: WordApiModel.self)
+                            return word
+                        } catch {
+                            continuation.resume(throwing: error)
+                            return nil
+                        }
+                    }
+                    continuation.resume(returning: categoryWords)
+                }
+        }
     }
 
     public func createNewTopFiveWord(with word: WordUIModel) async throws {
@@ -88,34 +117,6 @@ final class LearningViewService: LearningViewServiceProtocol {
                         }
                     }
                     continuation.resume(returning: categories)
-                }
-        }
-    }
-
-    private func loadWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
-        return try await withCheckedThrowingContinuation { continuation in
-            dataBase.collection("words")
-                .whereField("categoryId", isEqualTo: categoryId)
-                .whereField("isLearned", isEqualTo: false).getDocuments { querySnapshot, error in
-                    if let error = error {
-                        print(error)
-                        continuation.resume(throwing: error)
-                        return
-                    }
-                    guard let documents = querySnapshot?.documents else {
-                        continuation.resume(throwing: NetworkError.unexpected)
-                        return
-                    }
-                    let categoryWords: [WordApiModel] = documents.compactMap { document in
-                        do {
-                            let word = try document.data(as: WordApiModel.self)
-                            return word
-                        } catch {
-                            continuation.resume(throwing: error)
-                            return nil
-                        }
-                    }
-                    continuation.resume(returning: categoryWords)
                 }
         }
     }

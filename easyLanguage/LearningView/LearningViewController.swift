@@ -75,7 +75,7 @@ final class LearningViewController: UIViewController {
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadLearningWords()
+
         setupViews()
         setupEmptyWordsLabelConstraints()
         setupDescriptionLabelConstraints()
@@ -85,6 +85,8 @@ final class LearningViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         correctCount = 0
         incorrectCount = 0
+        
+        //FIXME: - не каждый раз, а только при переходе с таббара
         loadLearningWords()
         cardsWereSwiped = false
     }
@@ -157,6 +159,23 @@ final class LearningViewController: UIViewController {
                try await service.postWords(words: modelForPost)
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
+            }
+        }
+    }
+}
+
+//MARK: - internal
+extension LearningViewController {
+    func learnCategory(with categoryId: String) {
+        emptyWordsLabel.isHidden = true
+        Task {
+            do {
+                model = try await service.loadCategory(with: categoryId)
+                activityIndicator.stopAnimating()
+                cardStack.reloadData()
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+                model = []
             }
         }
     }
