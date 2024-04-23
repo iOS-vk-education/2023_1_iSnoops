@@ -46,7 +46,7 @@ final class CategoryDetailViewController: CustomViewController {
     private var linkedWordsId = ""
     weak var delegate: CategoryDetailOutput?
 
-    private var height: CGFloat = 0
+    lazy var height = { view.bounds.height / 15 }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,9 +55,8 @@ final class CategoryDetailViewController: CustomViewController {
             view.addSubview($0)
         }
 
-        height =  view.bounds.height / 15
 
-        setHeight()
+        setContentInset()
         loadWords()
         setNavBar()
         setNoWordsLabel()
@@ -136,8 +135,8 @@ private extension CategoryDetailViewController {
 
 // MARK: - private methods
 private extension CategoryDetailViewController {
-    func setHeight() {
-        collectionView.setContentInset(with: height + 20)
+    func setContentInset() {
+        collectionView.setContentInset(with: height + UIConstants.height * 2)
     }
 
     func setNavBar() {
@@ -179,7 +178,7 @@ private extension CategoryDetailViewController {
 private extension CategoryDetailViewController {
     struct UIConstants {
         static let horizontally: CGFloat = 36.0
-        static let height: CGFloat = 10.0
+        static let height: CGFloat = 5.0
     }
 }
 
