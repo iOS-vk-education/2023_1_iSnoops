@@ -15,6 +15,8 @@ final class LearningViewController: UIViewController {
     private var modelForPost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
 
+    private var isNeedLoadAll = true
+
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -72,6 +74,14 @@ final class LearningViewController: UIViewController {
     private var correctCount: Int = 0
     private var incorrectCount: Int = 0
 
+    init(isNeedLoadAll: Bool = true ) {
+        super.init(nibName: nil, bundle: nil)
+        self.isNeedLoadAll = isNeedLoadAll
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,9 +95,9 @@ final class LearningViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         correctCount = 0
         incorrectCount = 0
-        
-        //FIXME: - не каждый раз, а только при переходе с таббара
-        loadLearningWords()
+        if isNeedLoadAll {
+            loadLearningWords()
+        }
         cardsWereSwiped = false
     }
 

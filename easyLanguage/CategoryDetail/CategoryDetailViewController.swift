@@ -23,7 +23,7 @@ protocol CategoryDetailOutput: AnyObject {
 final class CategoryDetailViewController: CustomViewController {
     private let noWordsLabel: UILabel = {
         let label = UILabel()
-        label.text =  NSLocalizedString("emptyCategoryAdvice", comment: "")
+        label.text = NSLocalizedString("emptyCategoryAdvice", comment: "")
         label.textColor = .PrimaryColors.Font.secondary
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -31,12 +31,12 @@ final class CategoryDetailViewController: CustomViewController {
     }()
 
     private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
-    
+
     private let button: UIButton = {
         let button = UIButton()
-        // FIXME: - изменить title с локализацией
-        button.setTitle("Перейти к изучению", for: .normal)
+        button.setTitle(NSLocalizedString("CategoryDetailGoToStudy", comment: ""), for: .normal)
         button.backgroundColor = .PrimaryColors.Button.blue
+        button.layer.cornerRadius = 16
         return button
     }()
 
@@ -46,6 +46,8 @@ final class CategoryDetailViewController: CustomViewController {
     private var linkedWordsId = ""
     weak var delegate: CategoryDetailOutput?
 
+    private var height: CGFloat = 0
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -53,6 +55,9 @@ final class CategoryDetailViewController: CustomViewController {
             view.addSubview($0)
         }
 
+        height =  view.bounds.height / 15
+
+        setHeight()
         loadWords()
         setNavBar()
         setNoWordsLabel()
@@ -82,7 +87,7 @@ final class CategoryDetailViewController: CustomViewController {
 
     @objc
     func didTapButton() {
-        let learningVC = LearningViewController()
+        let learningVC = LearningViewController(isNeedLoadAll: false)
         learningVC.learnCategory(with: linkedWordsId)
         learningVC.modalPresentationStyle = .pageSheet
 
@@ -90,7 +95,7 @@ final class CategoryDetailViewController: CustomViewController {
     }
 }
 
-// MARK: - open methods
+// MARK: - internal methods
 extension CategoryDetailViewController {
     func set(with category: CategoryModel) {
         self.selectedCategory = category.index ?? 0
@@ -131,6 +136,10 @@ private extension CategoryDetailViewController {
 
 // MARK: - private methods
 private extension CategoryDetailViewController {
+    func setHeight() {
+        collectionView.setContentInset(with: height + 20)
+    }
+
     func setNavBar() {
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                  style: .done,
@@ -149,10 +158,8 @@ private extension CategoryDetailViewController {
     func setCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                     constant: UIConstants.horizontally).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                     constant: -UIConstants.horizontally).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
@@ -161,17 +168,18 @@ private extension CategoryDetailViewController {
         button.leadingAnchor.constraint(equalTo: view.leadingAnchor,
                                         constant: UIConstants.horizontally).isActive = true
         button.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                        constant: -UIConstants.horizontally).isActive = true
+                                         constant: -UIConstants.horizontally).isActive = true
         button.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                       constant: -150).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 100).isActive = true
+                                       constant: -height * 1.5 - UIConstants.height).isActive = true
+        button.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
 }
 
 // MARK: - Constants
 private extension CategoryDetailViewController {
     struct UIConstants {
-        static let horizontally: CGFloat = 18.0
+        static let horizontally: CGFloat = 36.0
+        static let height: CGFloat = 10.0
     }
 }
 

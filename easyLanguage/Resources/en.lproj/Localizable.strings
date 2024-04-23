@@ -20,6 +20,7 @@
 
 //MARK: - CategoryDetail
 "emptyCategoryAdvice" = "There are no words in the category.\nAdd them by tapping +";
+"CategoryDetailGoToStudy" = "Go to study";
 
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Add Photo";

@@ -21,6 +21,7 @@
 
 //MARK: - CategoryDetail
 "emptyCategoryAdvice" = "Нет слов в категории.\n Добавьте их по тапу на +";
+"CategoryDetailGoToStudy" = "Перейти к изучению";
 
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Добавить фото";

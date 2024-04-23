@@ -24,10 +24,15 @@ final class CategoryDetailCollectionView: UICollectionView {
         setupCollectionView()
     }
 
+    func setContentInset(with height: CGFloat) {
+        contentInset = UIEdgeInsets(top: 0, left: 11.5, bottom: height, right: 11.5)
+    }
+
     private func setupCollectionView() {
         delegate = self
         dataSource = self
         register(CategoryDetailCollectionViewCell.self, forCellWithReuseIdentifier: "CategoryDetailCollectionView")
+
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout {
             flowLayout.minimumLineSpacing = 18
         }
