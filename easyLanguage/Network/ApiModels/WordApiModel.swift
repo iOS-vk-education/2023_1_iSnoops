@@ -12,4 +12,18 @@ struct WordApiModel: Codable {
     let translations: [String: String]
     var isLearned: Bool
     let id: String // для лайка
+
+    init(categoryId: String, translations: [String: String], isLearned: Bool, id: String) {
+        self.categoryId = categoryId
+        self.translations = translations
+        self.isLearned = isLearned
+        self.id = id
+    }
+
+    init(ui: WordUIModel) {
+        categoryId = ui.categoryId
+        translations = ui.translations
+        isLearned = ui.isLearned
+        id = ui.id
+    }
 }
