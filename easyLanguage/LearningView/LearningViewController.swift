@@ -102,10 +102,9 @@ final class LearningViewController: UIViewController {
         activityIndicator.startAnimating()
         view.addSubview(emptyWordsLabel)
         emptyWordsLabel.isHidden = true
-        view.addSubview(cardStack)
         view.addSubview(descriptionLabel)
-        view.addSubview(cardStack)
         view.addSubview(progressInfo)
+        view.addSubview(cardStack)
     }
 
     private func setupDescriptionLabelConstraints() {
