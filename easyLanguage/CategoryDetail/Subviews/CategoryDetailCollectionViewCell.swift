@@ -10,6 +10,7 @@ import UIKit
 protocol CategoryDetailCellOutput {
     func didTapMarkAsLearned()
     func showTranslation()
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer)
 }
 
 final class CategoryDetailCollectionViewCell: UICollectionViewCell {
@@ -34,6 +35,10 @@ final class CategoryDetailCollectionViewCell: UICollectionViewCell {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showTranslation))
         self.addGestureRecognizer(tapGesture)
+
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        self.addGestureRecognizer(longPressGesture)
+
         layer.cornerRadius = 15
     }
 
@@ -197,5 +202,23 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
         UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in
             self?.updateTitleLabel()
         })
+    }
+
+    @objc
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            generateHapticFeedback()
+            showDeleteConfirmation()
+        }
+    }
+
+    private func generateHapticFeedback() {
+        let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
+    }
+
+    private func showDeleteConfirmation() {
+        delegate?.showActionSheet(with: wordUIModel?.id ?? "")
     }
 }

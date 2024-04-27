@@ -50,8 +50,8 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
 
     @objc func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
-                    self?.userInformationView.setImage(image: image)
-                }
+            self?.uploadImage(image: image)
+        }
     }
 }
 
@@ -61,8 +61,9 @@ private extension ProfileViewController {
         model.loadProfile { result in
             switch result {
             case .success(let profile):
-                print(profile)
-                self.userInformationView.setupTextFields(with: profile)
+                self.userInformationView.setTextFields(with: profile)
+                guard let imageLink = profile.imageLink else { return }
+                self.userInformationView.setImage(imageLink: imageLink)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -76,6 +77,17 @@ private extension ProfileViewController {
                 self?.progressView.setupAllLearnedWords(count: count.0)
                 self?.progressView.setupWordsInProgress(count: count.1)
                 self?.progressView.setProgress()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func uploadImage(image: UIImage) {
+        model.uploadImage(image: image) { [weak self] result in
+            switch result {
+            case .success(let url):
+                self?.userInformationView.setImage(imageLink: url.absoluteString)
             case .failure(let error):
                 print(error.localizedDescription)
             }

@@ -13,11 +13,11 @@ protocol InputWordsDelegate: AnyObject {
     var index: Int { get }
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void)
     func changeIsLearned(with number: Int, isLearned: Bool)
+    func showActionSheet(with id: String)
 }
 
 protocol CategoryDetailOutput: AnyObject {
-    func updateTotalCountWords(with linkedWordsId: String)
-    func updateLearnedCountWords(with linkedWordsId: String, isLearned: Bool)
+    func updateCountWords(with parameters: UpdateCountWordsParameters)
 }
 
 final class CategoryDetailViewController: CustomViewController {
@@ -163,13 +163,81 @@ extension CategoryDetailViewController: InputWordsDelegate {
 
     func changeIsLearned(with number: Int, isLearned: Bool) {
         model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned)
-        delegate?.updateLearnedCountWords(with: wordsModel[number].categoryId, isLearned: isLearned)
+        self.delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: wordsModel[number].categoryId,
+                                                                         changeTotalCount: false,
+                                                                         changeLearnedCount: true,
+                                                                         isLearned: isLearned,
+                                                                         isDeleted: false))
+    }
+
+    func showActionSheet(with id: String) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        addActionToDeleteWord(with: id, to: alertController)
+        addActionToCancel(to: alertController)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
+    private func addActionToDeleteWord(with id: String, to alertController: UIAlertController) {
+        let deleteAction = UIAlertAction(title: NSLocalizedString("detailDelete", comment: ""),
+                                         style: .destructive) { _ in
+            self.handleDeleteWord(with: id)
+        }
+
+        alertController.addAction(deleteAction)
+    }
+
+    private func handleDeleteWord(with id: String) {
+        model.deleteWord(with: id) { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success:
+                self.handleSuccessfulDeletion(with: id)
+            case .failure(let error):
+                AlertManager.showWordDeleteAlert(on: self)
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    private func handleSuccessfulDeletion(with id: String) {
+        guard let index = wordsModel.firstIndex(where: { $0.id == id }) else {
+            print("Word not found :(")
+            return
+        }
+
+        let categoryId = wordsModel[index].categoryId
+        let isLearned = wordsModel[index].isLearned
+
+        DispatchQueue.main.async {
+            self.delegate?.updateCountWords(with: UpdateCountWordsParameters(
+                linkedWordsId: categoryId,
+                changeTotalCount: true,
+                changeLearnedCount: isLearned,
+                isLearned: false,
+                isDeleted: true
+            ))
+
+            self.wordsModel.removeAll(where: { $0.id == id })
+            self.collectionView.reloadData()
+        }
+    }
+
+    private func addActionToCancel(to alertController: UIAlertController) {
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel) { _ in }
+        alertController.addAction(cancelAction)
     }
 }
 
 extension CategoryDetailViewController: AddNewWordOutput {
     func didCreateWord(with categoryId: String) {
         loadWords()
-        delegate?.updateTotalCountWords(with: categoryId)
+        delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: categoryId,
+                                                                         changeTotalCount: true,
+                                                                         changeLearnedCount: false,
+                                                                         isLearned: false,
+                                                                         isDeleted: false))
     }
 }
