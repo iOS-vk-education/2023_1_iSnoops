@@ -60,7 +60,7 @@ extension ChoosingThemeView: ThemeViewOutput {
 // MARK: - set all constraints
 private extension ChoosingThemeView {
     func setAppearanseAndConstraints() {
-        components = Color.SystemMode.allCases.map {
+        components = AppColor.SystemMode.allCases.map {
             let label = UILabel()
             label.text = $0.description()
             return (UIButton(), label)
@@ -113,13 +113,13 @@ private extension ChoosingThemeView {
         switch text {
         case NSLocalizedString("lightThemeLabel", comment: ""):
             UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
-            Color.systemMode = .lightMode
+            AppColor.systemMode = .lightMode
         case NSLocalizedString("autoThemeLabel", comment: ""):
             UserDefaults.standard.set(NSLocalizedString("autoThemeLabel", comment: ""), forKey: "selectedTheme")
-            Color.systemMode = .autoMode
+            AppColor.systemMode = .autoMode
         case NSLocalizedString("darkThemeLabel", comment: ""):
             UserDefaults.standard.set(NSLocalizedString("darkThemeLabel", comment: ""), forKey: "selectedTheme")
-            Color.systemMode = .darkMode
+            AppColor.systemMode = .darkMode
         default:
             break
         }
