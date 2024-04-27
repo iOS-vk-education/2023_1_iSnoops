@@ -52,7 +52,7 @@ private extension TopFiveView {
     func setVisualAppearance() {
         adviceLabel.font = TextStyle.bodySmall.font
         titleLabel.font = TextStyle.bodyBig.font
-        titleLabel.textColor = .PrimaryColors.Font
+        titleLabel.textColor = UIColor.PrimaryColors.Font.header
         titleLabel.text = NSLocalizedString("topFiveWordsTitle", comment: "")
         adviceLabel.text = NSLocalizedString("topFiveWordsAdvice", comment: "")
         adviceLabel.textColor = .gray
