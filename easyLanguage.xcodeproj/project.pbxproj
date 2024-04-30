@@ -94,6 +94,7 @@
 		AAFCB8172BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB8152BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift */; };
 		AAFCB8182BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB8162BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift */; };
 		AAFCB81B2BE0FEAF002128C7 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB81A2BE0FEAF002128C7 /* DataManager.swift */; };
+		AAFCB85E2BE12481002128C7 /* String + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB85D2BE12481002128C7 /* String + extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -183,6 +184,7 @@
 		AAFCB8152BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCoreDataModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AAFCB8162BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCoreDataModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AAFCB81A2BE0FEAF002128C7 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		AAFCB85D2BE12481002128C7 /* String + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -322,6 +324,7 @@
 		0717C0C72AE8527000C140C9 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				AAFCB85C2BE1246C002128C7 /* Extensions */,
 				0710CB282AF2B3B800F5478E /* CustomViewController */,
 				0717C0E22AE85EAC00C140C9 /* View */,
 				07F1BEA22AF82BA700F50845 /* Font */,
@@ -637,6 +640,14 @@
 			path = CoreDataManager;
 			sourceTree = "<group>";
 		};
+		AAFCB85C2BE1246C002128C7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AAFCB85D2BE12481002128C7 /* String + extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -793,6 +804,7 @@
 				0799EDB32B3CCA3D00C0C04F /* AddNewCategoryModel.swift in Sources */,
 				AAFCB8172BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift in Sources */,
 				AAFCB8182BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift in Sources */,
+				AAFCB85E2BE12481002128C7 /* String + extension.swift in Sources */,
 				074455792B25E95500FA5469 /* CategoryDetailCollectionViewDataSource.swift in Sources */,
 				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,

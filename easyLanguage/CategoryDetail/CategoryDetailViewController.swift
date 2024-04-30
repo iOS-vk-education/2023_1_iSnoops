@@ -83,6 +83,17 @@ extension CategoryDetailViewController {
     }
 }
 
+// MARK: - CoreData
+private extension CategoryDetailViewController {
+    func fetchWords() {
+   
+    }
+    
+    func deleteWord() {
+ 
+    }
+}
+
 // MARK: - networking
 private extension CategoryDetailViewController {
     func loadWords() {

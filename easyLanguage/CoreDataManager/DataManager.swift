@@ -13,11 +13,13 @@ protocol DataManagerDescription {
     func fetch<T>(with request: NSFetchRequest<T>) -> [T]
     func create<T: NSManagedObject>(with entityName: String,
                                   configurationBlock: @escaping (T) -> Void)
+    func delete<T: NSManagedObject>(object: T)
+    func deleteObjectWithId<T: NSManagedObject>(id: String, objectType: T.Type)
 }
 
 final class DataManager {
 
-    private let modelWord = "WordCoreDataModel"
+    private let modelWord = String.modelWord
     private let container: NSPersistentContainer
 
     var mainQueueContext: NSManagedObjectContext {
@@ -58,6 +60,25 @@ extension DataManager: DataManagerDescription {
             }
             try? mainQueueContext.save()
             configurationBlock(newObject)
+        }
+    }
+
+    func delete<T: NSManagedObject>(object: T) {
+        mainQueueContext.performAndWait {
+            mainQueueContext.delete(object)
+            try? mainQueueContext.save()
+        }
+    }
+
+    func deleteObjectWithId<T: NSManagedObject>(id: String, objectType: T.Type) {
+        let fetchRequest = NSFetchRequest<T>(entityName: objectType.entity().name ?? "")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+        mainQueueContext.performAndWait {
+            if let object = try? mainQueueContext.fetch(fetchRequest).first {
+                mainQueueContext.delete(object)
+                try? mainQueueContext.save()
+            }
         }
     }
 }

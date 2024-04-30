@@ -64,6 +64,7 @@ extension CategoriesViewController {
         addConstraints()
         categoriesCollectionView.setupInputCategoriesDelegate(with: self)
         categoriesCollectionView.categoryDetailOutput = self
+        loadStorage()
     }
 }
 
@@ -75,6 +76,13 @@ extension CategoriesViewController {
         let cellHeight = CGFloat(view.frame.width / 2 - 9) // -18 ( + 18 (minimumLineSpacing)
         let categoriesMargin = CGFloat(35 + 10) // 35 - высота addIcon + её отсутуп до коллекции
         return cellHeight * cellCount + categoriesMargin
+    }
+}
+
+// MARK: - loadStorage
+private extension CategoriesViewController {
+    func loadStorage() {
+        DataManager.shared.initCoreData(completion: {})
     }
 }
 

@@ -11,6 +11,7 @@ final class AddWordInteractor {
     weak var view: AddWordViewInput?
 
     private let service: AddWordServiceProtocol
+    private let dataManager = DataManager.shared
 
     init(service: AddWordServiceProtocol) {
         self.service = service
@@ -29,8 +30,10 @@ extension AddWordInteractor: AddWordViewOutput {
         case let .addButtonTapped(model):
             if let errorMessage = validate(inputed: model.translations) {
                 view.handle(event: .showAlert(message: errorMessage))
+                return
             }
             add(word: WordApiModel(ui: model))
+            addToBD(with: model)
 
         case let .translateButtonTapped(nativeWord, foreignWord):
             translate(!nativeWord.isEmpty ? WordType(nativeWord, native: true) : WordType(foreignWord, native: false))
@@ -75,11 +78,25 @@ private extension AddWordInteractor {
                 }
                 switch result {
                 case .success:
+//                    self.addToBD()
                     await MainActor.run { view.handle(event: .updateCategoryDetail(id: word.categoryId)) }
                 case .failure:
                     await MainActor.run { view.handle(event: .showAlert(message: "Ошибка добавления слова")) }
                 }
             }
+        }
+    }
+
+    func addToBD(with word: WordUIModel) {
+        self.dataManager.create(with: String.modelWord) { wordCD in
+            guard let wordCD = wordCD as? WordCoreDataModel else {
+                return
+            }
+            wordCD.categoryId = UUID(uuidString: word.categoryId)
+            wordCD.isLearned = word.isLearned
+            wordCD.id = UUID(uuidString: word.id)
+            wordCD.translations = word.translations
+//            wordCD.swipesCounter = 0
         }
     }
 }

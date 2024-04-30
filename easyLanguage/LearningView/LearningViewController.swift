@@ -84,15 +84,15 @@ final class LearningViewController: UIViewController {
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupProgressInfoConstraints()
-        initStorage()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         correctCount = 0
         incorrectCount = 0
-//        loadLearningWords()
+        loadLearningWords()
         cardsWereSwiped = false
+        fetchWordsFromStorage()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -180,32 +180,20 @@ final class LearningViewController: UIViewController {
 
 // MARK: - Storage
 private extension LearningViewController {
-    func initStorage() {
-        DataManager.shared.initCoreData { [weak self] in
-            let words: [WordCoreDataModel] = DataManager.shared.fetch(with: WordCoreDataModel.fetchRequest())
+    func fetchWordsFromStorage() {
+        let words: [WordCoreDataModel] = DataManager.shared.fetch(with: WordCoreDataModel.fetchRequest())
+  
+//        var wordUIModel: [WordUIModel]
+//        wordUIModel.first?.id = words.first?.id
 
-            guard let self,
-                  let words = words as? [WordUIModel] else {
-                return
-            }
-
-            model = words
-
-            cardStack.reloadData()
+        guard let words = words as? [WordUIModel] else {
+            return
         }
+
+        model = words
+
+        cardStack.reloadData()
     }
-//    
-//    func create() {
-//        DataManager.shared.create(with: "WordCoreDataModel") { [weak self] words in
-//            guard let self,
-//                  let words = words as? [WordCoreDataModel] else {
-//                //TODO: - ошибка
-//                return
-//            }
-//
-//            model = words
-//        }
-//    }
 }
 
 // MARK: DataSource
