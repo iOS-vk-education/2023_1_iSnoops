@@ -13,12 +13,12 @@ import FirebaseAuth
 protocol LearningViewServiceProtocol {
     func createNewTopFiveWord(with word: WordUIModel) async throws
     func loadWords() async throws -> [WordApiModel]
+    func updateWord(with word: WordUIModel) async throws
 }
 
 final class LearningViewService: LearningViewServiceProtocol {
 
     static let shared: LearningViewServiceProtocol = LearningViewService()
-
     private let dataBase = Firestore.firestore()
 
     // MARK: Public methods
@@ -48,6 +48,15 @@ final class LearningViewService: LearningViewServiceProtocol {
             try await checkCountOfWords()
         }
     }
+    
+    public func updateWord(with word: WordUIModel) async throws {
+        guard let userId = checkAuthentication() else {
+            throw AuthErrors.userNotAuthenticated
+        }
+        try await updateWord(id: word.id,
+                             isLearned: word.isLearned,
+                             swipesCounter: word.swipesCounter)
+    }
 
     // MARK: Private methods
     private func checkAuthentication() -> String? {
@@ -63,7 +72,6 @@ final class LearningViewService: LearningViewServiceProtocol {
             print("пользователь не авторизован")
             throw AuthErrors.userNotAuthenticated
         }
-
         return try await withCheckedThrowingContinuation { continuation in
             dataBase.collection("categories")
                 .whereField("profileId", isEqualTo: uid)
@@ -120,6 +128,11 @@ final class LearningViewService: LearningViewServiceProtocol {
         }
     }
 
+    private func updateWord(id: String, isLearned: Bool, swipesCounter: Int) async throws {
+        try await dataBase.collection("words").document(id).setData(["isLearned": isLearned,
+                                                                     "swipesCounter": swipesCounter], merge: true)
+    }
+
     private func checkIndividualIdForPostAsync(id: String,
                                                userId: String?) async throws -> Bool {
         var result: Bool
@@ -167,7 +180,6 @@ final class LearningViewService: LearningViewServiceProtocol {
             throw error
         }
     }
-
     private func getTopFiveWordsCollection(documents: [QueryDocumentSnapshot]) -> [TopFiveWordsApiModel] {
         let topFiveWords: [TopFiveWordsApiModel] = documents.compactMap { document in
             do {

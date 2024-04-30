@@ -11,5 +11,6 @@ struct WordApiModel: Codable {
     let categoryId: String // Связующий идентификатор для связи с категорией
     let translations: [String: String]
     var isLearned: Bool
+    var swipesCounter: Int
     let id: String // для лайка
 }

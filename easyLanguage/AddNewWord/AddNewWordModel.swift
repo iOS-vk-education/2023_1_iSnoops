@@ -14,6 +14,7 @@ final class AddNewWordModel {
         let wordAPIModel = WordApiModel(categoryId: model.categoryId,
                                         translations: model.translations,
                                         isLearned: model.isLearned,
+                                        swipesCounter: model.swipesCounter,
                                         id: model.id)
         addNewWordService.addNewWord(with: wordAPIModel, completion: completion)
     }

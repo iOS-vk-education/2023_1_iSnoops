@@ -18,7 +18,8 @@ final class CategoryDetailModel {
                 let wordsModel = wordsApiModel.map { word in
                     WordUIModel(categoryId: word.categoryId,
                                 translations: word.translations,
-                                isLearned: word.isLearned,
+                                isLearned: word.isLearned, 
+                                swipesCounter: word.swipesCounter,
                                 id: word.id)
                 }
                 completion(.success(wordsModel))
@@ -28,8 +29,8 @@ final class CategoryDetailModel {
         }
     }
 
-    func reloadIsLearned(with id: String, isLearned: Bool) {
-        categoryService.reloadIsLearned(with: id, isLearned: isLearned)
+    func reloadIsLearned(with id: String, isLearned: Bool, swipesCounter: Int) {
+        categoryService.reloadIsLearned(with: id, isLearned: isLearned, swipesCounter: swipesCounter)
     }
 
     func deleteWord(with id: String, comletion: @escaping (Result<Bool, Error>) -> Void) {

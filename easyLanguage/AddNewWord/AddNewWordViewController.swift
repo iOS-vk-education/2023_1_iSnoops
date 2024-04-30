@@ -58,7 +58,8 @@ private extension AddNewWordViewController {
     func addNewWord(with translations: [String: String]) {
          model.addNewWord(with: WordUIModel(categoryId: categoryId,
                                             translations: translations,
-                                            isLearned: false,
+                                            isLearned: false, 
+                                            swipesCounter: 0,
                                             id: UUID().uuidString)) { [weak self] result in
              switch result {
              case .success:
