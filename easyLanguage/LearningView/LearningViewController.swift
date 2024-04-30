@@ -75,17 +75,20 @@ final class LearningViewController: UIViewController {
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadLearningWords()
+//        loadLearningWords()
         setupViews()
         setupEmptyWordsLabelConstraints()
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupProgressInfoConstraints()
+        initStorage()
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         correctCount = 0
         incorrectCount = 0
-        loadLearningWords()
+//        loadLearningWords()
         cardsWereSwiped = false
     }
 
@@ -160,6 +163,36 @@ final class LearningViewController: UIViewController {
             }
         }
     }
+}
+
+// MARK: - Storage
+private extension LearningViewController {
+    func initStorage() {
+        DataManager.shared.initCoreData { [weak self] in
+            let words: [WordCoreDataModel] = DataManager.shared.fetch(with: WordCoreDataModel.fetchRequest())
+
+            guard let self,
+                  let words = words as? [WordUIModel] else {
+                return
+            }
+
+            model = words
+
+            cardStack.reloadData()
+        }
+    }
+//    
+//    func create() {
+//        DataManager.shared.create(with: "WordCoreDataModel") { [weak self] words in
+//            guard let self,
+//                  let words = words as? [WordCoreDataModel] else {
+//                //TODO: - ошибка
+//                return
+//            }
+//
+//            model = words
+//        }
+//    }
 }
 
 // MARK: DataSource
