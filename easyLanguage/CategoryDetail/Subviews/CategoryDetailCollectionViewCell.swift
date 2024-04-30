@@ -191,7 +191,9 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
     func didTapMarkAsLearned() {
         wordUIModel?.isLearned.toggle()
 
-        delegate?.changeIsLearned(with: cellIndex, isLearned: wordUIModel?.isLearned ?? true)
+        delegate?.changeIsLearned(with: cellIndex, 
+                                  isLearned: wordUIModel?.isLearned ?? true,
+                                  swipesCounter: wordUIModel?.isLearned ?? true ? 5 : 0)
         updateMark(with: (wordUIModel?.isLearned ?? true))
     }
 
