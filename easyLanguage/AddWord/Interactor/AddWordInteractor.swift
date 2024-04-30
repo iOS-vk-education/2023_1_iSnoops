@@ -92,11 +92,11 @@ private extension AddWordInteractor {
             guard let wordCD = wordCD as? WordCoreDataModel else {
                 return
             }
-            wordCD.categoryId = UUID(uuidString: word.categoryId)
+            wordCD.categoryId = word.categoryId
             wordCD.isLearned = word.isLearned
-            wordCD.id = UUID(uuidString: word.id)
+            wordCD.id = word.id 
             wordCD.translations = word.translations
-//            wordCD.swipesCounter = 0
+            wordCD.swipesCounter = Int64(word.swipesCounter)
         }
     }
 }

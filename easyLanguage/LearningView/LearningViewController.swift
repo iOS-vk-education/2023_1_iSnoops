@@ -15,6 +15,8 @@ final class LearningViewController: UIViewController {
     private var modelForPost: [WordUIModel] = []
     private var modelForTopFivePost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
+    
+    private let storage = DataManager.shared
 
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
@@ -76,9 +78,6 @@ final class LearningViewController: UIViewController {
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-//        loadLearningWords()
-
         setupViews()
         setupEmptyWordsLabelConstraints()
         setupDescriptionLabelConstraints()
@@ -90,7 +89,7 @@ final class LearningViewController: UIViewController {
 
         correctCount = 0
         incorrectCount = 0
-        loadLearningWords()
+//        loadLearningWords()
         cardsWereSwiped = false
         fetchWordsFromStorage()
     }
@@ -167,30 +166,35 @@ final class LearningViewController: UIViewController {
         }
     }
 
-    private func updateWord(words: WordUIModel) {
+    private func updateWord(word: WordUIModel) {
         Task {
             do {
-                try await service.updateWord(words: words)
+                try await service.updateWord(words: word)
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
             }
         }
+    }
+
+    private func updateWordCoreData(with word: WordUIModel) {
+        let cdModel: WordCoreDataModel = WordCoreDataModel()
+
+        cdModel.isLearned = word.isLearned
+        cdModel.categoryId = word.categoryId
+        cdModel.id = word.id
+        cdModel.translations = word.translations
+        cdModel.swipesCounter = Int64(word.swipesCounter)
+
+        storage.update(object: cdModel)
     }
 }
 
 // MARK: - Storage
 private extension LearningViewController {
     func fetchWordsFromStorage() {
-        let words: [WordCoreDataModel] = DataManager.shared.fetch(with: WordCoreDataModel.fetchRequest())
-  
-//        var wordUIModel: [WordUIModel]
-//        wordUIModel.first?.id = words.first?.id
+        let words: [WordCoreDataModel] = storage.fetch(with: WordCoreDataModel.fetchRequest())
 
-        guard let words = words as? [WordUIModel] else {
-            return
-        }
-
-        model = words
+        model = words.compactMap({ WordUIModel(coreData: $0) })
 
         cardStack.reloadData()
     }
@@ -264,7 +268,8 @@ extension LearningViewController: SwipeCardStackDelegate {
             if model[index].swipesCounter == 5 {
                 model[index].isLearned = true
             }
-            updateWord(words: model[index])
+//            updateWord(word: model[index])
+            updateWordCoreData(with: model[index])
             modelForPost.append(model[index])
             correctCount += 1
             labels[0].text = "\(NSLocalizedString("correctText", comment: "")) \(correctCount)"
@@ -273,7 +278,8 @@ extension LearningViewController: SwipeCardStackDelegate {
             if model[index].swipesCounter != 0 {
                 model[index].swipesCounter -= 1
             }
-            updateWord(words: model[index])
+//            updateWord(words: model[index])
+            updateWordCoreData(with: model[index])
             modelForPost.append(model[index])
             modelForTopFivePost.append(model[index])
             print("post ----- \(modelForPost)")

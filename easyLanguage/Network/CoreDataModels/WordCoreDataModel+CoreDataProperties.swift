@@ -16,11 +16,11 @@ extension WordCoreDataModel {
         return NSFetchRequest<WordCoreDataModel>(entityName: String.modelWord)
     }
 
-    @NSManaged public var categoryId: UUID?
+    @NSManaged public var categoryId: String?
     @NSManaged public var translations: [String: String]?
     @NSManaged public var isLearned: Bool
-    @NSManaged public var id: UUID?
-//    @NSManaged public var swipesCounter: Int64
+    @NSManaged public var id: String?
+    @NSManaged public var swipesCounter: Int64
 
 }
 

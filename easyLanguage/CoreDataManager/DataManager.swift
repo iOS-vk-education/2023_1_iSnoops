@@ -9,12 +9,14 @@ import Foundation
 import CoreData
 
 protocol DataManagerDescription {
+    var mainQueueContext: NSManagedObjectContext { get }
     func initCoreData(completion: @escaping () -> Void)
     func fetch<T>(with request: NSFetchRequest<T>) -> [T]
     func create<T: NSManagedObject>(with entityName: String,
                                   configurationBlock: @escaping (T) -> Void)
     func delete<T: NSManagedObject>(object: T)
     func deleteObjectWithId<T: NSManagedObject>(id: String, objectType: T.Type)
+    func update<T: NSManagedObject>(object: T)
 }
 
 final class DataManager {
@@ -78,6 +80,16 @@ extension DataManager: DataManagerDescription {
             if let object = try? mainQueueContext.fetch(fetchRequest).first {
                 mainQueueContext.delete(object)
                 try? mainQueueContext.save()
+            }
+        }
+    }
+
+    func update<T: NSManagedObject>(object: T) {
+        mainQueueContext.performAndWait {
+            do {
+                try mainQueueContext.save()
+            } catch {
+                print("[DEBUG]: Error updating object: \(error.localizedDescription)")
             }
         }
     }
