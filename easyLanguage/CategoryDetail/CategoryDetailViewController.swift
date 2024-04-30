@@ -12,7 +12,7 @@ protocol InputWordsDelegate: AnyObject {
     var wordsCount: Int { get }
     var index: Int { get }
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void)
-    func changeIsLearned(with number: Int, isLearned: Bool)
+    func changeIsLearned(with number: Int, isLearned: Bool, swipesCounter: Int)
     func showActionSheet(with id: String)
     func showAlert(with title: String)
 }
@@ -157,12 +157,13 @@ extension CategoryDetailViewController: InputWordsDelegate {
         let wordModel = WordUIModel(categoryId: wordsModel[index].categoryId,
                                     translations: wordsModel[index].translations,
                                     isLearned: wordsModel[index].isLearned,
+                                    swipesCounter: wordsModel[index].swipesCounter,
                                     id: wordsModel[index].id)
         completion(wordModel)
     }
 
-    func changeIsLearned(with number: Int, isLearned: Bool) {
-        model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned)
+    func changeIsLearned(with number: Int, isLearned: Bool, swipesCounter: Int) {
+        model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned, swipesCounter: swipesCounter)
         self.delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: wordsModel[number].categoryId,
                                                                          changeTotalCount: false,
                                                                          changeLearnedCount: true,

@@ -146,7 +146,7 @@ private extension AddWordViewController {
 
         output?.handle(event: .addButtonTapped(uiModel: WordUIModel(
             categoryId: categoryID, translations: ["ru": native, "en": foreign],
-            isLearned: false, id: UUID().uuidString)
+            isLearned: false, swipesCounter: 0, id: UUID().uuidString)
         ))
     }
 
