@@ -53,9 +53,8 @@ final class CategoryDetailViewController: CustomViewController {
 
     @objc
     func tappedAddWord() {
-        let addCategoryVC = AddNewWordViewController()
+        let addCategoryVC = AddWordBuilder.build(categoryID: linkedWordsId)
         addCategoryVC.modalPresentationStyle = .pageSheet
-        addCategoryVC.setCategoryId(with: linkedWordsId)
         addCategoryVC.delegate = self
 
         guard let sheet = addCategoryVC.sheetPresentationController else {
@@ -236,7 +235,7 @@ extension CategoryDetailViewController: InputWordsDelegate {
     }
 }
 
-extension CategoryDetailViewController: AddNewWordOutput {
+extension CategoryDetailViewController: AddWordOutput {
     func didCreateWord(with categoryId: String) {
         loadWords()
         delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: categoryId,
