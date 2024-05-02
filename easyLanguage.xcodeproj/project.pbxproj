@@ -87,10 +87,10 @@
 		17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F032B3B697100E6B7FE /* AuthService.swift */; };
 		17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */; };
 		17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F072B3B90FC00E6B7FE /* AlertManager.swift */; };
+		18D753862BE164930097DD9F /* WordCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 18D753842BE164930097DD9F /* WordCoreDataModel.xcdatamodeld */; };
 		AA0C7A332B20F6D400DAF144 /* UserInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0C7A322B20F6D400DAF144 /* UserInformationView.swift */; };
 		AA717AA92B0E678D004157D1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA717AA82B0E678D004157D1 /* ProfileViewController.swift */; };
 		AADADDEB2B25E24400D0C6B9 /* ChoosingThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADADDEA2B25E24400D0C6B9 /* ChoosingThemeView.swift */; };
-		AAFCB8142BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB8122BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodeld */; };
 		AAFCB8172BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB8152BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift */; };
 		AAFCB8182BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB8162BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift */; };
 		AAFCB81B2BE0FEAF002128C7 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFCB81A2BE0FEAF002128C7 /* DataManager.swift */; };
@@ -177,10 +177,10 @@
 		17F57F032B3B697100E6B7FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Register+LoginUserRequestModel.swift"; sourceTree = "<group>"; };
 		17F57F072B3B90FC00E6B7FE /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
+		18D753852BE164930097DD9F /* WordCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		AA0C7A322B20F6D400DAF144 /* UserInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformationView.swift; sourceTree = "<group>"; };
 		AA717AA82B0E678D004157D1 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AADADDEA2B25E24400D0C6B9 /* ChoosingThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosingThemeView.swift; sourceTree = "<group>"; };
-		AAFCB8132BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordCoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		AAFCB8152BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCoreDataModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AAFCB8162BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCoreDataModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AAFCB81A2BE0FEAF002128C7 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
@@ -627,7 +627,7 @@
 			children = (
 				AAFCB8152BE0FE15002128C7 /* WordCoreDataModel+CoreDataClass.swift */,
 				AAFCB8162BE0FE15002128C7 /* WordCoreDataModel+CoreDataProperties.swift */,
-				AAFCB8122BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodeld */,
+				18D753842BE164930097DD9F /* WordCoreDataModel.xcdatamodeld */,
 			);
 			path = CoreDataModels;
 			sourceTree = "<group>";
@@ -757,6 +757,7 @@
 				17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */,
 				07F1BE872AF828EA00F50845 /* CatalogCollectionViewDataSource.swift in Sources */,
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
+				18D753862BE164930097DD9F /* WordCoreDataModel.xcdatamodeld in Sources */,
 				0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */,
 				07F1BE892AF828F100F50845 /* CatalogCollectionViewDelegateFlowLayout.swift in Sources */,
 				0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */,
@@ -784,7 +785,6 @@
 				0744557D2B25E9B000FA5469 /* CategoryDetailCollectionView.swift in Sources */,
 				AAFCB81B2BE0FEAF002128C7 /* DataManager.swift in Sources */,
 				07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */,
-				AAFCB8142BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodeld in Sources */,
 				074455732B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift in Sources */,
 				07C4F7772B1CF50A0073BED0 /* CategoryModel.swift in Sources */,
 				07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */,
@@ -1108,14 +1108,14 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		AAFCB8122BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodeld */ = {
+		18D753842BE164930097DD9F /* WordCoreDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				AAFCB8132BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodel */,
+				18D753852BE164930097DD9F /* WordCoreDataModel.xcdatamodel */,
 			);
-			currentVersion = AAFCB8132BE0FAF6002128C7 /* WordCoreDataModel.xcdatamodel */;
+			currentVersion = 18D753852BE164930097DD9F /* WordCoreDataModel.xcdatamodel */;
 			name = WordCoreDataModel.xcdatamodeld;
-			path = /Users/senyaaa/Desktop/BMSTU/xcode_projects/test3/2023_1_iSnoops/easyLanguage/Network/CoreDataModels/WordCoreDataModel.xcdatamodeld;
+			path = /Users/a.kurganova/iosVKEducation/2023_1_iSnoops/easyLanguage/Network/CoreDataModels/WordCoreDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Shuffle
+import CoreData
 
 final class LearningViewController: UIViewController {
     private let service = LearningViewModel()
@@ -15,8 +16,21 @@ final class LearningViewController: UIViewController {
     private var modelForPost: [WordUIModel] = []
     private var modelForTopFivePost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
-    
+
     private let storage = DataManager.shared
+
+    private lazy var frc: NSFetchedResultsController<WordCoreDataModel> = {
+        let request = WordCoreDataModel.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: #keyPath(WordCoreDataModel.isLearned), ascending: true)
+        request.sortDescriptors = [sortDescriptor]
+
+        let frc = NSFetchedResultsController(fetchRequest: request,
+                                             managedObjectContext: storage.mainQueueContext,
+                                             sectionNameKeyPath: nil,
+                                             cacheName: nil)
+        frc.delegate = self
+        return frc
+    }()
 
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
@@ -189,21 +203,61 @@ final class LearningViewController: UIViewController {
     }
 }
 
+extension LearningViewController: NSFetchedResultsControllerDelegate {
+//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+//        cardStack.begin
+//    }
+
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+        cardStack.reloadData()
+    }
+
+    func controller(_ controller: NSFetchedResultsController<any NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            if let newIndexPath = newIndexPath {
+                cardStack.insertCard(atIndex: newIndexPath.item, position: newIndexPath.item)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                cardStack.deleteCards(atIndices: [indexPath.item])
+            }
+        case .move:
+            return
+        case .update:
+            if let indexPath = indexPath {
+//                model[indexPath.item]
+                cardStack.reloadData()
+            }
+        @unknown default:
+            fatalError()
+        }
+    }
+}
+
 // MARK: - Storage
 private extension LearningViewController {
     func fetchWordsFromStorage() {
-        let words: [WordCoreDataModel] = storage.fetch(with: WordCoreDataModel.fetchRequest())
+//        let words: [WordCoreDataModel] = storage.fetch(with: WordCoreDataModel.fetchRequest())
+//
+//        model = words.compactMap({ WordUIModel(coreData: $0) })
+        model = frc.object(at: <#T##IndexPath#>)
+        try? frc.performFetch()
 
-        model = words.compactMap({ WordUIModel(coreData: $0) })
-
-        cardStack.reloadData()
+//        cardStack.reloadData()
     }
 }
 
 // MARK: DataSource
 extension LearningViewController: SwipeCardStackDataSource {
     func cardStack(_ cardStack: Shuffle.SwipeCardStack, cardForIndexAt index: Int) -> Shuffle.SwipeCard {
+        let text = frc.object(at: index)
         setupCard(text: model[index])
+        
     }
 
     func numberOfCards(in cardStack: Shuffle.SwipeCardStack) -> Int {
