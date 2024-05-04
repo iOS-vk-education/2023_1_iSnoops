@@ -8,8 +8,8 @@
 import Foundation
 
 final class AddWordBuilder {
-    static func build(categoryID: String) -> AddWordViewController {
-        let viewController = AddWordViewController(categoryID: categoryID)
+    static func build(categoryID: String, wordsModel: [WordUIModel]) -> AddWordViewController {
+        let viewController = AddWordViewController(categoryID: categoryID, wordsModel: wordsModel)
 
         let interactor = AddWordInteractor(service: AddWordService())
         interactor.view = viewController

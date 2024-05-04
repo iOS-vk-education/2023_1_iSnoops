@@ -26,9 +26,13 @@ extension AddWordInteractor: AddWordViewOutput {
         case .viewLoaded:
             view.handle(event: .showView)
 
-        case let .addButtonTapped(model):
+        case let .addButtonTapped(wordsUIModel: wordsUIModel, addedWord: model):
             if let errorMessage = validate(inputed: model.translations) {
                 view.handle(event: .showAlert(message: errorMessage))
+                return
+            }
+            if isWordExisting(wordsModel: wordsUIModel, native: model.translations["ru"] ?? "", foreign: model.translations["en"] ?? "") {
+                view.handle(event: .showAlert(message: NSLocalizedString("wordAlreadyExistAlert", comment: "")))
                 return
             }
             add(word: WordApiModel(ui: model))
@@ -61,6 +65,13 @@ private extension AddWordInteractor {
         }
 
         return nil
+    }
+
+    func isWordExisting(wordsModel: [WordUIModel], native: String, foreign: String) -> Bool {
+        return wordsModel.contains { word in
+            word.translations["ru"]?.lowercased() == native.lowercased() &&
+            word.translations["en"]?.lowercased() == foreign.lowercased()
+        }
     }
 }
 

@@ -82,3 +82,4 @@
 "reloadHeightAlert" = "Ошибка обновления высоты";
 "wordDeleteAlert" = "Ошибка при удалении слова";
 "dataPostErrorAlert" = "Не удалось отправить данные";
+"wordAlreadyExistAlert" = "Это слово уже существует";

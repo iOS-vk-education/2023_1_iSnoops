@@ -76,7 +76,7 @@ final class CategoryDetailViewController: CustomViewController {
 
     @objc
     func tappedAddWord() {
-        let addCategoryVC = AddWordBuilder.build(categoryID: linkedWordsId)
+        let addCategoryVC = AddWordBuilder.build(categoryID: linkedWordsId, wordsModel: wordsModel)
         addCategoryVC.modalPresentationStyle = .pageSheet
         addCategoryVC.delegate = self
 
@@ -161,7 +161,7 @@ private extension CategoryDetailViewController {
         noWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         noWordsLabel.sizeToFit()
     }
-    
+
     func setLoader() {
         loader.translatesAutoresizingMaskIntoConstraints = false
         loader.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

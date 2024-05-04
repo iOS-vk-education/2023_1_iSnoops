@@ -14,6 +14,7 @@ protocol AddWordOutput: AnyObject {
 
 final class AddWordViewController: UIViewController {
     private let categoryID: String
+    private let wordsModel: [WordUIModel]
     var output: AddWordViewOutput?
     weak var delegate: AddWordOutput?
 
@@ -76,8 +77,9 @@ final class AddWordViewController: UIViewController {
 
     // MARK: - init
 
-    init(categoryID: String) {
+    init(categoryID: String, wordsModel: [WordUIModel]) {
         self.categoryID = categoryID
+        self.wordsModel = wordsModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -143,11 +145,21 @@ private extension AddWordViewController {
     func didTabButton() {
         @Trimmed var native = nativeField.text!
         @Trimmed var foreign = foreignField.text!
-
-        output?.handle(event: .addButtonTapped(uiModel: WordUIModel(
-            categoryId: categoryID, translations: ["ru": native, "en": foreign],
-            isLearned: false, swipesCounter: 0, id: UUID().uuidString)
+        output?.handle(event: .addButtonTapped(
+            wordsUIModel: wordsModel,
+            addedWord: WordUIModel(
+                categoryId: categoryID,
+                translations: ["ru": native, "en": foreign],
+                isLearned: false,
+                swipesCounter: 0,
+                id: UUID().uuidString
+            )
         ))
+
+//        output?.handle(event: .addButtonTapped(uiModel: WordUIModel(
+//            categoryId: categoryID, translations: ["ru": native, "en": foreign],
+//            isLearned: false, swipesCounter: 0, id: UUID().uuidString)
+//        ))
     }
 
     func clearFields() {
