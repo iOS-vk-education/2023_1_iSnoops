@@ -13,6 +13,7 @@ final class LearningViewController: UIViewController {
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
     private var modelForPost: [WordUIModel] = []
+    private var modelForTopFivePost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
 
     private var isNeedLoadAll = true
@@ -56,7 +57,7 @@ final class LearningViewController: UIViewController {
     }()
 
     private lazy var emptyWordsLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = NSLocalizedString("emptyWordsLabel", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -85,7 +86,6 @@ final class LearningViewController: UIViewController {
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupViews()
         setupEmptyWordsLabelConstraints()
         setupDescriptionLabelConstraints()
@@ -166,7 +166,17 @@ final class LearningViewController: UIViewController {
     private func postToTopFive() {
         Task {
             do {
-               try await service.postWords(words: modelForPost)
+                try await service.postWords(words: modelForTopFivePost)
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+            }
+        }
+    }
+
+    private func updateWord(words: WordUIModel) {
+        Task {
+            do {
+                try await service.updateWord(words: words)
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
             }
@@ -208,7 +218,7 @@ extension LearningViewController: SwipeCardStackDataSource {
         card.backgroundColor = UIColor.Catalog.LightYellow.categoryBackground
         card.layer.cornerRadius = 30
         card.setOverlays([.left: overlay(color: UIColor.Catalog.Red.categoryBackground),
-            .right: overlay(color: UIColor.Catalog.Green.categoryBackground)])
+                          .right: overlay(color: UIColor.Catalog.Green.categoryBackground)])
         return card
     }
 
@@ -255,12 +265,22 @@ extension LearningViewController: SwipeCardStackDelegate {
         guard let labels = progressInfo.arrangedSubviews as? [UILabel] else { return }
         switch direction {
         case .right:
-            model[index].isLearned = true // Предположил это
+            model[index].swipesCounter += 1
+            if model[index].swipesCounter == 5 {
+                model[index].isLearned = true
+            }
+            updateWord(words: model[index])
+            modelForPost.append(model[index])
             correctCount += 1
             labels[0].text = "\(NSLocalizedString("correctText", comment: "")) \(correctCount)"
             isFlipped = false
         case .left:
+            if model[index].swipesCounter != 0 {
+                model[index].swipesCounter -= 1
+            }
+            updateWord(words: model[index])
             modelForPost.append(model[index])
+            modelForTopFivePost.append(model[index])
             print("post ----- \(modelForPost)")
             incorrectCount += 1
             labels[1].text = "\(NSLocalizedString("incorrectText", comment: "")) \(incorrectCount)"

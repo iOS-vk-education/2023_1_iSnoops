@@ -21,6 +21,7 @@ final class LearningViewModel {
             let wordUIModel = WordUIModel(categoryId: word.categoryId,
                                           translations: word.translations,
                                           isLearned: word.isLearned,
+                                          swipesCounter: word.swipesCounter,
                                           id: word.id)
             wordsUIModel.append(wordUIModel)
         }
@@ -35,6 +36,7 @@ final class LearningViewModel {
             let wordUIModel = WordUIModel(categoryId: word.categoryId,
                                           translations: word.translations,
                                           isLearned: word.isLearned,
+                                          swipesCounter: word.swipesCounter,
                                           id: word.id)
             wordsUIModel.append(wordUIModel)
         }
@@ -46,5 +48,14 @@ final class LearningViewModel {
         for word in words {
             try await learningViewService.createNewTopFiveWord(with: word)
         }
+    }
+
+    func updateWords(words: [WordUIModel]) async throws {
+        for word in words {
+            try await learningViewService.updateWord(with: word)
+        }
+    }
+    func updateWord(words: WordUIModel) async throws {
+            try await learningViewService.updateWord(with: words)
     }
 }
