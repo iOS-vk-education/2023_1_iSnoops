@@ -52,6 +52,7 @@ private extension AddWordInteractor {
     }
 
     func validate(inputed: [String: String]) -> String? {
+        print("inputed", inputed)
         if let nativeText = inputed["ru"], nativeText.isEmpty {
             return "Необходимо ввести слово на русском"
         }
