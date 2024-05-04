@@ -20,6 +20,10 @@ extension CategoriesCollectionView: UICollectionViewDataSource {
             cell.cellConfigure(with: categoryUIModel, at: indexPath)
         }
 
+        if let inputCategories = inputCategories {
+            cell.setDelegate(with: inputCategories)
+        }
+
         return cell
     }
 

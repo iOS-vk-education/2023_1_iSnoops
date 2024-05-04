@@ -13,6 +13,7 @@ import FirebaseAuth
 protocol CatalogNetworkManagerProtocol {
     func loadCategories() async throws -> [CategoryApiModel]
     func loadProgressView() async throws -> (Int, Int)
+    func deleteCategory(with id: String, completion: @escaping (Result<Bool, Error>) -> Void)
 }
 
 final class CategoryService: CatalogNetworkManagerProtocol {
@@ -78,6 +79,30 @@ final class CategoryService: CatalogNetworkManagerProtocol {
         }
 
         return (totalWords, learnedWords)
+    }
+
+    func deleteCategory(with id: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        dataBase.collection("categories").whereField("linkedWordsId", isEqualTo: id).getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let documents = snapshot?.documents, !documents.isEmpty else {
+                completion(.failure(NetworkError.unexpected))
+                return
+            }
+
+            for document in documents {
+                document.reference.delete { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(true))
+                    }
+                }
+            }
+        }
     }
 
     private func loadWordsForCategory(with categoryId: String) async throws -> (total: Int, studied: Int) {

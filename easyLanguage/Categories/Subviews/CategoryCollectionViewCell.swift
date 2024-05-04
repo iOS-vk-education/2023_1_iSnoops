@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol CategoryCellInput {
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer)
+}
+
 final class CategoryCollectionViewCell: UICollectionViewCell {
 
     private let backgroundLevelView = UIView()
     private let titleLabel = UILabel()
     private let imageView = UIImageView()
     private let progressLabel = UILabel()
+
+    private var model = CategoryUIModel()
+    weak var delegate: InputCategoriesDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +34,9 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         setTitleLabel()
         setProgressLabel()
         setupLabels()
+
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        self.addGestureRecognizer(longPressGesture)
     }
 
     required init?(coder: NSCoder) {
@@ -37,9 +47,14 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 // MARK: - open methods
 extension CategoryCollectionViewCell {
     func cellConfigure(with model: CategoryUIModel, at indexPath: IndexPath) {
+        self.model = model
         setupColorsForCategory(with: model.index)
         setupProgressAndTitleLabels(with: model)
         imageView.image = model.image
+    }
+
+    func setDelegate(with delegate: InputCategoriesDelegate) {
+        self.delegate = delegate
     }
 }
 
@@ -113,6 +128,27 @@ private extension CategoryCollectionViewCell {
                                            constant: frame.width / 8).isActive = true
         progressLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
                                            constant: frame.width / 8).isActive = true
+    }
+}
+
+// MARK: - CategoryCellInput
+extension CategoryCollectionViewCell: CategoryCellInput {
+    @objc
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            generateHapticFeedback()
+            showDeleteConfirmation()
+        }
+    }
+
+    private func generateHapticFeedback() {
+        let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
+    }
+
+    private func showDeleteConfirmation() {
+        delegate?.showActionSheet(with: model.linkedWordsId)
     }
 }
 
