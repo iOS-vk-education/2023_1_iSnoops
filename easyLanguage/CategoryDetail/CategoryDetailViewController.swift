@@ -28,7 +28,14 @@ final class CategoryDetailViewController: CustomViewController {
         label.textColor = .PrimaryColors.Font.secondary
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.isHidden = true
         return label
+    }()
+
+    private let loader: UIActivityIndicatorView = {
+        let loader = UIActivityIndicatorView()
+        loader.hidesWhenStopped = true
+        return loader
     }()
 
     private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
@@ -52,15 +59,15 @@ final class CategoryDetailViewController: CustomViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [collectionView, noWordsLabel, button].forEach {
+        [collectionView, noWordsLabel, loader, button].forEach {
             view.addSubview($0)
         }
-
 
         setContentInset()
         loadWords()
         setNavBar()
         setNoWordsLabel()
+        setLoader()
         setCollectionView()
         setButton()
 
@@ -111,10 +118,13 @@ extension CategoryDetailViewController {
 // MARK: - networking
 private extension CategoryDetailViewController {
     func loadWords() {
+        loader.startAnimating()
         model.loadWords(with: linkedWordsId) { [weak self] result in
             guard let self = self else {
                 return
             }
+
+            loader.stopAnimating()
 
             switch result {
             case .success(let data):
@@ -122,9 +132,7 @@ private extension CategoryDetailViewController {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
-                if !wordsModel.isEmpty {
-                    noWordsLabel.isHidden = true
-                }
+                noWordsLabel.isHidden = !wordsModel.isEmpty
             case .failure(let error):
                 AlertManager.showDataLoadErrorAlert(on: self)
                 print("[DEBUG]: \(#function), \(error.localizedDescription)")
@@ -152,6 +160,12 @@ private extension CategoryDetailViewController {
         noWordsLabel.topAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         noWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         noWordsLabel.sizeToFit()
+    }
+    
+    func setLoader() {
+        loader.translatesAutoresizingMaskIntoConstraints = false
+        loader.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loader.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 
     func setCollectionView() {
