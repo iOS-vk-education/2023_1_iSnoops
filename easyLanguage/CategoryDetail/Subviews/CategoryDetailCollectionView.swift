@@ -25,7 +25,7 @@ final class CategoryDetailCollectionView: UICollectionView {
     }
 
     func setContentInset(with height: CGFloat) {
-        contentInset = UIEdgeInsets(top: 0, left: 11.5, bottom: height, right: 11.5)
+        contentInset = UIEdgeInsets(top: 0, left: CGFloat.horizontolly, bottom: height, right: CGFloat.horizontolly)
     }
 
     private func setupCollectionView() {
@@ -37,4 +37,8 @@ final class CategoryDetailCollectionView: UICollectionView {
             flowLayout.minimumLineSpacing = 18
         }
     }
+}
+
+private extension CGFloat {
+    static let horizontolly = 11.5
 }
