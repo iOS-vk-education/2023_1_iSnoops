@@ -19,7 +19,22 @@ struct Trimmed {
             return value
         }
         set {
-            value = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            let trimmedAndLowercased = newValue.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+            var filteredString = ""
+            var previousCharacter: Character?
+
+            for character in trimmedAndLowercased {
+                if character == " " {
+                    if previousCharacter != " " {
+                        filteredString.append(character)
+                    }
+                } else if character.isLetter || character.isWhitespace {
+                    filteredString.append(character)
+                }
+                previousCharacter = character
+            }
+
+            value = filteredString
 
             if value != newValue {
                 projectedValue = true

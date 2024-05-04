@@ -44,7 +44,7 @@ final class CategoryDetailService: CategoryDetailServiceProtocol {
     }
 
     func reloadIsLearned(with id: String, isLearned: Bool, swipesCounter: Int) {
-        dataBase.collection("words").document(id).updateData(["isLearned": isLearned, 
+        dataBase.collection("words").document(id).updateData(["isLearned": isLearned,
                                                               "swipesCounter": swipesCounter]) { error in
             if let error = error {
                 print(error)
