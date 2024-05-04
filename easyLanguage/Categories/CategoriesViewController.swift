@@ -257,9 +257,13 @@ private extension CategoriesViewController {
             guard let self = self else { return }
 
             switch result {
-            case .success:
-                categoryModel.removeAll(where: { $0.linkedWordsId == id })
-                collectionView.reloadData()
+            case .success(let isDeleted):
+                if isDeleted {
+                    categoryModel.removeAll(where: { $0.linkedWordsId == id })
+                    collectionView.reloadData()
+                } else {
+                    AlertManager.showWordDeleteAlert(on: self)
+                }
             case .failure(let error):
                 AlertManager.showWordDeleteAlert(on: self)
                 print(error.localizedDescription)

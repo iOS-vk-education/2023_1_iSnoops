@@ -10,7 +10,6 @@ import UIKit
 protocol CategoryDetailCellOutput {
     func didTapMarkAsLearned()
     func showTranslation()
-    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer)
 }
 
 final class CategoryDetailCollectionViewCell: UICollectionViewCell {
@@ -185,27 +184,8 @@ private extension CategoryDetailCollectionViewCell {
 }
 // swiftlint:enable nesting
 
-// MARK: - CategoryDetailCellOutput
-extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
-    @objc
-    func didTapMarkAsLearned() {
-        wordUIModel?.isLearned.toggle()
-
-        delegate?.changeIsLearned(with: cellIndex, 
-                                  isLearned: wordUIModel?.isLearned ?? true,
-                                  swipesCounter: wordUIModel?.isLearned ?? true ? 5 : 0)
-        updateMark(with: (wordUIModel?.isLearned ?? true))
-    }
-
-    @objc
-    func showTranslation() {
-        let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
-        isFlipped = !isFlipped
-        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in
-            self?.updateTitleLabel()
-        })
-    }
-
+// MARK: - HandleLongPress
+extension CategoryDetailCollectionViewCell: HandleLongPress {
     @objc
     func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
@@ -225,5 +205,27 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
             return
         }
         delegate?.showActionSheet(with: id)
+    }
+}
+
+// MARK: - CategoryDetailCellOutput
+extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
+    @objc
+    func didTapMarkAsLearned() {
+        wordUIModel?.isLearned.toggle()
+
+        delegate?.changeIsLearned(with: cellIndex, 
+                                  isLearned: wordUIModel?.isLearned ?? true,
+                                  swipesCounter: wordUIModel?.isLearned ?? true ? 5 : 0)
+        updateMark(with: (wordUIModel?.isLearned ?? true))
+    }
+
+    @objc
+    func showTranslation() {
+        let transitionOptions: UIView.AnimationOptions = .transitionFlipFromRight
+        isFlipped = !isFlipped
+        UIView.transition(with: self, duration: 0.65, options: transitionOptions, animations: { [weak self] in
+            self?.updateTitleLabel()
+        })
     }
 }

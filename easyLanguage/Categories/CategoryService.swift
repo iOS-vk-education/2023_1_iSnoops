@@ -96,7 +96,7 @@ final class CategoryService: CatalogNetworkManagerProtocol {
             for document in documents {
                 document.reference.delete { error in
                     if let error = error {
-                        completion(.failure(error))
+                        completion(.success(false))
                     } else {
                         completion(.success(true))
                     }

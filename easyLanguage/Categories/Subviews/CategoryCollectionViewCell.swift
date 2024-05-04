@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CategoryCellInput {
+protocol HandleLongPress {
     func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer)
 }
 
@@ -18,7 +18,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
     private let imageView = UIImageView()
     private let progressLabel = UILabel()
 
-    private var model = CategoryUIModel()
+    private var id: String?
     weak var delegate: InputCategoriesDelegate?
 
     override init(frame: CGRect) {
@@ -47,7 +47,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 // MARK: - open methods
 extension CategoryCollectionViewCell {
     func cellConfigure(with model: CategoryUIModel, at indexPath: IndexPath) {
-        self.model = model
+        self.id = model.linkedWordsId
         setupColorsForCategory(with: model.index)
         setupProgressAndTitleLabels(with: model)
         imageView.image = model.image
@@ -132,7 +132,7 @@ private extension CategoryCollectionViewCell {
 }
 
 // MARK: - CategoryCellInput
-extension CategoryCollectionViewCell: CategoryCellInput {
+extension CategoryCollectionViewCell: HandleLongPress {
     @objc
     func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
         if gestureRecognizer.state == .began {
@@ -148,7 +148,7 @@ extension CategoryCollectionViewCell: CategoryCellInput {
     }
 
     private func showDeleteConfirmation() {
-        delegate?.showActionSheet(with: model.linkedWordsId)
+        delegate?.showActionSheet(with: id ?? "")
     }
 }
 
