@@ -24,6 +24,8 @@
 		0717C0B52AE84CA900C140C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0717C0B42AE84CA900C140C9 /* Assets.xcassets */; };
 		0717C0B82AE84CA900C140C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0717C0B62AE84CA900C140C9 /* LaunchScreen.storyboard */; };
 		0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0717C0DE2AE8577200C140C9 /* TabBarController.swift */; };
+		0725A6A62BE79693000C623A /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0725A6A52BE79693000C623A /* PushManager.swift */; };
+		0725A6A82BE7982E000C623A /* PushStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0725A6A72BE7982E000C623A /* PushStatus.swift */; };
 		072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92532B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift */; };
 		072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92542B1CF5BB006CA4C1 /* WordApiModel.swift */; };
 		072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */; };
@@ -112,6 +114,9 @@
 		0717C0B72AE84CA900C140C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0717C0B92AE84CA900C140C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0717C0DE2AE8577200C140C9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		0725A6A52BE79693000C623A /* PushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
+		0725A6A72BE7982E000C623A /* PushStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushStatus.swift; sourceTree = "<group>"; };
+		0725A6A92BE7AAE4000C623A /* easyLanguage.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = easyLanguage.entitlements; sourceTree = "<group>"; };
 		072B92532B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TopFiveWordsApiModel.swift; path = easyLanguage/Network/ApiModels/TopFiveWordsApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B92542B1CF5BB006CA4C1 /* WordApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordApiModel.swift; path = easyLanguage/Network/ApiModels/WordApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryApiModel.swift; path = easyLanguage/Network/ApiModels/CategoryApiModel.swift; sourceTree = SOURCE_ROOT; };
@@ -259,6 +264,8 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				0725A6A92BE7AAE4000C623A /* easyLanguage.entitlements */,
+				0725A6A42BE7967A000C623A /* PushManager */,
 				AA717AA52B0E64C1004157D1 /* Profile */,
 				07D31BE12B389364005002E3 /* Onboarding */,
 				179FEC162B231AE200772FC8 /* LearningView */,
@@ -354,6 +361,15 @@
 				0717C0DE2AE8577200C140C9 /* TabBarController.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		0725A6A42BE7967A000C623A /* PushManager */ = {
+			isa = PBXGroup;
+			children = (
+				0725A6A52BE79693000C623A /* PushManager.swift */,
+				0725A6A72BE7982E000C623A /* PushStatus.swift */,
+			);
+			path = PushManager;
 			sourceTree = "<group>";
 		};
 		072B92592B1CF8CF006CA4C1 /* AddNewCategory */ = {
@@ -758,6 +774,7 @@
 				074455752B25E92D00FA5469 /* CategoryDetailViewController.swift in Sources */,
 				072B92562B1CF5BB006CA4C1 /* TopFiveWordsApiModel.swift in Sources */,
 				072B92572B1CF5BB006CA4C1 /* WordApiModel.swift in Sources */,
+				0725A6A82BE7982E000C623A /* PushStatus.swift in Sources */,
 				07EF04C92AFBE9C20095DECB /* Color + configurations.swift in Sources */,
 				17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */,
 				0799EDB32B3CCA3D00C0C04F /* AddNewCategoryModel.swift in Sources */,
@@ -789,6 +806,7 @@
 				07048C062B3BA65E0050F0B5 /* AddWordService.swift in Sources */,
 				07048BFE2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift in Sources */,
 				0712832F2BCDD630006146A9 /* AddWordVC + Constraints.swift in Sources */,
+				0725A6A62BE79693000C623A /* PushManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,9 +959,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = easyLanguage/easyLanguage.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U5P97KCFM7;
+				DEVELOPMENT_TEAM = X3GHGN4X8V;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = easyLanguage/Resources/Info.plist;
@@ -972,6 +991,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = easyLanguage/easyLanguage.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X3GHGN4X8V;
