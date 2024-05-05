@@ -10,11 +10,11 @@ import UIKit
 
 protocol AddWordOutput: AnyObject {
     func didCreateWord(with categoryId: String)
+    func isWordExist(with uiModel: WordUIModel) -> Bool
 }
 
 final class AddWordViewController: UIViewController {
     private let categoryID: String
-    private let wordsModel: [WordUIModel]
     var output: AddWordViewOutput?
     weak var delegate: AddWordOutput?
 
@@ -77,9 +77,8 @@ final class AddWordViewController: UIViewController {
 
     // MARK: - init
 
-    init(categoryID: String, wordsModel: [WordUIModel]) {
+    init(categoryID: String) {
         self.categoryID = categoryID
-        self.wordsModel = wordsModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -145,21 +144,23 @@ private extension AddWordViewController {
     func didTabButton() {
         @Trimmed var native = nativeField.text!
         @Trimmed var foreign = foreignField.text!
-        output?.handle(event: .addButtonTapped(
-            wordsUIModel: wordsModel,
-            addedWord: WordUIModel(
-                categoryId: categoryID,
-                translations: ["ru": native, "en": foreign],
-                isLearned: false,
-                swipesCounter: 0,
-                id: UUID().uuidString
-            )
-        ))
 
-//        output?.handle(event: .addButtonTapped(uiModel: WordUIModel(
-//            categoryId: categoryID, translations: ["ru": native, "en": foreign],
-//            isLearned: false, swipesCounter: 0, id: UUID().uuidString)
-//        ))
+        let uiModel = WordUIModel(
+            categoryId: categoryID,
+            translations: ["ru": native, "en": foreign],
+            isLearned: false,
+            swipesCounter: 0,
+            id: UUID().uuidString
+        )
+
+        guard let isWordExist = delegate?.isWordExist(with: uiModel), !isWordExist else {
+            showAlert(message: NSLocalizedString("wordAlreadyExistAlert", comment: ""))
+            return
+        }
+
+        output?.handle(event: .addButtonTapped(
+            uiModel: uiModel
+        ))
     }
 
     func clearFields() {

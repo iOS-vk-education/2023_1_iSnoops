@@ -21,7 +21,7 @@ enum AddWordViewOutputEvent {
     /// Нажата кнопка переведа
     case translateButtonTapped(native: String, foreign: String)
     /// Нажата кнопка добавления слова
-    case addButtonTapped(wordsUIModel: [WordUIModel], addedWord: WordUIModel)
+    case addButtonTapped(uiModel: WordUIModel)
     /// Является ли слово валидным для карточки
     case checkIsValid(WordType)
 }

@@ -76,7 +76,7 @@ final class CategoryDetailViewController: CustomViewController {
 
     @objc
     func tappedAddWord() {
-        let addCategoryVC = AddWordBuilder.build(categoryID: linkedWordsId, wordsModel: wordsModel)
+        let addCategoryVC = AddWordBuilder.build(categoryID: linkedWordsId)
         addCategoryVC.modalPresentationStyle = .pageSheet
         addCategoryVC.delegate = self
 
@@ -290,6 +290,13 @@ extension CategoryDetailViewController: InputWordsDelegate {
 }
 
 extension CategoryDetailViewController: AddWordOutput {
+    func isWordExist(with uiModel: WordUIModel) -> Bool {
+        wordsModel.contains { word in
+            word.translations["ru"]?.lowercased() == uiModel.translations["ru"] ?? "".lowercased() &&
+            word.translations["en"]?.lowercased() == uiModel.translations["en"] ?? "".lowercased()
+        }
+    }
+
     func didCreateWord(with categoryId: String) {
         loadWords()
         delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: categoryId,
