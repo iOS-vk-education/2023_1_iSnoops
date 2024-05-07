@@ -10,9 +10,20 @@ import FirebaseCore
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
+    private var splashPreseneter: ISplashPresenter? = SplashPresenter()
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+
+        splashPreseneter?.present()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
+            self.splashPreseneter?.dismiss { [weak self] in
+                self?.splashPreseneter = nil
+            }
+        })
+
         return true
     }
     

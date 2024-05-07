@@ -63,6 +63,8 @@
 		07C4F7772B1CF50A0073BED0 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */; };
 		07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */; };
 		07D31BE32B389385005002E3 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D31BE22B389385005002E3 /* OnboardingViewController.swift */; };
+		07E4B3A42BE7FBA900E612A5 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4B3A32BE7FBA900E612A5 /* SplashViewController.swift */; };
+		07E4B3A72BE802A700E612A5 /* SplashPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E4B3A62BE802A700E612A5 /* SplashPresenter.swift */; };
 		07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */; };
 		07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* MockData.swift */; };
 		07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C12AFBB9AC0095DECB /* ImageManager.swift */; };
@@ -149,6 +151,8 @@
 		07C4F7742B1CF50A0073BED0 /* CategoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryModel.swift; path = easyLanguage/Network/Models/CategoryModel.swift; sourceTree = SOURCE_ROOT; };
 		07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordUIModel.swift; path = easyLanguage/Network/UIModels/WordUIModel.swift; sourceTree = SOURCE_ROOT; };
 		07D31BE22B389385005002E3 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		07E4B3A32BE7FBA900E612A5 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		07E4B3A62BE802A700E612A5 /* SplashPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
 		07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionView.swift; sourceTree = "<group>"; };
 		07EF04BA2AFAAF970095DECB /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		07EF04C12AFBB9AC0095DECB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				07E4B3A52BE8029300E612A5 /* Splash */,
 				AA717AA52B0E64C1004157D1 /* Profile */,
 				07D31BE12B389364005002E3 /* Onboarding */,
 				179FEC162B231AE200772FC8 /* LearningView */,
@@ -459,6 +464,15 @@
 				07048BFD2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		07E4B3A52BE8029300E612A5 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				07E4B3A32BE7FBA900E612A5 /* SplashViewController.swift */,
+				07E4B3A62BE802A700E612A5 /* SplashPresenter.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		07EF04C02AFBB9920095DECB /* Network */ = {
@@ -729,6 +743,7 @@
 				072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */,
 				074FF4E92BC4A148004064A3 /* AddWordBuilder.swift in Sources */,
 				07F1BE9A2AF829A000F50845 /* TopFiveView.swift in Sources */,
+				07E4B3A72BE802A700E612A5 /* SplashPresenter.swift in Sources */,
 				0744557B2B25E96700FA5469 /* CategoryDetailCollectionViewDelegateFlowLayout.swift in Sources */,
 				07F1BE8D2AF8292600F50845 /* CategoryService.swift in Sources */,
 				07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */,
@@ -785,6 +800,7 @@
 				AA0C7A332B20F6D400DAF144 /* UserInformationView.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
 				07F1BE852AF828E300F50845 /* CatalogCollectionViewDelegate.swift in Sources */,
+				07E4B3A42BE7FBA900E612A5 /* SplashViewController.swift in Sources */,
 				AADADDEB2B25E24400D0C6B9 /* ChoosingThemeView.swift in Sources */,
 				07048C062B3BA65E0050F0B5 /* AddWordService.swift in Sources */,
 				07048BFE2B3A45BB0050F0B5 /* OnboardingCollectionViewCell.swift in Sources */,

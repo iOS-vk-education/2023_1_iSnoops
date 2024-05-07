@@ -16,6 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     weak var delegate: switchAndFindButtonDelegate?
+
+    private var splashPreseneter: ISplashPresenter? = SplashPresenter()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
@@ -49,9 +51,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     private func goToController(with viewController: UIViewController) {
-        let nav = viewController
-        nav.modalPresentationStyle = .fullScreen
-        self.window?.rootViewController = nav
+        splashPreseneter?.present()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+            self.splashPreseneter?.dismiss { [weak self] in
+                self?.splashPreseneter = nil
+            }
+        })
+//        nav.modalPresentationStyle = .fullScreen
+//        self.window?.rootViewController = nav
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
