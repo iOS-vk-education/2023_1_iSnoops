@@ -20,7 +20,7 @@ struct StatisticModel {
 struct StatisticService {
     private let dataBase = Firestore.firestore()
 
-    public func loadWordsAndCategories() async throws -> StatisticModel {
+public func loadWordsAndCategories() async throws -> StatisticModel {
         let categories = try await loadCategories()
         var categoryNameAndWordsCount = [String: Int]()
         var words = [WordApiModel]()
@@ -43,14 +43,13 @@ struct StatisticService {
                               learned: learnedWords)
     }
 
-
-    private func loadCategories() async throws -> [CategoryApiModel] {
+private func loadCategories() async throws -> [CategoryApiModel] {
         guard let uid = checkAuthentication() else {
             print("пользователь не авторизован")
             throw AuthErrors.userNotAuthenticated
         }
 
-        return try await withCheckedThrowingContinuation { continuation in
+    return try await withCheckedThrowingContinuation { continuation in
             dataBase.collection("categories")
                 .whereField("profileId", isEqualTo: uid)
                 .getDocuments { querySnapshot, error in
@@ -75,11 +74,10 @@ struct StatisticService {
                         }
                     }
 
-                    continuation.resume(returning: categories)
+                continuation.resume(returning: categories)
                 }
         }
     }
-
 
     private func loadWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
         return try await withCheckedThrowingContinuation { continuation in
@@ -108,7 +106,7 @@ struct StatisticService {
         }
     }
 
-    private func loadLearnedWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
+private func loadLearnedWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
         return try await withCheckedThrowingContinuation { continuation in
             dataBase.collection("words")
                 .whereField("categoryId", isEqualTo: categoryId)
@@ -136,7 +134,6 @@ struct StatisticService {
         }
     }
 
-
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {
             return currentUser.uid
@@ -144,6 +141,5 @@ struct StatisticService {
             return nil
         }
     }
-
 
 }

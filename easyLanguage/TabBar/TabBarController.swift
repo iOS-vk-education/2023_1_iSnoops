@@ -10,16 +10,16 @@ import SwiftUI
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [catalogVC, learningVC, profileVC, swiftUIVC]
+        viewControllers = [catalogVC, learningVC, profileVC]
     }
 
-    private var swiftUIVC: UIViewController {
-        let vc = UIHostingController(rootView: StatisticView())
-        let title = "SWIFTUI"
-        let image = UIImage(systemName: "person.fill")
-        vc.tabBarItem = UITabBarItem(title: title, image: image, tag: 3)
-        return vc
-    }
+//    private var swiftUIVC: UIViewController {
+//        let vc = UIHostingController(rootView: StatisticView())
+//        let title = "SWIFTUI"
+//        let image = UIImage(systemName: "person.fill")
+//        vc.tabBarItem = UITabBarItem(title: title, image: image, tag: 3)
+//        return vc
+//    }
 
     private var catalogVC: UIViewController {
         let catalogViewController = UINavigationController(rootViewController: CatalogViewController())

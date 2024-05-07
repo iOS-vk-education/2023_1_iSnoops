@@ -58,7 +58,6 @@ struct MainPieBar: View {
     // MARK: Functions
 
     // Анимируем построения "кругов"
-
     private func anim(_ val: CGFloat) -> CGFloat {
         return isAnimated ? 0 : val
     }
@@ -89,9 +88,6 @@ struct MainPieBar: View {
                 sum = data[index].value - delta
             } else {
                 for point in 0..<index {
-//                    if delta * 2 >= data[i].value {
-//                        continue
-//                    }
                     sum += data[point].value
                 }
                 sum = data[index].value + sum - delta
@@ -143,7 +139,8 @@ struct MainPieBar: View {
         var returnData: [[PieBarValues]] = data
         for levelIndex in 0..<returnData.count {
             returnData[levelIndex].sort {$0.value < $1.value}
-            for pie in 0..<returnData[levelIndex].count where returnData[levelIndex][pie].value <= getDelta(indexOut: levelIndex) * 2 {
+            for pie in 0..<returnData[levelIndex].count
+            where returnData[levelIndex][pie].value <= getDelta(indexOut: levelIndex) * 2 {
                 returnData[levelIndex][0].value += returnData[levelIndex][pie].value
             }
         }

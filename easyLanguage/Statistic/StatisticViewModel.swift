@@ -6,16 +6,17 @@
 //
 
 import Foundation
-import SwiftUI 
+import SwiftUI
 
 class StatisticViewModel: ObservableObject {
     let service = StatisticService()
+
+    @Published var isLoaded = false
     @Published var categories: [CategoryApiModel] = []
     @Published var words: [WordApiModel] = []
     @Published var learnedWords: [WordApiModel] = []
     @Published var pieBarData: [[PieBarValues]] = []
     @Published var barMarkData: [STCategoriesWords] = []
-    @Published var photo: Photo = Photo(image: Image(uiImage: UIImage()))
 
     func getData() async throws {
         let model: StatisticModel = try await service.loadWordsAndCategories()
@@ -25,19 +26,20 @@ class StatisticViewModel: ObservableObject {
             words = model.allWords
             learnedWords = model.learned
             pieBarData = makeDataForPieBar(all: Double(words.count), learned: Double(learnedWords.count))
+            isLoaded = true
         }
     }
 
     func makeDataForPieBar(all: Double, learned: Double) -> [[PieBarValues]] {
-       return [[PieBarValues(value: 1.0,
-                             color: .blue,
-                       clockwise: true)],
-               [PieBarValues(value: learned / all, 
-                             color: .green,
-                             clockwise: true),
-          PieBarValues(value: all - learned, 
-                       color: .orange,
-                       clockwise: true)]]
+        return [[PieBarValues(value: 1.0,
+                              color: .blue,
+                              clockwise: true)],
+                [PieBarValues(value: learned / all,
+                              color: .green,
+                              clockwise: true),
+                 PieBarValues(value: (all - learned) / all,
+                              color: .orange,
+                              clockwise: true)]]
     }
 
     func makeDataForBarMark(dictionary: [String: Int]) -> [STCategoriesWords] {
@@ -47,9 +49,5 @@ class StatisticViewModel: ObservableObject {
         }
         returnArray.sort { $0.countAdded > $1.countAdded }
         return returnArray
-    }
-
-    func makeScreenshot(view: some View) {
-        photo = Photo(image: Image(uiImage: view.snapshot()))
     }
 }

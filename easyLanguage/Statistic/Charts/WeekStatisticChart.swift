@@ -13,7 +13,7 @@ struct CategoriesWordsChart: View {
     @ObservedObject var viewModel: StatisticViewModel
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Количество слов в категориях")
+            Text(NSLocalizedString("wordsCategories", comment: ""))
                 .font(.system(.title3, weight: .semibold))
                 .padding()
             VStack {
@@ -25,9 +25,9 @@ struct CategoriesWordsChart: View {
                                 y: .value("Количество слов", lineData.countAdded)
                             )
                             .foregroundStyle(.mint)
-//                            .foregroundStyle(by: .value("DataType", lineData.datatype))
                         }
                     }
+                    .animation(.default)
                     .chartLegend(position: .automatic)
                 } else {
                     VStack(alignment: .center) {
