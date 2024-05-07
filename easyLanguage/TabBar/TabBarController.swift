@@ -5,11 +5,20 @@
 //  Created by Grigoriy on 24.10.2023.
 //
 import UIKit
+import SwiftUI
 
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [catalogVC, learningVC, profileVC]
+        viewControllers = [catalogVC, learningVC, profileVC, swiftUIVC]
+    }
+
+    private var swiftUIVC: UIViewController {
+        let vc = UIHostingController(rootView: StatisticView())
+        let title = "SWIFTUI"
+        let image = UIImage(systemName: "person.fill")
+        vc.tabBarItem = UITabBarItem(title: title, image: image, tag: 3)
+        return vc
     }
 
     private var catalogVC: UIViewController {

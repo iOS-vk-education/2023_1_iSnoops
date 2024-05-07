@@ -16,20 +16,40 @@ import Charts
 struct StatisticView: View {
     @ObservedObject var model = StatisticViewModel()
     var body: some View {
-        ScrollView(.vertical) {
-            LearningAddedChart(viewModel: model)
-                .padding()
-            WeekStatisticChart(viewModel: model)
-                .padding()
+        List {
+            CategoriesWordsChart(viewModel: model)
+            VStack(alignment: .leading) {
+                Text("Соотношение слов")
+                    .padding()
+                    .font(.system(.title3, weight: .semibold))
+                HStack(spacing: 30) {
+                    MainPieBar(text: "sd", sum: "ds", data: model.pieBarData)
+                    VStack {
+                        BottomPercentsElement(color: .green, text: "Выучено")
+                        BottomPercentsElement(color: .orange, text: "В обучении")
+                    }.frame(width: 80, alignment: .leading)
+                }
+            }
             ShareLink(item: model.photo,
                       preview: SharePreview("Статистика",
                                             image: model.photo))
             Button("Сделать скриншот") {
                 model.makeScreenshot(view: self)
             }
-        }
-        .onAppear {
-            model.makeDataForView(view: self)
+            .onAppear {
+                loadWordsAndCategories()
+            }
+        } .listStyle(.automatic)
+            .listRowSpacing(20)
+    }
+
+    private func loadWordsAndCategories() {
+        Task {
+            do {
+                try await model.getData()
+            } catch {
+               fatalError()
+            }
         }
     }
 }
@@ -57,4 +77,16 @@ struct Photo: Transferable {
     }
 
     public var image: Image
+}
+
+
+struct BottomPercentsElement: View {
+    var color: Color
+    var text: String?
+    var body: some View {
+        HStack(spacing: 2) {
+            Text("⬤").foregroundColor(color).font(.system(size: 6))
+            Text("\(text ?? "error")").lineLimit(1)
+        }
+    }
 }

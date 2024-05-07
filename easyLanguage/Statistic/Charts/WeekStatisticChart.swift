@@ -1,5 +1,5 @@
 //
-//  WeekStatisticChart.swift
+//  CategoriesWordsChart.swift
 //  easyLanguage
 //
 //  Created by Матвей Матюшко on 16.04.2024.
@@ -9,28 +9,25 @@ import Foundation
 import SwiftUI
 import Charts
 
-struct WeekStatisticChart: View {
+struct CategoriesWordsChart: View {
     @ObservedObject var viewModel: StatisticViewModel
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Кол-во выученных слов за неделю")
+            Text("Количество слов в категориях")
                 .font(.system(.title3, weight: .semibold))
+                .padding()
             VStack {
-                if !viewModel.model.countOfAddedWordsOnDate.isEmpty {
+                if !viewModel.barMarkData.isEmpty {
                     Chart {
-                        ForEach(viewModel.doneDataWeek, id: \.date) { lineData in
+                        ForEach(viewModel.barMarkData, id: \.id) { lineData in
                             BarMark(
-                                x: .value("День недели", lineData.date),
-                                y: .value("Количество слов", lineData.countLearning)
+                                x: .value("Название категории", lineData.name),
+                                y: .value("Количество слов", lineData.countAdded)
                             )
-                            .foregroundStyle(by: .value("DataType", lineData.datatype))
+                            .foregroundStyle(.mint)
+//                            .foregroundStyle(by: .value("DataType", lineData.datatype))
                         }
                     }
-                    .chartForegroundStyleScale(
-                        [
-                            DataType.learned: Color.green
-                        ]
-                    )
                     .chartLegend(position: .automatic)
                 } else {
                     VStack(alignment: .center) {

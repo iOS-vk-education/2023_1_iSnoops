@@ -22,6 +22,7 @@ final class AddWordService: AddWordServiceProtocol {
         dataBase.collection("words").document(model.id).setData([
             "categoryId": model.categoryId,
             "translations": model.translations,
+            "swipesCounter": model.swipesCounter,
             "isLearned": model.isLearned,
             "id": model.id
         ]) { error in

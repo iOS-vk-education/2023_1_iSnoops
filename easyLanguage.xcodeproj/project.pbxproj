@@ -89,6 +89,8 @@
 		17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */; };
 		17DD8A212BE8E6A400B4DB67 /* StatisticVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */; };
 		17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */; };
+		17DD8A242BE8ED0000B4DB67 /* PieBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A232BE8ED0000B4DB67 /* PieBar.swift */; };
+		17DD8A262BE903C900B4DB67 /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A252BE903C900B4DB67 /* StatisticService.swift */; };
 		17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F032B3B697100E6B7FE /* AuthService.swift */; };
 		17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */; };
 		17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F072B3B90FC00E6B7FE /* AlertManager.swift */; };
@@ -179,6 +181,8 @@
 		17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticModel.swift; sourceTree = "<group>"; };
 		17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticVIew.swift; sourceTree = "<group>"; };
 		17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticViewModel.swift; sourceTree = "<group>"; };
+		17DD8A232BE8ED0000B4DB67 /* PieBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieBar.swift; sourceTree = "<group>"; };
+		17DD8A252BE903C900B4DB67 /* StatisticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticService.swift; sourceTree = "<group>"; };
 		17F57F032B3B697100E6B7FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Register+LoginUserRequestModel.swift"; sourceTree = "<group>"; };
 		17F57F072B3B90FC00E6B7FE /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
@@ -586,6 +590,7 @@
 			isa = PBXGroup;
 			children = (
 				17DD8A172BE8E6A400B4DB67 /* LearningAddedChart.swift */,
+				17DD8A232BE8ED0000B4DB67 /* PieBar.swift */,
 				17DD8A182BE8E6A400B4DB67 /* WeekStatisticChart.swift */,
 			);
 			path = Charts;
@@ -598,6 +603,7 @@
 				17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */,
 				17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */,
 				17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */,
+				17DD8A252BE903C900B4DB67 /* StatisticService.swift */,
 			);
 			path = Statistic;
 			sourceTree = "<group>";
@@ -783,6 +789,7 @@
 				07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */,
 				17DD8A1E2BE8E6A400B4DB67 /* LearningAddedChart.swift in Sources */,
 				17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */,
+				17DD8A262BE903C900B4DB67 /* StatisticService.swift in Sources */,
 				0744557F2B25E9BA00FA5469 /* CategoryDetailCollectionViewCell.swift in Sources */,
 				17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */,
 				074455492B223D1400FA5469 /* AddWordViewController.swift in Sources */,
@@ -817,6 +824,7 @@
 				0799EDB52B3CCA4300C0C04F /* AddNewCategoryService.swift in Sources */,
 				07A9B4F92BA4B2360091F444 /* TranslationApiModel.swift in Sources */,
 				070811532B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift in Sources */,
+				17DD8A242BE8ED0000B4DB67 /* PieBar.swift in Sources */,
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				AA0C7A332B20F6D400DAF144 /* UserInformationView.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
@@ -989,7 +997,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1020,7 +1028,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
