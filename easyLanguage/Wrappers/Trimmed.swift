@@ -23,7 +23,6 @@ struct Trimmed {
                 .lowercased()
                 .filter { $0.isLetter || $0.isWhitespace }
                 .trimmingCharacters(in: .whitespacesAndNewlines)
-                .lowercased()
                 .split(separator: " ")
                 .joined(separator: " ")
 
