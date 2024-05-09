@@ -22,6 +22,9 @@ final class UserInformationView: UIView {
     private let mailTextField = UITextField()
 
     weak var delegate: UserInformationViewDelegate?
+    
+    private let imageManager = ImageManager.shared
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setAppearanseAndConstraints()
@@ -37,8 +40,17 @@ extension UserInformationView {
         guard let url = URL(string: imageLink) else {
             return
         }
-        let data = try? Data(contentsOf: url)
-        imageView.image = UIImage(data: data!)
+        imageManager.loadImage(from: url) { [weak self] result in
+            guard let self else {
+                return
+            }
+            switch result {
+            case .success(let data):
+                self.imageView.image = UIImage(data: data)
+            case .failure(let error):
+                print("ошибка получения изображения", error.localizedDescription)
+            }
+        }
     }
 
     func setTextFields(with model: ProfileApiModel) {
