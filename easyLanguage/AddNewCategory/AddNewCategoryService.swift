@@ -16,6 +16,7 @@ protocol AddNewCategoryServiceProtocol {
 
 final class AddNewCategoryService: AddNewCategoryServiceProtocol {
 
+    private init() {}
     static let shared: AddNewCategoryServiceProtocol = AddNewCategoryService()
 
     private let imageManager = ImageManager.shared
@@ -47,7 +48,9 @@ final class AddNewCategoryService: AddNewCategoryServiceProtocol {
             "profileId": userId
         ]
 
-        if let image = image {
+        if let imageLink = category.imageLink {
+            categoryDict["imageLink"] = URL(string: imageLink)?.absoluteString
+        } else if let image = image {
             let imageUrl = try await uploadCategoryImage(with: image)
             categoryDict["imageLink"] = imageUrl.absoluteString
         } else {

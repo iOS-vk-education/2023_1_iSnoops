@@ -70,6 +70,13 @@ final class RegistrationViewController: UIViewController {
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         return button
     }()
+
+    private let defaultData = DefaultData.shared
+
+    private let categoryService = AddNewCategoryService.shared
+    private let wordService = AddWordService.shared
+    private let topFiveService = LearningViewService.shared
+
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -139,11 +146,40 @@ final class RegistrationViewController: UIViewController {
                 }
                 return
             }
+
+            self.addDefaultData()
+
             let viewController = OnboardingViewController()
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
-    
+
+    private func addDefaultData() {
+        for category in defaultData.getCategories() {
+            Task {
+                do {
+                    _ = try await categoryService.createNewCategory(with: category, image: nil)
+                } catch {
+                    print("[DEBUG]:", #function, error.localizedDescription)
+                }
+            }
+        }
+
+        for word in defaultData.getTopFive() {
+            Task {
+                do {
+                    _ = try await topFiveService.createNewTopFiveWord(with: word)
+                } catch {
+                    print("[DEBUG]:", #function, error.localizedDescription)
+                }
+            }
+        }
+
+        for word in defaultData.getWords() {
+            wordService.add(word, completion: { _ in })
+        }
+    }
+
     @objc
     private func tapLoginButton() {
         navigationController?.pushViewController(LoginViewController(), animated: true)
