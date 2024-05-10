@@ -283,6 +283,13 @@ extension DefaultData {
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
+            WordUIModel(
+                categoryId: linkedUUIDs[0],
+                translations: ["ru": "Информатика", "en": "Informatics"],
+                isLearned: false,
+                swipesCounter: 0,
+                id: UUID().uuidString
+            )
         ]
     }
 }
