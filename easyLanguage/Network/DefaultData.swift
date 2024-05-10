@@ -95,6 +95,13 @@ extension DefaultData {
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
+            WordApiModel(
+                categoryId: linkedUUIDs[0],
+                translations: ["ru": "Информатика", "en": "Informatics"],
+                isLearned: false,
+                swipesCounter: 0,
+                id: UUID().uuidString
+            ),
 
             // Спорт
             WordApiModel(
