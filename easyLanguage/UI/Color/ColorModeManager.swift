@@ -6,7 +6,7 @@
 //
 import UIKit
 /// Структура для управления цветами в различных режимах (светлый, темный, авто).
-struct Color {
+struct AppColor {
     enum SystemMode: CaseIterable {
         case lightMode
         case autoMode
@@ -39,7 +39,7 @@ struct Color {
     static var systemMode: SystemMode = .autoMode {
         didSet {
             var userInterfaceStyle: UIUserInterfaceStyle {
-                switch Color.systemMode {
+                switch AppColor.systemMode {
                 case .lightMode: return .light
                 case .darkMode: return .dark
                 case .autoMode: return .unspecified
@@ -58,7 +58,7 @@ struct Color {
     // swiftlint:enable all
     private func makeCurrentColor() -> UIColor {
         return UIColor { traitCollection in
-            switch Color.systemMode {
+            switch AppColor.systemMode {
             case .lightMode:
                 return lightMode
             case .darkMode:

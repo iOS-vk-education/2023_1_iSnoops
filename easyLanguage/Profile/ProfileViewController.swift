@@ -8,6 +8,7 @@
 import UIKit
 
 final class ProfileViewController: CustomViewController, UserInformationViewDelegate {
+    
 
     // MARK: - Init views
 
@@ -40,36 +41,50 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
         super.viewDidLoad()
         userInformationView.delegate = self
         setAppearanseAndConstraints()
-        loadProfile()
+        Task {
+            await loadProfile()
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         setProgressWords()
     }
 
     @objc func didTapImage() {
         imagePicker.showImagePicker(with: self) { [weak self] image in
-//                    self?.userInformationView.setImage(image: image)
-            self?.uploadImage(image: image)
+            Task {
+                await self?.uploadImage(image: image)
+            }
         }
     }
 }
 
 // MARK: - Network
 private extension ProfileViewController {
-    func loadProfile() {
-        model.loadProfile { result in
-            switch result {
-            case .success(let profile):
-                self.userInformationView.setTextFields(with: profile)
-                guard let imageLink = profile.imageLink else { return }
-                self.userInformationView.setImage(imageLink: imageLink)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+    func loadProfile() async {
+        do {
+            let profile = try await model.loadProfile()
+            userInformationView.setTextFields(with: profile)
+            guard let imageLink = profile.imageLink else { return }
+            userInformationView.setImage(imageLink: imageLink)
+        } catch {
+            print(error.localizedDescription)
+            return
         }
     }
+
+//        Task {
+//            do {
+//                let profile = try await model.loadProfile()
+//                self.userInformationView.setTextFields(with: profile)
+//                guard let imageLink = profile.imageLink else { return }
+//                self.userInformationView.setImage(imageLink: imageLink)
+//            }
+//            catch {
+//                print(error.localizedDescription)
+//            }
+//        }
+    
 
     func setProgressWords() {
         model.loadProgressView { [weak self] result in
@@ -80,20 +95,30 @@ private extension ProfileViewController {
                 self?.progressView.setProgress()
             case .failure(let error):
                 print(error.localizedDescription)
+                return
             }
         }
     }
     
-    func uploadImage(image: UIImage) {
-        self.model.uploadImage(image: image) {result in
-            switch result {
-            case .success(let url):
-                self.userInformationView.setImage(imageLink: url.absoluteString)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+    func uploadImage(image: UIImage) async {
+        do {
+            let url = try await model.uploadImage(image: image)
+            await self.userInformationView.setImage(imageLink: url.absoluteString)
+        } catch {
+            print(error.localizedDescription)
+            return
         }
     }
+//
+//        model.uploadImage(image: image) async { [weak self] result in
+//            switch result {
+//            case .success(let url):
+//                self?.userInformationView.setImage(imageLink: url.absoluteString)
+//            case .failure(let error):
+//                print(error.localizedDescription)
+//            }
+//        }
+//    }
 }
 
 // MARK: - set all constraints

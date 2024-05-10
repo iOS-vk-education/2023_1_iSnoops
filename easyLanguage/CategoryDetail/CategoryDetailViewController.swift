@@ -12,8 +12,9 @@ protocol InputWordsDelegate: AnyObject {
     var wordsCount: Int { get }
     var index: Int { get }
     func item(at index: Int, completion: @escaping (WordUIModel) -> Void)
-    func changeIsLearned(with number: Int, isLearned: Bool)
+    func changeIsLearned(with number: Int, isLearned: Bool, swipesCounter: Int)
     func showActionSheet(with id: String)
+    func showAlert(with title: String)
 }
 
 protocol CategoryDetailOutput: AnyObject {
@@ -52,9 +53,8 @@ final class CategoryDetailViewController: CustomViewController {
 
     @objc
     func tappedAddWord() {
-        let addCategoryVC = AddNewWordViewController()
+        let addCategoryVC = AddWordBuilder.build(categoryID: linkedWordsId)
         addCategoryVC.modalPresentationStyle = .pageSheet
-        addCategoryVC.setCategoryId(with: linkedWordsId)
         addCategoryVC.delegate = self
 
         guard let sheet = addCategoryVC.sheetPresentationController else {
@@ -157,12 +157,13 @@ extension CategoryDetailViewController: InputWordsDelegate {
         let wordModel = WordUIModel(categoryId: wordsModel[index].categoryId,
                                     translations: wordsModel[index].translations,
                                     isLearned: wordsModel[index].isLearned,
+                                    swipesCounter: wordsModel[index].swipesCounter,
                                     id: wordsModel[index].id)
         completion(wordModel)
     }
 
-    func changeIsLearned(with number: Int, isLearned: Bool) {
-        model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned)
+    func changeIsLearned(with number: Int, isLearned: Bool, swipesCounter: Int) {
+        model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned, swipesCounter: swipesCounter)
         self.delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: wordsModel[number].categoryId,
                                                                          changeTotalCount: false,
                                                                          changeLearnedCount: true,
@@ -179,10 +180,13 @@ extension CategoryDetailViewController: InputWordsDelegate {
         present(alertController, animated: true, completion: nil)
     }
 
+    func showAlert(with title: String) {
+        AlertManager.showWordDeleteAlert(on: self)
+    }
+
     private func addActionToDeleteWord(with id: String, to alertController: UIAlertController) {
         let deleteAction = UIAlertAction(title: NSLocalizedString("detailDelete", comment: ""),
-                                         style: .destructive) { [weak self] _ in
-            guard let self = self else { return }
+                                         style: .destructive) { _ in
             self.handleDeleteWord(with: id)
         }
 
@@ -232,7 +236,7 @@ extension CategoryDetailViewController: InputWordsDelegate {
     }
 }
 
-extension CategoryDetailViewController: AddNewWordOutput {
+extension CategoryDetailViewController: AddWordOutput {
     func didCreateWord(with categoryId: String) {
         loadWords()
         delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: categoryId,

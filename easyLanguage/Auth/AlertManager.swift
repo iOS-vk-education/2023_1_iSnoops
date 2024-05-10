@@ -19,6 +19,19 @@ class AlertManager {
     }
 }
 
+/// универсальный метод показа алерта без локализации!
+extension AlertManager {
+    public static func showAlert(
+        on viewController: UIViewController,
+        title: String?,
+        message: String?
+    ) {
+        self.showBasicAlert(on: viewController,
+                            title: NSLocalizedString(title ?? "", comment: ""),
+                            message: NSLocalizedString(title ?? "", comment: ""))
+    }
+}
+
 // MARK: - Недействительные данные
 extension AlertManager {
     public static func showInvalidEmailAlert(on viewController: UIViewController) {
@@ -73,7 +86,7 @@ extension AlertManager {
 // MARK: - Ошибки при загрузке данных
 extension AlertManager {
     public static func showDataLoadErrorAlert(on viewController: UIViewController) {
-        self.showBasicAlert(on: viewController, title: NSLocalizedString("dataLoadErrorAlert", comment: ""), 
+        self.showBasicAlert(on: viewController, title: NSLocalizedString("dataLoadErrorAlert", comment: ""),
                             message: nil)
     }
 
@@ -104,7 +117,7 @@ extension AlertManager {
 extension AlertManager {
     public static func showEmptyLearningModel(on viewController: UIViewController) {
         self.showBasicAlert(on: viewController,
-                            title: NSLocalizedString("dataLoadErrorAlert", comment: ""),
+                            title: NSLocalizedString("dataPostErrorAlert", comment: ""),
                             message: nil)
     }
 }

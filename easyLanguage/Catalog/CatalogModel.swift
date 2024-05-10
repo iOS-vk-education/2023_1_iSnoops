@@ -16,7 +16,10 @@ final class CatalogModel {
             switch result {
             case .success(let topFiveData):
                 let topFiveWords = topFiveData.map { word in
-                    TopFiveWordsModel(translations: word.translations)
+                    TopFiveWordsModel(translate: word.translate,
+                                      userId: word.userId,
+                                      id: word.id,
+                                      date: word.date)
                 }
                 completion(.success(topFiveWords))
             case .failure(let error):

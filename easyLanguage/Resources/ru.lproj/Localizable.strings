@@ -42,7 +42,7 @@
 "labelUnderTextFields" = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля";
 "themeTitle" = "Тема оформления";
 "lightThemeLabel" = "Светлая";
-"autoThemeLabel" = "Автоматическая";
+"autoThemeLabel" = "Системная";
 "darkThemeLabel" = "Темная";
 "logOutFromAccount" = "Выйти из аккаунта";
 
@@ -80,3 +80,4 @@
 "addNewCategoryAlert" = "Ошибка добавления категории";
 "reloadHeightAlert" = "Ошибка обновления высоты";
 "wordDeleteAlert" = "Ошибка при удалении слова";
+"dataPostErrorAlert" = "Не удалось отправить данные";

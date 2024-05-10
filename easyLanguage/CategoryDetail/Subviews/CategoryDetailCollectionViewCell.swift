@@ -191,7 +191,9 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
     func didTapMarkAsLearned() {
         wordUIModel?.isLearned.toggle()
 
-        delegate?.changeIsLearned(with: cellIndex, isLearned: wordUIModel?.isLearned ?? true)
+        delegate?.changeIsLearned(with: cellIndex, 
+                                  isLearned: wordUIModel?.isLearned ?? true,
+                                  swipesCounter: wordUIModel?.isLearned ?? true ? 5 : 0)
         updateMark(with: (wordUIModel?.isLearned ?? true))
     }
 
@@ -219,6 +221,9 @@ extension CategoryDetailCollectionViewCell: CategoryDetailCellOutput {
     }
 
     private func showDeleteConfirmation() {
-        delegate?.showActionSheet(with: wordUIModel?.id ?? "")
+        guard let id = wordUIModel?.id else {
+            return
+        }
+        delegate?.showActionSheet(with: id)
     }
 }
