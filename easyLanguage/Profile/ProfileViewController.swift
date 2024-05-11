@@ -6,6 +6,7 @@
 //  Экран профиля пользователя
 
 import UIKit
+import SwiftUI
 
 final class ProfileViewController: CustomViewController, UserInformationViewDelegate {
     
@@ -22,6 +23,7 @@ final class ProfileViewController: CustomViewController, UserInformationViewDele
     private let progressView = ProgressView()
     private let choosingThemeView = ChoosingThemeView()
     private let logOutButton = UIButton()
+    private let achievementsImageView = UIImageView()
 
     private let model = ProfileModel()
 
@@ -126,7 +128,7 @@ private extension ProfileViewController {
     private func setAppearanseAndConstraints() {
         view.addSubview(scrollView)
         setScrollView()
-        [userInformationView, progressView, labelUnderTextField, choosingThemeView, logOutButton].forEach {
+        [userInformationView, progressView, labelUnderTextField, choosingThemeView, logOutButton, achievementsImageView].forEach {
             scrollView.addSubview($0)
         }
         setTipAppearance()
@@ -135,7 +137,7 @@ private extension ProfileViewController {
         setProgressView()
         setChoosingTheme()
         setLogOutButton()
-        setWordsInProgressLabel()
+//        setWordsInProgressLabel()
     }
 }
 
@@ -144,22 +146,41 @@ private extension ProfileViewController {
     func setTipAppearance() {
         view.backgroundColor = .PrimaryColors.Background.background
         title = NSLocalizedString("profileTitle", comment: "")
-        setWordsInProgressLabel()
+        setUpLabelUnderTextField()
+        logOutButton.setTitle(NSLocalizedString("logOutFromAccount", comment: ""), for: .normal)
+        logOutButton.setTitleColor(UIColor.red, for: .normal)
+        logOutButton.titleLabel?.font = TextStyle.bodyBig.font
+        logOutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
+        setUpAchievementsImage()
+    }
+
+    func setUpLabelUnderTextField() {
         labelUnderTextField.text = NSLocalizedString("labelUnderTextFields", comment: "")
         labelUnderTextField.textColor = UIColor.gray
         labelUnderTextField.font = TextStyle.bodySmall.font
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
+    }
+    
+    func setUpLogOutButton() {
         logOutButton.setTitle(NSLocalizedString("logOutFromAccount", comment: ""), for: .normal)
         logOutButton.setTitleColor(UIColor.red, for: .normal)
         logOutButton.titleLabel?.font = TextStyle.bodyBig.font
         logOutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
     }
 
-    func setWordsInProgressLabel() {
-        progressView.setupWordsInProgress(count: 60)
-        progressView.setupAllLearnedWords(count: 120)
+    func setUpAchievementsImage() {
+        achievementsImageView.image = UIImage(systemName: "chart.bar")
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAchievemetsImage))
+//        achievementsImageView.addGestureRecognizer(tapGesture)
+        let imageBarButton = UIBarButtonItem(customView: achievementsImageView)
+        navigationItem.rightBarButtonItem = imageBarButton
     }
+//    
+//    func setWordsInProgressLabel() {
+//        progressView.setupWordsInProgress(count: 60)
+//        progressView.setupAllLearnedWords(count: 120)
+//    }
 
     @objc
     func didTapLogOutButton() {
@@ -179,11 +200,16 @@ private extension ProfileViewController {
         alertController.addAction(logOutAction)
         self.present(alertController, animated: true)
     }
+    
+//    @objc
+//    func didTapAchievemetsImage() {
+//        self.navigationController?.pushViewController(UIHostingController(rootView: AchievementStaticsBaseViewController()), animated: true)
+//    }
 
     func logout() {
         let controller = RegistrationViewController()
         if let navController = UIApplication.shared.windows.first?.rootViewController as? UINavigationController {
-                // Пушим ваш контроллер на стек навигации
+//                 Пушим ваш контроллер на стек навигации
                 navController.pushViewController(controller, animated: true)
             }
 

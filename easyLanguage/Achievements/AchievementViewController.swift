@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Achievement: Identifiable{
+struct Achievement: Identifiable {
     var id = UUID()
     var text: String
     var imageName: String

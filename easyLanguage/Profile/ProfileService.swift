@@ -28,18 +28,17 @@ final class ProfileService: ProfileServiceProtocol {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
         }
-        let reference = Storage.storage().reference().child("users").child(userId)
         guard let imageData = image.jpegData(compressionQuality: 0.4) else {
             throw NetworkError.unexpected
         }
+        let reference = Storage.storage().reference().child("users").child(userId)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         do {
-            reference.putData(imageData, metadata: metadata)
+            let _ = try await reference.putDataAsync(imageData, metadata: metadata)
             let downloadURL = try await reference.downloadURL()
             try await dataBase.collection("users").document(userId).setData(["imageLink": downloadURL.absoluteString], merge: true)
-            let url = try await reference.downloadURL()
-            return url
+            return downloadURL
         } catch {
             print("Ошибка при загрузке изображения: \(error)")
             throw error
