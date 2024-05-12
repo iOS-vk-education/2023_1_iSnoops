@@ -137,7 +137,6 @@ private extension ProfileViewController {
         setProgressView()
         setChoosingTheme()
         setLogOutButton()
-//        setWordsInProgressLabel()
     }
 }
 
@@ -171,16 +170,11 @@ private extension ProfileViewController {
 
     func setUpAchievementsImage() {
         achievementsImageView.image = UIImage(systemName: "chart.bar")
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAchievemetsImage))
-//        achievementsImageView.addGestureRecognizer(tapGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAchievemetsImage))
+        achievementsImageView.addGestureRecognizer(tapGesture)
         let imageBarButton = UIBarButtonItem(customView: achievementsImageView)
         navigationItem.rightBarButtonItem = imageBarButton
     }
-//    
-//    func setWordsInProgressLabel() {
-//        progressView.setupWordsInProgress(count: 60)
-//        progressView.setupAllLearnedWords(count: 120)
-//    }
 
     @objc
     func didTapLogOutButton() {
@@ -201,18 +195,18 @@ private extension ProfileViewController {
         self.present(alertController, animated: true)
     }
     
-//    @objc
-//    func didTapAchievemetsImage() {
-//        self.navigationController?.pushViewController(UIHostingController(rootView: AchievementStaticsBaseViewController()), animated: true)
-//    }
+    @objc
+    func didTapAchievemetsImage() {
+        self.navigationController?.pushViewController(UIHostingController(rootView: AchievementStaticsBaseViewController()), animated: true)
+    }
 
     func logout() {
         let controller = RegistrationViewController()
-        if let navController = UIApplication.shared.windows.first?.rootViewController as? UINavigationController {
-//                 Пушим ваш контроллер на стек навигации
-                navController.pushViewController(controller, animated: true)
-            }
-
+        controller.modalPresentationStyle = .fullScreen
+        let navigation = UINavigationController(rootViewController: controller)
+        guard let window = UIApplication.shared.windows.first else { return }
+        window.rootViewController = navigation
+        window.makeKeyAndVisible()
     }
 
     // MARK: - Layouts
