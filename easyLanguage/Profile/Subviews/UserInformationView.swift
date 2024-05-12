@@ -44,12 +44,10 @@ extension UserInformationView {
             guard let self else {
                 return
             }
-
             switch result {
             case .success(let data):
                 self.imageView.image = UIImage(data: data)
             case .failure(let error):
-                //TODO: - добавить алерт
                 print("ошибка получения изображения", error.localizedDescription)
             }
         }
