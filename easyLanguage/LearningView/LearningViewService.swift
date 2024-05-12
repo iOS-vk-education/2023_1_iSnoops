@@ -48,7 +48,7 @@ final class LearningViewService: LearningViewServiceProtocol {
             try await checkCountOfWords()
         }
     }
-    
+
     public func updateWord(with word: WordUIModel) async throws {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
