@@ -50,16 +50,10 @@ final class ProfileService: ProfileServiceProtocol {
             throw AuthErrors.userNotAuthenticated
         }
         let document = try await dataBase.collection("users").document(userId).getDocument()
-        if document.exists {
-            guard let data = document.data(),
-                  let profile = ProfileApiModel(dict: data)
-            else {
-                throw NetworkError.unexpected
-            }
+        if document.exists, let data = document.data(), let profile = ProfileApiModel(dict: data) {
             return profile
-        } else {
-            throw NetworkError.unexpected
         }
+        throw NetworkError.unexpected
     }
     
     private func checkAuthentication() -> String? {
