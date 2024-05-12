@@ -18,7 +18,7 @@ final class CategoryDetailModel {
                 let wordsModel = wordsApiModel.map { word in
                     WordUIModel(categoryId: word.categoryId,
                                 translations: word.translations,
-                                isLearned: word.isLearned, 
+                                isLearned: word.isLearned,
                                 swipesCounter: word.swipesCounter,
                                 id: word.id)
                 }
