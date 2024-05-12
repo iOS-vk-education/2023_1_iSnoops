@@ -27,7 +27,7 @@ struct AchievementStaticsBaseViewController: View {
                 } placeholder: {
                     SwiftUI.ProgressView()
                 }
-                .frame(width: 100, height: 100)
+                .frame(width: 115, height: 115)
                 Text(profile?.name ?? "Имя").bold()
                     .font(.title2)
                 HStack {

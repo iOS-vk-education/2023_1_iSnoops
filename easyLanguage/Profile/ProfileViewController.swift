@@ -123,10 +123,7 @@ private extension ProfileViewController {
         view.backgroundColor = .PrimaryColors.Background.background
         title = NSLocalizedString("profileTitle", comment: "")
         setUpLabelUnderTextField()
-        logOutButton.setTitle(NSLocalizedString("logOutFromAccount", comment: ""), for: .normal)
-        logOutButton.setTitleColor(UIColor.red, for: .normal)
-        logOutButton.titleLabel?.font = TextStyle.bodyBig.font
-        logOutButton.addTarget(self, action: #selector(didTapLogOutButton), for: .touchUpInside)
+        setUpLogOutButton()
         setUpAchievementsImage()
     }
 
