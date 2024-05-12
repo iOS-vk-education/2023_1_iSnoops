@@ -29,6 +29,7 @@ extension AddWordInteractor: AddWordViewOutput {
         case let .addButtonTapped(model):
             if let errorMessage = validate(inputed: model.translations) {
                 view.handle(event: .showAlert(message: errorMessage))
+                return
             }
             add(word: WordApiModel(ui: model))
 

@@ -22,9 +22,9 @@ final class UserInformationView: UIView {
     private let mailTextField = UITextField()
 
     weak var delegate: UserInformationViewDelegate?
-    
+
     private let imageManager = ImageManager.shared
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setAppearanseAndConstraints()

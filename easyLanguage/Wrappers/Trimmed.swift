@@ -19,13 +19,14 @@ struct Trimmed {
             return value
         }
         set {
-            value = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+            value = newValue
+                .lowercased()
+                .filter { $0.isLetter || $0.isWhitespace }
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+                .split(separator: " ")
+                .joined(separator: " ")
 
-            if value != newValue {
-                projectedValue = true
-            } else {
-                projectedValue = false
-            }
+            projectedValue = value != newValue
         }
     }
 

@@ -13,9 +13,6 @@ final class ProfileModel {
 
     private let imageManager = ImageManager.shared
 
-//    func loadProfile(completion: @escaping (Result<ProfileApiModel, Error>) -> Void) {
-//        profileService.loadProfile(completion: completion)
-//    }
 
     func loadProfile() async throws -> ProfileApiModel {
         try await profileService.loadProfile()

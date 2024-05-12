@@ -10,7 +10,6 @@ import SwiftUI
 
 final class ProfileViewController: CustomViewController, UserInformationViewDelegate {
     
-
     // MARK: - Init views
 
     private let themeViewOutput: ThemeViewOutput
@@ -74,18 +73,6 @@ private extension ProfileViewController {
             return
         }
     }
-
-//        Task {
-//            do {
-//                let profile = try await model.loadProfile()
-//                self.userInformationView.setTextFields(with: profile)
-//                guard let imageLink = profile.imageLink else { return }
-//                self.userInformationView.setImage(imageLink: imageLink)
-//            }
-//            catch {
-//                print(error.localizedDescription)
-//            }
-//        }
     
 
     func setProgressWords() {
@@ -111,16 +98,6 @@ private extension ProfileViewController {
             return
         }
     }
-//
-//        model.uploadImage(image: image) async { [weak self] result in
-//            switch result {
-//            case .success(let url):
-//                self?.userInformationView.setImage(imageLink: url.absoluteString)
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//    }
 }
 
 // MARK: - set all constraints
