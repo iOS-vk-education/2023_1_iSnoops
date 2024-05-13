@@ -22,8 +22,8 @@ struct StatisticView: View {
                     HStack(spacing: 30) {
                         Spacer()
                         MainPieBar(text: NSLocalizedString("totalWords", comment: ""),
-                                   sum: "\(model.words.count)",
-                                   data: model.pieBarData)
+                                   sum: "\(model.uiModel.words?.count ?? 0)",
+                                   data: model.uiModel.pieBarData ?? [])
                         Spacer()
                     }
                     VStack(alignment: .leading) {
@@ -38,7 +38,7 @@ struct StatisticView: View {
                 .refreshable {
                     loadWordsAndCategories()
                 }
-                .animation(.easeIn, value: model.pieBarData)
+                .animation(.easeIn, value: model.uiModel.pieBarData)
         } else {
             SwiftUI.ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())

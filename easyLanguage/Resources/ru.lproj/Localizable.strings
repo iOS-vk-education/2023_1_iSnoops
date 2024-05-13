@@ -89,4 +89,7 @@
 "learned" = "Выучено";
 "process" = "В процессе";
 "totalWords" = "Всего слов";
+"statisticChartCategoryName" = "Название категории";
+"statisticWordCount" = "Количество слов";
+"emptyChart" = "Пусто!";
 

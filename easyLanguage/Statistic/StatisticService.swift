@@ -10,14 +10,15 @@ import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
 
-struct StatisticModel {
-    let categories: [CategoryApiModel]
-    let categoriesAndWords: [String: Int]
-    let allWords: [WordApiModel]
-    let learned: [WordApiModel]
-}
-
 struct StatisticService {
+    private enum FieldNames {
+        static let categories = "categories"
+        static let profileId = "profileId"
+        static let words = "words"
+        static let categoryId = "categoryId"
+        static let isLearned = "isLearned"
+    }
+
     private let dataBase = Firestore.firestore()
 
     public func loadWordsAndCategories() async throws -> StatisticModel {
@@ -45,13 +46,12 @@ struct StatisticService {
 
     private func loadCategories() async throws -> [CategoryApiModel] {
         guard let uid = checkAuthentication() else {
-            print("пользователь не авторизован")
             throw AuthErrors.userNotAuthenticated
         }
 
         return try await withCheckedThrowingContinuation { continuation in
-            dataBase.collection("categories")
-                .whereField("profileId", isEqualTo: uid)
+            dataBase.collection(FieldNames.categories)
+                .whereField(FieldNames.profileId, isEqualTo: uid)
                 .getDocuments { querySnapshot, error in
                     if let error = error {
                         print(error)
@@ -81,8 +81,8 @@ struct StatisticService {
 
     private func loadWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
         return try await withCheckedThrowingContinuation { continuation in
-            dataBase.collection("words")
-                .whereField("categoryId", isEqualTo: categoryId).getDocuments { querySnapshot, error in
+            dataBase.collection(FieldNames.words)
+                .whereField(FieldNames.categoryId, isEqualTo: categoryId).getDocuments { querySnapshot, error in
                     if let error = error {
                         print(error)
                         continuation.resume(throwing: error)
@@ -108,9 +108,9 @@ struct StatisticService {
 
     private func loadLearnedWordsInCategory(with categoryId: String) async throws -> [WordApiModel] {
         return try await withCheckedThrowingContinuation { continuation in
-            dataBase.collection("words")
-                .whereField("categoryId", isEqualTo: categoryId)
-                .whereField("isLearned", isEqualTo: false).getDocuments { querySnapshot, error in
+            dataBase.collection(FieldNames.words)
+                .whereField(FieldNames.categoryId, isEqualTo: categoryId)
+                .whereField(FieldNames.isLearned, isEqualTo: false).getDocuments { querySnapshot, error in
                     if let error = error {
                         print(error)
                         continuation.resume(throwing: error)

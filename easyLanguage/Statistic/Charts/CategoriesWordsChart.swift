@@ -17,12 +17,12 @@ struct CategoriesWordsChart: View {
                 .font(.system(.title3, weight: .semibold))
                 .padding()
             VStack {
-                if !viewModel.barMarkData.isEmpty {
+                if !(viewModel.uiModel.barMarkData?.isEmpty ?? false) {
                     Chart {
-                        ForEach(viewModel.barMarkData, id: \.id) { lineData in
+                        ForEach(viewModel.uiModel.barMarkData ?? [], id: \.id) { lineData in
                             BarMark(
-                                x: .value("Название категории", lineData.name),
-                                y: .value("Количество слов", lineData.countAdded)
+                                x: .value(NSLocalizedString("statisticChartCategoryName", comment: ""), lineData.name),
+                                y: .value(NSLocalizedString("statisticWordCount", comment: ""), lineData.countAdded)
                             )
                             .foregroundStyle(.mint)
                         }
@@ -31,7 +31,7 @@ struct CategoriesWordsChart: View {
                     .chartLegend(position: .automatic)
                 } else {
                     VStack(alignment: .center) {
-                        Text("Пусто!")
+                        Text(NSLocalizedString("emptyChart", comment: ""))
                     }
                 }
             }.frame(height: 300)

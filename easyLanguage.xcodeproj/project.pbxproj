@@ -84,7 +84,7 @@
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
 		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
 		17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8AA2B2F71C80064698E /* LoginViewController.swift */; };
-		17DD8A1F2BE8E6A400B4DB67 /* WeekStatisticChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A182BE8E6A400B4DB67 /* WeekStatisticChart.swift */; };
+		17DD8A1F2BE8E6A400B4DB67 /* CategoriesWordsChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */; };
 		17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */; };
 		17DD8A212BE8E6A400B4DB67 /* StatisticVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */; };
 		17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */; };
@@ -175,7 +175,7 @@
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
 		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		17DD8A182BE8E6A400B4DB67 /* WeekStatisticChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeekStatisticChart.swift; sourceTree = "<group>"; };
+		17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesWordsChart.swift; sourceTree = "<group>"; };
 		17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticModel.swift; sourceTree = "<group>"; };
 		17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticVIew.swift; sourceTree = "<group>"; };
 		17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticViewModel.swift; sourceTree = "<group>"; };
@@ -588,7 +588,7 @@
 			isa = PBXGroup;
 			children = (
 				17DD8A232BE8ED0000B4DB67 /* PieBar.swift */,
-				17DD8A182BE8E6A400B4DB67 /* WeekStatisticChart.swift */,
+				17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -811,7 +811,7 @@
 				0799EDA92B3C9C3000C0C04F /* ProfileModel.swift in Sources */,
 				07F1BE982AF8299900F50845 /* ProgressView.swift in Sources */,
 				07D31BE32B389385005002E3 /* OnboardingViewController.swift in Sources */,
-				17DD8A1F2BE8E6A400B4DB67 /* WeekStatisticChart.swift in Sources */,
+				17DD8A1F2BE8E6A400B4DB67 /* CategoriesWordsChart.swift in Sources */,
 				17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */,
 				179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */,
 				074F9DA12B2A199D00132465 /* ProfileApiModel.swift in Sources */,

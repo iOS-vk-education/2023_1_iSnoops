@@ -20,25 +20,26 @@ struct MainPieBar: View {
     var data: [[PieBarValues]]
     @State var isAnimated: Bool = true
 
-    let lineWidth: CGFloat = 15
-    let lineSpace: CGFloat = 2
-    let radius: CGFloat = 243
+    private enum Constants {
+        static let lineWidth: CGFloat = 15
+        static let lineSpace: CGFloat = 2
+        static let radius: CGFloat = 243
+    }
 
     // MARK: View
-
     var body: some View {
         ZStack {
             ForEach(data.indices, id: \.self) { index in
-                ForEach(data[index].indices, id: \.self) { index1 in
+                ForEach(data[index].indices, id: \.self) { indexDelta in
                     PieBarItem(trimFrom: anim(computeTrimFrom(data: data[index],
-                                                              index: index1,
+                                                              index: indexDelta,
                                                               indexDelta: index)),
                                trimTo: anim(computeTrimTo(data: data[index],
-                                                          index: index1,
+                                                          index: indexDelta,
                                                           indexDelta: index)),
-                               scaleEffect: data[index][index1].clockwise ? 1 : -1,
-                               lineWidth: lineWidth,
-                               color: data[index][index1].color,
+                               scaleEffect: data[index][indexDelta].clockwise ? 1 : -1,
+                               lineWidth: Constants.lineWidth,
+                               color: data[index][indexDelta].color,
                                itemPadding: computeLevel(index))
                 }
             }
@@ -48,15 +49,20 @@ struct MainPieBar: View {
                 Text("\(sum)").font(.title)
                     .bold()
             }.foregroundColor(.gray)
-                .frame(width: radius - (computeLevel(data.count) * 2),
-                       height: radius - (computeLevel(data.count) * 2))
+                .frame(width: calculateSideLength(),
+                       height: calculateSideLength())
         }.onAppear {
             isAnimated = false
-        }.frame(width: radius, height: radius)
+        }.frame(width: Constants.radius,
+                height: Constants.radius)
     }
 
-    // MARK: Functions
+    // MARK: Private functions
 
+    // Ширина и высота графика
+    private func calculateSideLength() -> Double {
+        Constants.radius - (computeLevel(data.count) * 2)
+    }
     // Анимируем построения "кругов"
     private func anim(_ val: CGFloat) -> CGFloat {
         return isAnimated ? 0 : val
@@ -66,7 +72,7 @@ struct MainPieBar: View {
     // level - номер элемента в массиве
 
     private func computeLevel(_ level: Int) -> CGFloat {
-        return (lineWidth+lineSpace) * CGFloat(level)
+        return (Constants.lineWidth + Constants.lineSpace) * CGFloat(level)
     }
 
     // рассчитываем точку окончания построения каждого "круга"
@@ -101,13 +107,11 @@ struct MainPieBar: View {
     // index - индекс вложенного массива
     // indexDelta - индекс элементов вложенного массива
 
-    private  func computeTrimFrom(data: [PieBarValues], index: Int, indexDelta: Int) -> CGFloat {
+    private func computeTrimFrom(data: [PieBarValues], index: Int, indexDelta: Int) -> CGFloat {
         let delta = getDelta(indexOut: indexDelta)
         var sum: Double = 0
         if data.count == 1 {
-            if data[index].value == 1 {
-                sum = 0
-            } else {
+            if data[index].value != 1 {
                 sum = delta
             }
         } else {
@@ -130,28 +134,17 @@ struct MainPieBar: View {
     // indexOut - индекс вложенного массива
 
     private func getDelta(indexOut: Int) -> CGFloat {
-        let calcWidth = radius - (computeLevel(indexOut) * 2)
-        let delta =  (((asin(lineWidth * 0.5 / ((calcWidth - lineWidth) * 0.5))) * (180 / .pi)) / 360) // 0.0083
+        let calcWidth = calculateSideLength()
+        let delta =  (asin(Constants.lineWidth * 0.5 / ((calcWidth - Constants.lineWidth) * 0.5))) * (180 / .pi) / 360
         return delta
-    }
-
-    private func workWithSmallData(data: [[PieBarValues]]) -> [[PieBarValues]] {
-        var returnData: [[PieBarValues]] = data
-        for levelIndex in 0..<returnData.count {
-            returnData[levelIndex].sort {$0.value < $1.value}
-            for pie in 0..<returnData[levelIndex].count
-            where returnData[levelIndex][pie].value <= getDelta(indexOut: levelIndex) * 2 {
-                returnData[levelIndex][0].value += returnData[levelIndex][pie].value
-            }
-        }
-        for levelIndex in 0..<returnData.count {
-            returnData[levelIndex].removeAll {$0.value <= getDelta(indexOut: levelIndex) * 2}
-        }
-        return returnData
     }
 }
 
 struct PieBarItem: View {
+    private enum Constants {
+        static let angleDegrees: CGFloat = 270
+        static let animDuration = 0.5
+    }
     var trimFrom: CGFloat
     var trimTo: CGFloat
     var scaleEffect: CGFloat
@@ -166,8 +159,8 @@ struct PieBarItem: View {
                                        lineCap: .round,
                                        lineJoin: .round))
             .foregroundColor(color)
-            .rotationEffect(Angle(degrees: 270 + rotation))
-            .animation(.linear(duration: 0.5),
+            .rotationEffect(Angle(degrees: Constants.angleDegrees + rotation))
+            .animation(.linear(duration: Constants.animDuration),
                        value: trimTo)
             .padding(itemPadding)
             .scaleEffect(x: scaleEffect)

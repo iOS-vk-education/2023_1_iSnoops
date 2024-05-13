@@ -87,3 +87,6 @@
 "learned" = "Learned";
 "process" = "In process";
 "totalWords" = "Total words";
+"statisticChartCategoryName" = "Category name";
+"statisticWordCount" = "Word count";
+"emptyChart" = "Empty!";
