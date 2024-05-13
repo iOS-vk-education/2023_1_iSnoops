@@ -82,7 +82,6 @@
 "wordDeleteAlert" = "Ошибка при удалении слова";
 "dataPostErrorAlert" = "Не удалось отправить данные";
 
-
 //MARK: - StatisticView
 "wordsCategories" = "Количество слов в категориях";
 "wordRatio" = "Соотношение слов";
@@ -93,3 +92,8 @@
 "statisticWordCount" = "Количество слов";
 "emptyChart" = "Пусто!";
 
+//MARK: - AchievementStaticsBaseViewController
+"nameLabel" = "Имя";
+"achievementButton" = "Достижения";
+"statisticsButton" = "Статистика";
+"achievementStaticsTitle" = "Достижения";

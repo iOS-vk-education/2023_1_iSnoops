@@ -90,3 +90,10 @@
 "statisticChartCategoryName" = "Category name";
 "statisticWordCount" = "Word count";
 "emptyChart" = "Empty!";
+
+//MARK: - AchievementStaticsBaseViewController
+"nameLabel" = "Name";
+"achievementButton" = "Achievements";
+"statisticsButton" = "Statistics";
+"achievementStaticsTitle" = "Achievements";
+
