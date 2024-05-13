@@ -10,6 +10,9 @@ import SwiftUI
 import Charts
 
 struct CategoriesWordsChart: View {
+    private enum Sizes {
+        static let height: CGFloat = 300
+    }
     @ObservedObject var viewModel: StatisticViewModel
     var body: some View {
         VStack(alignment: .leading) {
@@ -34,7 +37,7 @@ struct CategoriesWordsChart: View {
                         Text(NSLocalizedString("emptyChart", comment: ""))
                     }
                 }
-            }.frame(height: 300)
+            }.frame(height: Sizes.height)
         }
     }
 }
