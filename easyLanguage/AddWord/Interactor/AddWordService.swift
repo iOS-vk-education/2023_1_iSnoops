@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseStorage
+import CoreData
 
 protocol AddWordServiceProtocol {
     func add(_ model: WordApiModel, completion: @MainActor @escaping (Result<Void, Error>) -> Void)
@@ -15,10 +16,14 @@ protocol AddWordServiceProtocol {
 }
 
 final class AddWordService: AddWordServiceProtocol {
+
     static let shared: AddWordServiceProtocol = AddWordService()
     private let dataBase = Firestore.firestore()
+    private let coreData = CoreDataWord()
 
     func add(_ model: WordApiModel, completion: @MainActor @escaping (Result<Void, Error>) -> Void) {
+        coreData.loadStore()
+        coreData.saveWordToCoreData(model: model)
         dataBase.collection("words").document(model.id).setData([
             "categoryId": model.categoryId,
             "translations": model.translations,

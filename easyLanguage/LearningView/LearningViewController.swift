@@ -8,8 +8,12 @@
 import Foundation
 import UIKit
 import Shuffle
+import CoreData
 
 final class LearningViewController: UIViewController {
+
+    private let coreData = CoreDataWord()
+
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
     private var modelForPost: [WordUIModel] = []
@@ -85,7 +89,8 @@ final class LearningViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         correctCount = 0
         incorrectCount = 0
-        loadLearningWords()
+//        loadLearningWords()
+        loadLearningWordsFromCoreData()
         cardsWereSwiped = false
     }
 
@@ -105,6 +110,9 @@ final class LearningViewController: UIViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(progressInfo)
         view.addSubview(cardStack)
+
+        coreData.loadStore()
+        coreData.fetchedResultsController.delegate = self
     }
 
     private func setupDescriptionLabelConstraints() {
@@ -149,6 +157,21 @@ final class LearningViewController: UIViewController {
                 self.model = []
             }
         }
+    }
+
+    private func loadLearningWordsFromCoreData() {
+        let moc = coreData.persistentContainer.viewContext
+        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+
+        guard let coreModel = try? moc.fetch(wordsfetch) else { return }
+        for item in coreModel {
+            model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
+                                     translations: item.translations as? [String: String] ?? [: ],
+                                     isLearned: item.isLearned,
+                                     swipesCounter: Int(item.swipesCounter),
+                                     id: item.id ?? ""))
+        }
+        cardStack.reloadData()
     }
 
     private func postToTopFive() {
@@ -263,5 +286,15 @@ extension LearningViewController: SwipeCardStackDelegate {
 
     func didSwipeAllCards(_ cardStack: SwipeCardStack) {
         emptyWordsLabel.isHidden = false
+    }
+}
+
+extension LearningViewController: NSFetchedResultsControllerDelegate {
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+
+    }
+
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
+
     }
 }
