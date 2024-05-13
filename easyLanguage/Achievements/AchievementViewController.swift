@@ -16,11 +16,18 @@ struct Achievement: Identifiable {
 
 struct AchievementView: View {
 
+    private enum Constants {
+        static let marginLeft: CGFloat = 15
+        static let imageWidth: CGFloat = 36
+        static let imageHeight: CGFloat = 40
+        static let textHeight: CGFloat = 50
+    }
+
     var achievements: [Achievement] = testData
 
     var body: some View {
         List(achievements) { ach in
-            HStack (spacing: Constants.marginLeft) {
+            HStack(spacing: Constants.marginLeft) {
                 Image(ach.imageName)
                     .resizable()
                     .frame(width: Constants.imageWidth, height: Constants.imageHeight)
@@ -30,13 +37,6 @@ struct AchievementView: View {
             .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
         }
         .listStyle(.plain)
-    }
-
-    private enum Constants {
-        static let marginLeft: CGFloat = 15
-        static let imageWidth: CGFloat = 36
-        static let imageHeight: CGFloat = 40
-        static let textHeight: CGFloat = 50
     }
 }
 

@@ -10,6 +10,13 @@ import SwiftUI
 
 struct AchievementStaticsBaseViewController: View {
 
+    private enum Constants {
+        static let imageSize: CGFloat = 115
+        static let buttonsDistance: CGFloat = 10
+        static let viewPaddingTop: CGFloat = 5
+        static let viewPaddingBottom: CGFloat = 10
+    }
+
     @State private var isAchievementViewActive = true
     @State var profile: ProfileApiModel?
 
@@ -66,14 +73,6 @@ struct AchievementStaticsBaseViewController: View {
         }
         .navigationTitle(NSLocalizedString("achievementStaticsTitle", comment: ""))
     }
-
-    private enum Constants {
-        static let imageSize: CGFloat = 115
-        static let buttonsDistance: CGFloat = 10
-        static let viewPaddingTop: CGFloat = 5
-        static let viewPaddingBottom: CGFloat = 10
-    }
-
 }
 
 #Preview {
