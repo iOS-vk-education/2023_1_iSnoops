@@ -93,10 +93,7 @@ struct MainPieBar: View {
             if index == 0 {
                 sum = data[index].value - delta
             } else {
-                for point in 0..<index {
-                    sum += data[point].value
-                }
-                sum = data[index].value + sum - delta
+                sum = data.prefix(index + 1).reduce(0, { $0 + $1.value }) - delta
             }
         }
         return sum
@@ -118,13 +115,7 @@ struct MainPieBar: View {
             if index == 0 {
                 sum = delta
             } else {
-                for point in 0..<index {
-                    if delta * 2 >= data[point].value {
-                        continue
-                    }
-                    sum += data[point].value
-                }
-                sum += delta
+                sum = data.prefix(index).filter({ $0.value > delta * 2 }).reduce(0, { $0 + $1.value }) + delta
             }
         }
         return sum
@@ -135,7 +126,7 @@ struct MainPieBar: View {
 
     private func getDelta(indexOut: Int) -> CGFloat {
         let calcWidth = calculateSideLength()
-        let delta =  (asin(Constants.lineWidth * 0.5 / ((calcWidth - Constants.lineWidth) * 0.5))) * (180 / .pi) / 360
+        let delta = (asin(Constants.lineWidth * 0.5 / ((calcWidth - Constants.lineWidth) * 0.5))) * (180 / .pi) / 360
         return delta
     }
 }

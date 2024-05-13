@@ -29,7 +29,7 @@ class StatisticViewModel: ObservableObject {
 
     private func makeDataForPieBar(all: Double,
                                    learned: Double) -> [[PieBarValues]] {
-        return [[PieBarValues(value: 1.0,
+                [[PieBarValues(value: 1.0,
                               color: .blue,
                               clockwise: true)],
                 [PieBarValues(value: learned / all,

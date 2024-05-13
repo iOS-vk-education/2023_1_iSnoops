@@ -110,7 +110,7 @@ struct StatisticService {
         return try await withCheckedThrowingContinuation { continuation in
             dataBase.collection(FieldNames.words)
                 .whereField(FieldNames.categoryId, isEqualTo: categoryId)
-                .whereField(FieldNames.isLearned, isEqualTo: false).getDocuments { querySnapshot, error in
+                .whereField(FieldNames.isLearned, isEqualTo: true).getDocuments { querySnapshot, error in
                     if let error = error {
                         print(error)
                         continuation.resume(throwing: error)
@@ -137,8 +137,7 @@ struct StatisticService {
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {
             return currentUser.uid
-        } else {
-            return nil
         }
+        return nil
     }
 }
