@@ -15,23 +15,28 @@ struct Achievement: Identifiable {
 }
 
 struct AchievementView: View {
-    @State private var statisticButtonColor = SwiftUI.Color.gray
-    @State private var achievementButtonColor = SwiftUI.Color.blue
 
     var achievements: [Achievement] = testData
 
     var body: some View {
-            List(achievements) { ach in
-                HStack (spacing: 15) {
-                    Image(ach.imageName)
-                        .resizable()
-                        .frame(width: 36, height: 40)
-                    Text(ach.text)
-                        .frame(height: 50)
-                }
-                .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
+        List(achievements) { ach in
+            HStack (spacing: Constants.marginLeft) {
+                Image(ach.imageName)
+                    .resizable()
+                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                Text(ach.text)
+                    .frame(height: Constants.textHeight)
             }
+            .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
+        }
         .listStyle(.plain)
+    }
+
+    private enum Constants {
+        static let marginLeft: CGFloat = 15
+        static let imageWidth: CGFloat = 36
+        static let imageHeight: CGFloat = 40
+        static let textHeight: CGFloat = 50
     }
 }
 

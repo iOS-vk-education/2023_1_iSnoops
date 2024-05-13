@@ -81,3 +81,9 @@
 "reloadHeightAlert" = "Ошибка обновления высоты";
 "wordDeleteAlert" = "Ошибка при удалении слова";
 "dataPostErrorAlert" = "Не удалось отправить данные";
+
+//MARK: - AchievementStaticsBaseViewController
+"nameLabel" = "Имя";
+"achievementButton" = "Достижения";
+"statisticsButton" = "Статистика";
+"achievementStaticsTitle" = "Достижения";

@@ -1,5 +1,5 @@
 //
-//  Achievement:StaticsBaseViewController.swift
+//  AchievementStaticsBaseViewController.swift
 //  easyLanguage
 //
 //  Created by Арсений Чистяков on 15.04.2024.
@@ -8,52 +8,51 @@
 import Foundation
 import SwiftUI
 
-
 struct AchievementStaticsBaseViewController: View {
-    @State private var achievementToggle = true
-    @State private var isUIKitScreenPresented = false
+
+    @State private var isAchievementViewActive = true
     @State var profile: ProfileApiModel?
-    
+
     var body: some View {
         NavigationView {
             VStack {
                 HStack {
                     Spacer()
                 }
-                .frame(height: 0)
                 AsyncImage(url: URL(string: profile?.imageLink ?? " ")) { image in
                     image.resizable()
                         .clipShape(Circle())
                 } placeholder: {
                     SwiftUI.ProgressView()
                 }
-                .frame(width: 115, height: 115)
-                Text(profile?.name ?? "Имя").bold()
+                .frame(width: Constants.imageSize, height: Constants.imageSize)
+                Text(profile?.name ?? NSLocalizedString("nameLabel", comment: ""))
+                    .bold()
                     .font(.title2)
                 HStack {
-                    Button("Достижения") {
-                        achievementToggle = true
+                    Button(NSLocalizedString("achievementButton", comment: "")) {
+                        isAchievementViewActive = true
                     }
                     .font(.title3)
                     .foregroundStyle(
-                        achievementToggle ? .blue : .gray)
-                    .padding(.trailing, 10)
-                    Button("Статистика") {
-                        achievementToggle = false
+                        isAchievementViewActive ? .blue : .gray)
+                    .padding(.trailing, Constants.buttonsDistance)
+                    Button(NSLocalizedString("statisticsButton", comment: "")) {
+                        isAchievementViewActive = false
                     }
                     .font(.title3)
-                    .foregroundStyle(achievementToggle ? .gray: .blue)
+                    .foregroundStyle(isAchievementViewActive ? .gray: .blue)
                 }
-                .padding(.top, 5)
-                .padding(.bottom, 10)
+                .padding(.top, Constants.viewPaddingTop)
+                .padding(.bottom, Constants.viewPaddingBottom)
                 Spacer()
-                if achievementToggle {
+                if isAchievementViewActive {
                     AchievementView()
                 } else {
                     // TODO: View Матвея
                 }
             }
-                .background(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
+            .background(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
         }
         .onAppear {
             Task {
@@ -65,8 +64,16 @@ struct AchievementStaticsBaseViewController: View {
                 }
             }
         }
-        .navigationTitle("Достижения")
+        .navigationTitle(NSLocalizedString("achievementStaticsTitle", comment: ""))
     }
+
+    private enum Constants {
+        static let imageSize: CGFloat = 115
+        static let buttonsDistance: CGFloat = 10
+        static let viewPaddingTop: CGFloat = 5
+        static let viewPaddingBottom: CGFloat = 10
+    }
+
 }
 
 #Preview {
