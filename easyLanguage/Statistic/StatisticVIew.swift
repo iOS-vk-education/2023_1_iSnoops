@@ -15,6 +15,7 @@ struct StatisticView: View {
         if model.isLoaded {
             List {
                 CategoriesWordsChart(viewModel: model)
+                    .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
                 VStack(alignment: .leading) {
                     Text(NSLocalizedString("wordRatio", comment: ""))
                         .padding()
@@ -33,12 +34,14 @@ struct StatisticView: View {
                                       text: NSLocalizedString("process", comment: ""))
                     }
                 }
-            } .listStyle(.automatic)
-                .listRowSpacing(20)
-                .refreshable {
-                    loadWordsAndCategories()
-                }
-                .animation(.easeIn, value: model.uiModel.pieBarData)
+                .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
+            }
+            .listStyle(.plain)
+            .listRowSpacing(20)
+            .refreshable {
+                loadWordsAndCategories()
+            }
+            .animation(.easeIn, value: model.uiModel.pieBarData)
         } else {
             SwiftUI.ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
@@ -47,13 +50,13 @@ struct StatisticView: View {
                 }
         }
     }
-
+    
     private func loadWordsAndCategories() {
         Task {
             do {
                 try await model.getData()
             } catch {
-               fatalError()
+                fatalError()
             }
         }
     }
