@@ -8,8 +8,12 @@
 import Foundation
 import UIKit
 import Shuffle
+import CoreData
 
 final class LearningViewController: UIViewController {
+
+    private let coreDataService = CoreDataService()
+
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
     private var modelForPost: [WordUIModel] = []
@@ -81,15 +85,19 @@ final class LearningViewController: UIViewController {
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupProgressInfoConstraints()
+        coreDataService.loadStore()
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         correctCount = 0
         incorrectCount = 0
-        loadLearningWords()
+//        loadLearningWords()
+        loadWordsFromCoreData()
         cardsWereSwiped = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         if cardsWereSwiped {
             postToTopFive()
         }
@@ -149,6 +157,23 @@ final class LearningViewController: UIViewController {
                 self.model = []
             }
         }
+    }
+
+    private func loadWordsFromCoreData() {
+        self.model = []
+
+        let moc = coreDataService.persistentContainer.viewContext
+        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+
+        guard let coreModel = try? moc.fetch(wordsfetch) else { return }
+        for item in coreModel {
+            self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
+                                     translations: item.translations ?? [:],
+                                     isLearned: item.isLearned,
+                                     swipesCounter: Int(item.swipesCounter),
+                                     id: item.id ?? ""))
+        }
+        cardStack.reloadData()
     }
 
     private func postToTopFive() {
