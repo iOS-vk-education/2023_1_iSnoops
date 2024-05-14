@@ -11,11 +11,14 @@ import SwiftUI
 struct Achievement: Identifiable {
     var id = UUID()
     var text: String
-    var imageName: String
+    var achievementModel: AchievementModel?
 }
 
 struct AchievementView: View {
 
+    @State var answers: [AchievementModel] = []
+    @State var achievements: [Achievement] = testData
+    
     private enum Constants {
         static let marginLeft: CGFloat = 15
         static let imageWidth: CGFloat = 36
@@ -23,20 +26,35 @@ struct AchievementView: View {
         static let textHeight: CGFloat = 50
     }
 
-    var achievements: [Achievement] = testData
 
     var body: some View {
-        List(achievements) { ach in
+        List(achievements) { achievement in
             HStack(spacing: Constants.marginLeft) {
-                Image(ach.imageName)
+                Image((achievement.achievementModel?.isAchievementDone ?? false) ? "AchievementDone" : "AchievementNotDone")
                     .resizable()
                     .frame(width: Constants.imageWidth, height: Constants.imageHeight)
-                Text(ach.text)
+                Text(achievement.text)
                     .frame(height: Constants.textHeight)
             }
             .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
         }
         .listStyle(.plain)
+        .onAppear {
+            CategoriesModel().loadCategories { result in
+                switch result {
+                case .success(let categories):
+                    answers = AchievementManager(categories: categories).getAnswers()
+                    print(answers)
+                    let combinedData = zip(testData, answers)
+                    achievements = combinedData.map { testData, answer in
+                        return Achievement(text: testData.text, achievementModel: answer)
+                    }
+                    print(testData)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }
 
@@ -45,11 +63,14 @@ struct AchievementView: View {
 }
 
 #if DEBUG
-let testData = [
-    Achievement(text: "Создай свою собственную категорию", imageName: "AchievementCompletionIcon"),
-    Achievement(text: "Изучи 10 слов", imageName: "AchievementCompletionIcon"),
-    Achievement(text: "Изучи 100 слов", imageName: "AchievementCompletionIcon"),
-    Achievement(text: "Изучи 500 слов", imageName: "AchievementNotDone"),
-    Achievement(text: "Достигни уровня С2", imageName: "AchievementNotDone")
+var testData = [
+    Achievement(text: "Создай свою собственную категорию", achievementModel: nil),
+    Achievement(text: "Создай 5 категорий", achievementModel: nil),
+    Achievement(text: "Изучи 10 слов", achievementModel: nil),
+    Achievement(text: "Изучи 100 слов", achievementModel: nil),
+    Achievement(text: "Изучи 500 слов и поезжай в Англию", achievementModel: nil),
+    Achievement(text: "Добавь 50 слов в одну категорию", achievementModel: nil),
+    Achievement(text: "Изучи полностью одну категорию", achievementModel: nil),
+    Achievement(text: "Изучи полностью три категории", achievementModel: nil),
 ]
 #endif
