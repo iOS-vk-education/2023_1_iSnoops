@@ -46,7 +46,7 @@ private extension AchievementManager {
     }
 
     func isAddedSomeCategories(requiredCategories: Int) {
-        answers.append(AchievementModel(isAchievementDone: categories.count >= requiredCategories, count: categories.count))
+        answers.append(AchievementModel(isAchievementDone: categories.count >= requiredCategories + 5, count: categories.count))
     }
 
     func isSomeWordsInCategory(requiredWords: Int) {
