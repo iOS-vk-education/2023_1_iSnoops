@@ -86,6 +86,12 @@
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
 		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
 		17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8AA2B2F71C80064698E /* LoginViewController.swift */; };
+		17DD8A1F2BE8E6A400B4DB67 /* CategoriesWordsChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */; };
+		17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */; };
+		17DD8A212BE8E6A400B4DB67 /* StatisticVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */; };
+		17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */; };
+		17DD8A242BE8ED0000B4DB67 /* PieBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A232BE8ED0000B4DB67 /* PieBar.swift */; };
+		17DD8A262BE903C900B4DB67 /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A252BE903C900B4DB67 /* StatisticService.swift */; };
 		17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F032B3B697100E6B7FE /* AuthService.swift */; };
 		17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */; };
 		17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F57F072B3B90FC00E6B7FE /* AlertManager.swift */; };
@@ -177,6 +183,12 @@
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
 		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesWordsChart.swift; sourceTree = "<group>"; };
+		17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticModel.swift; sourceTree = "<group>"; };
+		17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticVIew.swift; sourceTree = "<group>"; };
+		17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticViewModel.swift; sourceTree = "<group>"; };
+		17DD8A232BE8ED0000B4DB67 /* PieBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieBar.swift; sourceTree = "<group>"; };
+		17DD8A252BE903C900B4DB67 /* StatisticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticService.swift; sourceTree = "<group>"; };
 		17F57F032B3B697100E6B7FE /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		17F57F052B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Register+LoginUserRequestModel.swift"; sourceTree = "<group>"; };
 		17F57F072B3B90FC00E6B7FE /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
@@ -270,6 +282,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				17DD8A1D2BE8E6A400B4DB67 /* Statistic */,
 				AAE2B9322BB322B1006DF763 /* Achievements */,
 				0725A6A92BE7AAE4000C623A /* easyLanguage.entitlements */,
 				0725A6A42BE7967A000C623A /* PushManager */,
@@ -594,6 +607,27 @@
 			path = LearningView;
 			sourceTree = "<group>";
 		};
+		17DD8A192BE8E6A400B4DB67 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				17DD8A232BE8ED0000B4DB67 /* PieBar.swift */,
+				17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		17DD8A1D2BE8E6A400B4DB67 /* Statistic */ = {
+			isa = PBXGroup;
+			children = (
+				17DD8A192BE8E6A400B4DB67 /* Charts */,
+				17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */,
+				17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */,
+				17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */,
+				17DD8A252BE903C900B4DB67 /* StatisticService.swift */,
+			);
+			path = Statistic;
+			sourceTree = "<group>";
+		};
 		18D8BA5D2BD7EE610073AF53 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,6 +782,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */,
+				17DD8A212BE8E6A400B4DB67 /* StatisticVIew.swift in Sources */,
 				17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */,
 				07F1BE872AF828EA00F50845 /* CatalogCollectionViewDataSource.swift in Sources */,
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
@@ -784,7 +819,9 @@
 				070811572B29F1D300623B74 /* CategoriesCollectionViewDelegateFlowLayout.swift in Sources */,
 				07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */,
 				17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */,
+				17DD8A262BE903C900B4DB67 /* StatisticService.swift in Sources */,
 				0744557F2B25E9BA00FA5469 /* CategoryDetailCollectionViewCell.swift in Sources */,
+				17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */,
 				074455492B223D1400FA5469 /* AddWordViewController.swift in Sources */,
 				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,
 				07048C022B3B7BC50050F0B5 /* CategoryDetailService.swift in Sources */,
@@ -800,6 +837,7 @@
 				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,
 				075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */,
+				17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */,
 				07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */,
 				0799EDAB2B3C9C3A00C0C04F /* ProfileService.swift in Sources */,
 				AA98115B2BF3535E00A2F594 /* AchievementManager.swift in Sources */,
@@ -809,6 +847,7 @@
 				0799EDA92B3C9C3000C0C04F /* ProfileModel.swift in Sources */,
 				07F1BE982AF8299900F50845 /* ProgressView.swift in Sources */,
 				07D31BE32B389385005002E3 /* OnboardingViewController.swift in Sources */,
+				17DD8A1F2BE8E6A400B4DB67 /* CategoriesWordsChart.swift in Sources */,
 				17F57F082B3B90FC00E6B7FE /* AlertManager.swift in Sources */,
 				179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */,
 				074F9DA12B2A199D00132465 /* ProfileApiModel.swift in Sources */,
@@ -817,6 +856,7 @@
 				0799EDB52B3CCA4300C0C04F /* AddNewCategoryService.swift in Sources */,
 				07A9B4F92BA4B2360091F444 /* TranslationApiModel.swift in Sources */,
 				070811532B29F1B500623B74 /* CategoriesCollectionViewDelegate.swift in Sources */,
+				17DD8A242BE8ED0000B4DB67 /* PieBar.swift in Sources */,
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				AA0C7A332B20F6D400DAF144 /* UserInformationView.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
@@ -992,7 +1032,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1024,7 +1064,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
