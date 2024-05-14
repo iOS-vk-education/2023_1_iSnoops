@@ -1,0 +1,8 @@
+{
+    "Simulator Target Bundle": "grigory.easyLanguage",
+    "aps": {
+        "alert": "test",
+        "sound": "default",
+        "badge": 2
+    }
+}

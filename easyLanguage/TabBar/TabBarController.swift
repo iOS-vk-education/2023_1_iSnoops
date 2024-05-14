@@ -5,6 +5,7 @@
 //  Created by Grigoriy on 24.10.2023.
 //
 import UIKit
+import SwiftUI
 
 final class TabBarController: UITabBarController {
     override func viewDidLoad() {
@@ -29,11 +30,8 @@ final class TabBarController: UITabBarController {
     }
 
     private var profileVC: UIViewController {
-        let profileViewController = UINavigationController(
-            rootViewController: ProfileViewController(themeViewOutput: ChoosingThemeView(),
-                                                      userInformationViewOutput: UserInformationView()
-                                                     )
-        )
+        let profileViewController = UINavigationController(rootViewController: ProfileViewController(themeViewOutput: ChoosingThemeView(),
+                                userInformationViewOutput: UserInformationView()))
         let title = "Профиль"
         let image = UIImage(systemName: "person.fill")
         profileViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 2)
