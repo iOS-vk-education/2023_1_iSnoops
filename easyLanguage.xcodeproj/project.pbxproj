@@ -66,7 +66,7 @@
 		07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */; };
 		07D31BE32B389385005002E3 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D31BE22B389385005002E3 /* OnboardingViewController.swift */; };
 		07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */; };
-		07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* MockData.swift */; };
+		07EF04BB2AFAAF970095DECB /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* DefaultData.swift */; };
 		07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C12AFBB9AC0095DECB /* ImageManager.swift */; };
 		07EF04C52AFBBF880095DECB /* CategoryUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */; };
 		07EF04C92AFBE9C20095DECB /* Color + configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C82AFBE9C20095DECB /* Color + configurations.swift */; };
@@ -168,7 +168,7 @@
 		07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordUIModel.swift; path = easyLanguage/Network/UIModels/WordUIModel.swift; sourceTree = SOURCE_ROOT; };
 		07D31BE22B389385005002E3 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionView.swift; sourceTree = "<group>"; };
-		07EF04BA2AFAAF970095DECB /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		07EF04BA2AFAAF970095DECB /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultData.swift; sourceTree = "<group>"; };
 		07EF04C12AFBB9AC0095DECB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryUIModel.swift; sourceTree = "<group>"; };
 		07EF04C82AFBE9C20095DECB /* Color + configurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + configurations.swift"; sourceTree = "<group>"; };
@@ -510,7 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				074455632B24FB9000FA5469 /* UIModels */,
-				07EF04BA2AFAAF970095DECB /* MockData.swift */,
+				07EF04BA2AFAAF970095DECB /* DefaultData.swift */,
 				07C4F7592B1BC9940073BED0 /* Errors */,
 				07F1BE7E2AF828B700F50845 /* Models */,
 				07F1BE902AF8294400F50845 /* ApiModels */,
@@ -858,7 +858,7 @@
 				17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */,
 				0799EDB32B3CCA3D00C0C04F /* AddNewCategoryModel.swift in Sources */,
 				074455792B25E95500FA5469 /* CategoryDetailCollectionViewDataSource.swift in Sources */,
-				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
+				07EF04BB2AFAAF970095DECB /* DefaultData.swift in Sources */,
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,
 				075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */,
 				17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */,

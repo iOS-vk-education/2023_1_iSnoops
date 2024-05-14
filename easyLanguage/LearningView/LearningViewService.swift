@@ -18,7 +18,9 @@ protocol LearningViewServiceProtocol {
 
 final class LearningViewService: LearningViewServiceProtocol {
 
+    private init() {}
     static let shared: LearningViewServiceProtocol = LearningViewService()
+
     private let dataBase = Firestore.firestore()
 
     // MARK: Public methods
