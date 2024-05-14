@@ -1,5 +1,5 @@
 //
-//  CoreDataWord.swift
+//  CoreDataService.swift
 //  easyLanguage
 //
 //  Created by Матвей Матюшко on 13.05.2024.
@@ -8,8 +8,9 @@
 import Foundation
 import CoreData
 
-class CoreDataWord {
+class CoreDataService {
     let persistentContainer = NSPersistentContainer(name: "CdModel")
+
     lazy var fetchedResultsController: NSFetchedResultsController<WordCDModel> = {
         let request = WordCDModel.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: #keyPath(WordCDModel.isLearned), ascending: true)
@@ -19,12 +20,11 @@ class CoreDataWord {
                                              managedObjectContext: self.persistentContainer.viewContext,
                                              sectionNameKeyPath: nil,
                                              cacheName: nil)
-//        frc.delegate = self
         return frc
     }()
-    
+
     func loadStore() {
-        persistentContainer.loadPersistentStores { (persistentStoreDescriptor, error) in
+        persistentContainer.loadPersistentStores { (_, error) in
             if let error = error {
                 print("unable to load")
                 print("\(error), \(error.localizedDescription)")

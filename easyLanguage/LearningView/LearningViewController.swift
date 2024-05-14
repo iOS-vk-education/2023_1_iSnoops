@@ -12,7 +12,7 @@ import CoreData
 
 final class LearningViewController: UIViewController {
 
-    private let coreData = CoreDataWord()
+    private let coreDataService = CoreDataService()
 
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
@@ -85,16 +85,19 @@ final class LearningViewController: UIViewController {
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupProgressInfoConstraints()
+        coreDataService.loadStore()
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         correctCount = 0
         incorrectCount = 0
 //        loadLearningWords()
-        loadLearningWordsFromCoreData()
+        loadWordsFromCoreData()
         cardsWereSwiped = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         if cardsWereSwiped {
             postToTopFive()
         }
@@ -110,9 +113,6 @@ final class LearningViewController: UIViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(progressInfo)
         view.addSubview(cardStack)
-
-        coreData.loadStore()
-        coreData.fetchedResultsController.delegate = self
     }
 
     private func setupDescriptionLabelConstraints() {
@@ -159,14 +159,16 @@ final class LearningViewController: UIViewController {
         }
     }
 
-    private func loadLearningWordsFromCoreData() {
-        let moc = coreData.persistentContainer.viewContext
+    private func loadWordsFromCoreData() {
+        self.model = []
+
+        let moc = coreDataService.persistentContainer.viewContext
         let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
 
         guard let coreModel = try? moc.fetch(wordsfetch) else { return }
         for item in coreModel {
-            model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
-                                     translations: item.translations as? [String: String] ?? [: ],
+            self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
+                                     translations: item.translations ?? [:],
                                      isLearned: item.isLearned,
                                      swipesCounter: Int(item.swipesCounter),
                                      id: item.id ?? ""))
@@ -286,15 +288,5 @@ extension LearningViewController: SwipeCardStackDelegate {
 
     func didSwipeAllCards(_ cardStack: SwipeCardStack) {
         emptyWordsLabel.isHidden = false
-    }
-}
-
-extension LearningViewController: NSFetchedResultsControllerDelegate {
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-
-    }
-
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<any NSFetchRequestResult>) {
-
     }
 }

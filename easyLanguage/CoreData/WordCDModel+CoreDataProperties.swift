@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension WordCDModel {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<WordCDModel> {
@@ -24,6 +23,6 @@ extension WordCDModel {
 
 }
 
-extension WordCDModel : Identifiable {
+extension WordCDModel: Identifiable {
 
 }

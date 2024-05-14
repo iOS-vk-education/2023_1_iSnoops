@@ -83,7 +83,7 @@
 		07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */; };
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
 		172A76CD2BF2575D008DDCB7 /* CdModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */; };
-		172A76D32BF258AD008DDCB7 /* CoreDataWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172A76D22BF258AD008DDCB7 /* CoreDataWord.swift */; };
+		172A76D32BF258AD008DDCB7 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172A76D22BF258AD008DDCB7 /* CoreDataService.swift */; };
 		172A76D62BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */; };
 		172A76D72BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */; };
 		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
@@ -178,7 +178,7 @@
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		172A76CC2BF2575D008DDCB7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		172A76D22BF258AD008DDCB7 /* CoreDataWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataWord.swift; sourceTree = "<group>"; };
+		172A76D22BF258AD008DDCB7 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCDModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
@@ -276,10 +276,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
-				172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */,
-				172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */,
-				172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */,
-				172A76D22BF258AD008DDCB7 /* CoreDataWord.swift */,
+				172A76D82BF35FA2008DDCB7 /* CoreData */,
 				AAE2B9322BB322B1006DF763 /* Achievements */,
 				0725A6A92BE7AAE4000C623A /* easyLanguage.entitlements */,
 				0725A6A42BE7967A000C623A /* PushManager */,
@@ -585,6 +582,17 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		172A76D82BF35FA2008DDCB7 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */,
+				172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */,
+				172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */,
+				172A76D22BF258AD008DDCB7 /* CoreDataService.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		178E20432B3BA56A003AF819 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -764,7 +772,7 @@
 				172A76CD2BF2575D008DDCB7 /* CdModel.xcdatamodeld in Sources */,
 				0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */,
 				07F1BE892AF828F100F50845 /* CatalogCollectionViewDelegateFlowLayout.swift in Sources */,
-				172A76D32BF258AD008DDCB7 /* CoreDataWord.swift in Sources */,
+				172A76D32BF258AD008DDCB7 /* CoreDataService.swift in Sources */,
 				0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */,
 				074FF4E52BC491C6004064A3 /* AddWordEvents.swift in Sources */,
 				074FF4E12BC48A56004064A3 /* AddWordInteractor.swift in Sources */,
