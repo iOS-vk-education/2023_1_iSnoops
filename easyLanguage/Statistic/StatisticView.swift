@@ -1,5 +1,5 @@
 //
-//  StatisticVIew.swift
+//  StatisticView.swift
 //  easyLanguage
 //
 //  Created by Матвей Матюшко on 12.04.2024.
@@ -10,6 +10,12 @@ import SwiftUI
 import Charts
 
 struct StatisticView: View {
+
+    private enum Constants {
+        static let listSpacing: CGFloat = 20
+        static let listMarginLeft: CGFloat = 30
+    }
+
     @ObservedObject var model = StatisticViewModel()
     var body: some View {
         if model.isLoaded {
@@ -20,7 +26,7 @@ struct StatisticView: View {
                     Text(NSLocalizedString("wordRatio", comment: ""))
                         .padding()
                         .font(.system(.title3, weight: .semibold))
-                    HStack(spacing: 30) {
+                    HStack(spacing: Constants.listMarginLeft) {
                         Spacer()
                         MainPieBar(text: NSLocalizedString("totalWords", comment: ""),
                                    sum: "\(model.uiModel.words?.count ?? 0)",
@@ -37,7 +43,7 @@ struct StatisticView: View {
                 .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
             }
             .listStyle(.plain)
-            .listRowSpacing(20)
+            .listRowSpacing(Constants.listSpacing)
             .refreshable {
                 loadWordsAndCategories()
             }
@@ -50,7 +56,7 @@ struct StatisticView: View {
                 }
         }
     }
-    
+
     private func loadWordsAndCategories() {
         Task {
             do {
