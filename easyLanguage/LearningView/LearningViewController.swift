@@ -20,6 +20,8 @@ final class LearningViewController: UIViewController {
     private var modelForTopFivePost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
 
+    private var isNeedLoadAll = true
+
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -77,6 +79,14 @@ final class LearningViewController: UIViewController {
     private var correctCount: Int = 0
     private var incorrectCount: Int = 0
 
+    init(isNeedLoadAll: Bool = true ) {
+        super.init(nibName: nil, bundle: nil)
+        self.isNeedLoadAll = isNeedLoadAll
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +103,9 @@ final class LearningViewController: UIViewController {
         incorrectCount = 0
 //        loadLearningWords()
         loadWordsFromCoreData()
+        if isNeedLoadAll {
+            loadLearningWords()
+        }
         cardsWereSwiped = false
     }
 
@@ -192,6 +205,23 @@ final class LearningViewController: UIViewController {
                 try await service.updateWord(words: words)
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
+            }
+        }
+    }
+}
+
+//MARK: - internal
+extension LearningViewController {
+    func learnCategory(with categoryId: String) {
+        emptyWordsLabel.isHidden = true
+        Task {
+            do {
+                model = try await service.loadCategory(with: categoryId)
+                activityIndicator.stopAnimating()
+                cardStack.reloadData()
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+                model = []
             }
         }
     }

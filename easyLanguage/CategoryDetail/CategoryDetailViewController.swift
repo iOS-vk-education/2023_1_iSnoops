@@ -24,31 +24,54 @@ protocol CategoryDetailOutput: AnyObject {
 final class CategoryDetailViewController: CustomViewController {
     private let noWordsLabel: UILabel = {
         let label = UILabel()
-        label.text =  NSLocalizedString("emptyCategoryAdvice", comment: "")
+        label.text = NSLocalizedString("emptyCategoryAdvice", comment: "")
         label.textColor = .PrimaryColors.Font.secondary
         label.textAlignment = .center
         label.numberOfLines = 0
+        label.isHidden = true
         return label
     }()
 
+    private let loader: UIActivityIndicatorView = {
+        let loader = UIActivityIndicatorView()
+        loader.hidesWhenStopped = true
+        return loader
+    }()
+
     private lazy var collectionView = CategoryDetailCollectionView(inputWords: self)
+
+    private let button: UIButton = {
+        let button = UIButton()
+        button.setTitle(NSLocalizedString("CategoryDetailGoToStudy", comment: ""), for: .normal)
+        button.backgroundColor = .PrimaryColors.Button.blue
+        button.layer.cornerRadius = 16
+        return button
+    }()
+
     private var wordsModel = [WordUIModel]()
     private let model = CategoryDetailModel()
     private var selectedCategory = 0
     private var linkedWordsId = ""
     weak var delegate: CategoryDetailOutput?
 
+    lazy var height = { view.bounds.height / 15 }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        [collectionView, noWordsLabel].forEach {
+        [collectionView, noWordsLabel, loader, button].forEach {
             view.addSubview($0)
         }
 
+        setContentInset()
         loadWords()
         setNavBar()
         setNoWordsLabel()
+        setLoader()
         setCollectionView()
+        setButton()
+
+        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
     }
 
     @objc
@@ -67,9 +90,18 @@ final class CategoryDetailViewController: CustomViewController {
 
         present(addCategoryVC, animated: true, completion: nil)
     }
+
+    @objc
+    func didTapButton() {
+        let learningVC = LearningViewController(isNeedLoadAll: false)
+        learningVC.learnCategory(with: linkedWordsId)
+        learningVC.modalPresentationStyle = .pageSheet
+
+        present(learningVC, animated: true)
+    }
 }
 
-// MARK: - open methods
+// MARK: - internal methods
 extension CategoryDetailViewController {
     func set(with category: CategoryModel) {
         self.selectedCategory = category.index ?? 0
@@ -86,10 +118,13 @@ extension CategoryDetailViewController {
 // MARK: - networking
 private extension CategoryDetailViewController {
     func loadWords() {
+        loader.startAnimating()
         model.loadWords(with: linkedWordsId) { [weak self] result in
             guard let self = self else {
                 return
             }
+
+            loader.stopAnimating()
 
             switch result {
             case .success(let data):
@@ -97,9 +132,7 @@ private extension CategoryDetailViewController {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
-                if !wordsModel.isEmpty {
-                    noWordsLabel.isHidden = true
-                }
+                noWordsLabel.isHidden = !wordsModel.isEmpty
             case .failure(let error):
                 AlertManager.showDataLoadErrorAlert(on: self)
                 print("[DEBUG]: \(#function), \(error.localizedDescription)")
@@ -110,6 +143,10 @@ private extension CategoryDetailViewController {
 
 // MARK: - private methods
 private extension CategoryDetailViewController {
+    func setContentInset() {
+        collectionView.setContentInset(with: height + UIConstants.height * 2)
+    }
+
     func setNavBar() {
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                  style: .done,
@@ -125,21 +162,37 @@ private extension CategoryDetailViewController {
         noWordsLabel.sizeToFit()
     }
 
+    func setLoader() {
+        loader.translatesAutoresizingMaskIntoConstraints = false
+        loader.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        loader.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
     func setCollectionView() {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                     constant: UIConstants.horizontally).isActive = true
-        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                     constant: -UIConstants.horizontally).isActive = true
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+
+    func setButton() {
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                        constant: UIConstants.horizontally).isActive = true
+        button.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                         constant: -UIConstants.horizontally).isActive = true
+        button.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                       constant: -height * 1.5 - UIConstants.height).isActive = true
+        button.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
 }
 
 // MARK: - Constants
 private extension CategoryDetailViewController {
     struct UIConstants {
-        static let horizontally: CGFloat = 18.0
+        static let horizontally: CGFloat = 36.0
+        static let height: CGFloat = 5.0
     }
 }
 
@@ -237,6 +290,13 @@ extension CategoryDetailViewController: InputWordsDelegate {
 }
 
 extension CategoryDetailViewController: AddWordOutput {
+    func isWordExist(with uiModel: WordUIModel) -> Bool {
+        wordsModel.contains { word in
+            word.translations["ru"]?.lowercased() == uiModel.translations["ru"] ?? "".lowercased() &&
+            word.translations["en"]?.lowercased() == uiModel.translations["en"] ?? "".lowercased()
+        }
+    }
+
     func didCreateWord(with categoryId: String) {
         loadWords()
         delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: categoryId,
