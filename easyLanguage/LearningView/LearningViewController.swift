@@ -101,8 +101,8 @@ final class LearningViewController: UIViewController {
         super.viewWillAppear(animated)
         correctCount = 0
         incorrectCount = 0
-//        loadLearningWords()
-        loadWordsFromCoreData()
+        loadLearningWords()
+//        loadWordsFromCoreData()
         if isNeedLoadAll {
             loadLearningWords()
         }
