@@ -19,6 +19,7 @@ protocol InputCategoriesDelegate: AnyObject {
     var categoriesCount: Int { get }
     func getCatalogModel(with index: Int) -> CategoryModel
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void)
+    func showActionSheet(with id: String)
 }
 
 protocol CategoriesViewControllerOutput {
@@ -36,12 +37,12 @@ final class CategoriesViewController: UIViewController {
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
     private let sortCategoriesLogo: UIImageView = UIImageView()
-    private let categoriesCollectionView = CategoriesCollectionView()
+    private let collectionView = CategoriesCollectionView()
 
     init(categorieseOutputDelegate: CategorieseOutputDelegate?, navigationController: UINavigationController?) {
         super.init(nibName: nil, bundle: nil)
         self.categorieseOutputDelegate = categorieseOutputDelegate
-        categoriesCollectionView.setNavigationController(navigationController ?? UINavigationController())
+        collectionView.setNavigationController(navigationController ?? UINavigationController())
     }
 
     required init?(coder: NSCoder) {
@@ -56,14 +57,14 @@ extension CategoriesViewController {
         loadCategories()
 
         setAppearance()
-        [categoriesCollectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
+        [collectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
             view.addSubview($0)
         }
         view.backgroundColor = .PrimaryColors.Background.background
 
         addConstraints()
-        categoriesCollectionView.setupInputCategoriesDelegate(with: self)
-        categoriesCollectionView.categoryDetailOutput = self
+        collectionView.setupInputCategoriesDelegate(with: self)
+        collectionView.categoryDetailOutput = self
     }
 }
 
@@ -87,7 +88,7 @@ private extension CategoriesViewController {
             case .success(let categories):
                 self.categoryModel = categories
                 self.categorieseOutputDelegate?.reloadHeight()
-                self.categoriesCollectionView.reloadData()
+                self.collectionView.reloadData()
             case .failure(let error):
                 AlertManager.showDataLoadErrorAlert(on: self)
                 print(error.localizedDescription)
@@ -131,7 +132,7 @@ private extension CategoriesViewController {
         setTitleLabel()
         setAddImageView()
         setSortImageView()
-        setCategoriesCollectionView()
+        setCollectionView()
     }
 
     func setTitleLabel() {
@@ -162,15 +163,15 @@ private extension CategoriesViewController {
                                                     UIConstants.CategoriesLogo.size).isActive = true
     }
 
-    func setCategoriesCollectionView() {
-        categoriesCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        categoriesCollectionView.topAnchor.constraint(equalTo: addNewCategoryLogo.bottomAnchor,
+    func setCollectionView() {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.topAnchor.constraint(equalTo: addNewCategoryLogo.bottomAnchor,
                                                constant: 10).isActive = true
-        categoriesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:
+        collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant:
                                                UIConstants.CategoriesCollectionView.horizontally).isActive = true
-        categoriesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:
+        collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant:
                                                -UIConstants.CategoriesCollectionView.horizontally).isActive = true
-        categoriesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 }
 
@@ -192,6 +193,15 @@ private extension CategoriesViewController {
 
 // MARK: - InputCategoriesDelegate
 extension CategoriesViewController: InputCategoriesDelegate {
+    func showActionSheet(with id: String) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        addActionToDeleteWord(with: id, to: alertController)
+        addActionToCancel(to: alertController)
+
+        present(alertController, animated: true, completion: nil)
+    }
+
     func getCatalogModel(with index: Int) -> CategoryModel {
         return categoryModel[index]
     }
@@ -218,7 +228,8 @@ extension CategoriesViewController: InputCategoriesDelegate {
                         image: UIImage(data: data),
                         studiedWordsCount: self.categoryModel[index].studiedWordsCount,
                         totalWordsCount: self.categoryModel[index].totalWordsCount,
-                        index: self.categoryModel[index].index ?? 0
+                        index: self.categoryModel[index].index ?? 0,
+                        linkedWordsId: self.categoryModel[index].linkedWordsId
                     )
                 )
             case .failure(let error):
@@ -226,6 +237,43 @@ extension CategoriesViewController: InputCategoriesDelegate {
                 print(error)
             }
         }
+    }
+}
+
+// MARK: - Actions
+
+private extension CategoriesViewController {
+     func addActionToDeleteWord(with id: String, to alertController: UIAlertController) {
+        let deleteAction = UIAlertAction(title: NSLocalizedString("categoryDelete", comment: ""),
+                                         style: .destructive) { _ in
+            self.handleDeleteCategory(with: id)
+        }
+
+        alertController.addAction(deleteAction)
+    }
+
+    func handleDeleteCategory(with id: String) {
+        model.deleteCategory(with: id) { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success(let isDeleted):
+                if isDeleted {
+                    categoryModel.removeAll(where: { $0.linkedWordsId == id })
+                    collectionView.reloadData()
+                } else {
+                    AlertManager.showWordDeleteAlert(on: self)
+                }
+            case .failure(let error):
+                AlertManager.showWordDeleteAlert(on: self)
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func addActionToCancel(to alertController: UIAlertController) {
+        let cancelAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel) { _ in }
+        alertController.addAction(cancelAction)
     }
 }
 
@@ -290,11 +338,11 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
     private func updateCollectionView(with categoryModel: [CategoryModel]) {
         let indexPathsToUpdate = (0..<categoryModel.count).map { IndexPath(item: $0, section: 0) }
         // performBatchUpdates - для атомарного обновления (одна неделимая единица)
-        categoriesCollectionView.performBatchUpdates({
+        collectionView.performBatchUpdates({
             for newIndex in indexPathsToUpdate {
                 // Обновление данных в ячейках
-                if let cell = categoriesCollectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
-                    categoriesCollectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
+                if let cell = collectionView.cellForItem(at: newIndex) as? CategoryCollectionViewCell {
+                    collectionView.inputCategories?.item(at: newIndex.item) { categoryUIModel in
                         cell.cellConfigure(with: categoryUIModel, at: newIndex)
                     }
                 }
@@ -316,7 +364,7 @@ extension CategoriesViewController: AddNewCategoryOutput {
                                                     index: self.categoryModel.count + 1))
 
             self.categorieseOutputDelegate?.reloadHeight()
-            self.categoriesCollectionView.reloadData()
+            self.collectionView.reloadData()
         }
     }
 }
@@ -333,7 +381,7 @@ extension CategoriesViewController: CategoryDetailOutput {
             }
 
             let indexPath = IndexPath(item: index, section: 0)
-            categoriesCollectionView.reloadItems(at: [indexPath])
+            collectionView.reloadItems(at: [indexPath])
         }
     }
 }

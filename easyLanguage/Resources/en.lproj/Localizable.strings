@@ -19,6 +19,7 @@
 "sortRecentlyAdded" = "Recently Added";
 "sortByName" = "By Name";
 "sortCancel" = "Cancel";
+"categoryDelete" = "Delete category";
 
 //MARK: - CategoryDetail
 "detailDelete" = "Delete word";
