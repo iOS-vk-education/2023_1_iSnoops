@@ -57,7 +57,7 @@ extension AddNewCategoryViewController {
 
     @objc
     func didTapButton() {
-        @Trimmed var enteredText = textField.text!
+        @Trimmed var enteredText = textField.text ?? ""
 
         guard !enteredText.isEmpty else {
             print("empty field")
