@@ -82,3 +82,20 @@
 "wordDeleteAlert" = "Error when deleting a word";
 "dataPostErrorAlert" = "Failed to post data";
 "wordAlreadyExistAlert" = "This word already exists";
+
+//MARK: - StatisticView
+"wordsCategories" = "Number of words in the categories";
+"wordRatio" = "Word ratio";
+"learned" = "Learned";
+"process" = "In process";
+"totalWords" = "Total words";
+"statisticChartCategoryName" = "Category name";
+"statisticWordCount" = "Word count";
+"emptyChart" = "Empty!";
+
+//MARK: - AchievementStaticsBaseViewController
+"nameLabel" = "Name";
+"achievementButton" = "Achievements";
+"statisticsButton" = "Statistics";
+"achievementStaticsTitle" = "Achievements";
+

@@ -9,9 +9,11 @@ import Foundation
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
+import CoreData
 
 final class LearningViewModel {
     private let learningViewService = LearningViewService.shared
+    private let coreDataService = CoreDataService()
     private var wordsUIModel = [WordUIModel]()
 
     func loadWords() async throws -> [WordUIModel] {

@@ -83,3 +83,19 @@
 "wordDeleteAlert" = "Ошибка при удалении слова";
 "dataPostErrorAlert" = "Не удалось отправить данные";
 "wordAlreadyExistAlert" = "Это слово уже существует";
+
+//MARK: - StatisticView
+"wordsCategories" = "Количество слов в категориях";
+"wordRatio" = "Соотношение слов";
+"learned" = "Выучено";
+"process" = "В процессе";
+"totalWords" = "Всего слов";
+"statisticChartCategoryName" = "Название категории";
+"statisticWordCount" = "Количество слов";
+"emptyChart" = "Пусто!";
+
+//MARK: - AchievementStaticsBaseViewController
+"nameLabel" = "Имя";
+"achievementButton" = "Достижения";
+"statisticsButton" = "Статистика";
+"achievementStaticsTitle" = "Достижения";
