@@ -298,9 +298,12 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
 
     @objc
     func tapSortCategory() {
-        let alertController = UIAlertController(title: NSLocalizedString("sortTitle", comment: ""),
-                                                message: NSLocalizedString("sortMessage", comment: ""),
-                                                preferredStyle: .actionSheet)
+        let alertController = UIAlertController(
+            title: NSLocalizedString("sortTitle", comment: ""),
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
 
         let recentlyAddedAction = UIAlertAction(title: NSLocalizedString("sortRecentlyAdded", comment: ""),
                                                 style: .default) { [weak self] _ in

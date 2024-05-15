@@ -15,9 +15,8 @@
 "topFiveWordsAdvice" = "To translate a word, click on the card";
 "progressAdvice" = "Progress of learned words";
 "sortTitle" = "Choose the order to display categories";
-"sortMessage" = "Category Sorting";
-"sortRecentlyAdded" = "Recently Added";
-"sortByName" = "By Name";
+"sortRecentlyAdded" = "By recently added";
+"sortByName" = "By name";
 "sortCancel" = "Cancel";
 "categoryDelete" = "Delete category";
 
