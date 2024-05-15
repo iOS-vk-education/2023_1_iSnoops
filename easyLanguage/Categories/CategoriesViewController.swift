@@ -260,6 +260,7 @@ private extension CategoriesViewController {
             case .success(let isDeleted):
                 if isDeleted {
                     categoryModel.removeAll(where: { $0.linkedWordsId == id })
+                    self.categorieseOutputDelegate?.reloadHeight()
                     collectionView.reloadData()
                 } else {
                     AlertManager.showWordDeleteAlert(on: self)
