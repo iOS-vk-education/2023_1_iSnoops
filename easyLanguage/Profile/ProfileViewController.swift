@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 
 final class ProfileViewController: CustomViewController, UserInformationViewDelegate {
-    
+
     // MARK: - Init views
 
     private let themeViewOutput: ThemeViewOutput

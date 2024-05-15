@@ -70,6 +70,13 @@ final class RegistrationViewController: UIViewController {
         button.addTarget(self, action: #selector(tapButton), for: .touchUpInside)
         return button
     }()
+
+    private let defaultData = DefaultData.shared
+
+    private let categoryService = AddNewCategoryService.shared
+    private let wordService = AddWordService.shared
+    private let topFiveService = LearningViewService.shared
+
     // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,7 +131,12 @@ final class RegistrationViewController: UIViewController {
                                               email: emailString,
                                               password: passwordString,
                                               userId: "")
-        AuthService.shared.registerUser(with: userRequest) { _, error in
+        AuthService.shared.registerUser(with: userRequest) { [weak self] _, error in
+            guard let self else {
+                // TODO: - add Alert
+                return
+            }
+
             if let maybeError = error {
                 let nsError = maybeError as NSError
                 switch nsError.code {
@@ -140,11 +152,39 @@ final class RegistrationViewController: UIViewController {
                 return
             }
 
-            guard let onboardingCompleted = UserDefaults.standard.string(forKey: "onboardingCompleted") else {
+            self.addDefaultData()
+
+            guard UserDefaults.standard.string(forKey: "onboardingCompleted") != nil else {
                 self.navigationController?.pushViewController(OnboardingViewController(), animated: true)
                 return
             }
             self.navigationController?.pushViewController(TabBarController(), animated: true)
+        }
+    }
+
+    private func addDefaultData() {
+        for category in defaultData.getCategories() {
+            Task {
+                do {
+                    _ = try await categoryService.createNewCategory(with: category, image: nil)
+                } catch {
+                    print("[DEBUG]:", #function, error.localizedDescription)
+                }
+            }
+        }
+
+        for word in defaultData.getTopFive() {
+            Task {
+                do {
+                    _ = try await topFiveService.createNewTopFiveWord(with: word)
+                } catch {
+                    print("[DEBUG]:", #function, error.localizedDescription)
+                }
+            }
+        }
+
+        for word in defaultData.getWords() {
+            wordService.add(word, completion: { _ in })
         }
     }
 
