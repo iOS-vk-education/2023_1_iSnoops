@@ -32,31 +32,31 @@ extension DefaultData {
     func getCategories() -> [CategoryModel] {
         [
             CategoryModel(
-                title: "Технологии и информатика",
+                title: "технологии и информатика",
                 imageLink: .informatics,
                 createdDate: Date(),
                 linkedWordsId: linkedUUIDs[0]
             ),
             CategoryModel(
-                title: "Спорт",
+                title: "спорт",
                 imageLink: .sport,
                 createdDate: Date(),
                 linkedWordsId: linkedUUIDs[1]
             ),
             CategoryModel(
-                title: "Еда",
+                title: "еда",
                 imageLink: .food,
                 createdDate: Date(),
                 linkedWordsId: linkedUUIDs[2]
             ),
             CategoryModel(
-                title: "Путешествия",
+                title: "путешествия",
                 imageLink: .travel,
                 createdDate: Date(),
                 linkedWordsId: linkedUUIDs[3]
             ),
             CategoryModel(
-                title: "Семья",
+                title: "семья",
                 imageLink: .family,
                 createdDate: Date(),
                 linkedWordsId: linkedUUIDs[4]
@@ -69,35 +69,35 @@ extension DefaultData {
             // Технологии и информатика
             WordApiModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Программирование", "en": "Programming"],
+                translations: ["ru": "программирование", "en": "programming"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Разработка", "en": "Development"],
+                translations: ["ru": "разработка", "en": "development"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Алгоритм", "en": "Algorithm"],
+                translations: ["ru": "алгоритм", "en": "algorithm"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Система", "en": "System"],
+                translations: ["ru": "система", "en": "system"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Информатика", "en": "Informatics"],
+                translations: ["ru": "информатика", "en": "informatics"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
@@ -106,35 +106,35 @@ extension DefaultData {
             // Спорт
             WordApiModel(
                 categoryId: linkedUUIDs[1],
-                translations: ["ru": "Футбол", "en": "Football"],
+                translations: ["ru": "футбол", "en": "football"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[1],
-                translations: ["ru": "Теннис", "en": "Tennis"],
+                translations: ["ru": "теннис", "en": "tennis"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[1],
-                translations: ["ru": "Баскетбол", "en": "Basketball"],
+                translations: ["ru": "баскетбол", "en": "basketball"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[1],
-                translations: ["ru": "Бег", "en": "Running"],
+                translations: ["ru": "бег", "en": "running"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[1],
-                translations: ["ru": "Плавание", "en": "Swimming"],
+                translations: ["ru": "плавание", "en": "swimming"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
@@ -143,35 +143,35 @@ extension DefaultData {
             // Еда
             WordApiModel(
                 categoryId: linkedUUIDs[2],
-                translations: ["ru": "Паста", "en": "Pasta"],
+                translations: ["ru": "паста", "en": "pasta"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[2],
-                translations: ["ru": "Фрукты", "en": "Fruits"],
+                translations: ["ru": "фрукты", "en": "fruits"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[2],
-                translations: ["ru": "Пицца", "en": "Pizza"],
+                translations: ["ru": "пицца", "en": "pizza"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[2],
-                translations: ["ru": "Суп", "en": "Soup"],
+                translations: ["ru": "суп", "en": "soup"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[2],
-                translations: ["ru": "Десерт", "en": "Dessert"],
+                translations: ["ru": "десерт", "en": "dessert"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
@@ -180,35 +180,35 @@ extension DefaultData {
             // Путешествия
             WordApiModel(
                 categoryId: linkedUUIDs[3],
-                translations: ["ru": "Путешествие", "en": "Travel"],
+                translations: ["ru": "путешествие", "en": "travel"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[3],
-                translations: ["ru": "Отпуск", "en": "Vacation"],
+                translations: ["ru": "отпуск", "en": "vacation"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[3],
-                translations: ["ru": "Пейзаж", "en": "Landscape"],
+                translations: ["ru": "пейзаж", "en": "landscape"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[3],
-                translations: ["ru": "Культура", "en": "Culture"],
+                translations: ["ru": "культура", "en": "culture"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[3],
-                translations: ["ru": "Приключение", "en": "Adventure"],
+                translations: ["ru": "приключение", "en": "adventure"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
@@ -217,35 +217,35 @@ extension DefaultData {
             // Семья
             WordApiModel(
                 categoryId: linkedUUIDs[4],
-                translations: ["ru": "Родители", "en": "Parents"],
+                translations: ["ru": "родители", "en": "parents"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[4],
-                translations: ["ru": "Дети", "en": "Children"],
+                translations: ["ru": "дети", "en": "children"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[4],
-                translations: ["ru": "Брак", "en": "Marriage"],
+                translations: ["ru": "брак", "en": "marriage"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[4],
-                translations: ["ru": "Любовь", "en": "Love"],
+                translations: ["ru": "любовь", "en": "love"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordApiModel(
                 categoryId: linkedUUIDs[4],
-                translations: ["ru": "Семья", "en": "Family"],
+                translations: ["ru": "семья", "en": "family"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
@@ -257,35 +257,35 @@ extension DefaultData {
         [
             WordUIModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Программирование", "en": "Programming"],
+                translations: ["ru": "программирование", "en": "programming"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordUIModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Разработка", "en": "Development"],
+                translations: ["ru": "разработка", "en": "development"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordUIModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Алгоритм", "en": "Algorithm"],
+                translations: ["ru": "алгоритм", "en": "algorithm"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordUIModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Система", "en": "System"],
+                translations: ["ru": "система", "en": "system"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
             ),
             WordUIModel(
                 categoryId: linkedUUIDs[0],
-                translations: ["ru": "Информатика", "en": "Informatics"],
+                translations: ["ru": "информатика", "en": "informatics"],
                 isLearned: false,
                 swipesCounter: 0,
                 id: UUID().uuidString
