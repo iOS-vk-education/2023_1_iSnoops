@@ -131,7 +131,12 @@ final class RegistrationViewController: UIViewController {
                                               email: emailString,
                                               password: passwordString,
                                               userId: "")
-        AuthService.shared.registerUser(with: userRequest) { _, error in
+        AuthService.shared.registerUser(with: userRequest) { [weak self] _, error in
+            guard let self else {
+                // TODO: - add Alert
+                return
+            }
+
             if let maybeError = error {
                 let nsError = maybeError as NSError
                 switch nsError.code {

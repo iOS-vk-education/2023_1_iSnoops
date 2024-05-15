@@ -49,12 +49,12 @@ final class AddNewCategoryService: AddNewCategoryServiceProtocol {
         ]
 
         if let imageLink = category.imageLink {
-            categoryDict["imageLink"] = URL(string: imageLink)?.absoluteString
+            categoryDict[.imageLink] = URL(string: imageLink)?.absoluteString
         } else if let image = image {
             let imageUrl = try await uploadCategoryImage(with: image)
-            categoryDict["imageLink"] = imageUrl.absoluteString
+            categoryDict[.imageLink] = imageUrl.absoluteString
         } else {
-            categoryDict["imageLink"] = URL(string: defaultImageLink)?.absoluteString
+            categoryDict[.imageLink] = URL(string: defaultImageLink)?.absoluteString
         }
 
         return categoryDict
@@ -106,4 +106,8 @@ final class AddNewCategoryService: AddNewCategoryServiceProtocol {
             }
         }
     }
+}
+
+private extension String {
+    static let imageLink = "imageLink"
 }
