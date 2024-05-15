@@ -8,13 +8,19 @@
 import Foundation
 import UIKit
 import Shuffle
+import CoreData
 
 final class LearningViewController: UIViewController {
+
+    private let coreDataService = CoreDataService()
+
     private let service = LearningViewModel()
     private var model: [WordUIModel] = []
     private var modelForPost: [WordUIModel] = []
     private var modelForTopFivePost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
+
+    private var isNeedLoadAll = true
 
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
@@ -73,6 +79,14 @@ final class LearningViewController: UIViewController {
     private var correctCount: Int = 0
     private var incorrectCount: Int = 0
 
+    init(isNeedLoadAll: Bool = true ) {
+        super.init(nibName: nil, bundle: nil)
+        self.isNeedLoadAll = isNeedLoadAll
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     // MARK: LyfeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,15 +95,22 @@ final class LearningViewController: UIViewController {
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupProgressInfoConstraints()
+        coreDataService.loadStore()
     }
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         correctCount = 0
         incorrectCount = 0
-        loadLearningWords()
+        if isNeedLoadAll {
+            loadLearningWords()
+        }
+//        loadLearningWords()
+        loadWordsFromCoreData()
         cardsWereSwiped = false
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         if cardsWereSwiped {
             postToTopFive()
         }
@@ -151,6 +172,23 @@ final class LearningViewController: UIViewController {
         }
     }
 
+    private func loadWordsFromCoreData() {
+        self.model = []
+
+        let moc = coreDataService.persistentContainer.viewContext
+        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+
+        guard let coreModel = try? moc.fetch(wordsfetch) else { return }
+        for item in coreModel {
+            self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
+                                     translations: item.translations ?? [:],
+                                     isLearned: item.isLearned,
+                                     swipesCounter: Int(item.swipesCounter),
+                                     id: item.id ?? ""))
+        }
+        cardStack.reloadData()
+    }
+
     private func postToTopFive() {
         Task {
             do {
@@ -167,6 +205,23 @@ final class LearningViewController: UIViewController {
                 try await service.updateWord(words: words)
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
+            }
+        }
+    }
+}
+
+//MARK: - internal
+extension LearningViewController {
+    func learnCategory(with categoryId: String) {
+        emptyWordsLabel.isHidden = true
+        Task {
+            do {
+                model = try await service.loadCategory(with: categoryId)
+                activityIndicator.stopAnimating()
+                cardStack.reloadData()
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+                model = []
             }
         }
     }

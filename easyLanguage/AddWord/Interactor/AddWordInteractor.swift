@@ -26,7 +26,7 @@ extension AddWordInteractor: AddWordViewOutput {
         case .viewLoaded:
             view.handle(event: .showView)
 
-        case let .addButtonTapped(model):
+        case let .addButtonTapped(uiModel: model):
             if let errorMessage = validate(inputed: model.translations) {
                 view.handle(event: .showAlert(message: errorMessage))
                 return

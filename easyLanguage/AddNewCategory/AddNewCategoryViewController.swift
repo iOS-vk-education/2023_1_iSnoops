@@ -17,6 +17,7 @@ final class AddNewCategoryViewController: UIViewController {
     private let advice: UILabel = UILabel()
     private let textField: UITextField = UITextField()
     private let button: UIButton = UIButton()
+
     private let imagePicker = ImagePicker()
     private var horizontalPadding: CGFloat = 0
 
@@ -57,7 +58,9 @@ extension AddNewCategoryViewController {
 
     @objc
     func didTapButton() {
-        guard let enteredText = textField.text, !enteredText.isEmpty else {
+        @Trimmed var enteredText = textField.text ?? ""
+
+        guard !enteredText.isEmpty else {
             print("empty field")
             return
         }
