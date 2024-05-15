@@ -46,6 +46,12 @@ final class CategoriesModel {
         }
     }
 
+    func deleteCategory(with id: String, comletion: @escaping (Result<Bool, Error>) -> Void) {
+        categoryService.deleteCategory(with: id) { result in
+            comletion(result)
+        }
+    }
+
     private func loadWordsCounts(with linkedWordsId: String) async throws -> (Int, Int) {
         try await wordsService.loadWordsCounts(with: linkedWordsId)
     }

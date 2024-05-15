@@ -20,6 +20,7 @@
 "sortRecentlyAdded" = "Недавно добавленные";
 "sortByName" = "Названию";
 "sortCancel" = "Вернуться";
+"categoryDelete" = "Удалить категорию";
 
 //MARK: - CategoryDetail
 "detailDelete" = "Удалить слово";
