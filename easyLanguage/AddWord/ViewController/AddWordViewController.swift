@@ -66,7 +66,7 @@ final class AddWordViewController: UIViewController {
 
     let addWordButton = {
         let button = UIButton()
-        button.setTitle("Добавить слово", for: .normal)
+        button.setTitle(NSLocalizedString("addWord", comment: ""), for: .normal)
         button.backgroundColor = .PrimaryColors.Button.blue
         button.layer.cornerRadius = 16
         return button

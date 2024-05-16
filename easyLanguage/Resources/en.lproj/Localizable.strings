@@ -25,6 +25,9 @@
 "emptyCategoryAdvice" = "There are no words in the category.\nAdd them by tapping +";
 "CategoryDetailGoToStudy" = "Go to study";
 
+//MARK: - AddWord
+"addWord" = "Add word";
+
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Add Photo";
 "addCategoryButtonTitle" = "Add Category";
