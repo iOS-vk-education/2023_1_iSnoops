@@ -66,7 +66,7 @@
 		07C4F7782B1CF50A0073BED0 /* WordUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */; };
 		07D31BE32B389385005002E3 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07D31BE22B389385005002E3 /* OnboardingViewController.swift */; };
 		07EF04B82AFAABBE0095DECB /* CategoriesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */; };
-		07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* MockData.swift */; };
+		07EF04BB2AFAAF970095DECB /* DefaultData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04BA2AFAAF970095DECB /* DefaultData.swift */; };
 		07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C12AFBB9AC0095DECB /* ImageManager.swift */; };
 		07EF04C52AFBBF880095DECB /* CategoryUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */; };
 		07EF04C92AFBE9C20095DECB /* Color + configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EF04C82AFBE9C20095DECB /* Color + configurations.swift */; };
@@ -82,13 +82,17 @@
 		07F1BE9F2AF829C200F50845 /* TopFiveCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */; };
 		07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */; };
 		07F1BEA42AF82BB500F50845 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F1BEA32AF82BB500F50845 /* Font.swift */; };
+		172A76CD2BF2575D008DDCB7 /* CdModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */; };
+		172A76D32BF258AD008DDCB7 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172A76D22BF258AD008DDCB7 /* CoreDataService.swift */; };
+		172A76D62BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */; };
+		172A76D72BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */; };
 		179FEC152B231AD000772FC8 /* Shuffle in Frameworks */ = {isa = PBXBuildFile; productRef = 179FEC142B231AD000772FC8 /* Shuffle */; };
 		179FEC1A2B231AE200772FC8 /* LearningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 179FEC182B231AE200772FC8 /* LearningViewController.swift */; };
 		17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8832B2F505C0064698E /* RegistrationViewController.swift */; };
 		17D8C8AB2B2F71C80064698E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D8C8AA2B2F71C80064698E /* LoginViewController.swift */; };
 		17DD8A1F2BE8E6A400B4DB67 /* CategoriesWordsChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */; };
 		17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */; };
-		17DD8A212BE8E6A400B4DB67 /* StatisticVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */; };
+		17DD8A212BE8E6A400B4DB67 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1B2BE8E6A400B4DB67 /* StatisticView.swift */; };
 		17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */; };
 		17DD8A242BE8ED0000B4DB67 /* PieBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A232BE8ED0000B4DB67 /* PieBar.swift */; };
 		17DD8A262BE903C900B4DB67 /* StatisticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DD8A252BE903C900B4DB67 /* StatisticService.swift */; };
@@ -164,7 +168,7 @@
 		07C4F7752B1CF50A0073BED0 /* WordUIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WordUIModel.swift; path = easyLanguage/Network/UIModels/WordUIModel.swift; sourceTree = SOURCE_ROOT; };
 		07D31BE22B389385005002E3 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		07EF04B72AFAABBE0095DECB /* CategoriesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionView.swift; sourceTree = "<group>"; };
-		07EF04BA2AFAAF970095DECB /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		07EF04BA2AFAAF970095DECB /* DefaultData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultData.swift; sourceTree = "<group>"; };
 		07EF04C12AFBB9AC0095DECB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		07EF04C42AFBBF880095DECB /* CategoryUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryUIModel.swift; sourceTree = "<group>"; };
 		07EF04C82AFBE9C20095DECB /* Color + configurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color + configurations.swift"; sourceTree = "<group>"; };
@@ -180,12 +184,16 @@
 		07F1BE9E2AF829C200F50845 /* TopFiveCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA02AF829C900F50845 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F1BEA32AF82BB500F50845 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		172A76CC2BF2575D008DDCB7 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		172A76D22BF258AD008DDCB7 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
+		172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCDModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WordCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		179FEC182B231AE200772FC8 /* LearningViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearningViewController.swift; sourceTree = "<group>"; };
 		17D8C8832B2F505C0064698E /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		17D8C8AA2B2F71C80064698E /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		17DD8A182BE8E6A400B4DB67 /* CategoriesWordsChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesWordsChart.swift; sourceTree = "<group>"; };
 		17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticModel.swift; sourceTree = "<group>"; };
-		17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticVIew.swift; sourceTree = "<group>"; };
+		17DD8A1B2BE8E6A400B4DB67 /* StatisticView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
 		17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticViewModel.swift; sourceTree = "<group>"; };
 		17DD8A232BE8ED0000B4DB67 /* PieBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieBar.swift; sourceTree = "<group>"; };
 		17DD8A252BE903C900B4DB67 /* StatisticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticService.swift; sourceTree = "<group>"; };
@@ -282,6 +290,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				172A76D82BF35FA2008DDCB7 /* CoreData */,
 				17DD8A1D2BE8E6A400B4DB67 /* Statistic */,
 				AAE2B9322BB322B1006DF763 /* Achievements */,
 				0725A6A92BE7AAE4000C623A /* easyLanguage.entitlements */,
@@ -501,7 +510,7 @@
 			isa = PBXGroup;
 			children = (
 				074455632B24FB9000FA5469 /* UIModels */,
-				07EF04BA2AFAAF970095DECB /* MockData.swift */,
+				07EF04BA2AFAAF970095DECB /* DefaultData.swift */,
 				07C4F7592B1BC9940073BED0 /* Errors */,
 				07F1BE7E2AF828B700F50845 /* Models */,
 				07F1BE902AF8294400F50845 /* ApiModels */,
@@ -588,6 +597,17 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		172A76D82BF35FA2008DDCB7 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */,
+				172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */,
+				172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */,
+				172A76D22BF258AD008DDCB7 /* CoreDataService.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		178E20432B3BA56A003AF819 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -621,7 +641,7 @@
 			children = (
 				17DD8A192BE8E6A400B4DB67 /* Charts */,
 				17DD8A1A2BE8E6A400B4DB67 /* StatisticModel.swift */,
-				17DD8A1B2BE8E6A400B4DB67 /* StatisticVIew.swift */,
+				17DD8A1B2BE8E6A400B4DB67 /* StatisticView.swift */,
 				17DD8A1C2BE8E6A400B4DB67 /* StatisticViewModel.swift */,
 				17DD8A252BE903C900B4DB67 /* StatisticService.swift */,
 			);
@@ -782,18 +802,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */,
-				17DD8A212BE8E6A400B4DB67 /* StatisticVIew.swift in Sources */,
+				17DD8A212BE8E6A400B4DB67 /* StatisticView.swift in Sources */,
 				17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */,
 				07F1BE872AF828EA00F50845 /* CatalogCollectionViewDataSource.swift in Sources */,
 				0710CB272AF2B3B400F5478E /* CustomViewController.swift in Sources */,
 				AAE2B9342BB322E5006DF763 /* AchievementViewController.swift in Sources */,
+				172A76CD2BF2575D008DDCB7 /* CdModel.xcdatamodeld in Sources */,
 				0708114F2B29EF4900623B74 /* CategoriesModel.swift in Sources */,
 				07F1BE892AF828F100F50845 /* CatalogCollectionViewDelegateFlowLayout.swift in Sources */,
+				172A76D32BF258AD008DDCB7 /* CoreDataService.swift in Sources */,
 				0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */,
 				074FF4E52BC491C6004064A3 /* AddWordEvents.swift in Sources */,
 				074FF4E12BC48A56004064A3 /* AddWordInteractor.swift in Sources */,
 				0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */,
 				074455772B25E93F00FA5469 /* CategoryDetailModel.swift in Sources */,
+				172A76D62BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift in Sources */,
+				172A76D72BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift in Sources */,
 				07EF04CB2AFBEC3F0095DECB /* ColorModeManager.swift in Sources */,
 				072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */,
 				074FF4E92BC4A148004064A3 /* AddWordBuilder.swift in Sources */,
@@ -834,7 +858,7 @@
 				17F57F062B3B6A2000E6B7FE /* Register+LoginUserRequestModel.swift in Sources */,
 				0799EDB32B3CCA3D00C0C04F /* AddNewCategoryModel.swift in Sources */,
 				074455792B25E95500FA5469 /* CategoryDetailCollectionViewDataSource.swift in Sources */,
-				07EF04BB2AFAAF970095DECB /* MockData.swift in Sources */,
+				07EF04BB2AFAAF970095DECB /* DefaultData.swift in Sources */,
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,
 				075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */,
 				17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */,
@@ -1142,6 +1166,19 @@
 			productName = Shuffle;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				172A76CC2BF2575D008DDCB7 /* Model.xcdatamodel */,
+			);
+			currentVersion = 172A76CC2BF2575D008DDCB7 /* Model.xcdatamodel */;
+			path = CdModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 0717C0A02AE84CA700C140C9 /* Project object */;
 }

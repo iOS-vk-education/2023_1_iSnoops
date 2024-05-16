@@ -15,14 +15,18 @@
 "topFiveWordsAdvice" = "To translate a word, click on the card";
 "progressAdvice" = "Progress of learned words";
 "sortTitle" = "Choose the order to display categories";
-"sortMessage" = "Category Sorting";
-"sortRecentlyAdded" = "Recently Added";
-"sortByName" = "By Name";
+"sortRecentlyAdded" = "By recently added";
+"sortByName" = "By name";
 "sortCancel" = "Cancel";
+"categoryDelete" = "Delete category";
 
 //MARK: - CategoryDetail
 "detailDelete" = "Delete word";
 "emptyCategoryAdvice" = "There are no words in the category.\nAdd them by tapping +";
+"CategoryDetailGoToStudy" = "Go to study";
+
+//MARK: - AddWord
+"addWord" = "Add word";
 
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Add Photo";
@@ -80,6 +84,7 @@
 "reloadHeightAlert" = "Height update error";
 "wordDeleteAlert" = "Error when deleting a word";
 "dataPostErrorAlert" = "Failed to post data";
+"wordAlreadyExistAlert" = "This word already exists";
 
 //MARK: - StatisticView
 "wordsCategories" = "Number of words in the categories";

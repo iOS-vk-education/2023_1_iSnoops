@@ -16,14 +16,18 @@
 "topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
 "progressAdvice" = "Прогресс изученных слов";
 "sortTitle" = "Выберите в каком порядке отобразить категории";
-"sortMessage" = "Сортировка категорий";
-"sortRecentlyAdded" = "Недавно добавленные";
-"sortByName" = "Названию";
+"sortRecentlyAdded" = "По недавно добавленным";
+"sortByName" = "По названию";
 "sortCancel" = "Вернуться";
+"categoryDelete" = "Удалить категорию";
 
 //MARK: - CategoryDetail
 "detailDelete" = "Удалить слово";
 "emptyCategoryAdvice" = "Нет слов в категории.\n Добавьте их по тапу на +";
+"CategoryDetailGoToStudy" = "Перейти к изучению";
+
+//MARK: - AddWord
+"addWord" = "Добавить слово";
 
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Добавить фото";
@@ -81,6 +85,7 @@
 "reloadHeightAlert" = "Ошибка обновления высоты";
 "wordDeleteAlert" = "Ошибка при удалении слова";
 "dataPostErrorAlert" = "Не удалось отправить данные";
+"wordAlreadyExistAlert" = "Это слово уже существует";
 
 //MARK: - StatisticView
 "wordsCategories" = "Количество слов в категориях";

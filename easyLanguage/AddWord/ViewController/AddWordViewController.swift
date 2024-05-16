@@ -10,6 +10,7 @@ import UIKit
 
 protocol AddWordOutput: AnyObject {
     func didCreateWord(with categoryId: String)
+    func isWordExist(with uiModel: WordUIModel) -> Bool
 }
 
 final class AddWordViewController: UIViewController {
@@ -65,7 +66,7 @@ final class AddWordViewController: UIViewController {
 
     let addWordButton = {
         let button = UIButton()
-        button.setTitle("Добавить слово", for: .normal)
+        button.setTitle(NSLocalizedString("addWord", comment: ""), for: .normal)
         button.backgroundColor = .PrimaryColors.Button.blue
         button.layer.cornerRadius = 16
         return button
@@ -144,9 +145,21 @@ private extension AddWordViewController {
         @Trimmed var native = nativeField.text!
         @Trimmed var foreign = foreignField.text!
 
-        output?.handle(event: .addButtonTapped(uiModel: WordUIModel(
-            categoryId: categoryID, translations: ["ru": native, "en": foreign],
-            isLearned: false, swipesCounter: 0, id: UUID().uuidString)
+        let uiModel = WordUIModel(
+            categoryId: categoryID,
+            translations: ["ru": native, "en": foreign],
+            isLearned: false,
+            swipesCounter: 0,
+            id: UUID().uuidString
+        )
+
+        guard let isWordExist = delegate?.isWordExist(with: uiModel), !isWordExist else {
+            showAlert(message: NSLocalizedString("wordAlreadyExistAlert", comment: ""))
+            return
+        }
+
+        output?.handle(event: .addButtonTapped(
+            uiModel: uiModel
         ))
     }
 

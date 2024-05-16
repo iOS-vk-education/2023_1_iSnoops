@@ -80,6 +80,7 @@ private extension TopFiveCollectionViewCell {
         layer.cornerRadius = 12
         titleLabel.textAlignment = .center
         titleLabel.font = TextStyle.bodyMedium.font
+        titleLabel.numberOfLines = 0
     }
 
     func addConstraints() {
@@ -110,7 +111,7 @@ private extension TopFiveCollectionViewCell {
 
     struct UIConstants {
         struct TitleLabel {
-            static let horizontally: CGFloat = 8.0
+            static let horizontally: CGFloat = 3.0
         }
     }
 }
