@@ -114,12 +114,12 @@ private extension CategoryCollectionViewCell {
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: frame.height / 4).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
                                             constant: UIConstants.TitleLabel.horizontally).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                             constant: -UIConstants.TitleLabel.horizontally).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+                                            constant: -UIConstants.TitleLabel.horizontally).isActive = true
     }
 
     func setProgressLabel() {
