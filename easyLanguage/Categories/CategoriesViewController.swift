@@ -304,7 +304,6 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
             message: nil,
             preferredStyle: .actionSheet
         )
-        
 
         let recentlyAddedAction = UIAlertAction(title: NSLocalizedString("sortRecentlyAdded", comment: ""),
                                                 style: .default) { [weak self] _ in
