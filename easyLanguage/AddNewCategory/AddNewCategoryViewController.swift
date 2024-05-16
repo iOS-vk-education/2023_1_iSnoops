@@ -10,6 +10,7 @@ import UIKit
 
 protocol AddNewCategoryOutput: AnyObject {
     func addNewCategory(with categoryModel: CategoryModel)
+    func isCategoryExist(with title: String) -> Bool
 }
 
 final class AddNewCategoryViewController: UIViewController {
@@ -61,17 +62,29 @@ extension AddNewCategoryViewController {
         @Trimmed var enteredText = textField.text ?? ""
 
         guard !enteredText.isEmpty else {
-            print("empty field")
+            return
+        }
+
+        guard let delegate = delegate else {
+            AlertManager.showAddNewCategoryAlert(on: self)
+            return
+        }
+
+        if delegate.isCategoryExist(with: enteredText) {
+            AlertManager.showAlert(
+                on: self,
+                title: NSLocalizedString(
+                    "categoryAlreadyExists",
+                    comment: ""
+                ),
+                message: ""
+            )
             return
         }
 
         model.createNewCategory(with: enteredText, image: selectedImage) { [weak self] result in
             switch result {
             case .success(let categoryModel):
-                guard let self = self, let delegate = self.delegate else {
-                    AlertManager.showAddNewCategoryAlert(on: self ?? Self())
-                    return
-                }
                 delegate.addNewCategory(with: categoryModel)
             case .failure(let error):
                 print(error)
