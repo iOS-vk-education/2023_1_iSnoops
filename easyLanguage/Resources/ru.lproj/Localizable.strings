@@ -16,9 +16,8 @@
 "topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
 "progressAdvice" = "Прогресс изученных слов";
 "sortTitle" = "Выберите в каком порядке отобразить категории";
-"sortMessage" = "Сортировка категорий";
-"sortRecentlyAdded" = "Недавно добавленные";
-"sortByName" = "Названию";
+"sortRecentlyAdded" = "По недавно добавленным";
+"sortByName" = "По названию";
 "sortCancel" = "Вернуться";
 "categoryDelete" = "Удалить категорию";
 
