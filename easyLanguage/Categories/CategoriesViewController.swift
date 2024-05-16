@@ -313,7 +313,8 @@ extension CategoriesViewController: AddNewCategoryOutput {
                                                     totalWordsCount: categoryModel.totalWordsCount,
                                                     createdDate: categoryModel.createdDate,
                                                     linkedWordsId: categoryModel.linkedWordsId,
-                                                    index: self.categoryModel.count + 1))
+                                                    index: self.categoryModel.count + 1,
+                                                    isDefault: false))
 
             self.categorieseOutputDelegate?.reloadHeight()
             self.categoriesCollectionView.reloadData()

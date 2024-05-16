@@ -24,7 +24,6 @@ final class AddWordService: AddWordServiceProtocol {
             "translations": model.translations,
             "swipesCounter": model.swipesCounter,
             "isLearned": model.isLearned,
-            "swipesCounter": model.swipesCounter,
             "id": model.id
         ]) { error in
             Task {

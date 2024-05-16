@@ -44,6 +44,7 @@ final class AddNewCategoryService: AddNewCategoryServiceProtocol {
             "title": category.title,
             "createdDate": category.createdDate,
             "linkedWordsId": category.linkedWordsId,
+            "isDefault": category.isDefault,
             "profileId": userId
         ]
 

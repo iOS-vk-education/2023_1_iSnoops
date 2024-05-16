@@ -18,6 +18,7 @@ struct AchievementView: View {
 
     @State var answers: [AchievementModel] = []
     @State var achievements: [Achievement] = testData
+    @State var showProgressView: Bool = true
     
     private enum Constants {
         static let marginLeft: CGFloat = 15
@@ -30,9 +31,13 @@ struct AchievementView: View {
     var body: some View {
         List(achievements) { achievement in
             HStack(spacing: Constants.marginLeft) {
-                Image((achievement.achievementModel?.isAchievementDone ?? false) ? "AchievementDone" : "AchievementNotDone")
-                    .resizable()
-                    .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                    if let achievementModel = achievement.achievementModel {
+                        Image((achievementModel.isAchievementDone) ? "AchievementDone" : "AchievementNotDone")
+                            .resizable()
+                            .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                    } else {
+                        SwiftUI.ProgressView()
+                    }
                 Text(achievement.text)
                     .frame(height: Constants.textHeight)
             }
@@ -58,9 +63,9 @@ struct AchievementView: View {
     }
 }
 
-#Preview {
-    AchievementView()
-}
+//#Preview {
+//    AchievementView()
+//}
 
 #if DEBUG
 var testData = [
