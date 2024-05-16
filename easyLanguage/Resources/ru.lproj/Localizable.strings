@@ -26,6 +26,9 @@
 "emptyCategoryAdvice" = "Нет слов в категории.\n Добавьте их по тапу на +";
 "CategoryDetailGoToStudy" = "Перейти к изучению";
 
+//MARK: - AddWord
+"addWord" = "Добавить слово";
+
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Добавить фото";
 "addCategoryButtonTitle" = "Добавить категорию";
