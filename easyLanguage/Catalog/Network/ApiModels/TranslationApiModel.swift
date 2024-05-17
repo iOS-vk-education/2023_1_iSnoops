@@ -26,4 +26,3 @@ struct Definition: Codable {
 struct Translation: Codable {
     let text: String?
 }
-

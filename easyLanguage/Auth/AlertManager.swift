@@ -26,9 +26,9 @@ extension AlertManager {
         title: String?,
         message: String?
     ) {
-        self.showBasicAlert(on: viewController,
-                            title: NSLocalizedString(title ?? "", comment: ""),
-                            message: NSLocalizedString(title ?? "", comment: ""))
+        showBasicAlert(on: viewController,
+                       title: NSLocalizedString(title ?? "", comment: ""),
+                       message: nil)
     }
 }
 
