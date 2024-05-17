@@ -33,6 +33,7 @@
 "addPhotoAdvice" = "Добавить фото";
 "addCategoryButtonTitle" = "Добавить категорию";
 "categoryNamePlaceholder" = "Название категории";
+"categoryAlreadyExists" = "Категория с таким названием уже существует";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "В игровой форме легко учить иностранные языки";

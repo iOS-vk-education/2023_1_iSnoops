@@ -355,6 +355,10 @@ extension CategoriesViewController: CategoriesViewControllerOutput {
 }
 
 extension CategoriesViewController: AddNewCategoryOutput {
+    func isCategoryExist(with title: String) -> Bool {
+        categoryModel.contains { $0.title == title }
+    }
+
     func addNewCategory(with categoryModel: CategoryModel) {
         DispatchQueue.main.async {
 

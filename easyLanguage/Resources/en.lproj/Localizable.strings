@@ -32,6 +32,7 @@
 "addPhotoAdvice" = "Add Photo";
 "addCategoryButtonTitle" = "Add Category";
 "categoryNamePlaceholder" = "Category Name";
+"categoryAlreadyExists" = "Category with this name already exists";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";
