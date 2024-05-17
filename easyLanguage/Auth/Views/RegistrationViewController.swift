@@ -78,6 +78,10 @@ final class RegistrationViewController: UIViewController {
         setupLoginPasswordInputConstraints()
         setupButtonConstraints()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        self.registrationButton.isEnabled = true
+    }
     // MARK: Private methods
     private func setupViews() {
         let pushToLoginViewButton = UIBarButtonItem(title: NSLocalizedString("loginTitle", comment: ""),
@@ -111,6 +115,7 @@ final class RegistrationViewController: UIViewController {
     }
     @objc
     private func tapButton() {
+        self.registrationButton.isEnabled = false
         guard let labels = loginPasswordInput.arrangedSubviews as? [UITextField] else {
             return
         }
@@ -137,6 +142,7 @@ final class RegistrationViewController: UIViewController {
                 default:
                     AlertManager.showRegistrationErrorAlert(on: self)
                 }
+                self.registrationButton.isEnabled = true
                 return
             }
 
