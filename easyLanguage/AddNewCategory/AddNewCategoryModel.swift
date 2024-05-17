@@ -33,7 +33,6 @@ final class AddNewCategoryModel {
     }
 
     func imageToData(image: UIImage) -> Data? {
-        print("image is", image)
         guard let imageData = image.jpegData(compressionQuality: 0.2) else {
             return nil
         }
