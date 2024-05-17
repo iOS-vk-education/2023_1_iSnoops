@@ -80,7 +80,7 @@ final class RegistrationViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        self.registrationButton.isEnabled = true
+        enableButton(button: registrationButton)
     }
     // MARK: Private methods
     private func setupViews() {
@@ -115,7 +115,7 @@ final class RegistrationViewController: UIViewController {
     }
     @objc
     private func tapButton() {
-        self.registrationButton.isEnabled = false
+        disableButton(button: registrationButton)
         guard let labels = loginPasswordInput.arrangedSubviews as? [UITextField] else {
             return
         }
@@ -142,7 +142,7 @@ final class RegistrationViewController: UIViewController {
                 default:
                     AlertManager.showRegistrationErrorAlert(on: self)
                 }
-                self.registrationButton.isEnabled = true
+                self.enableButton(button: self.registrationButton)
                 return
             }
 
@@ -157,5 +157,14 @@ final class RegistrationViewController: UIViewController {
     @objc
     private func tapLoginButton() {
         navigationController?.pushViewController(LoginViewController(), animated: true)
+    }
+
+    private func disableButton(button: UIButton) {
+        button.isEnabled = false
+        button.backgroundColor = UIColor.gray
+    }
+    private func enableButton(button: UIButton) {
+        button.isEnabled = true
+        button.backgroundColor = UIColor.PrimaryColors.Button.blue
     }
 }
