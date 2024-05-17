@@ -155,10 +155,16 @@ final class RegistrationViewController: UIViewController {
             self.addDefaultData()
 
             guard UserDefaults.standard.string(forKey: "onboardingCompleted") != nil else {
-                self.navigationController?.pushViewController(OnboardingViewController(), animated: true)
+                let onboardingVC = OnboardingViewController()
+                onboardingVC.modalPresentationStyle = .fullScreen
+                present(onboardingVC, animated: true, completion: nil)
                 return
             }
-            self.navigationController?.pushViewController(TabBarController(), animated: true)
+
+            let tabBarController = TabBarController()
+            tabBarController.modalPresentationStyle = .fullScreen
+            present(tabBarController, animated: true, completion: nil)
+            
         }
     }
 
