@@ -98,8 +98,18 @@
 "statisticWordCount" = "Количество слов";
 "emptyChart" = "Пусто!";
 
-//MARK: - AchievementStaticsBaseViewController
+//MARK: - AchievementStaticsBaseView
 "nameLabel" = "Имя";
 "achievementButton" = "Достижения";
 "statisticsButton" = "Статистика";
 "achievementStaticsTitle" = "Достижения";
+
+//MARK: - AchievementView
+"createOneCategoryLabel" = "Создай свою собственную категорию";
+"createFiveCategoriesLabel" = "Создай 5 категорий";
+"learnTenWordsLabel" = "Изучи 10 слов";
+"learnOneHundredWordsLabel" = "Изучи 100 слов";
+"learnFiveHundredWordsLabel" = "Изучи 500 слов и поезжай в Англию";
+"createFiftyWordsInOneCategoryLabel" = "Добавь 50 слов в одну категорию";
+"learnOneCategoryLabel" = "Изучи полностью одну категорию";
+"learnThreeCategoriesLabel" = "Изучи полностью три категории";

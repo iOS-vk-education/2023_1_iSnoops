@@ -103,3 +103,12 @@
 "statisticsButton" = "Statistics";
 "achievementStaticsTitle" = "Achievements";
 
+//MARK: - AchievementView
+"createOneCategoryLabel" = "Create your own category";
+"createFiveCategoriesLabel" = "Create 5 categories";
+"learnTenWordsLabel" = "Learn 10 words";
+"learnOneHundredWordsLabel" = "Learn 100 words";
+"learnFiveHundredWordsLabel" = "Learn 500 words and go to England";
+"createFiftyWordsInOneCategoryLabel" = "Add 50 words to one category";
+"learnOneCategoryLabel" = "Explore one category completely";
+"learnThreeCategoriesLabel" = "Explore three categories completely";

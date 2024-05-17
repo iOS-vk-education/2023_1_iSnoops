@@ -1,5 +1,5 @@
 //
-//  AchievementStaticsBaseViewController.swift
+//  AchievementStaticsBaseView.swift
 //  easyLanguage
 //
 //  Created by Арсений Чистяков on 15.04.2024.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct AchievementStaticsBaseViewController: View {
+struct AchievementStaticsBaseView: View {
 
     private enum Constants {
         static let imageSize: CGFloat = 115
@@ -76,5 +76,5 @@ struct AchievementStaticsBaseViewController: View {
 }
 
 #Preview {
-    AchievementStaticsBaseViewController()
+    AchievementStaticsBaseView()
 }

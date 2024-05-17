@@ -12,4 +12,5 @@ struct CategoryApiModel: Codable {
     let imageLink: String?
     let createdDate: Date
     let linkedWordsId: String // Связующий идентификатор для слов в категории
+    let isDefault: Bool
 }
