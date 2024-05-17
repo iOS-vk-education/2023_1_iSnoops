@@ -7,11 +7,6 @@
 
 import Foundation
 
-struct AchievementModel {
-    var isAchievementDone: Bool
-    var count: Int
-}
-
 class AchievementManager {
 
     private var categories: [CategoryModel] = []
@@ -44,7 +39,9 @@ class AchievementManager {
         var counter = 0
         switch comparisonCondition {
         case .amountCategories:
-            counter = categories.count
+            categories.forEach {
+                counter += ($0.isDefault) ? 0 : 1
+            }
         case .amountLearnedWords:
             categories.forEach {
                 counter += $0.studiedWordsCount
@@ -63,4 +60,3 @@ class AchievementManager {
 
     public func getAnswers() -> [AchievementModel] { answers }
 }
-

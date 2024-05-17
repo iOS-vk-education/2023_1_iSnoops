@@ -1,5 +1,5 @@
 //
-//  AchievementViewController.swift
+//  AchievementView.swift
 //  easyLanguage
 //
 //  Created by Арсений Чистяков on 26.03.2024.
@@ -8,25 +8,17 @@
 import Foundation
 import SwiftUI
 
-struct Achievement: Identifiable {
-    var id = UUID()
-    var text: String
-    var achievementModel: AchievementModel?
-}
-
 struct AchievementView: View {
 
     @State var answers: [AchievementModel] = []
-    @State var achievements: [Achievement] = testData
-    @State var showProgressView: Bool = true
-    
+    @State var achievements: [AchievementEntityModel] = testData
+
     private enum Constants {
         static let marginLeft: CGFloat = 15
         static let imageWidth: CGFloat = 36
         static let imageHeight: CGFloat = 40
         static let textHeight: CGFloat = 50
     }
-
 
     var body: some View {
         List(achievements) { achievement in
@@ -49,12 +41,10 @@ struct AchievementView: View {
                 switch result {
                 case .success(let categories):
                     answers = AchievementManager(categories: categories).getAnswers()
-                    print(answers)
                     let combinedData = zip(testData, answers)
                     achievements = combinedData.map { testData, answer in
-                        return Achievement(text: testData.text, achievementModel: answer)
+                        return AchievementEntityModel(text: testData.text, achievementModel: answer)
                     }
-                    print(testData)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -63,19 +53,19 @@ struct AchievementView: View {
     }
 }
 
-//#Preview {
-//    AchievementView()
-//}
+#Preview {
+    AchievementView()
+}
 
 #if DEBUG
 var testData = [
-    Achievement(text: "Создай свою собственную категорию", achievementModel: nil),
-    Achievement(text: "Создай 5 категорий", achievementModel: nil),
-    Achievement(text: "Изучи 10 слов", achievementModel: nil),
-    Achievement(text: "Изучи 100 слов", achievementModel: nil),
-    Achievement(text: "Изучи 500 слов и поезжай в Англию", achievementModel: nil),
-    Achievement(text: "Добавь 50 слов в одну категорию", achievementModel: nil),
-    Achievement(text: "Изучи полностью одну категорию", achievementModel: nil),
-    Achievement(text: "Изучи полностью три категории", achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "createOneCategoryLabel", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "createFiveCategoriesLabel", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnTenWordsLabel", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnOneHundredWordsLabel", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnFiveHundredWordsLabel", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "createFiftyWordsInOneCategoryLabel", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnOneCategoryLabel", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnThreeCategoriesLabel", comment: ""), achievementModel: nil)
 ]
 #endif

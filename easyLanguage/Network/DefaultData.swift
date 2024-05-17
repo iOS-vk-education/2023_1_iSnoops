@@ -35,31 +35,36 @@ extension DefaultData {
                 title: "технологии и информатика",
                 imageLink: .informatics,
                 createdDate: Date(),
-                linkedWordsId: linkedUUIDs[0]
+                linkedWordsId: linkedUUIDs[0],
+                isDefault: true
             ),
             CategoryModel(
                 title: "спорт",
                 imageLink: .sport,
                 createdDate: Date(),
-                linkedWordsId: linkedUUIDs[1]
+                linkedWordsId: linkedUUIDs[1],
+                isDefault: true
             ),
             CategoryModel(
                 title: "еда",
                 imageLink: .food,
                 createdDate: Date(),
-                linkedWordsId: linkedUUIDs[2]
+                linkedWordsId: linkedUUIDs[2],
+                isDefault: true
             ),
             CategoryModel(
                 title: "путешествия",
                 imageLink: .travel,
                 createdDate: Date(),
-                linkedWordsId: linkedUUIDs[3]
+                linkedWordsId: linkedUUIDs[3],
+                isDefault: true
             ),
             CategoryModel(
                 title: "семья",
                 imageLink: .family,
                 createdDate: Date(),
-                linkedWordsId: linkedUUIDs[4]
+                linkedWordsId: linkedUUIDs[4],
+                isDefault: true
             )
          ]
      }

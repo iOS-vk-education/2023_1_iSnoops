@@ -34,7 +34,7 @@ final class CategoriesModel {
                         createdDate: category.createdDate,
                         linkedWordsId: category.linkedWordsId,
                         index: index,
-                        isDefault: false
+                        isDefault: category.isDefault
                     )
                     categoriesModel.append(categoryModel)
                 }
