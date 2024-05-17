@@ -47,7 +47,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 // MARK: - open methods
 extension CategoryCollectionViewCell {
     func cellConfigure(with model: CategoryUIModel, at indexPath: IndexPath) {
-        self.id = model.linkedWordsId
+        id = model.linkedWordsId
         setupColorsForCategory(with: model.index)
         setupProgressAndTitleLabels(with: model)
         imageView.image = model.image
