@@ -288,21 +288,10 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				078ACB652BF7611100BCA906 /* Components */,
 				172A76D82BF35FA2008DDCB7 /* CoreData */,
-				17DD8A1D2BE8E6A400B4DB67 /* Statistic */,
-				AAE2B9322BB322B1006DF763 /* Achievements */,
 				0725A6A92BE7AAE4000C623A /* easyLanguage.entitlements */,
 				0725A6A42BE7967A000C623A /* PushManager */,
-				AA717AA52B0E64C1004157D1 /* Profile */,
-				07D31BE12B389364005002E3 /* Onboarding */,
-				179FEC162B231AE200772FC8 /* LearningView */,
-				0717C1182AE96CAB00C140C9 /* TabBar */,
-				0717C0C22AE84D2000C140C9 /* Auth */,
-				0708114B2B29B6B100623B74 /* Categories */,
-				07F1BE792AF827BB00F50845 /* Catalog */,
-				072B92592B1CF8CF006CA4C1 /* AddNewCategory */,
-				072B925F2B1CF9EC006CA4C1 /* CategoryDetail */,
-				072B925A2B1CF8F4006CA4C1 /* AddWord */,
 				070F96A22B9E0FA100A6993A /* Wrappers */,
 				07EF04C02AFBB9920095DECB /* Network */,
 				0717C0C72AE8527000C140C9 /* UI */,
@@ -460,6 +449,24 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		078ACB652BF7611100BCA906 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AAE2B9322BB322B1006DF763 /* Achievements */,
+				072B92592B1CF8CF006CA4C1 /* AddNewCategory */,
+				072B925A2B1CF8F4006CA4C1 /* AddWord */,
+				0717C0C22AE84D2000C140C9 /* Auth */,
+				07F1BE792AF827BB00F50845 /* Catalog */,
+				072B925F2B1CF9EC006CA4C1 /* CategoryDetail */,
+				179FEC162B231AE200772FC8 /* LearningView */,
+				07D31BE12B389364005002E3 /* Onboarding */,
+				AA717AA52B0E64C1004157D1 /* Profile */,
+				17DD8A1D2BE8E6A400B4DB67 /* Statistic */,
+				0717C1182AE96CAB00C140C9 /* TabBar */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		078FA62C2B2CC6B3007166DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +535,7 @@
 		07F1BE792AF827BB00F50845 /* Catalog */ = {
 			isa = PBXGroup;
 			children = (
+				0708114B2B29B6B100623B74 /* Categories */,
 				07F1BE7A2AF828AA00F50845 /* CatalogViewController.swift */,
 				07F1BE7C2AF828B000F50845 /* CatalogModel.swift */,
 				07F1BE832AF828CF00F50845 /* Delegates */,
