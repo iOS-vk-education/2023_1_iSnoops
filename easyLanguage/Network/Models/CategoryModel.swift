@@ -16,4 +16,5 @@ struct CategoryModel {
     var createdDate: Date = Date()
     var linkedWordsId: String = UUID().uuidString // Связующий идентификатор для слов в категории
     var index: Int? = 0 // Для цвета
+    var isDefault: Bool = false // Является ли категория созданной при регистрации
 }

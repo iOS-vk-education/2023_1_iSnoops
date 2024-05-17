@@ -168,10 +168,10 @@ private extension ProfileViewController {
         alertController.addAction(logOutAction)
         self.present(alertController, animated: true)
     }
-    
+
     @objc
     func didTapAchievemetsImage() {
-        self.navigationController?.pushViewController(UIHostingController(rootView: AchievementStaticsBaseViewController()), animated: true)
+    self.navigationController?.pushViewController(UIHostingController(rootView: AchievementStaticsBaseView()), animated: true)
     }
 
     func logout() {

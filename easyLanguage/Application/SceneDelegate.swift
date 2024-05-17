@@ -13,7 +13,7 @@ protocol switchAndFindButtonDelegate: AnyObject {
 }
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
+
     var window: UIWindow?
     weak var delegate: switchAndFindButtonDelegate?
     
@@ -24,37 +24,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        window.rootViewController = TabBarController()
-        
         self.window?.makeKeyAndVisible()
-                
+
+        setupTheme()
+        checkAuthentication()
+    }
+
+    func setupTheme() {
         if let theme = UserDefaults.standard.string(forKey: "selectedTheme") {
             switchTheme(delegate: ChoosingThemeView(), theme: theme)
         } else {
             UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
             switchTheme(delegate: ChoosingThemeView(), theme: NSLocalizedString("lightThemeLabel", comment: ""))
         }
-        self.checkAuthentication()
     }
 
     private func switchTheme(delegate: switchAndFindButtonDelegate, theme: String) {
         delegate.switchAndFindButton(theme: theme)
     }
-    
+
     public func checkAuthentication() {
         if Auth.auth().currentUser == nil {
-            self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
+            self.goToController(with: RegistrationViewController())
         } else {
             self.goToController(with: TabBarController())
         }
     }
-    
+
     private func goToController(with viewController: UIViewController) {
         let nav = viewController
         nav.modalPresentationStyle = .fullScreen
         self.window?.rootViewController = nav
     }
-    
+
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

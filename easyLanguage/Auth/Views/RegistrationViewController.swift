@@ -85,6 +85,10 @@ final class RegistrationViewController: UIViewController {
         setupLoginPasswordInputConstraints()
         setupButtonConstraints()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        enableButton(button: registrationButton)
+    }
     // MARK: Private methods
     private func setupViews() {
         let pushToLoginViewButton = UIBarButtonItem(title: NSLocalizedString("loginTitle", comment: ""),
@@ -118,6 +122,7 @@ final class RegistrationViewController: UIViewController {
     }
     @objc
     private func tapButton() {
+        disableButton(button: registrationButton)
         guard let labels = loginPasswordInput.arrangedSubviews as? [UITextField] else {
             return
         }
@@ -149,16 +154,23 @@ final class RegistrationViewController: UIViewController {
                 default:
                     AlertManager.showRegistrationErrorAlert(on: self)
                 }
+                self.enableButton(button: self.registrationButton)
                 return
             }
 
             self.addDefaultData()
 
             guard UserDefaults.standard.string(forKey: "onboardingCompleted") != nil else {
-                self.navigationController?.pushViewController(OnboardingViewController(), animated: true)
+                let onboardingVC = OnboardingViewController()
+                onboardingVC.modalPresentationStyle = .fullScreen
+                present(onboardingVC, animated: true, completion: nil)
                 return
             }
-            self.navigationController?.pushViewController(TabBarController(), animated: true)
+
+            let tabBarController = TabBarController()
+            tabBarController.modalPresentationStyle = .fullScreen
+            present(tabBarController, animated: true, completion: nil)
+            
         }
     }
 
@@ -191,5 +203,14 @@ final class RegistrationViewController: UIViewController {
     @objc
     private func tapLoginButton() {
         navigationController?.pushViewController(LoginViewController(), animated: true)
+    }
+
+    private func disableButton(button: UIButton) {
+        button.isEnabled = false
+        button.backgroundColor = UIColor.gray
+    }
+    private func enableButton(button: UIButton) {
+        button.isEnabled = true
+        button.backgroundColor = UIColor.PrimaryColors.Button.blue
     }
 }
