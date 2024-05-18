@@ -96,7 +96,7 @@ private extension CategoryDetailCollectionViewCell {
     }
 
     func updateMark(with isLearned: Bool) {
-        markAsLearned.image = UIImage(named: isLearned ? "Star.fill" : "Star")
+        markAsLearned.image = UIImage(named: isLearned ? "bookmark.fill" : "bookmark")
     }
 }
 
