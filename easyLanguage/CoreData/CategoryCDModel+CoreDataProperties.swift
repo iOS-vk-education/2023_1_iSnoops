@@ -12,7 +12,7 @@ import CoreData
 extension CategoryCDModel {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CategoryCDModel> {
-        return NSFetchRequest<CategoryCDModel>(entityName: "CategoryCDModel")
+        return NSFetchRequest<CategoryCDModel>(entityName: .categoryCDModel)
     }
 
     @NSManaged public var createdDate: Date?
