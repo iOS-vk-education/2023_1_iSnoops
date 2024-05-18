@@ -2,7 +2,7 @@
 //  CategoryCDModel+CoreDataProperties.swift
 //  easyLanguage
 //
-//  Created by Grigoriy on 17.05.2024.
+//  Created by Grigoriy on 18.05.2024.
 //
 //
 
@@ -12,19 +12,20 @@ import CoreData
 extension CategoryCDModel {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<CategoryCDModel> {
-        return NSFetchRequest<CategoryCDModel>(entityName: .categoryCDModel)
+        return NSFetchRequest<CategoryCDModel>(entityName: "CategoryCDModel")
     }
 
-    @NSManaged public var title: String?
-    @NSManaged public var imageData: Data?
-    @NSManaged public var studiedWordsCount: Int64
-    @NSManaged public var totalWordsCount: Int64
     @NSManaged public var createdDate: Date?
-    @NSManaged public var linkedWordsId: String?
+    @NSManaged public var imageData: Data?
     @NSManaged public var index: Int64
+    @NSManaged public var linkedWordsId: String?
+    @NSManaged public var studiedWordsCount: Int64
+    @NSManaged public var title: String?
+    @NSManaged public var totalWordsCount: Int64
+    @NSManaged public var isDefault: Bool
 
 }
 
-extension CategoryCDModel: Identifiable {
+extension CategoryCDModel : Identifiable {
 
 }

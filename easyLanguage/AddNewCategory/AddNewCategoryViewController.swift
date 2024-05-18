@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddNewCategoryOutput: AnyObject {
-    func addNewCategory(with categoryModel: CategoryModel)
+    func cateryDidAdded(with categoryModel: CategoryModel)
     func isCategoryExist(with title: String) -> Bool
 }
 
@@ -85,7 +85,7 @@ extension AddNewCategoryViewController {
         model.createNewCategory(with: enteredText, image: selectedImage) { [weak self] result in
             switch result {
             case .success(let categoryModel):
-                delegate.addNewCategory(with: categoryModel)
+                delegate.cateryDidAdded(with: categoryModel)
             case .failure(let error):
                 print(error)
             }
