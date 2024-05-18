@@ -57,11 +57,15 @@ extension CoreDataService {
     }
 
     func saveCategory(with category: CategoryModel, imageData: Data?) {
-        let categoryToCoreData = CategoryCDModel.init(
-            entity: NSEntityDescription.entity(forEntityName: .categoryCDModel,
-                                               in: persistentContainer.viewContext)!,
-            insertInto: persistentContainer.viewContext
-        )
+        guard let entity = NSEntityDescription.entity(
+            forEntityName: .categoryCDModel,
+            in: persistentContainer.viewContext
+        ) else {
+            print(#function, "ошибка получения данных из coreData")
+            return
+        }
+
+        let categoryToCoreData = CategoryCDModel(entity: entity, insertInto: persistentContainer.viewContext)
 
         categoryToCoreData.createdDate = category.createdDate
         categoryToCoreData.index = Int64(category.index ?? 0)

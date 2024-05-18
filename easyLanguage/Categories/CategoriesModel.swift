@@ -29,14 +29,14 @@ final class CategoriesModel {
         var categoriesModel = [CategoryModel]()
 
         for (index, category) in coreModels.enumerated() {
-            let counts = loadCDWordsCounts(with: category.linkedWordsId ?? "")
+            let (totalWordsCount, studiedWordsCount) = loadCDWordsCounts(with: category.linkedWordsId ?? "")
 
             categoriesModel.append(CategoryModel(
                 title: category.title ?? "",
                 imageLink: nil,
                 imageData: category.imageData,
-                studiedWordsCount: counts.1,
-                totalWordsCount: counts.0,
+                studiedWordsCount: studiedWordsCount,
+                totalWordsCount: totalWordsCount,
                 createdDate: category.createdDate ?? Date(),
                 linkedWordsId: category.linkedWordsId ?? UUID().uuidString,
                 index: Int(index))
