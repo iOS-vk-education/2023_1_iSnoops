@@ -12,3 +12,8 @@ extension String {
     static let wordCDModel = "WordCDModel"
     static let categoryCDModel = "CategoryCDModel"
 }
+
+/// UserDefaults names
+extension String {
+    static let isCompletedCreateFirstCategory = "isCompletedCreateFirstCategory"
+}
