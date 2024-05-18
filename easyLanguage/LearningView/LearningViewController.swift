@@ -83,11 +83,13 @@ final class LearningViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.isNeedLoadAll = isNeedLoadAll
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     // MARK: LyfeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -95,14 +97,15 @@ final class LearningViewController: UIViewController {
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupProgressInfoConstraints()
-        coreDataService.loadStore()
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         correctCount = 0
         incorrectCount = 0
         if isNeedLoadAll {
-            loadLearningWords()
+            loadWordsFromCoreData()
+//            loadLearningWords()
         }
 //        loadLearningWords()
         loadWordsFromCoreData()
@@ -118,7 +121,6 @@ final class LearningViewController: UIViewController {
     // MARK: Private methods
     private func setupViews() {
         view.backgroundColor = .PrimaryColors.Background.background
-        let title = NSLocalizedString("wordTrainingTitle", comment: "")
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         view.addSubview(emptyWordsLabel)
@@ -176,7 +178,7 @@ final class LearningViewController: UIViewController {
         self.model = []
 
         let moc = coreDataService.persistentContainer.viewContext
-        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: .wordCDModel)
 
         guard let coreModel = try? moc.fetch(wordsfetch) else { return }
         for item in coreModel {
@@ -210,7 +212,8 @@ final class LearningViewController: UIViewController {
     }
 }
 
-//MARK: - internal
+// MARK: - Internal
+
 extension LearningViewController {
     func learnCategory(with categoryId: String) {
         emptyWordsLabel.isHidden = true

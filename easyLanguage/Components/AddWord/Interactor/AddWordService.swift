@@ -21,12 +21,12 @@ final class AddWordService: AddWordServiceProtocol {
     private let coreData = CoreDataService()
 
     func add(_ model: WordApiModel, completion: @MainActor @escaping (Result<Void, Error>) -> Void) {
+        coreData.loadStore()
         coreData.saveWordToCoreData(model: model)
         dataBase.collection("words").document(model.id).setData([
             "categoryId": model.categoryId,
             "translations": model.translations,
             "isLearned": model.isLearned,
-            "swipesCounter": model.swipesCounter,
             "id": model.id
         ]) { error in
             Task {

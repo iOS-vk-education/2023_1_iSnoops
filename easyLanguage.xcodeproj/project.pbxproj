@@ -46,6 +46,9 @@
 		074FF4E52BC491C6004064A3 /* AddWordEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FF4E42BC491C6004064A3 /* AddWordEvents.swift */; };
 		074FF4E92BC4A148004064A3 /* AddWordBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074FF4E82BC4A148004064A3 /* AddWordBuilder.swift */; };
 		075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */; };
+		078ACB682BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB662BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift */; };
+		078ACB692BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB672BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift */; };
+		078ACB6C2BF7902E00BCA906 /* String + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB6B2BF7902E00BCA906 /* String + ext.swift */; };
 		078FA6302B2CC6B3007166DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA62F2B2CC6B3007166DB /* FirebaseAuth */; };
 		078FA63C2B2CC6B3007166DB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA63B2B2CC6B3007166DB /* FirebaseFirestore */; };
 		078FA65A2B2DA74F007166DB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA6592B2DA74F007166DB /* FirebaseStorage */; };
@@ -152,6 +155,9 @@
 		074FF4E42BC491C6004064A3 /* AddWordEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordEvents.swift; sourceTree = "<group>"; };
 		074FF4E82BC4A148004064A3 /* AddWordBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordBuilder.swift; sourceTree = "<group>"; };
 		075BC4C12B090EE200BA372A /* TopFiveCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveCollectionView.swift; sourceTree = "<group>"; };
+		078ACB662BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCDModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		078ACB672BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		078ACB6B2BF7902E00BCA906 /* String + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + ext.swift"; sourceTree = "<group>"; };
 		0799EDA82B3C9C3000C0C04F /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		0799EDAA2B3C9C3A00C0C04F /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		0799EDB02B3CC71300C0C04F /* AuthErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrors.swift; sourceTree = "<group>"; };
@@ -294,6 +300,7 @@
 		0717C0AA2AE84CA700C140C9 /* easyLanguage */ = {
 			isa = PBXGroup;
 			children = (
+				078ACB6A2BF7901E00BCA906 /* Extentions */,
 				172A76D82BF35FA2008DDCB7 /* CoreData */,
 				17DD8A1D2BE8E6A400B4DB67 /* Statistic */,
 				AAE2B9322BB322B1006DF763 /* Achievements */,
@@ -466,6 +473,14 @@
 			path = Delegates;
 			sourceTree = "<group>";
 		};
+		078ACB6A2BF7901E00BCA906 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				078ACB6B2BF7902E00BCA906 /* String + ext.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		078FA62C2B2CC6B3007166DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -604,6 +619,8 @@
 		172A76D82BF35FA2008DDCB7 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				078ACB662BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift */,
+				078ACB672BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift */,
 				172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */,
 				172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */,
 				172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */,
@@ -840,6 +857,7 @@
 				07F1BE8D2AF8292600F50845 /* CategoryService.swift in Sources */,
 				AA9811682BF7813500A2F594 /* AchievementModel.swift in Sources */,
 				07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */,
+				078ACB6C2BF7902E00BCA906 /* String + ext.swift in Sources */,
 				07EF04C52AFBBF880095DECB /* CategoryUIModel.swift in Sources */,
 				AA717AA92B0E678D004157D1 /* ProfileViewController.swift in Sources */,
 				070811552B29F1C200623B74 /* CategoriesCollectionViewDataSource.swift in Sources */,
@@ -861,6 +879,8 @@
 				17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */,
 				17DD8A262BE903C900B4DB67 /* StatisticService.swift in Sources */,
 				0744557F2B25E9BA00FA5469 /* CategoryDetailCollectionViewCell.swift in Sources */,
+				078ACB682BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift in Sources */,
+				078ACB692BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift in Sources */,
 				17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */,
 				074455492B223D1400FA5469 /* AddWordViewController.swift in Sources */,
 				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,
