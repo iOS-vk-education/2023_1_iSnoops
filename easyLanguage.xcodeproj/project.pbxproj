@@ -36,6 +36,9 @@
 		07318FEA2BF9F85400676B51 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FE92BF9F85400676B51 /* NetworkMonitor.swift */; };
 		07318FF32BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FF12BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift */; };
 		07318FF42BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FF22BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift */; };
+		07318FF62BFA881600676B51 /* SceneDelegate + SyncBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FF52BFA881600676B51 /* SceneDelegate + SyncBackend.swift */; };
+		07318FF82BFA966D00676B51 /* CoreDataSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FF72BFA966D00676B51 /* CoreDataSyncService.swift */; };
+		07318FFB2BFA968400676B51 /* BackendSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FFA2BFA968400676B51 /* BackendSyncService.swift */; };
 		074455492B223D1400FA5469 /* AddWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455482B223D1400FA5469 /* AddWordViewController.swift */; };
 		074455622B24EFD200FA5469 /* WordsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455612B24EFD200FA5469 /* WordsService.swift */; };
 		074455732B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455722B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift */; };
@@ -162,6 +165,9 @@
 		07318FE92BF9F85400676B51 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		07318FF12BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileCDModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		07318FF22BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		07318FF52BFA881600676B51 /* SceneDelegate + SyncBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneDelegate + SyncBackend.swift"; sourceTree = "<group>"; };
+		07318FF72BFA966D00676B51 /* CoreDataSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataSyncService.swift; sourceTree = "<group>"; };
+		07318FFA2BFA968400676B51 /* BackendSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendSyncService.swift; sourceTree = "<group>"; };
 		074455482B223D1400FA5469 /* AddWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordViewController.swift; sourceTree = "<group>"; };
 		074455612B24EFD200FA5469 /* WordsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsService.swift; sourceTree = "<group>"; };
 		074455722B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -362,8 +368,10 @@
 		0717C0C02AE84D0500C140C9 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				07318FF92BFA967200676B51 /* Services */,
 				0717C0AB2AE84CA700C140C9 /* AppDelegate.swift */,
 				0717C0AD2AE84CA700C140C9 /* SceneDelegate.swift */,
+				07318FF52BFA881600676B51 /* SceneDelegate + SyncBackend.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -485,6 +493,15 @@
 				07318FE92BF9F85400676B51 /* NetworkMonitor.swift */,
 			);
 			path = NetworkMonitor;
+			sourceTree = "<group>";
+		};
+		07318FF92BFA967200676B51 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				07318FF72BFA966D00676B51 /* CoreDataSyncService.swift */,
+				07318FFA2BFA968400676B51 /* BackendSyncService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		074455632B24FB9000FA5469 /* UIModels */ = {
@@ -963,6 +980,7 @@
 				0744557B2B25E96700FA5469 /* CategoryDetailCollectionViewDelegateFlowLayout.swift in Sources */,
 				07F1BE8D2AF8292600F50845 /* CategoryService.swift in Sources */,
 				AA9811682BF7813500A2F594 /* AchievementModel.swift in Sources */,
+				07318FF62BFA881600676B51 /* SceneDelegate + SyncBackend.swift in Sources */,
 				07EF04C22AFBB9AC0095DECB /* ImageManager.swift in Sources */,
 				078ACB6C2BF7902E00BCA906 /* String + ext.swift in Sources */,
 				07EF04C52AFBBF880095DECB /* CategoryUIModel.swift in Sources */,
@@ -975,6 +993,7 @@
 				070F96A42B9E0FCE00A6993A /* Trimmed.swift in Sources */,
 				0799EDB12B3CC71300C0C04F /* AuthErrors.swift in Sources */,
 				07F1BE7B2AF828AA00F50845 /* CatalogViewController.swift in Sources */,
+				07318FFB2BFA968400676B51 /* BackendSyncService.swift in Sources */,
 				0744557D2B25E9B000FA5469 /* CategoryDetailCollectionView.swift in Sources */,
 				07F1BEA12AF829C900F50845 /* CategoryCollectionViewCell.swift in Sources */,
 				074455732B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift in Sources */,
@@ -1002,6 +1021,7 @@
 				07EF04BB2AFAAF970095DECB /* DefaultData.swift in Sources */,
 				07C4F7622B1BCB1C0073BED0 /* ImagePicker.swift in Sources */,
 				075BC4C22B090EE200BA372A /* TopFiveCollectionView.swift in Sources */,
+				07318FF82BFA966D00676B51 /* CoreDataSyncService.swift in Sources */,
 				17DD8A202BE8E6A400B4DB67 /* StatisticModel.swift in Sources */,
 				07C4F75D2B1BC9D30073BED0 /* ImageManagerErrors.swift in Sources */,
 				0799EDAB2B3C9C3A00C0C04F /* ProfileService.swift in Sources */,

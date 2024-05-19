@@ -13,16 +13,17 @@ import FirebaseAuth
 protocol ProfileServiceProtocol {
     func loadProfile() async throws -> ProfileApiModel
     func uploadImage(image: UIImage) async throws -> URL
+    func loadTime(completion: @escaping (Result<Date, Error>) -> Void)
 }
 
 final class ProfileService: ProfileServiceProtocol {
-    
+
     static let shared: ProfileServiceProtocol = ProfileService()
-    
+
     private init() {}
-    
+
     private let dataBase = Firestore.firestore()
-    
+
     func uploadImage(image: UIImage) async throws -> URL {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
@@ -43,7 +44,7 @@ final class ProfileService: ProfileServiceProtocol {
             throw error
         }
     }
-    
+
     func loadProfile() async throws -> ProfileApiModel {
         guard let userId = checkAuthentication() else {
             throw AuthErrors.userNotAuthenticated
@@ -54,12 +55,35 @@ final class ProfileService: ProfileServiceProtocol {
         }
         throw NetworkError.unexpected
     }
-    
+
+    func loadTime(completion: @escaping (Result<Date, Error>) -> Void) {
+        guard let userId = checkAuthentication() else {
+            completion(.failure(AuthErrors.userNotAuthenticated))
+            return
+        }
+
+        dataBase.collection("users").document(userId).getDocument { document, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let document = document,
+                  document.exists,
+                  let data = document.data(),
+                  let timeTimestamp = data["time"] as? Timestamp else {
+                completion(.failure(NetworkError.unexpected))
+                return
+            }
+
+            completion(.success(timeTimestamp.dateValue()))
+        }
+    }
+
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {
             return currentUser.uid
-        } else {
-            return nil
         }
+        return nil
     }
 }

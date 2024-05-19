@@ -9,11 +9,10 @@
 import Foundation
 import CoreData
 
-
 extension ProfileCDModel {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ProfileCDModel> {
-        return NSFetchRequest<ProfileCDModel>(entityName: "ProfileCDModel")
+        return NSFetchRequest<ProfileCDModel>(entityName: .profileCDModel)
     }
 
     @NSManaged public var username: String?

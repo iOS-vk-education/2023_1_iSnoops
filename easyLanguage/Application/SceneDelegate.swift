@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     weak var delegate: switchAndFindButtonDelegate?
+    let coreData = CoreDataService()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
 
@@ -29,6 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         setupTheme()
         checkAuthentication()
+        syncCDtoBackend()
     }
 
     func setupTheme() {

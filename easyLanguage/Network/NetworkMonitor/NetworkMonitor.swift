@@ -17,7 +17,12 @@ class NetworkMonitor {
         startMonitoring()
     }
 
-    var isConnected: Bool = false // Проверяет, есть ли подключение к инету
+    var isConnected: Bool = false {
+        didSet {
+            // вызов в файле SceneDelegate + SyncBackend
+            NotificationCenter.default.post(name: .networkStatusChanged, object: nil)
+        }
+    }
 
     private func startMonitoring() {
         monitor.pathUpdateHandler = { path in
@@ -29,4 +34,8 @@ class NetworkMonitor {
     func stopMonitoring() {
         monitor.cancel()
     }
+}
+
+extension Notification.Name {
+    static let networkStatusChanged = Notification.Name("networkStatusChanged")
 }

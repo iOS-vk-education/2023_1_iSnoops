@@ -11,6 +11,7 @@ struct ProfileApiModel: Codable {
     let profileId: String
     let name: String
     let email: String
+    let time: Date
     let imageLink: String?
     let systemMode: SystemMode
 
@@ -19,7 +20,8 @@ struct ProfileApiModel: Codable {
             let userId = dict["userId"] as? String,
             let username = dict["username"] as? String,
             let email = dict["email"] as? String,
-            let imageLink = dict["imageLink"] as? String?
+            let imageLink = dict["imageLink"] as? String?,
+            let time = dict["time"] as? Date
         else {
             return nil
         }
@@ -29,6 +31,7 @@ struct ProfileApiModel: Codable {
         self.email = email
         self.imageLink = imageLink
         self.systemMode = .lightTheme
+        self.time = time
     }
 }
 

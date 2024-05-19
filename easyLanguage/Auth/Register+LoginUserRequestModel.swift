@@ -12,6 +12,7 @@ struct RegisterUserRequest: Decodable {
     let email: String
     let password: String
     let userId: String
+    let time: Date
 }
 
 struct LoginUserRequest {

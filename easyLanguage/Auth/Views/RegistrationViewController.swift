@@ -137,7 +137,8 @@ final class RegistrationViewController: UIViewController {
         let userRequest = RegisterUserRequest(username: labels[0].text ?? "",
                                               email: emailString,
                                               password: passwordString,
-                                              userId: "")
+                                              userId: "",
+                                              time: Date())
         AuthService.shared.registerUser(with: userRequest) { [weak self] _, error in
             guard let self else {
                 // TODO: - add Alert
@@ -159,7 +160,7 @@ final class RegistrationViewController: UIViewController {
                 self.enableButton(button: self.registrationButton)
                 return
             }
-            
+
             Task {
                 await self.addDefaultData()
 

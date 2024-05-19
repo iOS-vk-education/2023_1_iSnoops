@@ -54,6 +54,7 @@ extension CoreDataService {
         wordToCoreData.translations = model.translations
 
         try? wordToCoreData.managedObjectContext?.save()
+        updateProfileTime()
     }
 
     // загрузка количества слов, связанных с этой категорией (для главного экрана)
@@ -82,6 +83,7 @@ extension CoreDataService {
             for word in words {
                 persistentContainer.viewContext.delete(word)
             }
+            updateProfileTime()
         } catch {
             print("deleteWords error \(error)")
         }
@@ -112,6 +114,7 @@ extension CoreDataService {
             if let word = words.first {
                 persistentContainer.viewContext.delete(word)
                 try persistentContainer.viewContext.save()
+                updateProfileTime()
             }
         } catch {
             return error
@@ -171,6 +174,7 @@ extension CoreDataService {
         categoryToCoreData.isDefault = category.isDefault
 
         try? categoryToCoreData.managedObjectContext?.save()
+        updateProfileTime()
     }
 
     func deleteCategory(with id: String) throws -> Error? {
@@ -185,9 +189,96 @@ extension CoreDataService {
             }
 
             try persistentContainer.viewContext.save()
+            updateProfileTime()
             return nil
         } catch {
             return error
+        }
+    }
+}
+
+// MARK: - Profile Methods
+extension CoreDataService {
+    func saveProfile(username: String, email: String, userId: String, time: Date) {
+        guard let entity = NSEntityDescription.entity(
+            forEntityName: .profileCDModel,
+            in: persistentContainer.viewContext
+        ) else {
+            print(#function, "ошибка получения данных из coreData")
+            return
+        }
+
+        let profile = ProfileCDModel(entity: entity, insertInto: persistentContainer.viewContext)
+        profile.username = username
+        profile.email = email
+        profile.userId = userId
+        profile.time = time
+
+        try? persistentContainer.viewContext.save()
+    }
+
+    // обновляем каждый раз time, чтобы потом синхронизировать с беком
+    private func updateProfileTime() {
+        let fetchRequest: NSFetchRequest<ProfileCDModel> = ProfileCDModel.fetchRequest()
+
+        do {
+            let profiles = try persistentContainer.viewContext.fetch(fetchRequest)
+            if let profile = profiles.first {
+                profile.time = Date()
+                try persistentContainer.viewContext.save()
+            }
+        } catch {
+            print("Failed to update profile time: \(error.localizedDescription)")
+        }
+    }
+}
+
+// MARK: - удаление данных для синхронизации с беком
+// TODO: - топ5 слов удаление
+
+extension CoreDataService {
+    func deleteAllData() {
+        deleteAllWords()
+        deleteAllCategories()
+    }
+
+    private func deleteAllWords() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = WordCDModel.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try persistentContainer.viewContext.execute(deleteRequest)
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("не удалось удалить слова", error.localizedDescription)
+        }
+    }
+
+    private func deleteAllCategories() {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CategoryCDModel.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try persistentContainer.viewContext.execute(deleteRequest)
+            try persistentContainer.viewContext.save()
+        } catch {
+            print("не удалось удалить категории", error.localizedDescription)
+        }
+    }
+}
+
+// MARK: - извлечение времени у пользователя
+
+extension CoreDataService {
+    func fetchProfileTime() -> Date? {
+        let fetchRequest: NSFetchRequest<ProfileCDModel> = ProfileCDModel.fetchRequest()
+
+        do {
+            let results = try persistentContainer.viewContext.fetch(fetchRequest)
+            return results.first?.time
+        } catch {
+            print("не удалось извлечь время", error)
+            return nil
         }
     }
 }
