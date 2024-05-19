@@ -159,7 +159,6 @@ final class RegistrationViewController: UIViewController {
                 self.enableButton(button: self.registrationButton)
                 return
             }
-
             
             Task {
                 await self.addDefaultData()

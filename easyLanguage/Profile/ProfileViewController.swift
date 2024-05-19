@@ -73,7 +73,6 @@ private extension ProfileViewController {
             return
         }
     }
-    
 
     func setProgressWords() {
         model.loadProgressView { [weak self] result in
@@ -88,7 +87,7 @@ private extension ProfileViewController {
             }
         }
     }
-    
+
     func uploadImage(image: UIImage) async {
         do {
             let url = try await model.uploadImage(image: image)
@@ -171,7 +170,10 @@ private extension ProfileViewController {
 
     @objc
     func didTapAchievemetsImage() {
-    self.navigationController?.pushViewController(UIHostingController(rootView: AchievementStaticsBaseView()), animated: true)
+        self.navigationController?.pushViewController(
+            UIHostingController(rootView: AchievementStaticsBaseView()),
+            animated: true
+        )
     }
 
     func logout() {
@@ -231,6 +233,7 @@ private extension ProfileViewController {
         choosingThemeView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         choosingThemeView.heightAnchor.constraint(equalToConstant: themeViewOutput.getSize()).isActive = true
     }
+
     func setLogOutButton() {
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         logOutButton.topAnchor.constraint(equalTo:
