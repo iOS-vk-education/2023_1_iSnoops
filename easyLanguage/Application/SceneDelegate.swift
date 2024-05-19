@@ -46,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     public func checkAuthentication() {
         if Auth.auth().currentUser == nil {
-            self.goToController(with: RegistrationViewController())
+            self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
         } else {
             self.goToController(with: TabBarController())
         }

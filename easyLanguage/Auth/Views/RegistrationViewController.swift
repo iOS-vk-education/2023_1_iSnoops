@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import CoreData
 
 final class RegistrationViewController: UIViewController {
     // MARK: Views
@@ -76,6 +77,7 @@ final class RegistrationViewController: UIViewController {
     private let categoryService = AddNewCategoryService.shared
     private let wordService = AddWordService.shared
     private let topFiveService = LearningViewService.shared
+    private let coreData = CoreDataService()
 
     // MARK: LifeCycle
     override func viewDidLoad() {
@@ -157,37 +159,42 @@ final class RegistrationViewController: UIViewController {
                 self.enableButton(button: self.registrationButton)
                 return
             }
+            
+            Task {
+                await self.addDefaultData()
 
-            self.addDefaultData()
-
-            guard UserDefaults.standard.string(forKey: "onboardingCompleted") != nil else {
-                let onboardingVC = OnboardingViewController()
-                onboardingVC.modalPresentationStyle = .fullScreen
-                present(onboardingVC, animated: true, completion: nil)
-                return
+                if UserDefaults.standard.string(forKey: "onboardingCompleted") == nil {
+                    let onboardingVC = OnboardingViewController()
+                    onboardingVC.modalPresentationStyle = .fullScreen
+                    await MainActor.run {
+                        self.present(onboardingVC, animated: true, completion: nil)
+                    }
+                } else {
+                    let tabBarController = TabBarController()
+                    tabBarController.modalPresentationStyle = .fullScreen
+                    await MainActor.run {
+                        self.present(tabBarController, animated: true, completion: nil)
+                    }
+                }
             }
-
-            UserDefaults.standard.set(false, forKey: .isCompletedCreateFirstCategory)
-            let tabBarController = TabBarController()
-            tabBarController.modalPresentationStyle = .fullScreen
-            present(tabBarController, animated: true, completion: nil)
         }
     }
 
-    private func addDefaultData() {
+    private func addDefaultData() async {
         for category in defaultData.getCategories() {
-            Task {
-                do {
-                    _ = try await categoryService.createNewCategory(with: category, image: nil)
-                } catch {
-                    print("[DEBUG]:", #function, error.localizedDescription)
-                }
+            do {
+                let data = await asyncConvert(link: category.imageLink)
+                coreData.saveCategory(with: category, imageData: data)
+                // _ = try await categoryService.createNewCategory(with: category, image: nil)
+            } catch {
+                print("[DEBUG]:", #function, error.localizedDescription)
             }
         }
 
         for word in defaultData.getTopFive() {
             Task {
                 do {
+                    // TODO: - Сене добавить с топ5 словами
                     _ = try await topFiveService.createNewTopFiveWord(with: word)
                 } catch {
                     print("[DEBUG]:", #function, error.localizedDescription)
@@ -196,8 +203,26 @@ final class RegistrationViewController: UIViewController {
         }
 
         for word in defaultData.getWords() {
+            // TODO: - Матвею поправить с добавлением словам ( убрать из сервиса) и тут сделать чтобы все ок было
             wordService.add(word, completion: { _ in })
         }
+    }
+
+    private func asyncConvert(link: String?) async -> Data? {
+        if let link = link, let imageLink = URL(string: link) {
+            return await withCheckedContinuation { continuation in
+                ImageManager.shared.loadImage(from: imageLink) { result in
+                    switch result {
+                    case .success(let data):
+                        continuation.resume(returning: data)
+                    case .failure(let error):
+                        print(#function, "не удалось загрузить изображение", error.localizedDescription)
+                        continuation.resume(returning: nil)
+                    }
+                }
+            }
+        }
+        return nil
     }
 
     @objc

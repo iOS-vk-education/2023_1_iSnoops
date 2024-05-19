@@ -40,7 +40,7 @@ final class CoreDataService {
     }
 }
 
-// MARK: - Methods
+// MARK: - Words Methods
 
 extension CoreDataService {
     func saveWordToCoreData(model: WordApiModel) {
@@ -56,46 +56,7 @@ extension CoreDataService {
         try? wordToCoreData.managedObjectContext?.save()
     }
 
-    func saveCategory(with category: CategoryModel, imageData: Data?) {
-        guard let entity = NSEntityDescription.entity(
-            forEntityName: .categoryCDModel,
-            in: persistentContainer.viewContext
-        ) else {
-            print(#function, "ошибка получения данных из coreData")
-            return
-        }
-
-        let categoryToCoreData = CategoryCDModel(entity: entity, insertInto: persistentContainer.viewContext)
-
-        categoryToCoreData.createdDate = category.createdDate
-        categoryToCoreData.index = Int64(category.index ?? 0)
-        categoryToCoreData.linkedWordsId = category.linkedWordsId
-        categoryToCoreData.studiedWordsCount = Int64(category.studiedWordsCount)
-        categoryToCoreData.totalWordsCount = Int64(category.totalWordsCount)
-        categoryToCoreData.title = category.title
-        categoryToCoreData.imageData = imageData
-
-        try? categoryToCoreData.managedObjectContext?.save()
-    }
-
-    func deleteCategory(with id: String) throws -> Error? {
-        let fetchRequest: NSFetchRequest<CategoryCDModel> = CategoryCDModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "linkedWordsId == %@", id)
-
-        do {
-            let categories = try persistentContainer.viewContext.fetch(fetchRequest)
-            for category in categories {
-                deleteWords(for: category)  // Удаление всех слов, связанных с этой категорией
-                persistentContainer.viewContext.delete(category)
-            }
-
-            try persistentContainer.viewContext.save()
-            return nil
-        } catch {
-            return error
-        }
-    }
-
+    // загрузка количества слов, связанных с этой категорией (для главного экрана)
     func loadWordsCounts(with linkedWordsId: String) -> (Int, Int) {
         let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "categoryId == %@", linkedWordsId)
@@ -182,6 +143,51 @@ extension CoreDataService {
             } catch {
                 continuation.resume(throwing: error)
             }
+        }
+    }
+}
+
+// MARK: - Categories Methods
+
+extension CoreDataService {
+    func saveCategory(with category: CategoryModel, imageData: Data? = nil) {
+        guard let entity = NSEntityDescription.entity(
+            forEntityName: .categoryCDModel,
+            in: persistentContainer.viewContext
+        ) else {
+            print(#function, "ошибка получения данных из coreData")
+            return
+        }
+
+        let categoryToCoreData = CategoryCDModel(entity: entity, insertInto: persistentContainer.viewContext)
+
+        categoryToCoreData.createdDate = category.createdDate
+        categoryToCoreData.index = Int64(category.index ?? 0)
+        categoryToCoreData.linkedWordsId = category.linkedWordsId
+        categoryToCoreData.studiedWordsCount = Int64(category.studiedWordsCount)
+        categoryToCoreData.totalWordsCount = Int64(category.totalWordsCount)
+        categoryToCoreData.title = category.title
+        categoryToCoreData.imageData = imageData
+        categoryToCoreData.isDefault = category.isDefault
+
+        try? categoryToCoreData.managedObjectContext?.save()
+    }
+
+    func deleteCategory(with id: String) throws -> Error? {
+        let fetchRequest: NSFetchRequest<CategoryCDModel> = CategoryCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "linkedWordsId == %@", id)
+
+        do {
+            let categories = try persistentContainer.viewContext.fetch(fetchRequest)
+            for category in categories {
+                deleteWords(for: category)  // Удаление всех слов, связанных с этой категорией
+                persistentContainer.viewContext.delete(category)
+            }
+
+            try persistentContainer.viewContext.save()
+            return nil
+        } catch {
+            return error
         }
     }
 }

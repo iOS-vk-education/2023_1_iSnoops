@@ -403,7 +403,7 @@ extension CategoriesViewController: AddNewCategoryOutput {
         categoryModel.contains { $0.title == title }
     }
 
-    func addNewCategory(with categoryModel: CategoryModel) {
+    func categoryDidAdded(with categoryModel: CategoryModel) {
         DispatchQueue.main.async {
 
             self.categoryModel.append(CategoryModel(title: categoryModel.title,
