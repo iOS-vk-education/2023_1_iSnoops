@@ -31,6 +31,7 @@
 		072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */; };
 		072B925C2B1CF952006CA4C1 /* TopFiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B925B2B1CF951006CA4C1 /* TopFiveService.swift */; };
 		072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */; };
+		07318FEA2BF9F85400676B51 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FE92BF9F85400676B51 /* NetworkMonitor.swift */; };
 		074455492B223D1400FA5469 /* AddWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455482B223D1400FA5469 /* AddWordViewController.swift */; };
 		074455622B24EFD200FA5469 /* WordsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455612B24EFD200FA5469 /* WordsService.swift */; };
 		074455732B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455722B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift */; };
@@ -154,6 +155,7 @@
 		072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryApiModel.swift; path = easyLanguage/Network/ApiModels/CategoryApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B925B2B1CF951006CA4C1 /* TopFiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveService.swift; sourceTree = "<group>"; };
 		072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryViewController.swift; sourceTree = "<group>"; };
+		07318FE92BF9F85400676B51 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		074455482B223D1400FA5469 /* AddWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordViewController.swift; sourceTree = "<group>"; };
 		074455612B24EFD200FA5469 /* WordsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsService.swift; sourceTree = "<group>"; };
 		074455722B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -473,6 +475,14 @@
 			path = CategoryDetail;
 			sourceTree = "<group>";
 		};
+		07318FE82BF9F84700676B51 /* NetworkMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				07318FE92BF9F85400676B51 /* NetworkMonitor.swift */,
+			);
+			path = NetworkMonitor;
+			sourceTree = "<group>";
+		};
 		074455632B24FB9000FA5469 /* UIModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -583,6 +593,7 @@
 		07EF04C02AFBB9920095DECB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				07318FE82BF9F84700676B51 /* NetworkMonitor */,
 				074455632B24FB9000FA5469 /* UIModels */,
 				07EF04BA2AFAAF970095DECB /* DefaultData.swift */,
 				07C4F7592B1BC9940073BED0 /* Errors */,
@@ -918,6 +929,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0717C0DF2AE8577200C140C9 /* TabBarController.swift in Sources */,
+				07318FEA2BF9F85400676B51 /* NetworkMonitor.swift in Sources */,
 				17DD8A212BE8E6A400B4DB67 /* StatisticView.swift in Sources */,
 				17D8C8842B2F505C0064698E /* RegistrationViewController.swift in Sources */,
 				07F1BE872AF828EA00F50845 /* CatalogCollectionViewDataSource.swift in Sources */,
