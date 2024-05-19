@@ -49,10 +49,12 @@ final class CategoryDetailViewController: CustomViewController {
     }()
 
     private var wordsModel = [WordUIModel]()
-    private let model = CategoryDetailModel()
     private var selectedCategory = 0
     private var linkedWordsId = ""
     weak var delegate: CategoryDetailOutput?
+
+    private let model = CategoryDetailModel()
+    private let coreData = CoreDataService()
 
     lazy var height = { view.bounds.height / 15 }()
 
@@ -64,7 +66,8 @@ final class CategoryDetailViewController: CustomViewController {
         }
 
         setContentInset()
-        loadWords()
+//        loadWords()
+        loadFromCoreData()
         setNavBar()
         setNoWordsLabel()
         setLoader()
@@ -94,7 +97,7 @@ final class CategoryDetailViewController: CustomViewController {
     @objc
     func didTapButton() {
         let learningVC = LearningViewController(isNeedLoadAll: false)
-        learningVC.learnCategory(with: linkedWordsId)
+        learningVC.learnCDCategory(with: linkedWordsId)
         learningVC.modalPresentationStyle = .pageSheet
 
         present(learningVC, animated: true)
@@ -115,7 +118,23 @@ extension CategoryDetailViewController {
     }
 }
 
+// MARK: - CoreData
+
+private extension CategoryDetailViewController {
+    func loadFromCoreData() {
+        loader.startAnimating()
+
+        wordsModel = model.loadCDWords(with: linkedWordsId)
+
+        loader.stopAnimating()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+}
+
 // MARK: - networking
+
 private extension CategoryDetailViewController {
     func loadWords() {
         loader.startAnimating()
@@ -216,7 +235,8 @@ extension CategoryDetailViewController: InputWordsDelegate {
     }
 
     func changeIsLearned(with number: Int, isLearned: Bool, swipesCounter: Int) {
-        model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned, swipesCounter: swipesCounter)
+//        model.reloadIsLearned(with: wordsModel[number].id, isLearned: isLearned, swipesCounter: swipesCounter)
+        model.reloadCDIsLearned(with: wordsModel[number].id, isLearned: isLearned, swipesCounter: swipesCounter)
         self.delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: wordsModel[number].categoryId,
                                                                          changeTotalCount: false,
                                                                          changeLearnedCount: true,
@@ -240,10 +260,25 @@ extension CategoryDetailViewController: InputWordsDelegate {
     private func addActionToDeleteWord(with id: String, to alertController: UIAlertController) {
         let deleteAction = UIAlertAction(title: NSLocalizedString("detailDelete", comment: ""),
                                          style: .destructive) { _ in
-            self.handleDeleteWord(with: id)
+//            self.handleDeleteWord(with: id)
+            self.handleDeleteCDWord(with: id)
         }
 
         alertController.addAction(deleteAction)
+    }
+
+    private func handleDeleteCDWord(with id: String) {
+        model.deleteCDWord(with: id) { [weak self] result in
+            guard let self = self else { return }
+
+            switch result {
+            case .success:
+                self.handleSuccessfulDeletion(with: id)
+            case .failure(let error):
+                AlertManager.showWordDeleteAlert(on: self)
+                print(error.localizedDescription)
+            }
+        }
     }
 
     private func handleDeleteWord(with id: String) {
@@ -298,7 +333,8 @@ extension CategoryDetailViewController: AddWordOutput {
     }
 
     func didCreateWord(with categoryId: String) {
-        loadWords()
+//        loadWords()
+        loadFromCoreData()
         delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: categoryId,
                                                                          changeTotalCount: true,
                                                                          changeLearnedCount: false,

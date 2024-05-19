@@ -125,4 +125,63 @@ extension CoreDataService {
             print("deleteWords error \(error)")
         }
     }
+
+    func reloadIsLearned(with id: String, isLearned: Bool, swipesCounter: Int) {
+        let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+        do {
+            let words = try persistentContainer.viewContext.fetch(fetchRequest)
+            if let word = words.first {
+                word.isLearned = isLearned
+                word.swipesCounter = Int64(swipesCounter)
+                try persistentContainer.viewContext.save()
+            }
+        } catch {
+            print(#function, "не получилось обновить IsLearned \(error.localizedDescription)")
+        }
+    }
+
+    func deleteWord(with id: String) throws -> Error? {
+        let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+        do {
+            let words = try persistentContainer.viewContext.fetch(fetchRequest)
+            if let word = words.first {
+                persistentContainer.viewContext.delete(word)
+                try persistentContainer.viewContext.save()
+            }
+        } catch {
+            return error
+        }
+        return nil
+    }
+
+    /// для изучения конкретной категории, подгружаем неизученные слова
+    func loadWordsInCategory(with categoryId: String) async throws -> [WordUIModel] {
+        return try await withCheckedThrowingContinuation { continuation in
+            let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+            fetchRequest.predicate = NSPredicate(
+                format: "categoryId == %@ AND isLearned == %@",
+                categoryId, NSNumber(value: false)
+            )
+
+            do {
+                let words = try persistentContainer.viewContext.fetch(fetchRequest)
+                let wordUIModels = words.map { word in
+                    WordUIModel(
+                        categoryId: word.categoryId ?? "",
+                        translations: word.translations ?? [:],
+                        isLearned: word.isLearned,
+                        swipesCounter: Int(word.swipesCounter),
+                        id: word.id ?? ""
+                    )
+                }
+                continuation.resume(returning: wordUIModels)
+            } catch {
+                continuation.resume(throwing: error)
+            }
+        }
+    }
 }
