@@ -36,14 +36,10 @@ final class CategoryDetailModel {
     }
 
     func deleteCDWord(with id: String, completion: @escaping (Result<Bool, Error>) -> Void) {
-        do {
-            if let error = try coreData.deleteWord(with: id) {
-                completion(.failure(error))
-            } else {
-                completion(.success(true))
-            }
-        } catch {
+        if let error = try? coreData.deleteWord(with: id) {
             completion(.failure(error))
+        } else {
+            completion(.success(true))
         }
     }
 
