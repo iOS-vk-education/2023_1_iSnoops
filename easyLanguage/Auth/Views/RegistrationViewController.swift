@@ -167,10 +167,10 @@ final class RegistrationViewController: UIViewController {
                 return
             }
 
+            UserDefaults.standard.set(false, forKey: .isCompletedCreateFirstCategory)
             let tabBarController = TabBarController()
             tabBarController.modalPresentationStyle = .fullScreen
             present(tabBarController, animated: true, completion: nil)
-            
         }
     }
 

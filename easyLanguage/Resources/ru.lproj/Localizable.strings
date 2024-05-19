@@ -34,6 +34,8 @@
 "addCategoryButtonTitle" = "Добавить категорию";
 "categoryNamePlaceholder" = "Название категории";
 "categoryAlreadyExists" = "Категория с таким названием уже существует";
+"categoryAchivmentTitle" = "У вас новое достижение!";
+"categoryAchivmentBody" = "Нажмите чтобы перейти к ачивкам";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "В игровой форме легко учить иностранные языки";
