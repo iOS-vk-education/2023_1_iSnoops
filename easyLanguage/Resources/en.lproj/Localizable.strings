@@ -33,6 +33,8 @@
 "addCategoryButtonTitle" = "Add Category";
 "categoryNamePlaceholder" = "Category Name";
 "categoryAlreadyExists" = "Category with this name already exists";
+ "categoryAchivmentTitle" = "You have a new achievement!";
+ "categoryAchivmentBody" = "Click to go to achievements";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";

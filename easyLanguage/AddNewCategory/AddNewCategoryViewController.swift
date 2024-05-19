@@ -116,8 +116,8 @@ extension AddNewCategoryViewController {
 private extension AddNewCategoryViewController {
     func sendNotification() {
         let content = UNMutableNotificationContent()
-        content.title = "У вас новое достижение!"
-        content.body = "Нажмите чтобы перейти к ачивкам"
+        content.title = NSLocalizedString("categoryAchivmentTitle", comment: "")
+        content.body = NSLocalizedString("categoryAchivmentBody", comment: "")
         content.sound = .default
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
