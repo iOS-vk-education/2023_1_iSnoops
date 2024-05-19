@@ -22,7 +22,6 @@ class NetworkMonitor {
     private func startMonitoring() {
         monitor.pathUpdateHandler = { path in
             self.isConnected = path.status == .satisfied
-            self.connectionType = self.getConnectionType(path)
         }
         monitor.start(queue: queue)
     }
