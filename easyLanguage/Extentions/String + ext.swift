@@ -13,7 +13,7 @@ extension String {
     static let categoryCDModel = "CategoryCDModel"
 }
 
-/// UserDefaults names
+/// UserDefaults keys
 extension String {
     static let isCompletedCreateFirstCategory = "isCompletedCreateFirstCategory"
 }
