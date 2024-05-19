@@ -13,7 +13,8 @@ import CoreData
 
 final class LearningViewModel {
     private let learningViewService = LearningViewService.shared
-    private let coreDataService = CoreDataService()
+    private let coreData = CoreDataService()
+
     private var wordsUIModel = [WordUIModel]()
 
     func loadWords() async throws -> [WordUIModel] {
@@ -28,6 +29,10 @@ final class LearningViewModel {
             wordsUIModel.append(wordUIModel)
         }
         return wordsUIModel
+    }
+
+    func loadCDCategory(with categoryId: String) async throws -> [WordUIModel] {
+        try await coreData.loadWordsInCategory(with: categoryId)
     }
 
     func loadCategory(with categoryId: String) async throws -> [WordUIModel] {
