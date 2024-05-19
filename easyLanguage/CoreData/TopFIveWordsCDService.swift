@@ -20,9 +20,9 @@ class TopFiveWordsCDService {
         request.sortDescriptors = [sortDescriptor]
 
         return NSFetchedResultsController(fetchRequest: request,
-                                             managedObjectContext: self.persistentContainer.viewContext,
-                                             sectionNameKeyPath: nil,
-                                             cacheName: nil)
+                                          managedObjectContext: self.persistentContainer.viewContext,
+                                          sectionNameKeyPath: nil,
+                                          cacheName: nil)
     }()
 
     func loadStore() {
@@ -55,12 +55,12 @@ class TopFiveWordsCDService {
         deleteWordsFromCoreData()
         words.forEach { word in
             guard let entity = NSEntityDescription.entity(
-                        forEntityName: "TopFiveWordsCDModel",
-                        in: persistentContainer.viewContext
-                    ) else {
-                        print(#function, "ошибка получения данных из coreData")
-                        return
-                    }
+                forEntityName: .topFiveWordsCDModel,
+                in: persistentContainer.viewContext
+            ) else {
+                print(#function, "ошибка получения данных из coreData")
+                return
+            }
 
             let wordToCoreData = TopFiveWordsCDModel(entity: entity, insertInto: persistentContainer.viewContext)
             wordToCoreData.id = word.id

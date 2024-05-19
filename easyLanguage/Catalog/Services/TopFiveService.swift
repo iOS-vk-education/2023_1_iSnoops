@@ -34,12 +34,12 @@ final class TopFiveService: TopFiveServiceProtocol {
                 completion(.failure(error))
                 return
             }
-            
+
             guard let documents = querySnapshot?.documents else {
                 completion(.failure(NetworkError.unexpected))
                 return
             }
-            
+
             let topFiveWords: [TopFiveWordsApiModel] = documents.compactMap { document in
                 do {
                     let word = try document.data(as: TopFiveWordsApiModel.self)

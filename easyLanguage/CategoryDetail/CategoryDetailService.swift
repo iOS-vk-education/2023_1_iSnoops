@@ -18,10 +18,10 @@ protocol CategoryDetailServiceProtocol {
 final class CategoryDetailService: CategoryDetailServiceProtocol {
     static let shared: CategoryDetailServiceProtocol = CategoryDetailService()
     private let dataBase = Firestore.firestore()
-
+    
     func loadWords(with categoryId: String, comletion: @escaping (Result<[WordApiModel], Error>) -> Void) {
         dataBase.collection("words").whereField("categoryId",
-                                    isEqualTo: categoryId).getDocuments { querySnapshot, error in
+                                                isEqualTo: categoryId).getDocuments { querySnapshot, error in
             if let error = error {
                 comletion(.failure(error))
             }
@@ -29,20 +29,21 @@ final class CategoryDetailService: CategoryDetailServiceProtocol {
                 comletion(.failure(NetworkError.unexpected))
                 return
             }
-
+            
             let words: [WordApiModel] = documents.compactMap { document in
                 do {
                     let word = try document.data(as: WordApiModel.self)
                     return word
                 } catch {
+                    print(error.localizedDescription)
                     return nil
                 }
             }
-
+            
             comletion(.success(words))
         }
     }
-
+    
     func reloadIsLearned(with id: String, isLearned: Bool, swipesCounter: Int) {
         dataBase.collection("words").document(id).updateData([
             "isLearned": isLearned,

@@ -15,19 +15,26 @@
 "topFiveWordsAdvice" = "To translate a word, click on the card";
 "progressAdvice" = "Progress of learned words";
 "sortTitle" = "Choose the order to display categories";
-"sortMessage" = "Category Sorting";
-"sortRecentlyAdded" = "Recently Added";
-"sortByName" = "By Name";
+"sortRecentlyAdded" = "By recently added";
+"sortByName" = "By name";
 "sortCancel" = "Cancel";
+"categoryDelete" = "Delete category";
 
 //MARK: - CategoryDetail
 "detailDelete" = "Delete word";
 "emptyCategoryAdvice" = "There are no words in the category.\nAdd them by tapping +";
+"CategoryDetailGoToStudy" = "Go to study";
+
+//MARK: - AddWord
+"addWord" = "Add word";
 
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Add Photo";
 "addCategoryButtonTitle" = "Add Category";
 "categoryNamePlaceholder" = "Category Name";
+"categoryAlreadyExists" = "Category with this name already exists";
+ "categoryAchivmentTitle" = "You have a new achievement!";
+ "categoryAchivmentBody" = "Click to go to achievements";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";
@@ -80,6 +87,7 @@
 "reloadHeightAlert" = "Height update error";
 "wordDeleteAlert" = "Error when deleting a word";
 "dataPostErrorAlert" = "Failed to post data";
+"wordAlreadyExistAlert" = "This word already exists";
 
 //MARK: - StatisticView
 "wordsCategories" = "Number of words in the categories";
@@ -97,3 +105,12 @@
 "statisticsButton" = "Statistics";
 "achievementStaticsTitle" = "Achievements";
 
+//MARK: - AchievementView
+"createOneCategoryLabel" = "Create your own category";
+"createFiveCategoriesLabel" = "Create 5 categories";
+"learnTenWordsLabel" = "Learn 10 words";
+"learnOneHundredWordsLabel" = "Learn 100 words";
+"learnFiveHundredWordsLabel" = "Learn 500 words and go to England";
+"createFiftyWordsInOneCategoryLabel" = "Add 50 words to one category";
+"learnOneCategoryLabel" = "Explore one category completely";
+"learnThreeCategoriesLabel" = "Explore three categories completely";

@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol HandleLongPress {
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer)
+}
+
 final class CategoryCollectionViewCell: UICollectionViewCell {
 
     private let backgroundLevelView = UIView()
     private let titleLabel = UILabel()
     private let imageView = UIImageView()
     private let progressLabel = UILabel()
+
+    private var id: String?
+    weak var delegate: InputCategoriesDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +34,9 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
         setTitleLabel()
         setProgressLabel()
         setupLabels()
+
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        self.addGestureRecognizer(longPressGesture)
     }
 
     required init?(coder: NSCoder) {
@@ -37,9 +47,14 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 // MARK: - open methods
 extension CategoryCollectionViewCell {
     func cellConfigure(with model: CategoryUIModel, at indexPath: IndexPath) {
+        id = model.linkedWordsId
         setupColorsForCategory(with: model.index)
         setupProgressAndTitleLabels(with: model)
         imageView.image = model.image
+    }
+
+    func setDelegate(with delegate: InputCategoriesDelegate) {
+        self.delegate = delegate
     }
 }
 
@@ -99,12 +114,12 @@ private extension CategoryCollectionViewCell {
 
     func setTitleLabel() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: frame.height / 4).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
                                             constant: UIConstants.TitleLabel.horizontally).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
-                                             constant: -UIConstants.TitleLabel.horizontally).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+                                            constant: -UIConstants.TitleLabel.horizontally).isActive = true
     }
 
     func setProgressLabel() {
@@ -113,6 +128,27 @@ private extension CategoryCollectionViewCell {
                                            constant: frame.width / 8).isActive = true
         progressLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
                                            constant: frame.width / 8).isActive = true
+    }
+}
+
+// MARK: - CategoryCellInput
+extension CategoryCollectionViewCell: HandleLongPress {
+    @objc
+    func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state == .began {
+            generateHapticFeedback()
+            showDeleteConfirmation()
+        }
+    }
+
+    private func generateHapticFeedback() {
+        let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        feedbackGenerator.prepare()
+        feedbackGenerator.impactOccurred()
+    }
+
+    private func showDeleteConfirmation() {
+        delegate?.showActionSheet(with: id ?? "")
     }
 }
 

@@ -6,6 +6,15 @@
         <attribute name="translate" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData"/>
         <attribute name="userId" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="CategoryCDModel" representedClassName="CategoryCDModel" syncable="YES">
+        <attribute name="createdDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary"/>
+        <attribute name="index" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="linkedWordsId" optional="YES" attributeType="String"/>
+        <attribute name="studiedWordsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="totalWordsCount" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="WordCDModel" representedClassName="WordCDModel" syncable="YES">
         <attribute name="categoryId" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>

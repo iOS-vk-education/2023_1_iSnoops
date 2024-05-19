@@ -12,7 +12,7 @@ import CoreData
 extension WordCDModel {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<WordCDModel> {
-        return NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        return NSFetchRequest<WordCDModel>(entityName: .wordCDModel)
     }
 
     @NSManaged public var categoryId: String?

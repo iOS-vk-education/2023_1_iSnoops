@@ -7,13 +7,14 @@
 // swiftlint:disable all
 import UIKit
 import FirebaseAuth
+import SwiftUI
 
 protocol switchAndFindButtonDelegate: AnyObject {
     func switchAndFindButton(theme: String)
 }
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    
+
     var window: UIWindow?
     weak var delegate: switchAndFindButtonDelegate?
     
@@ -24,37 +25,39 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        window.rootViewController = TabBarController()
-        
         self.window?.makeKeyAndVisible()
-                
+
+        setupTheme()
+        checkAuthentication()
+    }
+
+    func setupTheme() {
         if let theme = UserDefaults.standard.string(forKey: "selectedTheme") {
             switchTheme(delegate: ChoosingThemeView(), theme: theme)
         } else {
             UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
             switchTheme(delegate: ChoosingThemeView(), theme: NSLocalizedString("lightThemeLabel", comment: ""))
         }
-        self.checkAuthentication()
     }
 
     private func switchTheme(delegate: switchAndFindButtonDelegate, theme: String) {
         delegate.switchAndFindButton(theme: theme)
     }
-    
+
     public func checkAuthentication() {
         if Auth.auth().currentUser == nil {
-            self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
+            self.goToController(with: RegistrationViewController())
         } else {
             self.goToController(with: TabBarController())
         }
     }
-    
+
     private func goToController(with viewController: UIViewController) {
         let nav = viewController
         nav.modalPresentationStyle = .fullScreen
         self.window?.rootViewController = nav
     }
-    
+
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
@@ -87,6 +90,9 @@ extension SceneDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.notification.request.identifier == .isCompletedCreateFirstCategory {
+            presentAchievements()
+        }
         completionHandler()
     }
 
@@ -94,6 +100,23 @@ extension SceneDelegate: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound, .badge])
+    }
+}
+
+// MARK: - push present
+
+private extension SceneDelegate {
+    private func presentAchievements() {
+        let profileView = AchievementStaticsBaseView()
+        let hostingController = UIHostingController(rootView: profileView)
+        hostingController.modalPresentationStyle = .pageSheet
+
+        if let rootViewController = window?.rootViewController {
+            rootViewController.present(hostingController, animated: true, completion: nil)
+        } else {
+            window?.rootViewController = hostingController
+            window?.makeKeyAndVisible()
+        }
     }
 }
 // swiftlint:enable all

@@ -13,7 +13,6 @@ final class ProfileModel {
 
     private let imageManager = ImageManager.shared
 
-
     func loadProfile() async throws -> ProfileApiModel {
         try await profileService.loadProfile()
     }

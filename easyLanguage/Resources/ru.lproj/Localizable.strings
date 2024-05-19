@@ -16,19 +16,26 @@
 "topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
 "progressAdvice" = "Прогресс изученных слов";
 "sortTitle" = "Выберите в каком порядке отобразить категории";
-"sortMessage" = "Сортировка категорий";
-"sortRecentlyAdded" = "Недавно добавленные";
-"sortByName" = "Названию";
+"sortRecentlyAdded" = "По недавно добавленным";
+"sortByName" = "По названию";
 "sortCancel" = "Вернуться";
+"categoryDelete" = "Удалить категорию";
 
 //MARK: - CategoryDetail
 "detailDelete" = "Удалить слово";
 "emptyCategoryAdvice" = "Нет слов в категории.\n Добавьте их по тапу на +";
+"CategoryDetailGoToStudy" = "Перейти к изучению";
+
+//MARK: - AddWord
+"addWord" = "Добавить слово";
 
 //MARK: - AddNewCategory
 "addPhotoAdvice" = "Добавить фото";
 "addCategoryButtonTitle" = "Добавить категорию";
 "categoryNamePlaceholder" = "Название категории";
+"categoryAlreadyExists" = "Категория с таким названием уже существует";
+"categoryAchivmentTitle" = "У вас новое достижение!";
+"categoryAchivmentBody" = "Нажмите чтобы перейти к ачивкам";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "В игровой форме легко учить иностранные языки";
@@ -81,6 +88,7 @@
 "reloadHeightAlert" = "Ошибка обновления высоты";
 "wordDeleteAlert" = "Ошибка при удалении слова";
 "dataPostErrorAlert" = "Не удалось отправить данные";
+"wordAlreadyExistAlert" = "Это слово уже существует";
 
 //MARK: - StatisticView
 "wordsCategories" = "Количество слов в категориях";
@@ -92,8 +100,18 @@
 "statisticWordCount" = "Количество слов";
 "emptyChart" = "Пусто!";
 
-//MARK: - AchievementStaticsBaseViewController
+//MARK: - AchievementStaticsBaseView
 "nameLabel" = "Имя";
 "achievementButton" = "Достижения";
 "statisticsButton" = "Статистика";
 "achievementStaticsTitle" = "Достижения";
+
+//MARK: - AchievementView
+"createOneCategoryLabel" = "Создай свою собственную категорию";
+"createFiveCategoriesLabel" = "Создай 5 категорий";
+"learnTenWordsLabel" = "Изучи 10 слов";
+"learnOneHundredWordsLabel" = "Изучи 100 слов";
+"learnFiveHundredWordsLabel" = "Изучи 500 слов и поезжай в Англию";
+"createFiftyWordsInOneCategoryLabel" = "Добавь 50 слов в одну категорию";
+"learnOneCategoryLabel" = "Изучи полностью одну категорию";
+"learnThreeCategoriesLabel" = "Изучи полностью три категории";

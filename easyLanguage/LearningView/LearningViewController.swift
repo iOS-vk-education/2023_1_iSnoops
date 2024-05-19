@@ -20,6 +20,8 @@ final class LearningViewController: UIViewController {
     private var modelForTopFivePost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
 
+    private var isNeedLoadAll = true
+
     // MARK: UI
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
@@ -77,7 +79,17 @@ final class LearningViewController: UIViewController {
     private var correctCount: Int = 0
     private var incorrectCount: Int = 0
 
+    init(isNeedLoadAll: Bool = true ) {
+        super.init(nibName: nil, bundle: nil)
+        self.isNeedLoadAll = isNeedLoadAll
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: LyfeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -85,12 +97,16 @@ final class LearningViewController: UIViewController {
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupProgressInfoConstraints()
-        coreDataService.loadStore()
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         correctCount = 0
         incorrectCount = 0
+        if isNeedLoadAll {
+            loadWordsFromCoreData()
+//            loadLearningWords()
+        }
 //        loadLearningWords()
         loadWordsFromCoreData()
         cardsWereSwiped = false
@@ -105,7 +121,6 @@ final class LearningViewController: UIViewController {
     // MARK: Private methods
     private func setupViews() {
         view.backgroundColor = .PrimaryColors.Background.background
-        let title = NSLocalizedString("wordTrainingTitle", comment: "")
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         view.addSubview(emptyWordsLabel)
@@ -163,7 +178,7 @@ final class LearningViewController: UIViewController {
         self.model = []
 
         let moc = coreDataService.persistentContainer.viewContext
-        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: .wordCDModel)
 
         guard let coreModel = try? moc.fetch(wordsfetch) else { return }
         for item in coreModel {
@@ -193,6 +208,24 @@ final class LearningViewController: UIViewController {
                 try await service.updateWord(words: words)
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
+            }
+        }
+    }
+}
+
+// MARK: - Internal
+
+extension LearningViewController {
+    func learnCategory(with categoryId: String) {
+        emptyWordsLabel.isHidden = true
+        Task {
+            do {
+                model = try await service.loadCategory(with: categoryId)
+                activityIndicator.stopAnimating()
+                cardStack.reloadData()
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+                model = []
             }
         }
     }

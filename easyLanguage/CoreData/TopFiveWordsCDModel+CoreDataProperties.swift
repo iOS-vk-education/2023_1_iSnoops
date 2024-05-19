@@ -17,7 +17,7 @@ public class TopFiveWordsCDModel: NSManagedObject {
 extension TopFiveWordsCDModel {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TopFiveWordsCDModel> {
-        return NSFetchRequest<TopFiveWordsCDModel>(entityName: "TopFiveWordsCDModel")
+        return NSFetchRequest<TopFiveWordsCDModel>(entityName: .topFiveWordsCDModel)
     }
 
     @NSManaged public var date: Date?

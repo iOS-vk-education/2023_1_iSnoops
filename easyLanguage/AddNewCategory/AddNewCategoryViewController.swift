@@ -10,6 +10,7 @@ import UIKit
 
 protocol AddNewCategoryOutput: AnyObject {
     func addNewCategory(with categoryModel: CategoryModel)
+    func isCategoryExist(with title: String) -> Bool
 }
 
 final class AddNewCategoryViewController: UIViewController {
@@ -18,11 +19,12 @@ final class AddNewCategoryViewController: UIViewController {
     private let textField: UITextField = UITextField()
     private let button: UIButton = UIButton()
 
-    private let imagePicker = ImagePicker()
     private var horizontalPadding: CGFloat = 0
-
-    private let model = AddNewCategoryModel()
     private var selectedImage: UIImage?
+
+    private let imagePicker = ImagePicker()
+    private let model = AddNewCategoryModel()
+    private let pushManager = PushManager.shared
 
     weak var delegate: AddNewCategoryOutput?
 }
@@ -58,28 +60,75 @@ extension AddNewCategoryViewController {
 
     @objc
     func didTapButton() {
-        guard let enteredText = textField.text, !enteredText.isEmpty else {
-            print("empty field")
+        @Trimmed var enteredText = textField.text ?? ""
+
+        guard !enteredText.isEmpty else {
+            return
+        }
+
+        guard let delegate = delegate else {
+            AlertManager.showAddNewCategoryAlert(on: self)
+            return
+        }
+
+        if delegate.isCategoryExist(with: enteredText) {
+            AlertManager.showAlert(
+                on: self,
+                title: NSLocalizedString(
+                    "categoryAlreadyExists",
+                    comment: ""
+                ),
+                message: ""
+            )
             return
         }
 
         model.createNewCategory(with: enteredText, image: selectedImage) { [weak self] result in
+            guard let self else {
+                return
+            }
+
             switch result {
             case .success(let categoryModel):
-                guard let self = self, let delegate = self.delegate else {
-                    AlertManager.showAddNewCategoryAlert(on: self ?? Self())
-                    return
+                self.delegate?.addNewCategory(with: categoryModel)
+                
+                if !UserDefaults.standard.bool(forKey: .isCompletedCreateFirstCategory) {
+                    self.pushManager.getStatus { status in
+                        if status == .allowed {
+                            self.sendNotification()
+                        }
+                    }
                 }
-                delegate.addNewCategory(with: categoryModel)
             case .failure(let error):
                 print(error)
             }
 
             DispatchQueue.main.async {
-                self?.textField.text = nil
-                self?.dismiss(animated: true)
+                self.textField.text = nil
+                self.dismiss(animated: true)
             }
         }
+    }
+}
+
+// MARK: - Pushes
+
+private extension AddNewCategoryViewController {
+    func sendNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = NSLocalizedString("categoryAchivmentTitle", comment: "")
+        content.body = NSLocalizedString("categoryAchivmentBody", comment: "")
+        content.sound = .default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        let request = UNNotificationRequest(
+            identifier: .isCompletedCreateFirstCategory,
+            content: content,
+            trigger: trigger
+        )
+
+        pushManager.add(notification: request)
+        UserDefaults.standard.set(true, forKey: .isCompletedCreateFirstCategory)
     }
 }
 
