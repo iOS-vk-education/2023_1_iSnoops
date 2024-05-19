@@ -215,6 +215,20 @@ final class LearningViewController: UIViewController {
 // MARK: - Internal
 
 extension LearningViewController {
+    func learnCDCategory(with categoryId: String) {
+        emptyWordsLabel.isHidden = true
+        Task {
+            do {
+                model = try await service.loadCDCategory(with: categoryId)
+                activityIndicator.stopAnimating()
+                cardStack.reloadData()
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+                model = []
+            }
+        }
+    }
+
     func learnCategory(with categoryId: String) {
         emptyWordsLabel.isHidden = true
         Task {
