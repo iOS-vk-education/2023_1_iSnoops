@@ -32,6 +32,8 @@ class CatalogViewController: CustomViewController {
 
     private var categoriesViewHeightConstraint: NSLayoutConstraint?
 
+    private let topFiveCDService = TopFiveWordsCDService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,7 +53,8 @@ class CatalogViewController: CustomViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        loadTopFiveWords()
+//        loadTopFiveWords()
+        loadTopFiveWordsFromCD()
         topFiveView.reloadData()
         setProgressWords()
     }
@@ -59,6 +62,23 @@ class CatalogViewController: CustomViewController {
 
 // MARK: - private methods
 private extension CatalogViewController {
+    
+    func loadTopFiveWordsFromCD() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+            let topFiveWordsFromCD = self.topFiveCDService.readWordsFromCoreData()
+            var arrayForCast: [TopFiveWordsModel] = []
+            topFiveWordsFromCD.forEach { word in
+                arrayForCast.append(TopFiveWordsModel(translate: word.translate ?? ["Ошибка": "Ошибка"],
+                                                      userId: word.userId ?? "",
+                                                      id: word.id ?? "",
+                                                      date: word.date ?? Date.now))
+            }
+            arrayForCast.reverse()
+            self.topFiveModel = arrayForCast
+            self.topFiveView.reloadData()
+        }
+    }
+    
     func loadTopFiveWords() {
         model.loadTopFiveWords { [weak self] result in
             guard let self = self else {
