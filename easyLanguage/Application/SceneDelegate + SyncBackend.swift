@@ -68,6 +68,7 @@ extension SceneDelegate {
 
     func updateBackend() {
         print("updateBackend")
+        // TODO: - вызвать синхонизацию coredataToBackend
 //        CoreDataSyncService()
     }
 

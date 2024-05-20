@@ -48,9 +48,8 @@ class CatalogViewController: CustomViewController {
 
         setProgressView()
         setTopFiveView()
-
         setCategoriesView()
-        
+
         loadTopFiveWordsFromCD()
     }
 

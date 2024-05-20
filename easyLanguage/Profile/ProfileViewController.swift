@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import FirebaseAuth
 
 final class ProfileViewController: CustomViewController, UserInformationViewDelegate {
 
@@ -133,8 +134,9 @@ private extension ProfileViewController {
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
     }
-    
+
     func setUpLogOutButton() {
+        print("логин выйти из аккаунта uid", Auth.auth().currentUser?.uid ?? "nil")
         logOutButton.setTitle(NSLocalizedString("logOutFromAccount", comment: ""), for: .normal)
         logOutButton.setTitleColor(UIColor.red, for: .normal)
         logOutButton.titleLabel?.font = TextStyle.bodyBig.font
@@ -157,9 +159,13 @@ private extension ProfileViewController {
             AuthService.shared.signOut { error in
                 if let error = error {
                     print(error.localizedDescription)
+                    AlertManager.showAlert(on: self, title: "logout error", message: "sorry(")
+                } else {
+                    // TODO: - вызвать синхонизацию coredataToBackend
+                    self.logout()
                 }
             }
-            self.logout()
+          
         }
         let cancelAction = UIAlertAction(title: NSLocalizedString("alertCancel", comment: ""), style: .default) {_ in
         }
