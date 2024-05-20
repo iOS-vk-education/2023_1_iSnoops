@@ -113,6 +113,8 @@
 		AA2229FA2BCD3F2E00BE67D5 /* AchievementStaticsBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2229F92BCD3F2E00BE67D5 /* AchievementStaticsBaseView.swift */; };
 		AA717AA92B0E678D004157D1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA717AA82B0E678D004157D1 /* ProfileViewController.swift */; };
 		AA98115B2BF3535E00A2F594 /* AchievementManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA98115A2BF3535E00A2F594 /* AchievementManager.swift */; };
+		AA9811632BF5083700A2F594 /* TopFiveWordsCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9811612BF5083700A2F594 /* TopFiveWordsCDModel+CoreDataProperties.swift */; };
+		AA9811652BF50A3900A2F594 /* TopFiveWordsCDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9811642BF50A3900A2F594 /* TopFiveWordsCDService.swift */; };
 		AA9811682BF7813500A2F594 /* AchievementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9811672BF7813500A2F594 /* AchievementModel.swift */; };
 		AA98116A2BF7825400A2F594 /* AchievementEntityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9811692BF7825400A2F594 /* AchievementEntityModel.swift */; };
 		AADADDEB2B25E24400D0C6B9 /* ChoosingThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADADDEA2B25E24400D0C6B9 /* ChoosingThemeView.swift */; };
@@ -237,6 +239,8 @@
 		AA2229F92BCD3F2E00BE67D5 /* AchievementStaticsBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementStaticsBaseView.swift; sourceTree = "<group>"; };
 		AA717AA82B0E678D004157D1 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AA98115A2BF3535E00A2F594 /* AchievementManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementManager.swift; sourceTree = "<group>"; };
+		AA9811612BF5083700A2F594 /* TopFiveWordsCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TopFiveWordsCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AA9811642BF50A3900A2F594 /* TopFiveWordsCDService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveWordsCDService.swift; sourceTree = "<group>"; };
 		AA9811672BF7813500A2F594 /* AchievementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementModel.swift; sourceTree = "<group>"; };
 		AA9811692BF7825400A2F594 /* AchievementEntityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementEntityModel.swift; sourceTree = "<group>"; };
 		AADADDEA2B25E24400D0C6B9 /* ChoosingThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosingThemeView.swift; sourceTree = "<group>"; };
@@ -689,6 +693,8 @@
 		172A76D82BF35FA2008DDCB7 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				AA9811642BF50A3900A2F594 /* TopFiveWordsCDService.swift */,
+				AA9811612BF5083700A2F594 /* TopFiveWordsCDModel+CoreDataProperties.swift */,
 				07318FF12BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift */,
 				07318FF22BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift */,
 				07318FE22BF90CAF00676B51 /* CategoryCDModel+CoreDataClass.swift */,
@@ -951,6 +957,7 @@
 				07318FF42BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift in Sources */,
 				074FF4E12BC48A56004064A3 /* AddWordInteractor.swift in Sources */,
 				0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */,
+				AA9811652BF50A3900A2F594 /* TopFiveWordsCDService.swift in Sources */,
 				07318FE42BF90CAF00676B51 /* CategoryCDModel+CoreDataClass.swift in Sources */,
 				07318FE52BF90CAF00676B51 /* CategoryCDModel+CoreDataProperties.swift in Sources */,
 				074455772B25E93F00FA5469 /* CategoryDetailModel.swift in Sources */,
@@ -1025,6 +1032,7 @@
 				07F1BE7D2AF828B000F50845 /* CatalogModel.swift in Sources */,
 				AA0C7A332B20F6D400DAF144 /* UserInformationView.swift in Sources */,
 				072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */,
+				AA9811632BF5083700A2F594 /* TopFiveWordsCDModel+CoreDataProperties.swift in Sources */,
 				07F1BE852AF828E300F50845 /* CatalogCollectionViewDelegate.swift in Sources */,
 				AADADDEB2B25E24400D0C6B9 /* ChoosingThemeView.swift in Sources */,
 				07048C062B3BA65E0050F0B5 /* AddWordService.swift in Sources */,
