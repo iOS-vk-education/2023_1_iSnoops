@@ -38,7 +38,7 @@ extension BackendSyncService: IBackendSyncService {
             await saveCategoriesToCoreData(categories: categories)
 
             let words: [WordApiModel] = try await fetchData(collection: "words", userId: userId)
-//            saveWordsToCoreData(words)
+            saveWordsToCoreData(words: words)
 
             let topFiveWords: [TopFiveWordsApiModel] = try await fetchData(collection: "topFiveWords", userId: userId)
 //            saveTopFiveWordsToCoreData(topFiveWords)
@@ -91,7 +91,6 @@ private extension BackendSyncService {
 private extension BackendSyncService {
     func saveCategoriesToCoreData(categories: [CategoryApiModel]) async {
         let moc = coreData.persistentContainer.viewContext
-        let categoriesFetch = NSFetchRequest<CategoryCDModel>(entityName: .categoryCDModel)
 
         do {
             for category in categories {
@@ -109,6 +108,24 @@ private extension BackendSyncService {
         } catch {
             print(#function, "не удалось загрузить категории (синк с беком): \(error)")
         }
+    }
+
+    func saveWordsToCoreData(words: [WordApiModel]) {
+        let moc = coreData.persistentContainer.viewContext
+
+        do {
+            for word in words {
+                let newWord = WordCDModel(context: moc)
+                newWord.categoryId = word.categoryId
+                newWord.translations = word.translations
+                newWord.isLearned = word.isLearned
+                newWord.swipesCounter = Int64(word.swipesCounter)
+                newWord.id = word.id
+            }
+            try moc.save()
+        } catch {
+           print(#function, "не удалось загрузить слова (синк с беком): \(error)")
+       }
     }
 }
 
