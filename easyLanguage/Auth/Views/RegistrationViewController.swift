@@ -72,6 +72,7 @@ final class RegistrationViewController: UIViewController {
     }()
 
     private let defaultData = DefaultData.shared
+    private let topFiveCDService = TopFiveWordsCDService()
 
     private let categoryService = AddNewCategoryService.shared
     private let wordService = AddWordService.shared
@@ -158,6 +159,7 @@ final class RegistrationViewController: UIViewController {
                 return
             }
 
+            setTopFiveToCD()
             self.addDefaultData()
 
             guard UserDefaults.standard.string(forKey: "onboardingCompleted") != nil else {
@@ -172,6 +174,13 @@ final class RegistrationViewController: UIViewController {
             tabBarController.modalPresentationStyle = .fullScreen
             present(tabBarController, animated: true, completion: nil)
         }
+    }
+
+    private func setTopFiveToCD () {
+        guard let userId = checkAuthentication() else {
+            return
+        }
+        topFiveCDService.saveWordsToCoreData(words: defaultData.getTopFive(), userId: userId)
     }
 
     private func addDefaultData() {
@@ -198,6 +207,13 @@ final class RegistrationViewController: UIViewController {
         for word in defaultData.getWords() {
             wordService.add(word, completion: { _ in })
         }
+    }
+
+    private func checkAuthentication() -> String? {
+        if let currentUser = Auth.auth().currentUser {
+            return currentUser.uid
+        }
+        return nil
     }
 
     @objc

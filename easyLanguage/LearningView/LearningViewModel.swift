@@ -69,8 +69,7 @@ final class LearningViewModel {
     private func checkAuthentication() -> String? {
         if let currentUser = Auth.auth().currentUser {
             return currentUser.uid
-        } else {
-            return nil
         }
+        return nil
     }
 }

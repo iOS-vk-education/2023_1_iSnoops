@@ -14,6 +14,12 @@ class TopFiveWordsCDService {
     }
     let persistentContainer = NSPersistentContainer(name: "CdModel")
 
+    var isUpdated: Bool = false {
+        didSet {
+            NotificationCenter.default.post(name: NSNotification.Name("topFiveWordsReadyForReading"), object: nil)
+        }
+    }
+
     lazy var fetchedResultsController: NSFetchedResultsController<TopFiveWordsCDModel> = {
         let request = TopFiveWordsCDModel.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: #keyPath(TopFiveWordsCDModel.date), ascending: true)
@@ -25,22 +31,6 @@ class TopFiveWordsCDService {
                                           cacheName: nil)
     }()
 
-    func loadStore() {
-        persistentContainer.loadPersistentStores { (_, error) in
-            if let error = error {
-                print("unable to load")
-                print("\(error), \(error.localizedDescription)")
-
-            } else {
-                do {
-                    try self.fetchedResultsController.performFetch()
-                } catch {
-                    print(error)
-                }
-            }
-        }
-    }
-
     func saveWordsToCoreData(words: [WordUIModel], userId: String) {
         if words.count >= 5 {
             let lastFiveElements = Array(words.suffix(5))
@@ -49,27 +39,7 @@ class TopFiveWordsCDService {
             let newWords = mergeWordsToFive(words: words)
             updateWordsInCoreData(words: newWords, userId: userId)
         }
-    }
-
-    func updateWordsInCoreData(words: [WordUIModel], userId: String) {
-        deleteWordsFromCoreData()
-        words.forEach { word in
-            guard let entity = NSEntityDescription.entity(
-                forEntityName: .topFiveWordsCDModel,
-                in: persistentContainer.viewContext
-            ) else {
-                print(#function, "ошибка получения данных из coreData")
-                return
-            }
-
-            let wordToCoreData = TopFiveWordsCDModel(entity: entity, insertInto: persistentContainer.viewContext)
-            wordToCoreData.id = word.id
-            wordToCoreData.date = Date.now
-            wordToCoreData.translate = word.translations
-            wordToCoreData.userId = userId
-            print("СЛОВО ИЗ WORDS:", word)
-            try? wordToCoreData.managedObjectContext?.save()
-        }
+        isUpdated.toggle()
     }
 
     func readWordsFromCoreData() -> [TopFiveWordsCDModel] {
@@ -92,7 +62,16 @@ class TopFiveWordsCDService {
         }
     }
 
+    func checkWords() {
+        readWordsFromCoreData().forEach { word in
+            print(word.translate)
+        }
+    }
+}
+// MARK: - Private methods
+private extension TopFiveWordsCDService {
     func mergeWordsToFive(words: [WordUIModel]) -> [WordUIModel] {
+        guard !words.isEmpty else { return [] }
         var newWords = words
         let categoryId = words[0].categoryId
         var wordsFromCD = readWordsFromCoreData()
@@ -103,7 +82,6 @@ class TopFiveWordsCDService {
             words.forEach { word in
                 if word.id == wordFromCD.id {
                     flag = false
-                    print(wordFromCD.translate)
                 }
             }
             if flag && newWords.count < 5 {
@@ -118,10 +96,41 @@ class TopFiveWordsCDService {
         newWords.reverse()
         return newWords
     }
-    
-    func checkWords() {
-        readWordsFromCoreData().forEach { word in
-            print(word.translate)
+
+    func updateWordsInCoreData(words: [WordUIModel], userId: String) {
+        deleteWordsFromCoreData()
+        words.forEach { word in
+            guard let entity = NSEntityDescription.entity(
+                forEntityName: .topFiveWordsCDModel,
+                in: persistentContainer.viewContext
+            ) else {
+                print(#function, "ошибка получения данных из coreData")
+                return
+            }
+            
+            let wordToCoreData = TopFiveWordsCDModel(entity: entity, insertInto: persistentContainer.viewContext)
+            wordToCoreData.id = word.id
+            wordToCoreData.date = Date.now
+            wordToCoreData.translate = word.translations
+            wordToCoreData.userId = userId
+            print("СЛОВО ИЗ WORDS:", word)
+            try? wordToCoreData.managedObjectContext?.save()
+        }
+    }
+
+    func loadStore() {
+        persistentContainer.loadPersistentStores { (_, error) in
+            if let error = error {
+                print("unable to load")
+                print("\(error), \(error.localizedDescription)")
+                
+            } else {
+                do {
+                    try self.fetchedResultsController.performFetch()
+                } catch {
+                    print(error)
+                }
+            }
         }
     }
 }
