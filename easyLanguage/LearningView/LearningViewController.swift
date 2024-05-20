@@ -202,7 +202,7 @@ final class LearningViewController: UIViewController {
     }
     private func setupReloadButtonConstraints() {
         reloadButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                          constant: 0).isActive = true
+                                          constant: 10).isActive = true
         reloadButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                                                constant: -20).isActive = true
     }
@@ -270,7 +270,10 @@ final class LearningViewController: UIViewController {
         self.model = []
         let moc = coreDataService.persistentContainer.viewContext
         let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
-        guard let coreModel = try? moc.fetch(wordsfetch) else { return }
+        guard let coreModel = try? moc.fetch(wordsfetch) else {
+            AlertManager.showEmptyLearningModel(on: self)
+            return
+        }
         for item in coreModel {
             self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
                                           translations: item.translations ?? [:],
@@ -280,6 +283,36 @@ final class LearningViewController: UIViewController {
         }
         activityIndicator.stopAnimating()
         cardStack.reloadData()
+    }
+
+    private func changeWordLearningCount(with id: String, change: Bool) {
+        let moc = coreDataService.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        guard let coreModel = try? moc.fetch(fetchRequest) else { 
+            AlertManager.showEmptyLearningModel(on: self)
+            return
+        }
+        if !coreModel.isEmpty {
+            guard let word = coreModel.first else {
+                AlertManager.showEmptyLearningModel(on: self)
+                return
+            }
+            if change {
+                if word.swipesCounter < 5 {
+                    word.swipesCounter += 1
+                }
+                if word.swipesCounter == 5 {
+                    word.isLearned = true
+                }
+            } else {
+                if word.swipesCounter > 0 {
+                    word.swipesCounter -= 1
+                }
+            }
+            print(word)
+            try? moc.save()
+        }
     }
 
     private func postToTopFive() {
@@ -413,19 +446,24 @@ extension LearningViewController: SwipeCardStackDelegate {
         cardsWereSwiped = true
         switch direction {
         case .right:
-            model[index].swipesCounter += 1
-            if model[index].swipesCounter == 5 {
-                model[index].isLearned = true
-            }
+//            model[index].swipesCounter += 1
+//            if model[index].swipesCounter == 5 {
+//                model[index].isLearned = true
+//            }
             updateWord(words: model[index])
             modelForPost.append(model[index])
+
+            changeWordLearningCount(with: model[index].id,
+                                    change: true)
         case .left:
-            if model[index].swipesCounter != 0 {
-                model[index].swipesCounter -= 1
-            }
-            updateWord(words: model[index])
-            modelForPost.append(model[index])
-            modelForTopFivePost.append(model[index])
+            changeWordLearningCount(with: model[index].id,
+                                    change: false)
+//            if model[index].swipesCounter != 0 {
+//                model[index].swipesCounter -= 1
+//            }
+//            updateWord(words: model[index])
+//            modelForPost.append(model[index])
+//            modelForTopFivePost.append(model[index])
         default:
             break
         }
