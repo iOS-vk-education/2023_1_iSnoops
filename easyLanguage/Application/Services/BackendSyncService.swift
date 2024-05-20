@@ -20,7 +20,7 @@ final class BackendSyncService {
     static let shared: IBackendSyncService = BackendSyncService()
     private init() {}
 
-    static let coreData = CoreDataService()
+    private let coreData = CoreDataService()
     private let dataBase = Firestore.firestore()
 }
 
@@ -35,7 +35,7 @@ extension BackendSyncService: IBackendSyncService {
 
         do {
             let categories: [CategoryApiModel] = try await fetchData(collection: "categories", userId: userId)
-//            saveCategoriesToCoreData(categories)
+            await saveCategoriesToCoreData(categories: categories)
 
             let words: [WordApiModel] = try await fetchData(collection: "words", userId: userId)
 //            saveWordsToCoreData(words)
@@ -51,7 +51,7 @@ extension BackendSyncService: IBackendSyncService {
     }
 }
 
-// MARK: - Fetchers
+// MARK: - Fetch
 
 private extension BackendSyncService {
     func fetchData<T: Decodable>(collection: String, userId: String) async throws -> [T] {
@@ -86,10 +86,88 @@ private extension BackendSyncService {
     }
 }
 
+// MARK: - Save to coreData
+
+private extension BackendSyncService {
+    func saveCategoriesToCoreData(categories: [CategoryApiModel]) async {
+        let moc = coreData.persistentContainer.viewContext
+        let categoriesFetch = NSFetchRequest<CategoryCDModel>(entityName: .categoryCDModel)
+
+        do {
+            for category in categories {
+                let newCategory = CategoryCDModel(context: moc)
+                let (total, learned) = try await loadWordsForCategory(with: category.linkedWordsId)
+                newCategory.createdDate = category.createdDate
+                newCategory.imageData = stringToData(with: category.imageLink)
+                newCategory.linkedWordsId = category.linkedWordsId
+                newCategory.studiedWordsCount = Int64(learned)
+                newCategory.title = category.title
+                newCategory.totalWordsCount = Int64(total)
+                newCategory.isDefault = category.isDefault
+            }
+            try moc.save()
+        } catch {
+            print(#function, "не удалось загрузить категории (синк с беком): \(error)")
+        }
+    }
+}
+
 // MARK: - Helpers
 
 private extension BackendSyncService {
     func getCurrentUserId() -> String? {
         return Auth.auth().currentUser?.uid
     }
+
+    func stringToData(with strLink: String?) -> Data? {
+        var data: Data? = Data()
+        guard let strLink = strLink,
+              let url = URL(string: strLink) else {
+            data = imageToData()
+            return data
+        }
+
+        ImageManager.shared.loadImage(from: url) { [weak self] result in
+            switch result {
+            case .success(let imgData):
+                data = imgData
+            case .failure(let error):
+                data = self?.imageToData()
+            }
+        }
+        return data
+    }
+
+    func imageToData(image: UIImage = UIImage.defaultImage) -> Data? {
+       image.jpegData(compressionQuality: 0.2)
+    }
+
+    func loadWordsForCategory(with categoryId: String) async throws -> (total: Int, studied: Int) {
+        return try await withCheckedThrowingContinuation { continuation in
+            dataBase.collection("words").whereField("categoryId",
+                                        isEqualTo: categoryId).getDocuments { querySnapshot, error in
+                if let error = error {
+                    print(error)
+                    continuation.resume(throwing: error)
+                }
+
+                guard let documents = querySnapshot?.documents else {
+                    continuation.resume(throwing: NetworkError.unexpected)
+                    return
+                }
+
+                let totalWordsCount = documents.count
+                let studiedWordsCount = documents.filter { document in
+                    (try? document.data(as: WordApiModel.self))?.isLearned == true
+                }.count
+
+                let result = (total: totalWordsCount, studied: studiedWordsCount)
+                continuation.resume(returning: result)
+            }
+        }
+    }
+}
+
+private extension UIImage {
+    static let defaultImage = UIImage(systemName: "questionmark")!
 }
