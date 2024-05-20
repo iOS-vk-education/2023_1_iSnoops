@@ -69,7 +69,7 @@ private extension CatalogViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(loadTopFiveWordsFromCD),
-            name: NSNotification.Name("topFiveWordsReadyForReading"),
+            name: NSNotification.Name(.topFiveWordsReadyForReading),
             object: nil)
     }
 

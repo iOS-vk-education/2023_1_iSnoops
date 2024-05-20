@@ -17,4 +17,5 @@ extension String {
 /// UserDefaults keys
 extension String {
     static let isCompletedCreateFirstCategory = "isCompletedCreateFirstCategory"
+    static let topFiveWordsReadyForReading = "topFiveWordsReadyForReading"
 }

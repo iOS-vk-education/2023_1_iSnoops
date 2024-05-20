@@ -16,7 +16,7 @@ class TopFiveWordsCDService {
 
     var isUpdated: Bool = false {
         didSet {
-            NotificationCenter.default.post(name: NSNotification.Name("topFiveWordsReadyForReading"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(.topFiveWordsReadyForReading), object: nil)
         }
     }
 
@@ -44,7 +44,7 @@ class TopFiveWordsCDService {
 
     func readWordsFromCoreData() -> [TopFiveWordsCDModel] {
         let moc = self.persistentContainer.viewContext
-        let wordsfetch = NSFetchRequest<TopFiveWordsCDModel>(entityName: "TopFiveWordsCDModel")
+        let wordsfetch = NSFetchRequest<TopFiveWordsCDModel>(entityName: .topFiveWordsCDModel)
         guard let coreModel = try? moc.fetch(wordsfetch) else { return [] }
         return coreModel
     }
