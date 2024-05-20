@@ -161,6 +161,8 @@ final class RegistrationViewController: UIViewController {
                 self.enableButton(button: self.registrationButton)
                 return
             }
+            // TODO: - вызвать синхонизацию coredataToBackend
+            CoreDataService().deleteAllData()
 
             Task {
                 await self.addDefaultData()

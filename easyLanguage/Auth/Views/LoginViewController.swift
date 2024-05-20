@@ -120,6 +120,8 @@ final class LoginViewController: UIViewController {
                 }
                 return
             } else {
+                // TODO: - вызвать синхонизацию coredataToBackend
+                CoreDataService().deleteAllData()
                 let controller = TabBarController()
                 controller.modalPresentationStyle = .fullScreen
                 self.present(controller, animated: true, completion: nil)

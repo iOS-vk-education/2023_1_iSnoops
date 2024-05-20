@@ -234,35 +234,23 @@ extension CoreDataService {
 }
 
 // MARK: - удаление данных для синхронизации с беком
-// TODO: - топ5 слов удаление
 
 extension CoreDataService {
     func deleteAllData() {
-        deleteAllWords()
-        deleteAllCategories()
+        deleteAllEntities(entity: WordCDModel.self, errorMessage: "слова")
+        deleteAllEntities(entity: CategoryCDModel.self, errorMessage: "категории")
+        deleteAllEntities(entity: TopFiveWordsCDModel.self, errorMessage: "топ5 слов")
     }
 
-    private func deleteAllWords() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = WordCDModel.fetchRequest()
+    private func deleteAllEntities<T: NSManagedObject>(entity: T.Type, errorMessage: String) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = entity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
 
         do {
             try persistentContainer.viewContext.execute(deleteRequest)
             try persistentContainer.viewContext.save()
         } catch {
-            print("не удалось удалить слова", error.localizedDescription)
-        }
-    }
-
-    private func deleteAllCategories() {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CategoryCDModel.fetchRequest()
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
-        do {
-            try persistentContainer.viewContext.execute(deleteRequest)
-            try persistentContainer.viewContext.save()
-        } catch {
-            print("не удалось удалить категории", error.localizedDescription)
+            print("не удалось удалить \(errorMessage): \(error.localizedDescription)")
         }
     }
 }
