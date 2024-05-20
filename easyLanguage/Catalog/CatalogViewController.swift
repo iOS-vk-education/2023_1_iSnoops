@@ -32,6 +32,8 @@ class CatalogViewController: CustomViewController {
 
     private var categoriesViewHeightConstraint: NSLayoutConstraint?
 
+    private let topFiveCDService = TopFiveWordsCDService()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -48,10 +50,13 @@ class CatalogViewController: CustomViewController {
         setTopFiveView()
 
         setCategoriesView()
+        
+        loadTopFiveWordsFromCD()
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        loadTopFiveWords()
+//        loadTopFiveWords()
+        setupCDMonitoring()
         topFiveView.reloadData()
         setProgressWords()
     }
@@ -59,6 +64,15 @@ class CatalogViewController: CustomViewController {
 
 // MARK: - private methods
 private extension CatalogViewController {
+
+    func setupCDMonitoring () {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(loadTopFiveWordsFromCD),
+            name: NSNotification.Name(.topFiveWordsReadyForReading),
+            object: nil)
+    }
+
     func loadTopFiveWords() {
         model.loadTopFiveWords { [weak self] result in
             guard let self = self else {
@@ -72,6 +86,22 @@ private extension CatalogViewController {
                 AlertManager.showDataLoadErrorAlert(on: self)
                 print(error.localizedDescription)
             }
+        }
+    }
+
+    @objc func loadTopFiveWordsFromCD() {
+        let topFiveWordsFromCD = self.topFiveCDService.readWordsFromCoreData()
+        var arrayForCast: [TopFiveWordsModel] = []
+        topFiveWordsFromCD.forEach { word in
+            arrayForCast.append(TopFiveWordsModel(translate: word.translate ?? ["Ошибка": "Ошибка"],
+                                                  userId: word.userId ?? "",
+                                                  id: word.id ?? "",
+                                                  date: word.date ?? Date.now))
+        }
+        arrayForCast.reverse()
+        self.topFiveModel = arrayForCast
+        DispatchQueue.main.async {
+            self.topFiveView.reloadData()
         }
     }
 

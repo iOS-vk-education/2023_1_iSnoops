@@ -195,6 +195,7 @@ final class LearningViewController: UIViewController {
         Task {
             do {
                 try await service.postWords(words: modelForTopFivePost)
+                modelForTopFivePost = []
             } catch {
                 AlertManager.showEmptyLearningModel(on: self)
             }
