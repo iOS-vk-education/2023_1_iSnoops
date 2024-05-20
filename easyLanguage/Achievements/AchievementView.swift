@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct AchievementView: View {
-    
+
     @State var answers: [AchievementModel] = []
     @State var achievements: [AchievementEntityModel] = testData
     
@@ -19,7 +19,7 @@ struct AchievementView: View {
         static let imageHeight: CGFloat = 40
         static let textHeight: CGFloat = 50
     }
-    
+
     var body: some View {
         List(achievements) { achievement in
             HStack(spacing: Constants.marginLeft) {
@@ -42,7 +42,6 @@ struct AchievementView: View {
             let combinedData = zip(testData, answers)
             achievements = combinedData.map { testData, answer in
                 return AchievementEntityModel(text: testData.text, achievementModel: answer)
-                
             }
         }
     }
