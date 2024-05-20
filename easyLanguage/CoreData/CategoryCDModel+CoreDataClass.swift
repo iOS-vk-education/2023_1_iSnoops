@@ -2,7 +2,7 @@
 //  CategoryCDModel+CoreDataClass.swift
 //  easyLanguage
 //
-//  Created by Grigoriy on 17.05.2024.
+//  Created by Grigoriy on 18.05.2024.
 //
 //
 

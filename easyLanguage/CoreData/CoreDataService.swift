@@ -40,7 +40,7 @@ final class CoreDataService {
     }
 }
 
-// MARK: - Methods
+// MARK: - Words Methods
 
 extension CoreDataService {
     func saveWordToCoreData(model: WordApiModel) {
@@ -56,46 +56,7 @@ extension CoreDataService {
         try? wordToCoreData.managedObjectContext?.save()
     }
 
-    func saveCategory(with category: CategoryModel, imageData: Data?) {
-        guard let entity = NSEntityDescription.entity(
-            forEntityName: .categoryCDModel,
-            in: persistentContainer.viewContext
-        ) else {
-            print(#function, "ошибка получения данных из coreData")
-            return
-        }
-
-        let categoryToCoreData = CategoryCDModel(entity: entity, insertInto: persistentContainer.viewContext)
-
-        categoryToCoreData.createdDate = category.createdDate
-        categoryToCoreData.index = Int64(category.index ?? 0)
-        categoryToCoreData.linkedWordsId = category.linkedWordsId
-        categoryToCoreData.studiedWordsCount = Int64(category.studiedWordsCount)
-        categoryToCoreData.totalWordsCount = Int64(category.totalWordsCount)
-        categoryToCoreData.title = category.title
-        categoryToCoreData.imageData = imageData
-
-        try? categoryToCoreData.managedObjectContext?.save()
-    }
-
-    func deleteCategory(with id: String) throws -> Error? {
-        let fetchRequest: NSFetchRequest<CategoryCDModel> = CategoryCDModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "linkedWordsId == %@", id)
-
-        do {
-            let categories = try persistentContainer.viewContext.fetch(fetchRequest)
-            for category in categories {
-                deleteWords(for: category)  // Удаление всех слов, связанных с этой категорией
-                persistentContainer.viewContext.delete(category)
-            }
-
-            try persistentContainer.viewContext.save()
-            return nil
-        } catch {
-            return error
-        }
-    }
-
+    // загрузка количества слов, связанных с этой категорией (для главного экрана)
     func loadWordsCounts(with linkedWordsId: String) -> (Int, Int) {
         let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "categoryId == %@", linkedWordsId)
@@ -123,6 +84,110 @@ extension CoreDataService {
             }
         } catch {
             print("deleteWords error \(error)")
+        }
+    }
+
+    func reloadIsLearned(with id: String, isLearned: Bool, swipesCounter: Int) {
+        let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+        do {
+            let words = try persistentContainer.viewContext.fetch(fetchRequest)
+            if let word = words.first {
+                word.isLearned = isLearned
+                word.swipesCounter = Int64(swipesCounter)
+                try persistentContainer.viewContext.save()
+            }
+        } catch {
+            print(#function, "не получилось обновить IsLearned \(error.localizedDescription)")
+        }
+    }
+
+    func deleteWord(with id: String) throws -> Error? {
+        let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+
+        do {
+            let words = try persistentContainer.viewContext.fetch(fetchRequest)
+            if let word = words.first {
+                persistentContainer.viewContext.delete(word)
+                try persistentContainer.viewContext.save()
+            }
+        } catch {
+            return error
+        }
+        return nil
+    }
+
+    /// для изучения конкретной категории, подгружаем неизученные слова
+    func loadWordsInCategory(with categoryId: String) async throws -> [WordUIModel] {
+        return try await withCheckedThrowingContinuation { continuation in
+            let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+            fetchRequest.predicate = NSPredicate(
+                format: "categoryId == %@ AND isLearned == %@",
+                categoryId, NSNumber(value: false)
+            )
+
+            do {
+                let words = try persistentContainer.viewContext.fetch(fetchRequest)
+                let wordUIModels = words.map { word in
+                    WordUIModel(
+                        categoryId: word.categoryId ?? "",
+                        translations: word.translations ?? [:],
+                        isLearned: word.isLearned,
+                        swipesCounter: Int(word.swipesCounter),
+                        id: word.id ?? ""
+                    )
+                }
+                continuation.resume(returning: wordUIModels)
+            } catch {
+                continuation.resume(throwing: error)
+            }
+        }
+    }
+}
+
+// MARK: - Categories Methods
+
+extension CoreDataService {
+    func saveCategory(with category: CategoryModel, imageData: Data? = nil) {
+        guard let entity = NSEntityDescription.entity(
+            forEntityName: .categoryCDModel,
+            in: persistentContainer.viewContext
+        ) else {
+            print(#function, "ошибка получения данных из coreData")
+            return
+        }
+
+        let categoryToCoreData = CategoryCDModel(entity: entity, insertInto: persistentContainer.viewContext)
+
+        categoryToCoreData.createdDate = category.createdDate
+        categoryToCoreData.index = Int64(category.index ?? 0)
+        categoryToCoreData.linkedWordsId = category.linkedWordsId
+        categoryToCoreData.studiedWordsCount = Int64(category.studiedWordsCount)
+        categoryToCoreData.totalWordsCount = Int64(category.totalWordsCount)
+        categoryToCoreData.title = category.title
+        categoryToCoreData.imageData = imageData
+        categoryToCoreData.isDefault = category.isDefault
+
+        try? categoryToCoreData.managedObjectContext?.save()
+    }
+
+    func deleteCategory(with id: String) throws -> Error? {
+        let fetchRequest: NSFetchRequest<CategoryCDModel> = CategoryCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "linkedWordsId == %@", id)
+
+        do {
+            let categories = try persistentContainer.viewContext.fetch(fetchRequest)
+            for category in categories {
+                deleteWords(for: category)  // Удаление всех слов, связанных с этой категорией
+                persistentContainer.viewContext.delete(category)
+            }
+
+            try persistentContainer.viewContext.save()
+            return nil
+        } catch {
+            return error
         }
     }
 }

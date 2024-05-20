@@ -31,7 +31,11 @@
 		072B92582B1CF5BB006CA4C1 /* CategoryApiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */; };
 		072B925C2B1CF952006CA4C1 /* TopFiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B925B2B1CF951006CA4C1 /* TopFiveService.swift */; };
 		072B92792B1E0BDB006CA4C1 /* AddNewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */; };
+		07318FE42BF90CAF00676B51 /* CategoryCDModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FE22BF90CAF00676B51 /* CategoryCDModel+CoreDataClass.swift */; };
+		07318FE52BF90CAF00676B51 /* CategoryCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FE32BF90CAF00676B51 /* CategoryCDModel+CoreDataProperties.swift */; };
 		07318FEA2BF9F85400676B51 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FE92BF9F85400676B51 /* NetworkMonitor.swift */; };
+		07318FF32BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FF12BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift */; };
+		07318FF42BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07318FF22BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift */; };
 		074455492B223D1400FA5469 /* AddWordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455482B223D1400FA5469 /* AddWordViewController.swift */; };
 		074455622B24EFD200FA5469 /* WordsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455612B24EFD200FA5469 /* WordsService.swift */; };
 		074455732B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074455722B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift */; };
@@ -51,8 +55,6 @@
 		076875A92BF8D69E00342BAE /* Mocks.AddWordViewMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 076875A82BF8D69E00342BAE /* Mocks.AddWordViewMock.swift */; };
 		078ACB5E2BF74D7300BCA906 /* AddWordInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB5D2BF74D7300BCA906 /* AddWordInteractorTests.swift */; };
 		078ACB612BF74FF500BCA906 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB602BF74FF500BCA906 /* Mocks.swift */; };
-		078ACB682BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB662BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift */; };
-		078ACB692BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB672BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift */; };
 		078ACB6C2BF7902E00BCA906 /* String + ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078ACB6B2BF7902E00BCA906 /* String + ext.swift */; };
 		078FA6302B2CC6B3007166DB /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA62F2B2CC6B3007166DB /* FirebaseAuth */; };
 		078FA63C2B2CC6B3007166DB /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 078FA63B2B2CC6B3007166DB /* FirebaseFirestore */; };
@@ -157,7 +159,11 @@
 		072B92552B1CF5BB006CA4C1 /* CategoryApiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryApiModel.swift; path = easyLanguage/Network/ApiModels/CategoryApiModel.swift; sourceTree = SOURCE_ROOT; };
 		072B925B2B1CF951006CA4C1 /* TopFiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopFiveService.swift; sourceTree = "<group>"; };
 		072B92782B1E0BDA006CA4C1 /* AddNewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCategoryViewController.swift; sourceTree = "<group>"; };
+		07318FE22BF90CAF00676B51 /* CategoryCDModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCDModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		07318FE32BF90CAF00676B51 /* CategoryCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		07318FE92BF9F85400676B51 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		07318FF12BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileCDModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		07318FF22BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProfileCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		074455482B223D1400FA5469 /* AddWordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordViewController.swift; sourceTree = "<group>"; };
 		074455612B24EFD200FA5469 /* WordsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordsService.swift; sourceTree = "<group>"; };
 		074455722B25E8F700FA5469 /* CategoryDetailCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailCollectionViewDelegate.swift; sourceTree = "<group>"; };
@@ -178,8 +184,6 @@
 		078ACB542BF74D5C00BCA906 /* easyLanguageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = easyLanguageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		078ACB5D2BF74D7300BCA906 /* AddWordInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWordInteractorTests.swift; sourceTree = "<group>"; };
 		078ACB602BF74FF500BCA906 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
-		078ACB662BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCDModel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		078ACB672BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryCDModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		078ACB6B2BF7902E00BCA906 /* String + ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String + ext.swift"; sourceTree = "<group>"; };
 		0799EDA82B3C9C3000C0C04F /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		0799EDAA2B3C9C3A00C0C04F /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
@@ -691,8 +695,10 @@
 			children = (
 				AA9811642BF50A3900A2F594 /* TopFIveWordsCDService.swift */,
 				AA9811612BF5083700A2F594 /* TopFiveWordsCDModel+CoreDataProperties.swift */,
-				078ACB662BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift */,
-				078ACB672BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift */,
+				07318FF12BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift */,
+				07318FF22BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift */,
+				07318FE22BF90CAF00676B51 /* CategoryCDModel+CoreDataClass.swift */,
+				07318FE32BF90CAF00676B51 /* CategoryCDModel+CoreDataProperties.swift */,
 				172A76D42BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift */,
 				172A76D52BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift */,
 				172A76CB2BF2575D008DDCB7 /* CdModel.xcdatamodeld */,
@@ -947,9 +953,13 @@
 				172A76D32BF258AD008DDCB7 /* CoreDataService.swift in Sources */,
 				0799EDBD2B3D821700C0C04F /* LearningViewModel.swift in Sources */,
 				074FF4E52BC491C6004064A3 /* AddWordEvents.swift in Sources */,
+				07318FF32BFA607200676B51 /* ProfileCDModel+CoreDataClass.swift in Sources */,
+				07318FF42BFA607200676B51 /* ProfileCDModel+CoreDataProperties.swift in Sources */,
 				074FF4E12BC48A56004064A3 /* AddWordInteractor.swift in Sources */,
 				0799EDBB2B3D820F00C0C04F /* LearningViewService.swift in Sources */,
 				AA9811652BF50A3900A2F594 /* TopFIveWordsCDService.swift in Sources */,
+				07318FE42BF90CAF00676B51 /* CategoryCDModel+CoreDataClass.swift in Sources */,
+				07318FE52BF90CAF00676B51 /* CategoryCDModel+CoreDataProperties.swift in Sources */,
 				074455772B25E93F00FA5469 /* CategoryDetailModel.swift in Sources */,
 				172A76D62BF25EDA008DDCB7 /* WordCDModel+CoreDataClass.swift in Sources */,
 				172A76D72BF25EDA008DDCB7 /* WordCDModel+CoreDataProperties.swift in Sources */,
@@ -983,8 +993,6 @@
 				17F57F042B3B697100E6B7FE /* AuthService.swift in Sources */,
 				17DD8A262BE903C900B4DB67 /* StatisticService.swift in Sources */,
 				0744557F2B25E9BA00FA5469 /* CategoryDetailCollectionViewCell.swift in Sources */,
-				078ACB682BF777C500BCA906 /* CategoryCDModel+CoreDataClass.swift in Sources */,
-				078ACB692BF777C500BCA906 /* CategoryCDModel+CoreDataProperties.swift in Sources */,
 				17DD8A222BE8E6A400B4DB67 /* StatisticViewModel.swift in Sources */,
 				074455492B223D1400FA5469 /* AddWordViewController.swift in Sources */,
 				0708114D2B29B6D000623B74 /* CategoriesViewController.swift in Sources */,

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddNewCategoryOutput: AnyObject {
-    func addNewCategory(with categoryModel: CategoryModel)
+    func categoryDidAdded(with categoryModel: CategoryModel)
     func isCategoryExist(with title: String) -> Bool
 }
 
@@ -90,8 +90,8 @@ extension AddNewCategoryViewController {
 
             switch result {
             case .success(let categoryModel):
-                self.delegate?.addNewCategory(with: categoryModel)
-                
+                delegate.categoryDidAdded(with: categoryModel)
+
                 if !UserDefaults.standard.bool(forKey: .isCompletedCreateFirstCategory) {
                     self.pushManager.getStatus { status in
                         if status == .allowed {
