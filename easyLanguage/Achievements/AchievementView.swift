@@ -9,27 +9,27 @@ import Foundation
 import SwiftUI
 
 struct AchievementView: View {
-
+    
     @State var answers: [AchievementModel] = []
     @State var achievements: [AchievementEntityModel] = testData
-
+    
     private enum Constants {
         static let marginLeft: CGFloat = 15
         static let imageWidth: CGFloat = 36
         static let imageHeight: CGFloat = 40
         static let textHeight: CGFloat = 50
     }
-
+    
     var body: some View {
         List(achievements) { achievement in
             HStack(spacing: Constants.marginLeft) {
-                    if let achievementModel = achievement.achievementModel {
-                        Image((achievementModel.isAchievementDone) ? "AchievementDone" : "AchievementNotDone")
-                            .resizable()
-                            .frame(width: Constants.imageWidth, height: Constants.imageHeight)
-                    } else {
-                        SwiftUI.ProgressView()
-                    }
+                if let achievementModel = achievement.achievementModel {
+                    Image((achievementModel.isAchievementDone) ? "AchievementDone" : "AchievementNotDone")
+                        .resizable()
+                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                } else {
+                    SwiftUI.ProgressView()
+                }
                 Text(achievement.text)
                     .frame(height: Constants.textHeight)
             }
@@ -37,17 +37,12 @@ struct AchievementView: View {
         }
         .listStyle(.plain)
         .onAppear {
-            CategoriesModel().loadCategories { result in
-                switch result {
-                case .success(let categories):
-                    answers = AchievementManager(categories: categories).getAnswers()
-                    let combinedData = zip(testData, answers)
-                    achievements = combinedData.map { testData, answer in
-                        return AchievementEntityModel(text: testData.text, achievementModel: answer)
-                    }
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            let categories = CategoriesModel().loadCDCategories()
+            answers = AchievementManager(categories: categories).getAnswers()
+            let combinedData = zip(testData, answers)
+            achievements = combinedData.map { testData, answer in
+                return AchievementEntityModel(text: testData.text, achievementModel: answer)
+                
             }
         }
     }
