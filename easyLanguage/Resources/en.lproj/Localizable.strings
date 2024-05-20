@@ -33,6 +33,8 @@
 "addCategoryButtonTitle" = "Add Category";
 "categoryNamePlaceholder" = "Category Name";
 "categoryAlreadyExists" = "Category with this name already exists";
+ "categoryAchivmentTitle" = "You have a new achievement!";
+ "categoryAchivmentBody" = "Click to go to achievements";
 
 //MARK: - Onboarding
 "gameplayLanguageLearningTitle" = "Learn foreign languages easily through gameplay";
@@ -104,3 +106,12 @@
 "statisticsButton" = "Statistics";
 "achievementStaticsTitle" = "Achievements";
 
+//MARK: - AchievementView
+"createOneCategoryLabel" = "Create your own category";
+"createFiveCategoriesLabel" = "Create 5 categories";
+"learnTenWordsLabel" = "Learn 10 words";
+"learnOneHundredWordsLabel" = "Learn 100 words";
+"learnFiveHundredWordsLabel" = "Learn 500 words and go to England";
+"createFiftyWordsInOneCategoryLabel" = "Add 50 words to one category";
+"learnOneCategoryLabel" = "Explore one category completely";
+"learnThreeCategoriesLabel" = "Explore three categories completely";

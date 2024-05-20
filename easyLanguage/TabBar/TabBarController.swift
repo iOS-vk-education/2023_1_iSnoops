@@ -36,7 +36,7 @@ final class TabBarController: UITabBarController {
                 userInformationViewOutput: UserInformationView()
             )
         )
-        let title = "Профиль"
+        let title = NSLocalizedString("profileTitle", comment: "")
         let image = UIImage(systemName: "person.fill")
         profileViewController.tabBarItem = UITabBarItem(title: title, image: image, tag: 2)
         return profileViewController

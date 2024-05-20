@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 struct UpdateCountWordsParameters {
     let linkedWordsId: String
@@ -33,6 +34,7 @@ final class CategoriesViewController: UIViewController {
     private let imageManager = ImageManager.shared
     private let model = CategoriesModel()
     private var categoryModel: [CategoryModel] = []
+    private let coreData = CoreDataService()
 
     private let titleLabel: UILabel = UILabel()
     private let addNewCategoryLogo: UIImageView = UIImageView()
@@ -54,7 +56,8 @@ extension CategoriesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadCategories()
+//        loadCategories()
+        loadFromCoreData()
 
         setAppearance()
         [collectionView, titleLabel, addNewCategoryLogo, sortCategoriesLogo].forEach {
@@ -68,7 +71,8 @@ extension CategoriesViewController {
     }
 }
 
-// MARK: - public func
+// MARK: - Internal
+
 extension CategoriesViewController {
     func calculateCategoriesCollectionViewHeight() -> CGFloat {
         let isEvenCount = categoryModel.count % 2 == 0
@@ -79,7 +83,21 @@ extension CategoriesViewController {
     }
 }
 
+// MARK: - CoreData
+
+extension CategoriesViewController {
+    func loadFromCoreData() {
+        categoryModel = model.loadCDCategories()
+
+        DispatchQueue.main.async {
+            self.categorieseOutputDelegate?.reloadHeight()
+            self.collectionView.reloadData()
+        }
+    }
+}
+
 // MARK: - Networking
+
 private extension CategoriesViewController {
     func loadCategories() {
         model.loadCategories { [weak self] result in
@@ -211,6 +229,18 @@ extension CategoriesViewController: InputCategoriesDelegate {
     }
 
     func item(at index: Int, completion: @escaping (CategoryUIModel) -> Void) {
+        if let imageData = categoryModel[index].imageData {
+            completion(CategoryUIModel(
+                title: categoryModel[index].title,
+                image: UIImage(data: imageData),
+                studiedWordsCount: categoryModel[index].studiedWordsCount,
+                totalWordsCount: categoryModel[index].totalWordsCount,
+                index: categoryModel[index].index ?? 0,
+                linkedWordsId: categoryModel[index].linkedWordsId)
+            )
+            return
+        }
+
         guard let imageLink = categoryModel[index].imageLink,
               let url = URL(string: imageLink) else {
             completion(CategoryUIModel())
@@ -246,10 +276,24 @@ private extension CategoriesViewController {
      func addActionToDeleteWord(with id: String, to alertController: UIAlertController) {
         let deleteAction = UIAlertAction(title: NSLocalizedString("categoryDelete", comment: ""),
                                          style: .destructive) { _ in
-            self.handleDeleteCategory(with: id)
+//            self.handleDeleteCategory(with: id)
+            self.deleteCategoryFromCoreData(with: id)
         }
 
         alertController.addAction(deleteAction)
+    }
+
+    func deleteCategoryFromCoreData(with id: String) {
+        do {
+            try coreData.deleteCategory(with: id)
+            categoryModel.removeAll(where: { $0.linkedWordsId == id })
+            DispatchQueue.main.async {
+                self.categorieseOutputDelegate?.reloadHeight()
+                self.collectionView.reloadData()
+            }
+        } catch {
+            AlertManager.showAlert(on: self, title: "Error with deleting category", message: nil)
+        }
     }
 
     func handleDeleteCategory(with id: String) {
@@ -359,16 +403,18 @@ extension CategoriesViewController: AddNewCategoryOutput {
         categoryModel.contains { $0.title == title }
     }
 
-    func addNewCategory(with categoryModel: CategoryModel) {
+    func categoryDidAdded(with categoryModel: CategoryModel) {
         DispatchQueue.main.async {
 
             self.categoryModel.append(CategoryModel(title: categoryModel.title,
                                                     imageLink: categoryModel.imageLink,
+                                                    imageData: categoryModel.imageData,
                                                     studiedWordsCount: categoryModel.studiedWordsCount,
                                                     totalWordsCount: categoryModel.totalWordsCount,
                                                     createdDate: categoryModel.createdDate,
                                                     linkedWordsId: categoryModel.linkedWordsId,
-                                                    index: self.categoryModel.count + 1))
+                                                    index: self.categoryModel.count + 1,
+                                                    isDefault: false))
 
             self.categorieseOutputDelegate?.reloadHeight()
             self.collectionView.reloadData()

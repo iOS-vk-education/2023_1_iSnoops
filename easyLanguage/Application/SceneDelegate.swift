@@ -7,6 +7,7 @@
 // swiftlint:disable all
 import UIKit
 import FirebaseAuth
+import SwiftUI
 
 protocol switchAndFindButtonDelegate: AnyObject {
     func switchAndFindButton(theme: String)
@@ -45,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     public func checkAuthentication() {
         if Auth.auth().currentUser == nil {
-            self.goToController(with: RegistrationViewController())
+            self.goToController(with: UINavigationController(rootViewController: RegistrationViewController()))
         } else {
             self.goToController(with: TabBarController())
         }
@@ -89,6 +90,9 @@ extension SceneDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.notification.request.identifier == .isCompletedCreateFirstCategory {
+            presentAchievements()
+        }
         completionHandler()
     }
 
@@ -96,6 +100,23 @@ extension SceneDelegate: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.banner, .sound, .badge])
+    }
+}
+
+// MARK: - push present
+
+private extension SceneDelegate {
+    private func presentAchievements() {
+        let profileView = AchievementStaticsBaseView()
+        let hostingController = UIHostingController(rootView: profileView)
+        hostingController.modalPresentationStyle = .pageSheet
+
+        if let rootViewController = window?.rootViewController {
+            rootViewController.present(hostingController, animated: true, completion: nil)
+        } else {
+            window?.rootViewController = hostingController
+            window?.makeKeyAndVisible()
+        }
     }
 }
 // swiftlint:enable all

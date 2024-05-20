@@ -146,7 +146,9 @@ final class LearningViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     // MARK: LyfeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -161,12 +163,14 @@ final class LearningViewController: UIViewController {
         coreDataService.loadStore()
         hideEndLabels(state: true)
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         descriptionLabel.isHidden = false
         activityIndicator.startAnimating()
         if isNeedLoadAll {
-            loadLearningWords()
+            loadWordsFromCoreData()
+//            loadLearningWords()
         }
         loadWordsFromCoreData()
         cardsWereSwiped = false
@@ -184,7 +188,6 @@ final class LearningViewController: UIViewController {
     // MARK: Private methods
     private func setupViews() {
         view.backgroundColor = .PrimaryColors.Background.background
-        let title = NSLocalizedString("wordTrainingTitle", comment: "")
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         view.addSubview(emptyWordsLabel)
@@ -360,8 +363,22 @@ final class LearningViewController: UIViewController {
     }
 }
 
-// MARK: - internal
+// MARK: - Internal
 extension LearningViewController {
+    func learnCDCategory(with categoryId: String) {
+        emptyWordsLabel.isHidden = true
+        Task {
+            do {
+                model = try await service.loadCDCategory(with: categoryId)
+                activityIndicator.stopAnimating()
+                cardStack.reloadData()
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+                model = []
+            }
+        }
+    }
+
     func learnCategory(with categoryId: String) {
         emptyWordsLabel.isHidden = true
         Task {

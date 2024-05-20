@@ -21,7 +21,7 @@ final class CategoryDetailService: CategoryDetailServiceProtocol {
 
     func loadWords(with categoryId: String, comletion: @escaping (Result<[WordApiModel], Error>) -> Void) {
         dataBase.collection("words").whereField("categoryId",
-                                    isEqualTo: categoryId).getDocuments { querySnapshot, error in
+                                                isEqualTo: categoryId).getDocuments { querySnapshot, error in
             if let error = error {
                 comletion(.failure(error))
             }
@@ -35,6 +35,7 @@ final class CategoryDetailService: CategoryDetailServiceProtocol {
                     let word = try document.data(as: WordApiModel.self)
                     return word
                 } catch {
+                    print(error.localizedDescription)
                     return nil
                 }
             }
@@ -46,7 +47,7 @@ final class CategoryDetailService: CategoryDetailServiceProtocol {
     func reloadIsLearned(with id: String, isLearned: Bool, swipesCounter: Int) {
         dataBase.collection("words").document(id).updateData([
             "isLearned": isLearned,
-            "swipesCounter": swipesCounter,
+            "swipesCounter": swipesCounter
         ]) { error in
             if let error = error {
                 print(error)
