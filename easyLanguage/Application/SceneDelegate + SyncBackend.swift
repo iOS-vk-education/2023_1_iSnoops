@@ -21,11 +21,12 @@ extension SceneDelegate {
             }
         } else {
             isNeedToUpdateBackend { needsUpdate in
-                if needsUpdate {
-                    self.updateBackend()
-                } else {
-                    self.updateCoreData()
-                }
+//                if needsUpdate {
+//                    self.updateBackend()
+//                } else {
+//                    self.updateCoreData()
+//                }
+                self.updateCoreData()
             }
             print("нет инета")
         }
@@ -73,7 +74,11 @@ extension SceneDelegate {
 
     func updateCoreData() {
         print("updateCoreData")
-        coreData.deleteAllData()
-//        BackendSyncService()
+//        coreData.deleteAllData()
+        Task {
+            do {
+                await BackendSyncService.shared.syncAllDataToCoreData()
+            }
+        }
     }
 }
