@@ -12,6 +12,7 @@ class TopFiveWordsCDService {
     init () {
         loadStore()
     }
+    let coreData = CoreDataService()
     let persistentContainer = NSPersistentContainer(name: "CdModel")
 
     var isUpdated: Bool = false {
@@ -40,6 +41,7 @@ class TopFiveWordsCDService {
             updateWordsInCoreData(words: newWords, userId: userId)
         }
         isUpdated.toggle()
+        coreData.updateProfileTime()
     }
 
     func readWordsFromCoreData() -> [TopFiveWordsCDModel] {
@@ -57,6 +59,7 @@ class TopFiveWordsCDService {
         }
         do {
             try persistentContainer.viewContext.save()
+            coreData.updateProfileTime()
         } catch {
             print("ERROR CD", error)
         }

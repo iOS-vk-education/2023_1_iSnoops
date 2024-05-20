@@ -145,7 +145,7 @@ final class RegistrationViewController: UIViewController {
                 // TODO: - add Alert
                 return
             }
-            
+
             if let maybeError = error {
                 let nsError = maybeError as NSError
                 switch nsError.code {
@@ -162,11 +162,9 @@ final class RegistrationViewController: UIViewController {
                 return
             }
 
-            setTopFiveToCD()
-
             Task {
                 await self.addDefaultData()
-                
+
                 if UserDefaults.standard.string(forKey: "onboardingCompleted") == nil {
                     let onboardingVC = OnboardingViewController()
                     onboardingVC.modalPresentationStyle = .fullScreen
@@ -191,27 +189,18 @@ final class RegistrationViewController: UIViewController {
         topFiveCDService.saveWordsToCoreData(words: defaultData.getTopFive(), userId: userId)
     }
 
-        private func addDefaultData() async {
-                for category in defaultData.getCategories() {
-                    do {
-                        let data = await asyncConvert(link: category.imageLink)
-                        coreData.saveCategory(with: category, imageData: data)
-                        // _ = try await categoryService.createNewCategory(with: category, image: nil)
-                    } catch {
-                        print("[DEBUG]:", #function, error.localizedDescription)
-                    }
-                }
-
-        for word in defaultData.getTopFive() {
-            Task {
-                do {
-                    // TODO: - Сене добавить с топ5 словами
-                    _ = try await topFiveService.createNewTopFiveWord(with: word)
-                } catch {
-                    print("[DEBUG]:", #function, error.localizedDescription)
-                }
+    private func addDefaultData() async {
+        for category in defaultData.getCategories() {
+            do {
+                let data = await asyncConvert(link: category.imageLink)
+                coreData.saveCategory(with: category, imageData: data)
+                // _ = try await categoryService.createNewCategory(with: category, image: nil)
+            } catch {
+                print("[DEBUG]:", #function, error.localizedDescription)
             }
         }
+
+        setTopFiveToCD()
 
         for word in defaultData.getWords() {
             // TODO: - Матвею поправить с добавлением словам ( убрать из сервиса) и тут сделать чтобы все ок было

@@ -218,7 +218,7 @@ extension CoreDataService {
     }
 
     // обновляем каждый раз time, чтобы потом синхронизировать с беком
-    private func updateProfileTime() {
+    func updateProfileTime() {
         let fetchRequest: NSFetchRequest<ProfileCDModel> = ProfileCDModel.fetchRequest()
 
         do {
