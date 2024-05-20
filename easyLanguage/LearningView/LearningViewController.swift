@@ -11,7 +11,6 @@ import Shuffle
 import CoreData
 
 final class LearningViewController: UIViewController {
-
     private enum CardsLanguage {
         static let rus = "ru"
         static let eng = "en"
@@ -28,12 +27,25 @@ final class LearningViewController: UIViewController {
     private var isNeedLoadAll = true
 
     // MARK: UI
+    private lazy var reloadButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "arrow.counterclockwise")?
+            .withTintColor(.gray,
+                           renderingMode: .alwaysOriginal), for: .normal)
+        button.addTarget(self,
+                         action: #selector(reloadButtonTapped),
+                         for: .touchUpInside)
+        return button
+    }()
+
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = TextStyle.bodyBig.font
+        label.textColor = .PrimaryColors.Font.secondary
         label.text = NSLocalizedString("descriptionText", comment: "")
         return label
     }()
@@ -43,6 +55,10 @@ final class LearningViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.dataSource = self
         stack.delegate = self
+        stack.layer.shadowOffset = CGSize(width: 5,
+                                          height: 5)
+        stack.layer.shadowRadius = 2
+        stack.layer.shadowOpacity = 0.3
         return stack
     }()
 
@@ -50,13 +66,26 @@ final class LearningViewController: UIViewController {
         let label = UILabel()
         label.text = NSLocalizedString("emptyWordsLabel", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = TextStyle.bodyBig.font
+        label.textColor = .PrimaryColors.Font.secondary
         return label
     }()
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
         return activityIndicator
+    }()
+
+    private lazy var continueButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(NSLocalizedString("continueLabel", comment: ""), for: .normal)
+        button.backgroundColor = .PrimaryColors.Button.blue
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        return button
     }()
 
     private lazy var toTheLeftButtonStack: UIStackView = {
@@ -75,8 +104,7 @@ final class LearningViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = TextStyle.bodyMedium.font
         button.setTitleColor(.gray, for: .normal)
-        button.setTitle("Забыл", for: .normal)
-        //        button.setTitle(NSLocalizedString("registrationButtonTitle", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("forgotTitle", comment: ""), for: .normal)
         button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
 
         stackView.addArrangedSubview(image)
@@ -99,21 +127,12 @@ final class LearningViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = TextStyle.bodyMedium.font
         button.setTitleColor(.gray, for: .normal)
-        button.setTitle("Помню", for: .normal)
-        //        button.setTitle(NSLocalizedString("registrationButtonTitle", comment: ""), for: .normal)
+        button.setTitle(NSLocalizedString("rememberTitle", comment: ""), for: .normal)
         button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
 
         stackView.addArrangedSubview(image)
         stackView.addArrangedSubview(button)
         return stackView
-    }()
-
-    private lazy var reloadButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "arrow.counterclockwise"), for: .normal)
-        button.addTarget(self, action: #selector(reloadButtonTapped), for: .touchUpInside)
-        return button
     }()
 
     // MARK: Вспомогательные свойства
@@ -131,16 +150,21 @@ final class LearningViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupActivityIndicatorConstraints()
         setupEmptyWordsLabelConstraints()
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
         setupToTheLeftButtonConstraints()
         setupToTheRightButtonConstraints()
         setupReloadButtonConstraints()
+        setupContinueButtonConstraints()
         coreDataService.loadStore()
+        hideEndLabels(state: true)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        descriptionLabel.isHidden = false
+        activityIndicator.startAnimating()
         if isNeedLoadAll {
             //            loadLearningWords()
         }
@@ -148,6 +172,7 @@ final class LearningViewController: UIViewController {
         loadWordsFromCoreData()
         cardsWereSwiped = false
         modelForTopFivePost = []
+        hideEndLabels(state: true)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -163,19 +188,23 @@ final class LearningViewController: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         view.addSubview(emptyWordsLabel)
-        emptyWordsLabel.isHidden = true
+        view.addSubview(continueButton)
         view.addSubview(descriptionLabel)
         view.addSubview(cardStack)
         view.addSubview(toTheLeftButtonStack)
         view.addSubview(toTheRightButtonStack)
         view.addSubview(reloadButton)
     }
+    private func hideEndLabels(state: Bool) {
+        continueButton.isHidden = state
+        emptyWordsLabel.isHidden = state
 
+    }
     private func setupReloadButtonConstraints() {
         reloadButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
                                           constant: 0).isActive = true
-        reloadButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                              constant: 20).isActive = true
+        reloadButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                               constant: -20).isActive = true
     }
 
     private func setupDescriptionLabelConstraints() {
@@ -193,11 +222,6 @@ final class LearningViewController: UIViewController {
         cardStack.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2).isActive = true
     }
 
-    private func setupEmptyWordsLabelConstraints() {
-        emptyWordsLabel.isHidden = true
-        emptyWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        emptyWordsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
     private func setupToTheLeftButtonConstraints() {
         toTheLeftButtonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
                                                      constant: -20).isActive = true
@@ -213,7 +237,19 @@ final class LearningViewController: UIViewController {
 
     private func setupActivityIndicatorConstraints() {
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
+    private func setupEmptyWordsLabelConstraints() {
+        emptyWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyWordsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
+    private func setupContinueButtonConstraints() {
+        continueButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        continueButton.topAnchor.constraint(equalTo: emptyWordsLabel.bottomAnchor,
+                                            constant: 20).isActive = true
+        continueButton.widthAnchor.constraint(equalToConstant: view.frame.width / 3).isActive = true
     }
 
     private func loadLearningWords() {
@@ -232,10 +268,8 @@ final class LearningViewController: UIViewController {
 
     private func loadWordsFromCoreData() {
         self.model = []
-
         let moc = coreDataService.persistentContainer.viewContext
         let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
-
         guard let coreModel = try? moc.fetch(wordsfetch) else { return }
         for item in coreModel {
             self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
@@ -244,6 +278,7 @@ final class LearningViewController: UIViewController {
                                           swipesCounter: Int(item.swipesCounter),
                                           id: item.id ?? ""))
         }
+        activityIndicator.stopAnimating()
         cardStack.reloadData()
     }
 
@@ -266,6 +301,7 @@ final class LearningViewController: UIViewController {
             }
         }
     }
+
     @objc
     private func leftButtonTapped() {
         cardStack.swipe(.left, animated: true)
@@ -278,6 +314,15 @@ final class LearningViewController: UIViewController {
 
     @objc
     private func reloadButtonTapped() {
+        hideEndLabels(state: true)
+        cardStack.isHidden = false
+        cardStack.reloadData()
+    }
+
+    @objc
+    private func continueButtonTapped() {
+        hideEndLabels(state: true)
+        cardStack.isHidden = false
         cardStack.reloadData()
     }
 }
@@ -325,20 +370,23 @@ extension LearningViewController: SwipeCardStackDataSource {
     private func rotateView(cards: SwipeCardStack,
                             model: WordUIModel,
                             index: Int) {
+        descriptionLabel.isHidden = true
         let topFlip = UIView.AnimationOptions.transitionFlipFromTop
         let bottomFlip = UIView.AnimationOptions.transitionFlipFromBottom
         UIView.transition(with: cards,
                           duration: 0.5,
                           options: isFlipped ? topFlip : bottomFlip) {
             if self.isFlipped {
-                cards.card(forIndexAt: index)?.content = LearningCardView(frame: cards.frame,
-                                                                          text: model.translations[CardsLanguage.rus] ?? "",
-                                                                          counter: model.swipesCounter)
+                cards.card(forIndexAt: index)?
+                    .content = LearningCardView(frame: cards.frame,
+                                                text: model.translations[CardsLanguage.rus] ?? "",
+                                                counter: model.swipesCounter)
                 self.isFlipped = false
             } else {
-                cards.card(forIndexAt: index)?.content = LearningCardView(frame: cards.frame,
-                                                                          text: model.translations[CardsLanguage.eng] ?? "",
-                                                                          counter: model.swipesCounter)
+                cards.card(forIndexAt: index)?
+                    .content = LearningCardView(frame: cards.frame,
+                                                text: model.translations[CardsLanguage.eng] ?? "",
+                                                counter: model.swipesCounter)
                 self.isFlipped = true
             }
         }
@@ -378,13 +426,15 @@ extension LearningViewController: SwipeCardStackDelegate {
             updateWord(words: model[index])
             modelForPost.append(model[index])
             modelForTopFivePost.append(model[index])
-            print("post ----- \(modelForPost)")
         default:
             break
         }
     }
 
     func didSwipeAllCards(_ cardStack: SwipeCardStack) {
-        emptyWordsLabel.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            cardStack.isHidden = true
+            self.hideEndLabels(state: false)
+        }
     }
 }

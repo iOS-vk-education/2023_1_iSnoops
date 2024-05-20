@@ -17,7 +17,9 @@ final class LearningCardView: UIView {
         label.textAlignment = .center
         label.backgroundColor = .clear
         label.text = word
-        label.font = .boldSystemFont(ofSize: 20)
+        label.numberOfLines = 0
+        label.font = TextStyle.header.font
+        label.textColor = .PrimaryColors.Font.secondary
         return label
     }()
 
@@ -26,7 +28,8 @@ final class LearningCardView: UIView {
         label.textAlignment = .center
         label.backgroundColor = .clear
         label.text = "\(counter)/5"
-        label.font = .boldSystemFont(ofSize: 17)
+        label.font = TextStyle.bodyBig.font
+        label.textColor = .PrimaryColors.Font.secondary
         return label
     }()
 
@@ -56,11 +59,15 @@ final class LearningCardView: UIView {
         wordLabel.translatesAutoresizingMaskIntoConstraints = false
         wordLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         wordLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        wordLabel.leftAnchor.constraint(equalTo: leftAnchor,
+                                         constant: 3).isActive = true
+        wordLabel.rightAnchor.constraint(equalTo: rightAnchor,
+                                          constant: -3).isActive = true
     }
 
     private func setUpLearningCountLabelConstrains() {
         learningCountLabel.translatesAutoresizingMaskIntoConstraints = false
         learningCountLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30).isActive = true
-        learningCountLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50).isActive = true
+        learningCountLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30).isActive = true
     }
 }

@@ -66,9 +66,10 @@
 
 //MARK: - LearningVC
 "descriptionText" = "Click on the card to see the translation of the word";
-"correctText" = "I know:";
-"incorrectText" = "don't know:";
+"forgotTitle" = "Forgot";
+"rememberTitle" = "Remember";
 "emptyWordsLabel" = "You have learned all the words!";
+"continueLabel" = "Continue";
 
 //MARK: - AlertManager
 "alertButton" = "Back";
