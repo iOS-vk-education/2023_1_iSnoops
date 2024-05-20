@@ -50,6 +50,8 @@ class CatalogViewController: CustomViewController {
         setTopFiveView()
 
         setCategoriesView()
+        
+        loadTopFiveWordsFromCD()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -86,7 +88,7 @@ private extension CatalogViewController {
             }
         }
     }
-    
+
     @objc func loadTopFiveWordsFromCD() {
         let topFiveWordsFromCD = self.topFiveCDService.readWordsFromCoreData()
         var arrayForCast: [TopFiveWordsModel] = []
