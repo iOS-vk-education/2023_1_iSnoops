@@ -324,7 +324,6 @@ extension LearningViewController: SwipeCardStackDelegate {
             updateWord(words: model[index])
             modelForPost.append(model[index])
             modelForTopFivePost.append(model[index])
-            print("post ----- \(modelForPost)")
             incorrectCount += 1
             labels[1].text = "\(NSLocalizedString("incorrectText", comment: "")) \(incorrectCount)"
             isFlipped = false

@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import CoreData
 
 final class CatalogModel {
     private let topFiveService = TopFiveService.shared
     private let categoryService = CategoryService.shared
+
+    private let coreData = CoreDataService()
 
     func loadTopFiveWords(completion: @escaping (Result<[TopFiveWordsModel], Error>) -> Void) {
         topFiveService.loadTopFiveWords { result in
@@ -27,6 +30,23 @@ final class CatalogModel {
             }
         }
     }
+
+    func loadCDProgressView() -> (Int, Int) {
+         do {
+             let categories = coreData.fetchCategories()
+             var totalWords = 0
+             var learnedWords = 0
+
+             for category in categories {
+                 let (total, learned) = coreData.loadWordsCounts(with: category.linkedWordsId ?? "")
+
+                 totalWords += total
+                 learnedWords += learned
+             }
+
+             return (totalWords, learnedWords)
+         }
+     }
 
     func loadProgressView(completion: @escaping (Result<(Int, Int), Error>) -> Void) {
         Task {
