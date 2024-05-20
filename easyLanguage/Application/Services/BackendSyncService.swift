@@ -41,10 +41,8 @@ extension BackendSyncService: IBackendSyncService {
             saveWordsToCoreData(words: words)
 
             let topFiveWords: [TopFiveWordsApiModel] = try await fetchData(collection: "topFiveWords", userId: userId)
-//            saveTopFiveWordsToCoreData(topFiveWords)
-            print("categories", categories)
-            print("words", words)
-            print("topFiveWords", topFiveWords)
+            saveTopFiveWordsToCoreData(topFiveWords: topFiveWords)
+
         } catch {
             print("Failed to sync data: \(error)")
         }
@@ -125,6 +123,23 @@ private extension BackendSyncService {
             try moc.save()
         } catch {
            print(#function, "не удалось загрузить слова (синк с беком): \(error)")
+       }
+    }
+
+    func saveTopFiveWordsToCoreData(topFiveWords: [TopFiveWordsApiModel]) {
+        let moc = coreData.persistentContainer.viewContext
+
+        do {
+            for word in topFiveWords {
+                let newWord = TopFiveWordsCDModel(context: moc)
+                newWord.date = word.date
+                newWord.id = word.id
+                newWord.translate = word.translate
+                newWord.userId = word.userId
+            }
+            try moc.save()
+        } catch {
+           print(#function, "не удалось загрузить топ5слов (синк с беком): \(error)")
        }
     }
 }
