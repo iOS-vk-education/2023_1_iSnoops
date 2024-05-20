@@ -144,7 +144,7 @@ final class RegistrationViewController: UIViewController {
                 // TODO: - add Alert
                 return
             }
-
+            
             if let maybeError = error {
                 let nsError = maybeError as NSError
                 switch nsError.code {
@@ -161,16 +161,24 @@ final class RegistrationViewController: UIViewController {
                 return
             }
             
+            setTopFiveToCD()
+            
             Task {
                 await self.addDefaultData()
-
-            setTopFiveToCD()
-
-            guard UserDefaults.standard.string(forKey: "onboardingCompleted") != nil else {
-                let onboardingVC = OnboardingViewController()
-                onboardingVC.modalPresentationStyle = .fullScreen
-                present(onboardingVC, animated: true, completion: nil)
-                return
+                
+                if UserDefaults.standard.string(forKey: "onboardingCompleted") == nil {
+                    let onboardingVC = OnboardingViewController()
+                    onboardingVC.modalPresentationStyle = .fullScreen
+                    await MainActor.run {
+                        self.present(onboardingVC, animated: true, completion: nil)
+                    }
+                } else {
+                    let tabBarController = TabBarController()
+                    tabBarController.modalPresentationStyle = .fullScreen
+                    await MainActor.run {
+                        self.present(tabBarController, animated: true, completion: nil)
+                    }
+                }
             }
         }
     }
@@ -182,16 +190,16 @@ final class RegistrationViewController: UIViewController {
         topFiveCDService.saveWordsToCoreData(words: defaultData.getTopFive(), userId: userId)
     }
 
-    private func addDefaultData() {
-        for category in defaultData.getCategories() {
-            do {
-                let data = await asyncConvert(link: category.imageLink)
-                coreData.saveCategory(with: category, imageData: data)
-                // _ = try await categoryService.createNewCategory(with: category, image: nil)
-            } catch {
-                print("[DEBUG]:", #function, error.localizedDescription)
-            }
-        }
+        private func addDefaultData() async {
+                for category in defaultData.getCategories() {
+                    do {
+                        let data = await asyncConvert(link: category.imageLink)
+                        coreData.saveCategory(with: category, imageData: data)
+                        // _ = try await categoryService.createNewCategory(with: category, image: nil)
+                    } catch {
+                        print("[DEBUG]:", #function, error.localizedDescription)
+                    }
+                }
 
         for word in defaultData.getTopFive() {
             Task {

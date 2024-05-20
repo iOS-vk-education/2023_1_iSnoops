@@ -113,7 +113,6 @@ private extension TopFiveWordsCDService {
             wordToCoreData.date = Date.now
             wordToCoreData.translate = word.translations
             wordToCoreData.userId = userId
-            print("СЛОВО ИЗ WORDS:", word)
             try? wordToCoreData.managedObjectContext?.save()
         }
     }
