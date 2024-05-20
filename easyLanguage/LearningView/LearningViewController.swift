@@ -166,21 +166,21 @@ final class LearningViewController: UIViewController {
         descriptionLabel.isHidden = false
         activityIndicator.startAnimating()
         if isNeedLoadAll {
-            //            loadLearningWords()
+            loadLearningWords()
         }
-        //        loadLearningWords()
         loadWordsFromCoreData()
         cardsWereSwiped = false
         modelForTopFivePost = []
         hideEndLabels(state: true)
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if cardsWereSwiped {
-            postToTopFive()
-        }
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        if cardsWereSwiped {
+//            postToTopFive()
+//        }
+//    }
+
     // MARK: Private methods
     private func setupViews() {
         view.backgroundColor = .PrimaryColors.Background.background
@@ -315,25 +315,25 @@ final class LearningViewController: UIViewController {
         }
     }
 
-    private func postToTopFive() {
-        Task {
-            do {
-                try await service.postWords(words: modelForTopFivePost)
-            } catch {
-                AlertManager.showEmptyLearningModel(on: self)
-            }
-        }
-    }
-
-    private func updateWord(words: WordUIModel) {
-        Task {
-            do {
-                try await service.updateWord(words: words)
-            } catch {
-                AlertManager.showEmptyLearningModel(on: self)
-            }
-        }
-    }
+//    private func postToTopFive() {
+//        Task {
+//            do {
+//                try await service.postWords(words: modelForTopFivePost)
+//            } catch {
+//                AlertManager.showEmptyLearningModel(on: self)
+//            }
+//        }
+//    }
+//
+//    private func updateWord(words: WordUIModel) {
+//        Task {
+//            do {
+//                try await service.updateWord(words: words)
+//            } catch {
+//                AlertManager.showEmptyLearningModel(on: self)
+//            }
+//        }
+//    }
 
     @objc
     private func leftButtonTapped() {
@@ -450,8 +450,8 @@ extension LearningViewController: SwipeCardStackDelegate {
 //            if model[index].swipesCounter == 5 {
 //                model[index].isLearned = true
 //            }
-            updateWord(words: model[index])
-            modelForPost.append(model[index])
+//            updateWord(words: model[index])
+//            modelForPost.append(model[index])
 
             changeWordLearningCount(with: model[index].id,
                                     change: true)
