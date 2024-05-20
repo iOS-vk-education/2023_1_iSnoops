@@ -12,9 +12,11 @@ extension String {
     static let wordCDModel = "WordCDModel"
     static let categoryCDModel = "CategoryCDModel"
     static let profileCDModel = "ProfileCDModel"
+    static let topFiveWordsCDModel = "TopFiveWordsCDModel"
 }
 
 /// UserDefaults keys
 extension String {
     static let isCompletedCreateFirstCategory = "isCompletedCreateFirstCategory"
+    static let topFiveWordsReadyForReading = "topFiveWordsReadyForReading"
 }

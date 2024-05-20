@@ -73,6 +73,7 @@ final class RegistrationViewController: UIViewController {
     }()
 
     private let defaultData = DefaultData.shared
+    private let topFiveCDService = TopFiveWordsCDService()
 
     private let categoryService = AddNewCategoryService.shared
     private let wordService = AddWordService.shared
@@ -181,6 +182,13 @@ final class RegistrationViewController: UIViewController {
         }
     }
 
+    private func setTopFiveToCD () {
+        guard let userId = checkAuthentication() else {
+            return
+        }
+        topFiveCDService.saveWordsToCoreData(words: defaultData.getTopFive(), userId: userId)
+    }
+
     private func addDefaultData() async {
         for category in defaultData.getCategories() {
             do {
@@ -192,21 +200,19 @@ final class RegistrationViewController: UIViewController {
             }
         }
 
-        for word in defaultData.getTopFive() {
-            Task {
-                do {
-                    // TODO: - Сене добавить с топ5 словами
-                    _ = try await topFiveService.createNewTopFiveWord(with: word)
-                } catch {
-                    print("[DEBUG]:", #function, error.localizedDescription)
-                }
-            }
-        }
+        setTopFiveToCD()
 
         for word in defaultData.getWords() {
             // TODO: - Матвею поправить с добавлением словам ( убрать из сервиса) и тут сделать чтобы все ок было
             wordService.add(word, completion: { _ in })
         }
+    }
+
+    private func checkAuthentication() -> String? {
+        if let currentUser = Auth.auth().currentUser {
+            return currentUser.uid
+        }
+        return nil
     }
 
     private func asyncConvert(link: String?) async -> Data? {
