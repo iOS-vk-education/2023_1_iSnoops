@@ -160,7 +160,6 @@ final class LearningViewController: UIViewController {
         setupToTheRightButtonConstraints()
         setupReloadButtonConstraints()
         setupContinueButtonConstraints()
-        coreDataService.loadStore()
         hideEndLabels(state: true)
     }
 
