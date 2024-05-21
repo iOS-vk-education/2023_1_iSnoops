@@ -13,8 +13,9 @@ import CoreData
 
 final class LearningViewModel {
     private let learningViewService = LearningViewService.shared
+    private let coreDataService = CoreDataService()
+    private let topFiveCDService = TopFiveWordsCDService()
     private let coreData = CoreDataService()
-
     private var wordsUIModel = [WordUIModel]()
 
     func loadWords() async throws -> [WordUIModel] {
@@ -52,9 +53,13 @@ final class LearningViewModel {
     }
 
     func postWords(words: [WordUIModel]) async throws {
-        for word in words {
-            try await learningViewService.createNewTopFiveWord(with: word)
+        guard let userId = checkAuthentication() else {
+            throw AuthErrors.userNotAuthenticated
         }
+        topFiveCDService.saveWordsToCoreData(words: words, userId: userId)
+//        for word in words {
+//            try await learningViewService.createNewTopFiveWord(with: word)
+//        }
     }
 
     func updateWords(words: [WordUIModel]) async throws {
@@ -64,5 +69,12 @@ final class LearningViewModel {
     }
     func updateWord(words: WordUIModel) async throws {
             try await learningViewService.updateWord(with: words)
+    }
+    
+    private func checkAuthentication() -> String? {
+        if let currentUser = Auth.auth().currentUser {
+            return currentUser.uid
+        }
+        return nil
     }
 }

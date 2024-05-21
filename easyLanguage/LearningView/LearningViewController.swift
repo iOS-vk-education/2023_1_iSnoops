@@ -286,7 +286,7 @@ final class LearningViewController: UIViewController {
         activityIndicator.stopAnimating()
         cardStack.reloadData()
     }
-
+  
     private func changeWordLearningCount(with id: String, change: Bool) {
         let moc = coreDataService.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
