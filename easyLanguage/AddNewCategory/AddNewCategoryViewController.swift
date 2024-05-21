@@ -93,9 +93,11 @@ extension AddNewCategoryViewController {
                 delegate.categoryDidAdded(with: categoryModel)
 
                 if !UserDefaults.standard.bool(forKey: .isCompletedCreateFirstCategory) {
-                    self.pushManager.getStatus { status in
-                        if status == .allowed {
-                            self.sendNotification()
+                    pushManager.requestAuth { [weak self] status in
+                        self?.pushManager.getStatus { status in
+                            if status == .allowed {
+                                self?.sendNotification()
+                            }
                         }
                     }
                 }
