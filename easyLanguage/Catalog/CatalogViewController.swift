@@ -161,7 +161,7 @@ private extension CatalogViewController {
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
     func setProgressWords() {
-        let (total, learned) =  model.loadCDProgressView()
+        let (total, learned) =  CatalogModel().loadCDProgressView()
 
         progressView.setupAllLearnedWords(count: total)
         progressView.setupWordsInProgress(count: learned)
