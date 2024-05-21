@@ -22,45 +22,47 @@ struct AchievementStaticsBaseView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack {
-                    HStack {
+            ScrollViewReader { scroll in
+                ScrollView {
+                    VStack {
+                        HStack {
+                            Spacer()
+                        }
+                        AsyncImage(url: URL(string: profile?.imageLink ?? " ")) { image in
+                            image.resizable()
+                                .clipShape(Circle())
+                        } placeholder: {
+                            SwiftUI.ProgressView()
+                        }
+                        .frame(width: Constants.imageSize, height: Constants.imageSize)
+                        Text(profile?.name ?? NSLocalizedString("nameLabel", comment: ""))
+                            .bold()
+                            .font(.title2)
+                        HStack {
+                            Button(NSLocalizedString("achievementButton", comment: "")) {
+                                isAchievementViewActive = true
+                            }
+                            .font(.title3)
+                            .foregroundStyle(
+                                isAchievementViewActive ? .blue : .gray)
+                            .padding(.trailing, Constants.buttonsDistance)
+                            Button(NSLocalizedString("statisticsButton", comment: "")) {
+                                isAchievementViewActive = false
+                            }
+                            .font(.title3)
+                            .foregroundStyle(isAchievementViewActive ? .gray: .blue)
+                        }
+                        .padding(.top, Constants.viewPaddingTop)
+                        .padding(.bottom, Constants.viewPaddingBottom)
                         Spacer()
-                    }
-                    AsyncImage(url: URL(string: profile?.imageLink ?? " ")) { image in
-                        image.resizable()
-                            .clipShape(Circle())
-                    } placeholder: {
-                        SwiftUI.ProgressView()
-                    }
-                    .frame(width: Constants.imageSize, height: Constants.imageSize)
-                    Text(profile?.name ?? NSLocalizedString("nameLabel", comment: ""))
-                        .bold()
-                        .font(.title2)
-                    HStack {
-                        Button(NSLocalizedString("achievementButton", comment: "")) {
-                            isAchievementViewActive = true
+                        if isAchievementViewActive {
+                            AchievementView()
+                        } else {
+                            StatisticView()
                         }
-                        .font(.title3)
-                        .foregroundStyle(
-                            isAchievementViewActive ? .blue : .gray)
-                        .padding(.trailing, Constants.buttonsDistance)
-                        Button(NSLocalizedString("statisticsButton", comment: "")) {
-                            isAchievementViewActive = false
-                        }
-                        .font(.title3)
-                        .foregroundStyle(isAchievementViewActive ? .gray: .blue)
                     }
-                    .padding(.top, Constants.viewPaddingTop)
-                    .padding(.bottom, Constants.viewPaddingBottom)
-                    Spacer()
-                    if isAchievementViewActive {
-                        AchievementView()
-                    } else {
-                        StatisticView()
-                    }
+                    .backgroundStyle(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
                 }
-                .backgroundStyle(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
             }
         }
         .onAppear {

@@ -38,7 +38,7 @@ struct AchievementView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.gray)
                         }
-                    }
+                    }.padding([.top, .leading, .trailing])
                 }
             .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
 
