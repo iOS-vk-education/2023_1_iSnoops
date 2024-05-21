@@ -52,11 +52,33 @@ class AuthService {
 
     // TODO: - проверить авторизация
     public func signIn(with userRequest: LoginUserRequest, completion: @escaping (Error?) -> Void) {
-        Auth.auth().signIn(withEmail: userRequest.email, password: userRequest.password) { _, error in
+        Auth.auth().signIn(withEmail: userRequest.email, password: userRequest.password) { [weak self] result, error in
             if let error = error {
                 completion(error)
                 return
-            } else {
+            }
+
+            guard let self = self, let userId = Auth.auth().currentUser?.uid else {
+                completion(NetworkError.unexpected)
+                return
+            }
+
+            let database = Firestore.firestore()
+            database.collection("users").document(userId).getDocument { document, error in
+                if let error = error {
+                    completion(error)
+                    return
+                }
+                guard let document = document, document.exists,
+                      let data = document.data(),
+                      let username = data["username"] as? String,
+                      let email = data["email"] as? String,
+                      let timestamp = data["time"] as? Timestamp else {
+                    completion(NetworkError.emptyData)
+                    return
+                }
+                let time = timestamp.dateValue()
+                self.coreData.saveProfile(username: username, email: email, userId: userId, time: time)
                 completion(nil)
             }
         }

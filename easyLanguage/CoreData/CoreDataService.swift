@@ -240,6 +240,7 @@ extension CoreDataService {
         deleteAllEntities(entity: WordCDModel.self, errorMessage: "слова")
         deleteAllEntities(entity: CategoryCDModel.self, errorMessage: "категории")
         deleteAllEntities(entity: TopFiveWordsCDModel.self, errorMessage: "топ5 слов")
+        deleteAllEntities(entity: ProfileCDModel.self, errorMessage: "профиль")
     }
 
     private func deleteAllEntities<T: NSManagedObject>(entity: T.Type, errorMessage: String) {
