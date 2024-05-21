@@ -73,6 +73,7 @@ final class RegistrationViewController: UIViewController {
     }()
 
     private let defaultData = DefaultData.shared
+    private let topFiveCDService = TopFiveWordsCDService()
 
     private let categoryService = AddNewCategoryService.shared
     private let wordService = AddWordService.shared
@@ -143,7 +144,7 @@ final class RegistrationViewController: UIViewController {
                 // TODO: - add Alert
                 return
             }
-
+            
             if let maybeError = error {
                 let nsError = maybeError as NSError
                 switch nsError.code {
@@ -160,9 +161,11 @@ final class RegistrationViewController: UIViewController {
                 return
             }
             
+            setTopFiveToCD()
+            
             Task {
                 await self.addDefaultData()
-
+                
                 if UserDefaults.standard.string(forKey: "onboardingCompleted") == nil {
                     let onboardingVC = OnboardingViewController()
                     onboardingVC.modalPresentationStyle = .fullScreen
@@ -180,16 +183,23 @@ final class RegistrationViewController: UIViewController {
         }
     }
 
-    private func addDefaultData() async {
-        for category in defaultData.getCategories() {
-            do {
-                let data = await asyncConvert(link: category.imageLink)
-                coreData.saveCategory(with: category, imageData: data)
-                // _ = try await categoryService.createNewCategory(with: category, image: nil)
-            } catch {
-                print("[DEBUG]:", #function, error.localizedDescription)
-            }
+    private func setTopFiveToCD () {
+        guard let userId = checkAuthentication() else {
+            return
         }
+        topFiveCDService.saveWordsToCoreData(words: defaultData.getTopFive(), userId: userId)
+    }
+
+        private func addDefaultData() async {
+                for category in defaultData.getCategories() {
+                    do {
+                        let data = await asyncConvert(link: category.imageLink)
+                        coreData.saveCategory(with: category, imageData: data)
+                        // _ = try await categoryService.createNewCategory(with: category, image: nil)
+                    } catch {
+                        print("[DEBUG]:", #function, error.localizedDescription)
+                    }
+                }
 
         for word in defaultData.getTopFive() {
             Task {
@@ -206,6 +216,13 @@ final class RegistrationViewController: UIViewController {
             // TODO: - Матвею поправить с добавлением словам ( убрать из сервиса) и тут сделать чтобы все ок было
             wordService.add(word, completion: { _ in })
         }
+    }
+
+    private func checkAuthentication() -> String? {
+        if let currentUser = Auth.auth().currentUser {
+            return currentUser.uid
+        }
+        return nil
     }
 
     private func asyncConvert(link: String?) async -> Data? {

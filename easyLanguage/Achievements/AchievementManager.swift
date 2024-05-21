@@ -55,7 +55,7 @@ class AchievementManager {
                 counter += ($0.studiedWordsCount == $0.totalWordsCount && $0.totalWordsCount > 0) ? 1 : 0
             }
         }
-        answers.append(AchievementModel(isAchievementDone: counter >= requiredValue, count: counter))
+        answers.append(AchievementModel(isAchievementDone: counter >= requiredValue, count: counter, required: requiredValue))
     }
 
     public func getAnswers() -> [AchievementModel] { answers }
