@@ -21,25 +21,29 @@ struct AchievementView: View {
     }
 
     var body: some View {
-        List(achievements) { achievement in
-            HStack(spacing: Constants.marginLeft) {
-                if let achievementModel = achievement.achievementModel {
-                    Image((achievementModel.isAchievementDone) ? "AchievementDone" : "AchievementNotDone")
-                        .resizable()
-                        .frame(width: Constants.imageWidth, height: Constants.imageHeight)
-                } else {
-                    SwiftUI.ProgressView()
+        LazyVStack(alignment: .leading) {
+                ForEach(achievements) { achievement in
+                    HStack(spacing: Constants.marginLeft) {
+                        if let achievementModel = achievement.achievementModel {
+                            Image((achievementModel.isAchievementDone) ? "AchievementDone" : "AchievementNotDone")
+                                .resizable()
+                                .frame(width: Constants.imageWidth, height: Constants.imageHeight)
+                        } else {
+                            SwiftUI.ProgressView()
+                        }
+                        VStack(alignment: .leading) {
+                            Text(achievement.text)
+                                .frame(height: Constants.textHeight)
+                            Text("\(achievement.subtext): \(achievement.achievementModel?.count ?? 0)/\(achievement.achievementModel?.required ?? 0)")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                    }
                 }
-                VStack(alignment: .leading) {
-                    Text(achievement.text)
-                        .frame(height: Constants.textHeight)
-                    Text("\(achievement.subtext): \(achievement.achievementModel?.count ?? 0)/\(achievement.achievementModel?.required ?? 0)")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-            }
             .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
+
         }
+        .scrollDisabled(true)
         .listStyle(.plain)
         .onAppear {
             let categories = CategoriesModel().loadCDCategories()

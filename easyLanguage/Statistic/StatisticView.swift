@@ -19,7 +19,7 @@ struct StatisticView: View {
     @ObservedObject var model = StatisticViewModel()
     var body: some View {
         if model.isLoaded {
-            List {
+//            ScrollView {
                 CategoriesWordsChart(viewModel: model)
                     .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
                 VStack(alignment: .leading) {
@@ -41,9 +41,11 @@ struct StatisticView: View {
                     }
                 }
                 .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
-            }
-            .listStyle(.plain)
-            .listRowSpacing(Constants.listSpacing)
+//            }
+//            .scrollDisabled(true)
+//            .listStyle(.plain)
+//            .listRowSpacing(Constants.listSpacing)
+
             .refreshable {
                 loadWordsAndCategories()
             }
