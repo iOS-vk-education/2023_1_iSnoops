@@ -12,7 +12,7 @@ struct AchievementView: View {
 
     @State var answers: [AchievementModel] = []
     @State var achievements: [AchievementEntityModel] = testData
-    
+
     private enum Constants {
         static let marginLeft: CGFloat = 15
         static let imageWidth: CGFloat = 36
