@@ -132,8 +132,6 @@ private extension CatalogViewController {
 extension CatalogViewController: ProgressSetup {
     func setProgressWords() {
         let (total, learned) =  model.loadCDProgressView()
-        print("total", total)
-        print("learned", learned)
 
         progressView.setupAllLearnedWords(count: total)
         progressView.setupWordsInProgress(count: learned)
