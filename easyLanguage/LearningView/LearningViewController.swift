@@ -300,8 +300,9 @@ final class LearningViewController: UIViewController {
         self.model = []
         let moc = coreDataService.persistentContainer.viewContext
         let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
-        wordsfetch.predicate = NSPredicate(format: "categoryId == %@", categoryId)
-        wordsfetch.predicate = NSPredicate(format: "isLearned == %@", NSNumber(0))
+        let fPredicate = NSPredicate(format: "categoryId == %@", categoryId)
+        let sPredicate = NSPredicate(format: "isLearned == %@", NSNumber(0))
+        wordsfetch.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fPredicate, sPredicate])
         guard let coreModel = try? moc.fetch(wordsfetch) else {
             AlertManager.showEmptyLearningModel(on: self)
             return
