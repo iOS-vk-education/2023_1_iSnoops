@@ -21,45 +21,49 @@ struct AchievementStaticsBaseView: View {
     @State var profile: ProfileApiModel?
 
     var body: some View {
-        NavigationView {
-            VStack {
-                HStack {
-                    Spacer()
-                }
-                AsyncImage(url: URL(string: profile?.imageLink ?? " ")) { image in
-                    image.resizable()
-                        .clipShape(Circle())
-                } placeholder: {
-                    SwiftUI.ProgressView()
-                }
-                .frame(width: Constants.imageSize, height: Constants.imageSize)
-                Text(profile?.name ?? NSLocalizedString("nameLabel", comment: ""))
-                    .bold()
-                    .font(.title2)
-                HStack {
-                    Button(NSLocalizedString("achievementButton", comment: "")) {
-                        isAchievementViewActive = true
+        NavigationStack {
+            ScrollViewReader { scroll in
+                ScrollView {
+                    VStack {
+                        HStack {
+                            Spacer()
+                        }
+                        AsyncImage(url: URL(string: profile?.imageLink ?? " ")) { image in
+                            image.resizable()
+                                .clipShape(Circle())
+                        } placeholder: {
+                            SwiftUI.ProgressView()
+                        }
+                        .frame(width: Constants.imageSize, height: Constants.imageSize)
+                        Text(profile?.name ?? NSLocalizedString("nameLabel", comment: ""))
+                            .bold()
+                            .font(.title2)
+                        HStack {
+                            Button(NSLocalizedString("achievementButton", comment: "")) {
+                                isAchievementViewActive = true
+                            }
+                            .font(.title3)
+                            .foregroundStyle(
+                                isAchievementViewActive ? .blue : .gray)
+                            .padding(.trailing, Constants.buttonsDistance)
+                            Button(NSLocalizedString("statisticsButton", comment: "")) {
+                                isAchievementViewActive = false
+                            }
+                            .font(.title3)
+                            .foregroundStyle(isAchievementViewActive ? .gray: .blue)
+                        }
+                        .padding(.top, Constants.viewPaddingTop)
+                        .padding(.bottom, Constants.viewPaddingBottom)
+                        Spacer()
+                        if isAchievementViewActive {
+                            AchievementView()
+                        } else {
+                            StatisticView()
+                        }
                     }
-                    .font(.title3)
-                    .foregroundStyle(
-                        isAchievementViewActive ? .blue : .gray)
-                    .padding(.trailing, Constants.buttonsDistance)
-                    Button(NSLocalizedString("statisticsButton", comment: "")) {
-                        isAchievementViewActive = false
-                    }
-                    .font(.title3)
-                    .foregroundStyle(isAchievementViewActive ? .gray: .blue)
-                }
-                .padding(.top, Constants.viewPaddingTop)
-                .padding(.bottom, Constants.viewPaddingBottom)
-                Spacer()
-                if isAchievementViewActive {
-                    AchievementView()
-                } else {
-                    StatisticView()
+                    .backgroundStyle(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
                 }
             }
-            .background(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
         }
         .onAppear {
             Task {
@@ -70,8 +74,7 @@ struct AchievementStaticsBaseView: View {
                     print(error.localizedDescription)
                 }
             }
-        }
-        .navigationTitle(NSLocalizedString("achievementStaticsTitle", comment: ""))
+        }.navigationTitle(NSLocalizedString("achievementStaticsTitle", comment: ""))
     }
 }
 

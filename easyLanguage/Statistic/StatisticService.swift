@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
+import CoreData
 
 struct StatisticService {
     private enum FieldNames {
@@ -20,6 +21,78 @@ struct StatisticService {
     }
 
     private let dataBase = Firestore.firestore()
+    private let coreDataService = CoreDataService()
+
+    func loadCategoriesFromCD() -> [String: Int] {
+        var returnArray: [String: Int] = [: ]
+        let moc = coreDataService.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<CategoryCDModel> = CategoryCDModel.fetchRequest()
+        do {
+            let categories = try moc.fetch(fetchRequest)
+            for category in categories {
+                returnArray[category.title ?? ""] = loadWordsFromCatCD(cat: category)
+            }
+            return returnArray
+        } catch {
+            print("loadWordsCounts error \(error)")
+            return [: ]
+        }
+    }
+
+    func loadWordsFromCatCD(cat: CategoryCDModel) -> Int {
+        let moc = coreDataService.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "categoryId == %@", cat.linkedWordsId ?? "")
+        do {
+            let words = try moc.fetch(fetchRequest)
+            return words.count
+        } catch {
+            print("loadWordsCounts error \(error)")
+            return 0
+        }
+    }
+
+
+    func loadWordsFromCD() -> [WordApiModel] {
+        var returnArray: [WordApiModel] = []
+        let moc = coreDataService.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+        do {
+            let words = try moc.fetch(fetchRequest)
+            for word in words {
+                returnArray.append(WordApiModel(categoryId: word.categoryId ?? "",
+                                                translations: word.translations ?? [: ],
+                                                isLearned: word.isLearned,
+                                                swipesCounter: Int(word.swipesCounter),
+                                                id: word.id ?? ""))
+            }
+            return returnArray
+        } catch {
+            print("loadWordsCounts error \(error)")
+            return []
+        }
+    }
+
+    func loadLearningWordsFromCD() -> [WordApiModel] {
+        var returnArray: [WordApiModel] = []
+        let moc = coreDataService.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isLearned == %@", NSNumber(1))
+        do {
+            let words = try moc.fetch(fetchRequest)
+            for word in words {
+                returnArray.append(WordApiModel(categoryId: word.categoryId ?? "",
+                                                translations: word.translations ?? [: ],
+                                                isLearned: word.isLearned,
+                                                swipesCounter: Int(word.swipesCounter),
+                                                id: word.id ?? ""))
+            }
+            return returnArray
+        } catch {
+            print("loadWordsCounts error \(error)")
+            return []
+        }
+    }
 
     public func loadWordsAndCategories() async throws -> StatisticModel {
         let categories = try await loadCategories()

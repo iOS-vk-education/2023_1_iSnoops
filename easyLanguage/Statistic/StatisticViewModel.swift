@@ -14,18 +14,31 @@ class StatisticViewModel: ObservableObject {
     @Published var uiModel = StatisticUIModel()
     @Published var isLoaded = false
 
-    func getData() async throws {
-        let model: StatisticModel = try await service.loadWordsAndCategories()
-        await MainActor.run {
-            uiModel = StatisticUIModel(categories: model.categories,
-                                       words: model.allWords,
-                                       learnedWords: model.learned,
-                                       pieBarData: makeDataForPieBar(all: Double(model.allWords.count),
-                                                                     learned: Double(model.learned.count)),
-                                       barMarkData: makeDataForBarMark(dictionary: model.categoriesAndWords))
+//    func getData() async throws {
+//        let model: StatisticModel = try await service.loadWordsAndCategories()
+//        await MainActor.run {
+//            uiModel = StatisticUIModel(categories: model.categories,
+//                                       words: model.allWords,
+//                                       learnedWords: model.learned,
+//                                       pieBarData: makeDataForPieBar(all: Double(model.allWords.count),
+//                                                                     learned: Double(model.learned.count)),
+//                                       barMarkData: makeDataForBarMark(dictionary: model.categoriesAndWords))
+//            isLoaded = true
+//        }
+//    }
+    func getDataCD() {
+        let categoryDict: [String: Int] = service.loadCategoriesFromCD()
+        let wordsArray = service.loadWordsFromCD()
+        let learningWordsArray = service.loadLearningWordsFromCD()
+            uiModel = StatisticUIModel(categories: categoryDict,
+                                       words: wordsArray,
+                                       learnedWords: learningWordsArray,
+                                       pieBarData: makeDataForPieBar(all: Double(wordsArray.count),
+                                                                     learned: Double(learningWordsArray.count)),
+                                       barMarkData: makeDataForBarMark(dictionary: categoryDict))
             isLoaded = true
-        }
     }
+
 
     private func makeDataForPieBar(all: Double,
                                    learned: Double) -> [[PieBarValues]] {

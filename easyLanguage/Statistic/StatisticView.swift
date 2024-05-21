@@ -19,7 +19,7 @@ struct StatisticView: View {
     @ObservedObject var model = StatisticViewModel()
     var body: some View {
         if model.isLoaded {
-            List {
+            VStack {
                 CategoriesWordsChart(viewModel: model)
                     .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
                 VStack(alignment: .leading) {
@@ -40,32 +40,29 @@ struct StatisticView: View {
                                       text: NSLocalizedString("process", comment: ""))
                     }
                 }
-                .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
-            }
-            .listStyle(.plain)
-            .listRowSpacing(Constants.listSpacing)
-            .refreshable {
-                loadWordsAndCategories()
-            }
+            }.padding()
+                .onAppear {
+                    model.getDataCD()
+                }
             .animation(.easeIn, value: model.uiModel.pieBarData)
         } else {
             SwiftUI.ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
                 .onAppear {
-                    loadWordsAndCategories()
+                    model.getDataCD()
                 }
         }
     }
 
-    private func loadWordsAndCategories() {
-        Task {
-            do {
-                try await model.getData()
-            } catch {
-                fatalError()
-            }
-        }
-    }
+//    private func loadWordsAndCategories() {
+//        Task {
+//            do {
+//                try await model.getData()
+//            } catch {
+//                fatalError()
+//            }
+//        }
+//    }
 }
 
 struct LegendElement: View {

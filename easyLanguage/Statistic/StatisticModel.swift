@@ -14,7 +14,7 @@ struct STCategoriesWords: Identifiable {
 }
 
 struct StatisticUIModel {
-    var categories: [CategoryApiModel]?
+    var categories: [String: Int]?
     var words: [WordApiModel]?
     var learnedWords: [WordApiModel]?
     var pieBarData: [[PieBarValues]]?
@@ -27,3 +27,5 @@ struct StatisticModel {
     let allWords: [WordApiModel]
     let learned: [WordApiModel]
 }
+
+

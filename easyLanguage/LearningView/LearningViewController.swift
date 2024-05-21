@@ -472,8 +472,7 @@ extension LearningViewController: SwipeCardStackDelegate {
 //                model[index].isLearned = true
 //            }
 //            updateWord(words: model[index])
-            modelForPost.append(model[index])
-
+//            modelForPost.append(model[index])
             changeWordLearningCount(with: model[index].id,
                                     change: true)
         case .left:
@@ -485,7 +484,6 @@ extension LearningViewController: SwipeCardStackDelegate {
 //            updateWord(words: model[index])
 //            modelForPost.append(model[index])
             modelForTopFivePost.append(model[index])
-            isFlipped = false
         default:
             break
         }
