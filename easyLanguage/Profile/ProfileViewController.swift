@@ -133,7 +133,7 @@ private extension ProfileViewController {
         labelUnderTextField.numberOfLines = 0
         labelUnderTextField.lineBreakMode = .byWordWrapping
     }
-    
+
     func setUpLogOutButton() {
         logOutButton.setTitle(NSLocalizedString("logOutFromAccount", comment: ""), for: .normal)
         logOutButton.setTitleColor(UIColor.red, for: .normal)
@@ -210,7 +210,7 @@ private extension ProfileViewController {
                                                   constant: Constraints.marginLeft).isActive = true
         labelUnderTextField.rightAnchor.constraint(equalTo: userInformationView.rightAnchor,
                                                    constant: -Constraints.marginLeft).isActive = true
-        labelUnderTextField.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        labelUnderTextField.heightAnchor.constraint(equalToConstant: 20).isActive = true
     }
 
     func setProgressView() {

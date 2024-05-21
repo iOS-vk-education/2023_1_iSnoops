@@ -11,7 +11,7 @@
 //MARK: - Catalog
 "wordsTitle" = "Слова";
 "wordTrainingTitle" = "Тренировка слов";
-"topFiveWordsTitle" = "5 слов дня";
+"topFiveWordsTitle" = "5 последних неизученных слов";
 "сategoriesTitle" = "Категории";
 "topFiveWordsAdvice" = "Для перевода слова нажмите на карточку";
 "progressAdvice" = "Прогресс изученных слов";
@@ -46,7 +46,7 @@
 
 //MARK: - Profile
 "profileTitle" = "Профиль";
-"labelUnderTextFields" = "Укажите имя и, если хотите, добавьте фотографию для Вашего профиля";
+"labelUnderTextFields" = "Если хотите, добавьте фотографию для Вашего профиля";
 "themeTitle" = "Тема оформления";
 "lightThemeLabel" = "Светлая";
 "autoThemeLabel" = "Системная";
@@ -108,7 +108,7 @@
 "achievementStaticsTitle" = "Достижения";
 
 //MARK: - AchievementView
-"createOneCategoryLabel" = "Создай свою собственную категорию";
+"createOneCategoryLabel" = "Создай свою категорию";
 "createFiveCategoriesLabel" = "Создай 5 категорий";
 "learnTenWordsLabel" = "Изучи 10 слов";
 "learnOneHundredWordsLabel" = "Изучи 100 слов";

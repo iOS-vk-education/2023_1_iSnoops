@@ -40,6 +40,7 @@ class AchievementManager {
         switch comparisonCondition {
         case .amountCategories:
             categories.forEach {
+                print($0.isDefault, $0.title)
                 counter += ($0.isDefault) ? 0 : 1
             }
         case .amountLearnedWords:

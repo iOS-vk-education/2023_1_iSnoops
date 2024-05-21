@@ -10,7 +10,7 @@
 //MARK: - Catalog
 "wordsTitle" = "Words";
 "wordTrainingTitle" = "Word Training";
-"topFiveWordsTitle" = "5 words of the day";
+"topFiveWordsTitle" = "5 last unlearned words";
 "сategoriesTitle" = "Categories";
 "topFiveWordsAdvice" = "To translate a word, click on the card";
 "progressAdvice" = "Progress of learned words";
@@ -45,7 +45,7 @@
 
 //MARK: - Profile
 "profileTitle" = "Profile";
-"labelUnderTextFields" = "Provide a name and, if desired, a page photo for your profile.";
+"labelUnderTextFields" = "If desired, provide a page photo for your profile.";
 "themeTitle" = "Theme decoration";
 "lightThemeLabel" = "Light";
 "autoThemeLabel" = "System";
