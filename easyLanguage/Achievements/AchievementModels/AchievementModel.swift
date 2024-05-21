@@ -10,4 +10,5 @@ import Foundation
 struct AchievementModel {
     var isAchievementDone: Bool
     var count: Int
+    var required: Int
 }

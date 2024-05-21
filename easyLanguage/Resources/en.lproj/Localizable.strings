@@ -107,6 +107,7 @@
 "achievementStaticsTitle" = "Achievements";
 
 //MARK: - AchievementView
+// Text
 "createOneCategoryLabel" = "Create your own category";
 "createFiveCategoriesLabel" = "Create 5 categories";
 "learnTenWordsLabel" = "Learn 10 words";
@@ -115,3 +116,9 @@
 "createFiftyWordsInOneCategoryLabel" = "Add 50 words to one category";
 "learnOneCategoryLabel" = "Explore one category completely";
 "learnThreeCategoriesLabel" = "Explore three categories completely";
+//Subtext
+"created" = "Created";
+"learned" = "Learned";
+"added" = "Added";
+"explored" = "Explored";
+

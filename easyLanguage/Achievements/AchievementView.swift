@@ -12,12 +12,12 @@ struct AchievementView: View {
 
     @State var answers: [AchievementModel] = []
     @State var achievements: [AchievementEntityModel] = testData
-    
+
     private enum Constants {
         static let marginLeft: CGFloat = 15
         static let imageWidth: CGFloat = 36
         static let imageHeight: CGFloat = 40
-        static let textHeight: CGFloat = 50
+        static let textHeight: CGFloat = 20
     }
 
     var body: some View {
@@ -30,8 +30,13 @@ struct AchievementView: View {
                 } else {
                     SwiftUI.ProgressView()
                 }
-                Text(achievement.text)
-                    .frame(height: Constants.textHeight)
+                VStack(alignment: .leading) {
+                    Text(achievement.text)
+                        .frame(height: Constants.textHeight)
+                    Text("\(achievement.subtext): \(achievement.achievementModel?.count ?? 0)/\(achievement.achievementModel?.required ?? 0)")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
             }
             .listRowBackground(SwiftUI.Color(UIColor.PrimaryColors.Background.background))
         }
@@ -41,7 +46,7 @@ struct AchievementView: View {
             answers = AchievementManager(categories: categories).getAnswers()
             let combinedData = zip(testData, answers)
             achievements = combinedData.map { testData, answer in
-                return AchievementEntityModel(text: testData.text, achievementModel: answer)
+                return AchievementEntityModel(text: testData.text, subtext: testData.subtext, achievementModel: answer)
             }
         }
     }
@@ -53,13 +58,22 @@ struct AchievementView: View {
 
 #if DEBUG
 var testData = [
-    AchievementEntityModel(text: NSLocalizedString( "createOneCategoryLabel", comment: ""), achievementModel: nil),
-    AchievementEntityModel(text: NSLocalizedString( "createFiveCategoriesLabel", comment: ""), achievementModel: nil),
-    AchievementEntityModel(text: NSLocalizedString( "learnTenWordsLabel", comment: ""), achievementModel: nil),
-    AchievementEntityModel(text: NSLocalizedString( "learnOneHundredWordsLabel", comment: ""), achievementModel: nil),
-    AchievementEntityModel(text: NSLocalizedString( "learnFiveHundredWordsLabel", comment: ""), achievementModel: nil),
-    AchievementEntityModel(text: NSLocalizedString( "createFiftyWordsInOneCategoryLabel", comment: ""), achievementModel: nil),
-    AchievementEntityModel(text: NSLocalizedString( "learnOneCategoryLabel", comment: ""), achievementModel: nil),
-    AchievementEntityModel(text: NSLocalizedString( "learnThreeCategoriesLabel", comment: ""), achievementModel: nil)
+    AchievementEntityModel(text: NSLocalizedString( "createOneCategoryLabel", comment: ""),
+        subtext: NSLocalizedString("created", comment: ""),
+        achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "createFiveCategoriesLabel", comment: ""),
+        subtext: NSLocalizedString("created", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnTenWordsLabel", comment: ""),
+        subtext: NSLocalizedString("learned", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnOneHundredWordsLabel", comment: ""),
+        subtext: NSLocalizedString("learned", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnFiveHundredWordsLabel", comment: ""),
+        subtext: NSLocalizedString("learned", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "createFiftyWordsInOneCategoryLabel", comment: ""),
+        subtext: NSLocalizedString("added", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnOneCategoryLabel", comment: ""),
+        subtext: NSLocalizedString("explored", comment: ""), achievementModel: nil),
+    AchievementEntityModel(text: NSLocalizedString( "learnThreeCategoriesLabel", comment: ""),
+        subtext: NSLocalizedString("explored", comment: ""), achievementModel: nil)
 ]
 #endif

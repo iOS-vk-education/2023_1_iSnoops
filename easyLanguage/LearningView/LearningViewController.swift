@@ -317,15 +317,15 @@ final class LearningViewController: UIViewController {
         }
     }
 
-//    private func postToTopFive() {
-//        Task {
-//            do {
-//                try await service.postWords(words: modelForTopFivePost)
-//            } catch {
-//                AlertManager.showEmptyLearningModel(on: self)
-//            }
-//        }
-//    }
+    private func postToTopFive() {
+        Task {
+            do {
+                try await service.postWords(words: modelForTopFivePost)
+            } catch {
+                AlertManager.showEmptyLearningModel(on: self)
+            }
+        }
+    }
 //
 //    private func updateWord(words: WordUIModel) {
 //        Task {

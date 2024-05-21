@@ -116,3 +116,8 @@
 "createFiftyWordsInOneCategoryLabel" = "Добавь 50 слов в одну категорию";
 "learnOneCategoryLabel" = "Изучи полностью одну категорию";
 "learnThreeCategoriesLabel" = "Изучи полностью три категории";
+//Subtext
+"created" = "Создано";
+"learned" = "Изучено";
+"added" = "Добавлено";
+"explored" = "Изучено";
