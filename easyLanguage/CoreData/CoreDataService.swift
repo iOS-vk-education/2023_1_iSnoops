@@ -56,16 +56,16 @@ extension CoreDataService {
         try? wordToCoreData.managedObjectContext?.save()
     }
 
-    // загрузка количества слов, связанных с этой категорией (для главного экрана)
+    // загрузка количества слов, связанных с этой категорией (для главного экрана) и прогесса
     func loadWordsCounts(with linkedWordsId: String) -> (Int, Int) {
         let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "categoryId == %@", linkedWordsId)
 
         do {
             let words = try persistentContainer.viewContext.fetch(fetchRequest)
-            let totalWordsCount = words.count
-            let studiedWordsCount = words.filter { $0.isLearned }.count
-            return (totalWordsCount, studiedWordsCount)
+            let total = words.count
+            let learned = words.filter { $0.isLearned }.count
+            return (total, learned)
         } catch {
             print("loadWordsCounts error \(error)")
             return (0, 0)
@@ -187,6 +187,22 @@ extension CoreDataService {
             return nil
         } catch {
             return error
+        }
+    }
+}
+
+// MARK: - Fetch All (нужен для синхронизации и для progressView)
+
+extension CoreDataService {
+    func fetchCategories() -> [CategoryCDModel] {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<CategoryCDModel> = CategoryCDModel.fetchRequest()
+
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            print(#function, "не удалось загрузить категории: \(error)")
+            return []
         }
     }
 }

@@ -32,7 +32,8 @@ final class ProgressView: UIView {
     }
 }
 
-// MARK: - Open methods
+// MARK: - Internal
+
 extension ProgressView {
     func setupAllLearnedWords(count: Int) {
         totalWords = count

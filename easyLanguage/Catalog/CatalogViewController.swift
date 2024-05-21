@@ -161,16 +161,11 @@ private extension CatalogViewController {
 // MARK: - Protocol ProgressSetup
 extension CatalogViewController: ProgressSetup {
     func setProgressWords() {
-        model.loadProgressView { [weak self] result in
-            switch result {
-            case .success(let count):
-                self?.progressView.setupAllLearnedWords(count: count.0)
-                self?.progressView.setupWordsInProgress(count: count.1)
-                self?.progressView.setProgress()
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        let (total, learned) =  model.loadCDProgressView()
+
+        progressView.setupAllLearnedWords(count: total)
+        progressView.setupWordsInProgress(count: learned)
+        progressView.setProgress()
     }
 }
 
