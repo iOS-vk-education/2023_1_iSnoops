@@ -90,7 +90,6 @@ extension CoreDataService {
     func reloadIsLearned(with id: String, isLearned: Bool, swipesCounter: Int) {
         let fetchRequest: NSFetchRequest<WordCDModel> = WordCDModel.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-
         do {
             let words = try persistentContainer.viewContext.fetch(fetchRequest)
             if let word = words.first {
