@@ -39,7 +39,8 @@ final class CategoriesModel {
                 totalWordsCount: totalWordsCount,
                 createdDate: category.createdDate ?? Date(),
                 linkedWordsId: category.linkedWordsId ?? UUID().uuidString,
-                index: Int(index))
+                index: Int(index),
+                isDefault: category.isDefault)
             )
         }
 
