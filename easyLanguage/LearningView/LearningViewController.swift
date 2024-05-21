@@ -192,10 +192,10 @@ final class LearningViewController: UIViewController {
         view.addSubview(emptyWordsLabel)
         view.addSubview(continueButton)
         view.addSubview(descriptionLabel)
-        view.addSubview(cardStack)
         view.addSubview(toTheLeftButtonStack)
         view.addSubview(toTheRightButtonStack)
         view.addSubview(reloadButton)
+        view.addSubview(cardStack)
     }
     private func hideEndLabels(state: Bool) {
         continueButton.isHidden = state
@@ -318,7 +318,6 @@ final class LearningViewController: UIViewController {
                     word.swipesCounter -= 1
                 }
             }
-            print(word)
             try? moc.save()
         }
     }
