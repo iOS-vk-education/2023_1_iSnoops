@@ -69,9 +69,10 @@
 
 //MARK: - LearningVC
 "descriptionText" = "Нажмите на карточку, чтобы увидеть перевод слова";
-"correctText" = "Знаю:";
-"incorrectText" = "Не знаю:";
+"forgotTitle" = "Забыл";
+"rememberTitle" = "Помню";
 "emptyWordsLabel" = "Вы выучили все слова!";
+"continueLabel" = "Продолжить";
 
 //MARK: - AlertManager
 "alertButton" = "Назад";

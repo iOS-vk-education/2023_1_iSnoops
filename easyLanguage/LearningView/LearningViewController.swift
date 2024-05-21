@@ -11,6 +11,10 @@ import Shuffle
 import CoreData
 
 final class LearningViewController: UIViewController {
+    private enum CardsLanguage {
+        static let rus = "ru"
+        static let eng = "en"
+    }
 
     private let coreDataService = CoreDataService()
 
@@ -23,12 +27,25 @@ final class LearningViewController: UIViewController {
     private var isNeedLoadAll = true
 
     // MARK: UI
+    private lazy var reloadButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "arrow.counterclockwise")?
+            .withTintColor(.gray,
+                           renderingMode: .alwaysOriginal), for: .normal)
+        button.addTarget(self,
+                         action: #selector(reloadButtonTapped),
+                         for: .touchUpInside)
+        return button
+    }()
+
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = TextStyle.bodyBig.font
+        label.textColor = .PrimaryColors.Font.secondary
         label.text = NSLocalizedString("descriptionText", comment: "")
         return label
     }()
@@ -38,46 +55,88 @@ final class LearningViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.dataSource = self
         stack.delegate = self
+        stack.layer.shadowOffset = CGSize(width: 5,
+                                          height: 5)
+        stack.layer.shadowRadius = 2
+        stack.layer.shadowOpacity = 0.3
         return stack
-    }()
-
-    private lazy var progressInfo: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fillEqually
-        let correctLabel = UILabel()
-        correctLabel.font = TextStyle.bodyMedium.font
-        correctLabel.text =  NSLocalizedString("correctText", comment: "")
-        correctLabel.translatesAutoresizingMaskIntoConstraints = false
-        let incorrectLabel = UILabel()
-        incorrectLabel.font = TextStyle.bodyMedium.font
-        incorrectLabel.text =  NSLocalizedString("incorrectText", comment: "")
-        incorrectLabel.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(correctLabel)
-        stackView.addArrangedSubview(incorrectLabel)
-        return stackView
     }()
 
     private lazy var emptyWordsLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("emptyWordsLabel", comment: "")
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = TextStyle.bodyBig.font
+        label.textColor = .PrimaryColors.Font.secondary
         return label
     }()
 
     private lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 220, y: 220, width: 100, height: 100))
+        let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.hidesWhenStopped = true
         return activityIndicator
+    }()
+
+    private lazy var continueButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(NSLocalizedString("continueLabel", comment: ""), for: .normal)
+        button.backgroundColor = .PrimaryColors.Button.blue
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var toTheLeftButtonStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+        stackView.spacing = 0
+
+        let image = UIImageView()
+        image.image = UIImage(systemName: "arrow.uturn.left")?.withTintColor(.gray, renderingMode: .alwaysOriginal)
+        image.contentMode = .scaleAspectFit
+
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = TextStyle.bodyMedium.font
+        button.setTitleColor(.gray, for: .normal)
+        button.setTitle(NSLocalizedString("forgotTitle", comment: ""), for: .normal)
+        button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+
+        stackView.addArrangedSubview(image)
+        stackView.addArrangedSubview(button)
+        return stackView
+    }()
+
+    private lazy var toTheRightButtonStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
+
+        let image = UIImageView()
+        image.image = UIImage(systemName: "arrow.uturn.right")?.withTintColor(.gray, renderingMode: .alwaysOriginal)
+        image.contentMode = .scaleAspectFit
+
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = TextStyle.bodyMedium.font
+        button.setTitleColor(.gray, for: .normal)
+        button.setTitle(NSLocalizedString("rememberTitle", comment: ""), for: .normal)
+        button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
+
+        stackView.addArrangedSubview(image)
+        stackView.addArrangedSubview(button)
+        return stackView
     }()
 
     // MARK: Вспомогательные свойства
     private var isFlipped = false
-
-    private var correctCount: Int = 0
-    private var incorrectCount: Int = 0
 
     init(isNeedLoadAll: Bool = true ) {
         super.init(nibName: nil, bundle: nil)
@@ -93,45 +152,66 @@ final class LearningViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        setupActivityIndicatorConstraints()
         setupEmptyWordsLabelConstraints()
         setupDescriptionLabelConstraints()
         setupCardStackConstraints()
-        setupProgressInfoConstraints()
+        setupToTheLeftButtonConstraints()
+        setupToTheRightButtonConstraints()
+        setupReloadButtonConstraints()
+        setupContinueButtonConstraints()
+        hideEndLabels(state: true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        correctCount = 0
-        incorrectCount = 0
+        descriptionLabel.isHidden = false
+        activityIndicator.startAnimating()
         if isNeedLoadAll {
             loadWordsFromCoreData()
 //            loadLearningWords()
         }
-//        loadLearningWords()
         loadWordsFromCoreData()
         cardsWereSwiped = false
+        modelForTopFivePost = []
+        hideEndLabels(state: true)
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if cardsWereSwiped {
-            postToTopFive()
-        }
-    }
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        if cardsWereSwiped {
+//            postToTopFive()
+//        }
+//    }
+
     // MARK: Private methods
     private func setupViews() {
         view.backgroundColor = .PrimaryColors.Background.background
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         view.addSubview(emptyWordsLabel)
-        emptyWordsLabel.isHidden = true
+        view.addSubview(continueButton)
         view.addSubview(descriptionLabel)
-        view.addSubview(progressInfo)
         view.addSubview(cardStack)
+        view.addSubview(toTheLeftButtonStack)
+        view.addSubview(toTheRightButtonStack)
+        view.addSubview(reloadButton)
+    }
+    private func hideEndLabels(state: Bool) {
+        continueButton.isHidden = state
+        emptyWordsLabel.isHidden = state
+
+    }
+    private func setupReloadButtonConstraints() {
+        reloadButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                          constant: 10).isActive = true
+        reloadButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                               constant: -20).isActive = true
     }
 
     private func setupDescriptionLabelConstraints() {
-        descriptionLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25).isActive = true
+        descriptionLabel.topAnchor.constraint(equalTo: reloadButton.topAnchor,
+                                              constant: 30).isActive = true
         descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         descriptionLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
         descriptionLabel.widthAnchor.constraint(equalToConstant: view.frame.width / 1).isActive = true
@@ -140,24 +220,38 @@ final class LearningViewController: UIViewController {
     private func setupCardStackConstraints() {
         cardStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cardStack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        cardStack.heightAnchor.constraint(equalToConstant: view.frame.height / 1.7).isActive = true
+        cardStack.heightAnchor.constraint(equalToConstant: view.frame.height / 2.5).isActive = true
         cardStack.widthAnchor.constraint(equalToConstant: view.frame.width / 1.2).isActive = true
     }
 
-    private func setupProgressInfoConstraints() {
-        progressInfo.topAnchor.constraint(equalTo: cardStack.bottomAnchor, constant: 20).isActive = true
-        progressInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    private func setupToTheLeftButtonConstraints() {
+        toTheLeftButtonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                                     constant: -20).isActive = true
+        toTheLeftButtonStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                      constant: 20).isActive = true
     }
-
-    private func setupEmptyWordsLabelConstraints() {
-        emptyWordsLabel.isHidden = true
-        emptyWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        emptyWordsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    private func setupToTheRightButtonConstraints() {
+        toTheRightButtonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                                      constant: -20).isActive = true
+        toTheRightButtonStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                        constant: -20).isActive = true
     }
 
     private func setupActivityIndicatorConstraints() {
         activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
+    private func setupEmptyWordsLabelConstraints() {
+        emptyWordsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        emptyWordsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+
+    private func setupContinueButtonConstraints() {
+        continueButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        continueButton.topAnchor.constraint(equalTo: emptyWordsLabel.bottomAnchor,
+                                            constant: 20).isActive = true
+        continueButton.widthAnchor.constraint(equalToConstant: view.frame.width / 3).isActive = true
     }
 
     private func loadLearningWords() {
@@ -176,45 +270,99 @@ final class LearningViewController: UIViewController {
 
     private func loadWordsFromCoreData() {
         self.model = []
-
         let moc = coreDataService.persistentContainer.viewContext
-        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: .wordCDModel)
-
-        guard let coreModel = try? moc.fetch(wordsfetch) else { return }
+        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        guard let coreModel = try? moc.fetch(wordsfetch) else {
+            AlertManager.showEmptyLearningModel(on: self)
+            return
+        }
         for item in coreModel {
             self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
-                                     translations: item.translations ?? [:],
-                                     isLearned: item.isLearned,
-                                     swipesCounter: Int(item.swipesCounter),
-                                     id: item.id ?? ""))
+                                          translations: item.translations ?? [:],
+                                          isLearned: item.isLearned,
+                                          swipesCounter: Int(item.swipesCounter),
+                                          id: item.id ?? ""))
         }
+        activityIndicator.stopAnimating()
+        cardStack.reloadData()
+    }
+  
+    private func changeWordLearningCount(with id: String, change: Bool) {
+        let moc = coreDataService.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        guard let coreModel = try? moc.fetch(fetchRequest) else { 
+            AlertManager.showEmptyLearningModel(on: self)
+            return
+        }
+        if !coreModel.isEmpty {
+            guard let word = coreModel.first else {
+                AlertManager.showEmptyLearningModel(on: self)
+                return
+            }
+            if change {
+                if word.swipesCounter < 5 {
+                    word.swipesCounter += 1
+                }
+                if word.swipesCounter == 5 {
+                    word.isLearned = true
+                }
+            } else {
+                if word.swipesCounter > 0 {
+                    word.swipesCounter -= 1
+                }
+            }
+            print(word)
+            try? moc.save()
+        }
+    }
+
+//    private func postToTopFive() {
+//        Task {
+//            do {
+//                try await service.postWords(words: modelForTopFivePost)
+//            } catch {
+//                AlertManager.showEmptyLearningModel(on: self)
+//            }
+//        }
+//    }
+//
+//    private func updateWord(words: WordUIModel) {
+//        Task {
+//            do {
+//                try await service.updateWord(words: words)
+//            } catch {
+//                AlertManager.showEmptyLearningModel(on: self)
+//            }
+//        }
+//    }
+
+    @objc
+    private func leftButtonTapped() {
+        cardStack.swipe(.left, animated: true)
+    }
+
+    @objc
+    private func rightButtonTapped() {
+        cardStack.swipe(.right, animated: true)
+    }
+
+    @objc
+    private func reloadButtonTapped() {
+        hideEndLabels(state: true)
+        cardStack.isHidden = false
         cardStack.reloadData()
     }
 
-    private func postToTopFive() {
-        Task {
-            do {
-                try await service.postWords(words: modelForTopFivePost)
-                modelForTopFivePost = []
-            } catch {
-                AlertManager.showEmptyLearningModel(on: self)
-            }
-        }
-    }
-
-    private func updateWord(words: WordUIModel) {
-        Task {
-            do {
-                try await service.updateWord(words: words)
-            } catch {
-                AlertManager.showEmptyLearningModel(on: self)
-            }
-        }
+    @objc
+    private func continueButtonTapped() {
+        hideEndLabels(state: true)
+        cardStack.isHidden = false
+        cardStack.reloadData()
     }
 }
 
 // MARK: - Internal
-
 extension LearningViewController {
     func learnCDCategory(with categoryId: String) {
         emptyWordsLabel.isHidden = true
@@ -258,7 +406,9 @@ extension LearningViewController: SwipeCardStackDataSource {
     private func setupCard(text: WordUIModel) -> SwipeCard {
         let card = SwipeCard()
         card.swipeDirections = [.left, .right]
-        card.content = labelForCard(text: text.translations["ru"] ?? "")
+        card.content = LearningCardView(frame: card.frame,
+                                        text: text.translations[CardsLanguage.rus] ?? "",
+                                        counter: text.swipesCounter)
         card.backgroundColor = UIColor.Catalog.LightYellow.categoryBackground
         card.layer.cornerRadius = 30
         card.setOverlays([.left: overlay(color: UIColor.Catalog.Red.categoryBackground),
@@ -266,24 +416,27 @@ extension LearningViewController: SwipeCardStackDataSource {
         return card
     }
 
-    private func labelForCard(text: String) -> UILabel {
-        let label = UILabel()
-        label.textAlignment = .center
-        label.backgroundColor = .clear
-        label.text = text
-        return label
-    }
-
-    private func rotateView(card: SwipeCard,
-                            model: WordUIModel) {
-        UIView.transition(with: card, duration: 0.5,
-                          options: UIView.AnimationOptions.transitionFlipFromLeft) {
+    private func rotateView(cards: SwipeCardStack,
+                            model: WordUIModel,
+                            index: Int) {
+        descriptionLabel.isHidden = true
+        let topFlip = UIView.AnimationOptions.transitionFlipFromTop
+        let bottomFlip = UIView.AnimationOptions.transitionFlipFromBottom
+        UIView.transition(with: cards,
+                          duration: 0.5,
+                          options: isFlipped ? topFlip : bottomFlip) {
             if self.isFlipped {
-                card.content = self.labelForCard(text: model.translations["ru"] ?? "")
-                self.isFlipped.toggle()
+                cards.card(forIndexAt: index)?
+                    .content = LearningCardView(frame: cards.frame,
+                                                text: model.translations[CardsLanguage.rus] ?? "",
+                                                counter: model.swipesCounter)
+                self.isFlipped = false
             } else {
-                card.content = self.labelForCard(text: model.translations["en"] ?? "")
-                self.isFlipped.toggle()
+                cards.card(forIndexAt: index)?
+                    .content = LearningCardView(frame: cards.frame,
+                                                text: model.translations[CardsLanguage.eng] ?? "",
+                                                counter: model.swipesCounter)
+                self.isFlipped = true
             }
         }
     }
@@ -300,41 +453,42 @@ extension LearningViewController: SwipeCardStackDataSource {
 // MARK: Delegate
 extension LearningViewController: SwipeCardStackDelegate {
     func cardStack(_ cardStack: SwipeCardStack, didSelectCardAt index: Int) {
-        rotateView(card: cardStack.card(forIndexAt: index) ?? SwipeCard(),
-                   model: model[index])
+        rotateView(cards: cardStack,
+                   model: model[index],
+                   index: index)
     }
 
     func cardStack(_ cardStack: SwipeCardStack, didSwipeCardAt index: Int, with direction: SwipeDirection) {
         cardsWereSwiped = true
-        guard let labels = progressInfo.arrangedSubviews as? [UILabel] else { return }
         switch direction {
         case .right:
-            model[index].swipesCounter += 1
-            if model[index].swipesCounter == 5 {
-                model[index].isLearned = true
-            }
-            updateWord(words: model[index])
-            modelForPost.append(model[index])
-            correctCount += 1
-            labels[0].text = "\(NSLocalizedString("correctText", comment: "")) \(correctCount)"
-            isFlipped = false
+//            model[index].swipesCounter += 1
+//            if model[index].swipesCounter == 5 {
+//                model[index].isLearned = true
+//            }
+//            updateWord(words: model[index])
+//            modelForPost.append(model[index])
+
+            changeWordLearningCount(with: model[index].id,
+                                    change: true)
         case .left:
-            if model[index].swipesCounter != 0 {
-                model[index].swipesCounter -= 1
-            }
-            updateWord(words: model[index])
-            modelForPost.append(model[index])
-            modelForTopFivePost.append(model[index])
-            print("post ----- \(modelForPost)")
-            incorrectCount += 1
-            labels[1].text = "\(NSLocalizedString("incorrectText", comment: "")) \(incorrectCount)"
-            isFlipped = false
+            changeWordLearningCount(with: model[index].id,
+                                    change: false)
+//            if model[index].swipesCounter != 0 {
+//                model[index].swipesCounter -= 1
+//            }
+//            updateWord(words: model[index])
+//            modelForPost.append(model[index])
+//            modelForTopFivePost.append(model[index])
         default:
             break
         }
     }
 
     func didSwipeAllCards(_ cardStack: SwipeCardStack) {
-        emptyWordsLabel.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+            cardStack.isHidden = true
+            self.hideEndLabels(state: false)
+        }
     }
 }
