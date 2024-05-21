@@ -121,7 +121,8 @@ private extension ChoosingThemeView {
             UserDefaults.standard.set(NSLocalizedString("darkThemeLabel", comment: ""), forKey: "selectedTheme")
             AppColor.systemMode = .darkMode
         default:
-            break
+            UserDefaults.standard.set(NSLocalizedString("lightThemeLabel", comment: ""), forKey: "selectedTheme")
+            AppColor.systemMode = .lightMode
         }
     }
 

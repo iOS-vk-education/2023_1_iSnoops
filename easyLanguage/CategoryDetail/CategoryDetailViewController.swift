@@ -96,8 +96,7 @@ final class CategoryDetailViewController: CustomViewController {
 
     @objc
     func didTapButton() {
-        let learningVC = LearningViewController(isNeedLoadAll: false)
-        learningVC.learnCDCategory(with: linkedWordsId)
+        let learningVC = LearningViewController(isNeedLoadAll: false, categoryId: linkedWordsId, loadOneCategory: true)
         learningVC.modalPresentationStyle = .pageSheet
 
         present(learningVC, animated: true)

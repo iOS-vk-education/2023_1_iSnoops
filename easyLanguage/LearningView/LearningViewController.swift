@@ -15,7 +15,7 @@ final class LearningViewController: UIViewController {
         static let rus = "ru"
         static let eng = "en"
     }
-
+    private var categoryId: String = ""
     private let coreDataService = CoreDataService()
 
     private let service = LearningViewModel()
@@ -23,6 +23,8 @@ final class LearningViewController: UIViewController {
     private var modelForPost: [WordUIModel] = []
     private var modelForTopFivePost: [WordUIModel] = []
     private var cardsWereSwiped: Bool = false
+
+    private var loadOneCategory: Bool = false
 
     private var isNeedLoadAll = true
 
@@ -138,9 +140,13 @@ final class LearningViewController: UIViewController {
     // MARK: Вспомогательные свойства
     private var isFlipped = false
 
-    init(isNeedLoadAll: Bool = true ) {
+    init(isNeedLoadAll: Bool = true, 
+         categoryId: String = "",
+         loadOneCategory: Bool = false) {
         super.init(nibName: nil, bundle: nil)
+        self.categoryId = categoryId
         self.isNeedLoadAll = isNeedLoadAll
+        self.loadOneCategory = loadOneCategory
     }
 
     required init?(coder: NSCoder) {
@@ -167,12 +173,8 @@ final class LearningViewController: UIViewController {
         super.viewWillAppear(animated)
         descriptionLabel.isHidden = false
         activityIndicator.startAnimating()
-        if isNeedLoadAll {
-            loadWordsFromCoreData()
-//            loadLearningWords()
-        }
+        loadOneCategory ? loadOneWordsFromCoreData(categoryId: categoryId) : loadWordsFromCoreData()
         hideEndLabels(state: true)
-        loadWordsFromCoreData()
         cardsWereSwiped = false
         modelForTopFivePost = []
     }
@@ -293,6 +295,33 @@ final class LearningViewController: UIViewController {
         cardStack.reloadData()
     }
 
+    private func loadOneWordsFromCoreData(categoryId: String) {
+        emptyWordsLabel.isHidden = false
+        self.model = []
+        let moc = coreDataService.persistentContainer.viewContext
+        let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        let fPredicate = NSPredicate(format: "categoryId == %@", categoryId)
+        let sPredicate = NSPredicate(format: "isLearned == %@", NSNumber(0))
+        wordsfetch.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [fPredicate, sPredicate])
+        guard let coreModel = try? moc.fetch(wordsfetch) else {
+            AlertManager.showEmptyLearningModel(on: self)
+            return
+        }
+        if !coreModel.isEmpty {
+            emptyWordsLabel.isHidden = true
+        }
+        for item in coreModel {
+            self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
+                                          translations: item.translations ?? [:],
+                                          isLearned: item.isLearned,
+                                          swipesCounter: Int(item.swipesCounter),
+                                          id: item.id ?? ""))
+        }
+
+        activityIndicator.stopAnimating()
+        cardStack.reloadData()
+    }
+
     private func changeWordLearningCount(with id: String, change: Bool) {
         let moc = coreDataService.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
@@ -356,14 +385,14 @@ final class LearningViewController: UIViewController {
     private func reloadButtonTapped() {
         hideEndLabels(state: true)
         cardStack.isHidden = false
-        loadWordsFromCoreData()
+        loadOneCategory ? loadOneWordsFromCoreData(categoryId: categoryId) : loadWordsFromCoreData()
     }
 
     @objc
     private func continueButtonTapped() {
         hideEndLabels(state: true)
         cardStack.isHidden = false
-        loadWordsFromCoreData()
+        loadOneCategory ? loadOneWordsFromCoreData(categoryId: categoryId) : loadWordsFromCoreData()
     }
 }
 
