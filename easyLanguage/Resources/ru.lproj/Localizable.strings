@@ -62,16 +62,17 @@
 //MARK: - Login+Registration
 "loginTitle" = "Войти";
 "registrationTitle" = "Регистрация";
-"registrationButtonTitle" = "Зарегестрироваться";
+"registrationButtonTitle" = "Зарегистрироваться";
 "namePlaceholder" = "Имя";
 "emailPlaceholder" = "Электронная почта";
 "passwordPlaceholder" = "Пароль";
 
 //MARK: - LearningVC
 "descriptionText" = "Нажмите на карточку, чтобы увидеть перевод слова";
-"correctText" = "Знаю:";
-"incorrectText" = "Не знаю:";
-"emptyWordsLabel" = "Вы выучили все слова!";
+"forgotTitle" = "Забыл";
+"rememberTitle" = "Помню";
+"emptyWordsLabel" = "Вы выучили все добавленные слова!";
+"continueLabel" = "Продолжить";
 
 //MARK: - AlertManager
 "alertButton" = "Назад";
@@ -115,3 +116,8 @@
 "createFiftyWordsInOneCategoryLabel" = "Добавь 50 слов в одну категорию";
 "learnOneCategoryLabel" = "Изучи полностью одну категорию";
 "learnThreeCategoriesLabel" = "Изучи полностью три категории";
+//Subtext
+"created" = "Создано";
+"learned" = "Изучено";
+"added" = "Добавлено";
+"explored" = "Изучено";
