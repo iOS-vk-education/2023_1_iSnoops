@@ -59,10 +59,11 @@ final class LearningCardView: UIView {
         wordLabel.translatesAutoresizingMaskIntoConstraints = false
         wordLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         wordLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
-        wordLabel.leftAnchor.constraint(equalTo: leftAnchor,
+        wordLabel.leftAnchor.constraint(equalTo: self.leftAnchor,
                                          constant: 3).isActive = true
-        wordLabel.rightAnchor.constraint(equalTo: rightAnchor,
+        wordLabel.rightAnchor.constraint(equalTo: self.rightAnchor,
                                           constant: -3).isActive = true
+
     }
 
     private func setUpLearningCountLabelConstrains() {

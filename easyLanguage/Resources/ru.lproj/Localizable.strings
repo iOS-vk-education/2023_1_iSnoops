@@ -62,7 +62,7 @@
 //MARK: - Login+Registration
 "loginTitle" = "Войти";
 "registrationTitle" = "Регистрация";
-"registrationButtonTitle" = "Зарегестрироваться";
+"registrationButtonTitle" = "Зарегистрироваться";
 "namePlaceholder" = "Имя";
 "emailPlaceholder" = "Электронная почта";
 "passwordPlaceholder" = "Пароль";
@@ -71,7 +71,7 @@
 "descriptionText" = "Нажмите на карточку, чтобы увидеть перевод слова";
 "forgotTitle" = "Забыл";
 "rememberTitle" = "Помню";
-"emptyWordsLabel" = "Вы выучили все слова!";
+"emptyWordsLabel" = "Вы выучили все добавленные слова!";
 "continueLabel" = "Продолжить";
 
 //MARK: - AlertManager

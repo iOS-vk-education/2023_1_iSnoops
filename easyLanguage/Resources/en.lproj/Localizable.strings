@@ -70,7 +70,7 @@
 "descriptionText" = "Click on the card to see the translation of the word";
 "forgotTitle" = "Forgot";
 "rememberTitle" = "Remember";
-"emptyWordsLabel" = "You have learned all the words!";
+"emptyWordsLabel" = "You have learned all the added words!";
 "continueLabel" = "Continue";
 
 //MARK: - AlertManager

@@ -171,18 +171,18 @@ final class LearningViewController: UIViewController {
             loadWordsFromCoreData()
 //            loadLearningWords()
         }
+        hideEndLabels(state: true)
         loadWordsFromCoreData()
         cardsWereSwiped = false
         modelForTopFivePost = []
-        hideEndLabels(state: true)
     }
 
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        if cardsWereSwiped {
-//            postToTopFive()
-//        }
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if cardsWereSwiped {
+            postToTopFive()
+        }
+    }
 
     // MARK: Private methods
     private func setupViews() {
@@ -269,12 +269,17 @@ final class LearningViewController: UIViewController {
     }
 
     private func loadWordsFromCoreData() {
+        emptyWordsLabel.isHidden = false
         self.model = []
         let moc = coreDataService.persistentContainer.viewContext
         let wordsfetch = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
+        wordsfetch.predicate = NSPredicate(format: "isLearned == %@", NSNumber(0))
         guard let coreModel = try? moc.fetch(wordsfetch) else {
             AlertManager.showEmptyLearningModel(on: self)
             return
+        }
+        if !coreModel.isEmpty {
+            emptyWordsLabel.isHidden = true
         }
         for item in coreModel {
             self.model.append(WordUIModel(categoryId: item.categoryId ?? "error - error - error",
@@ -283,15 +288,16 @@ final class LearningViewController: UIViewController {
                                           swipesCounter: Int(item.swipesCounter),
                                           id: item.id ?? ""))
         }
+
         activityIndicator.stopAnimating()
         cardStack.reloadData()
     }
-  
+
     private func changeWordLearningCount(with id: String, change: Bool) {
         let moc = coreDataService.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<WordCDModel>(entityName: "WordCDModel")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        guard let coreModel = try? moc.fetch(fetchRequest) else { 
+        guard let coreModel = try? moc.fetch(fetchRequest) else {
             AlertManager.showEmptyLearningModel(on: self)
             return
         }
@@ -351,14 +357,14 @@ final class LearningViewController: UIViewController {
     private func reloadButtonTapped() {
         hideEndLabels(state: true)
         cardStack.isHidden = false
-        cardStack.reloadData()
+        loadWordsFromCoreData()
     }
 
     @objc
     private func continueButtonTapped() {
         hideEndLabels(state: true)
         cardStack.isHidden = false
-        cardStack.reloadData()
+        loadWordsFromCoreData()
     }
 }
 
@@ -467,7 +473,7 @@ extension LearningViewController: SwipeCardStackDelegate {
 //                model[index].isLearned = true
 //            }
 //            updateWord(words: model[index])
-//            modelForPost.append(model[index])
+            modelForPost.append(model[index])
 
             changeWordLearningCount(with: model[index].id,
                                     change: true)
@@ -479,7 +485,7 @@ extension LearningViewController: SwipeCardStackDelegate {
 //            }
 //            updateWord(words: model[index])
 //            modelForPost.append(model[index])
-//            modelForTopFivePost.append(model[index])
+            modelForTopFivePost.append(model[index])
         default:
             break
         }
