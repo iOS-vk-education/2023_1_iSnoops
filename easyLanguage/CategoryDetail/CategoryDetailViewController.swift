@@ -28,7 +28,6 @@ final class CategoryDetailViewController: CustomViewController {
         label.textColor = .PrimaryColors.Font.secondary
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.isHidden = true
         return label
     }()
 
@@ -43,7 +42,6 @@ final class CategoryDetailViewController: CustomViewController {
     private let button: UIButton = {
         let button = UIButton()
         button.setTitle(NSLocalizedString("CategoryDetailGoToStudy", comment: ""), for: .normal)
-        button.backgroundColor = .PrimaryColors.Button.blue
         button.layer.cornerRadius = 16
         return button
     }()
@@ -124,6 +122,15 @@ private extension CategoryDetailViewController {
         loader.startAnimating()
 
         wordsModel = model.loadCDWords(with: linkedWordsId)
+        if wordsModel.isEmpty {
+            noWordsLabel.isHidden = false
+            button.isUserInteractionEnabled = false
+            button.backgroundColor = .systemGray
+        } else {
+            noWordsLabel.isHidden = true
+            button.isUserInteractionEnabled = true
+            button.backgroundColor = .PrimaryColors.Button.blue
+        }
 
         loader.stopAnimating()
         DispatchQueue.main.async {
@@ -334,10 +341,15 @@ extension CategoryDetailViewController: AddWordOutput {
     func didCreateWord(with categoryId: String) {
 //        loadWords()
         loadFromCoreData()
-        delegate?.updateCountWords(with: UpdateCountWordsParameters(linkedWordsId: categoryId,
-                                                                         changeTotalCount: true,
-                                                                         changeLearnedCount: false,
-                                                                         isLearned: false,
-                                                                         isDeleted: false))
+        noWordsLabel.isHidden = true
+        button.isUserInteractionEnabled = true
+        button.backgroundColor = .PrimaryColors.Button.blue
+        delegate?.updateCountWords(with: UpdateCountWordsParameters(
+            linkedWordsId: categoryId,
+            changeTotalCount: true,
+            changeLearnedCount: false,
+            isLearned: false,
+            isDeleted: false
+        ))
     }
 }

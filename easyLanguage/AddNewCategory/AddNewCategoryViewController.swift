@@ -63,6 +63,7 @@ extension AddNewCategoryViewController {
         @Trimmed var enteredText = textField.text ?? ""
 
         guard !enteredText.isEmpty else {
+            AlertManager.showAlert(on: self, title: "Что-то пошло не так", message: "Нужно ввести текст")
             return
         }
 
